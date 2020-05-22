@@ -32,6 +32,11 @@ class Action
      */
     private $description;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Log::class, inversedBy="composer")
+     */
+    private $log;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class Action
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getLog(): ?Log
+    {
+        return $this->log;
+    }
+
+    public function setLog(?Log $log): self
+    {
+        $this->log = $log;
 
         return $this;
     }

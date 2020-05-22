@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ModeleMail index{% endblock %}
+
+{% block body %}
+    <h1>ModeleMail index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Sujet</th>
+                <th>Contenu</th>
+                <th>Nom</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for modele_mail in modele_mails %}
+            <tr>
+                <td>{{ modele_mail.id }}</td>
+                <td>{{ modele_mail.sujet }}</td>
+                <td>{{ modele_mail.contenu }}</td>
+                <td>{{ modele_mail.nom }}</td>
+                <td>
+                    <a href="{{ path('modele_mail_show', {'id': modele_mail.id}) }}">show</a>
+                    <a href="{{ path('modele_mail_edit', {'id': modele_mail.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('modele_mail_new') }}">Create new</a>
+{% endblock %}

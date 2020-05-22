@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Remarque{% endblock %}
+
+{% block body %}
+    <h1>Remarque</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ remarque.id }}</td>
+            </tr>
+            <tr>
+                <th>Contenu</th>
+                <td>{{ remarque.contenu }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ remarque.type }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('remarque_index') }}">back to list</a>
+
+    <a href="{{ path('remarque_edit', {'id': remarque.id}) }}">edit</a>
+
+    {{ include('remarque/_delete_form.html.twig') }}
+{% endblock %}

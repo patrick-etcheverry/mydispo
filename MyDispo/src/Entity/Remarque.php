@@ -27,6 +27,11 @@ class Remarque
      */
     private $type;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Enseignant::class, inversedBy="ecrire")
+     */
+    private $enseignant;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class Remarque
     public function setType(string $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getEnseignant(): ?Enseignant
+    {
+        return $this->enseignant;
+    }
+
+    public function setEnseignant(?Enseignant $enseignant): self
+    {
+        $this->enseignant = $enseignant;
 
         return $this;
     }

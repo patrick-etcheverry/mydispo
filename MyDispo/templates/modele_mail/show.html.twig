@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ModeleMail{% endblock %}
+
+{% block body %}
+    <h1>ModeleMail</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ modele_mail.id }}</td>
+            </tr>
+            <tr>
+                <th>Sujet</th>
+                <td>{{ modele_mail.sujet }}</td>
+            </tr>
+            <tr>
+                <th>Contenu</th>
+                <td>{{ modele_mail.contenu }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ modele_mail.nom }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('modele_mail_index') }}">back to list</a>
+
+    <a href="{{ path('modele_mail_edit', {'id': modele_mail.id}) }}">edit</a>
+
+    {{ include('modele_mail/_delete_form.html.twig') }}
+{% endblock %}

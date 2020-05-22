@@ -107,6 +107,11 @@ class Formulaire
      */
     private $dureePersFaible;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Enseignant::class, inversedBy="definir")
+     */
+    private $enseignant;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -324,6 +329,18 @@ class Formulaire
     public function setDureePersFaible(?int $dureePersFaible): self
     {
         $this->dureePersFaible = $dureePersFaible;
+
+        return $this;
+    }
+
+    public function getEnseignant(): ?Enseignant
+    {
+        return $this->enseignant;
+    }
+
+    public function setEnseignant(?Enseignant $enseignant): self
+    {
+        $this->enseignant = $enseignant;
 
         return $this;
     }
