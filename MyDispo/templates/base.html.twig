@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <title>{% block title %}Titre onglet{% endblock %}</title>
         {% block stylesheets %}
-        <link href="../public/styles.css" rel="stylesheet" />
+        <link href= "{{ asset('css/styles.css') }}" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
 
       {% endblock %}
