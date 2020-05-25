@@ -69,10 +69,16 @@ class Enseignant
      */
     private $formations;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Remarque::class, mappedBy="enseignant")
+     */
+    private $remarques;
+
     public function __construct()
     {
         $this->logsEnseignant = new ArrayCollection();
         $this->formations = new ArrayCollection();
+        $this->remarques = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -230,6 +236,37 @@ class Enseignant
         if ($this->formations->contains($formation)) {
             $this->formations->removeElement($formation);
             $formation->removeEnseignant($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Remarque[]
+     */
+    public function getRemarques(): Collection
+    {
+        return $this->remarques;
+    }
+
+    public function addRemarque(Remarque $remarque): self
+    {
+        if (!$this->remarques->contains($remarque)) {
+            $this->remarques[] = $remarque;
+            $remarque->setEnseignant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRemarque(Remarque $remarque): self
+    {
+        if ($this->remarques->contains($remarque)) {
+            $this->remarques->removeElement($remarque);
+            // set the owning side to null (unless already changed)
+            if ($remarque->getEnseignant() === $this) {
+                $remarque->setEnseignant(null);
+            }
         }
 
         return $this;
