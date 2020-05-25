@@ -52,11 +52,6 @@ class Enseignant
      */
     private $saisieFaite;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $motDePasse;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -142,18 +137,6 @@ class Enseignant
     public function setSaisieFaite(bool $saisieFaite): self
     {
         $this->saisieFaite = $saisieFaite;
-
-        return $this;
-    }
-
-    public function getMotDePasse(): ?string
-    {
-        return $this->motDePasse;
-    }
-
-    public function setMotDePasse(?string $motDePasse): self
-    {
-        $this->motDePasse = $motDePasse;
 
         return $this;
     }
