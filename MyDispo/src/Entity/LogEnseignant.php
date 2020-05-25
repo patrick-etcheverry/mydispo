@@ -20,7 +20,7 @@ class LogEnseignant
     /**
      * @ORM\Column(type="datetime")
      */
-    private $date;
+    private $dateLog;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -33,7 +33,7 @@ class LogEnseignant
     private $zone;
 
     /**
-     * @ORM\Column(type="string", length=500)
+     * @ORM\Column(type="string", length=255)
      */
     private $description;
 
@@ -42,14 +42,14 @@ class LogEnseignant
         return $this->id;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDateLog(): ?\DateTimeInterface
     {
-        return $this->date;
+        return $this->dateLog;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDateLog(\DateTimeInterface $dateLog): self
     {
-        $this->date = $date;
+        $this->dateLog = $dateLog;
 
         return $this;
     }
