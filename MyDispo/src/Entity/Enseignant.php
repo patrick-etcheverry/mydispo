@@ -64,9 +64,15 @@ class Enseignant
      */
     private $logsEnseignant;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Formation::class, mappedBy="enseignants")
+     */
+    private $formations;
+
     public function __construct()
     {
         $this->logsEnseignant = new ArrayCollection();
+        $this->formations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -196,6 +202,34 @@ class Enseignant
             if ($logsEnseignant->getEnseignant() === $this) {
                 $logsEnseignant->setEnseignant(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Formation[]
+     */
+    public function getFormations(): Collection
+    {
+        return $this->formations;
+    }
+
+    public function addFormation(Formation $formation): self
+    {
+        if (!$this->formations->contains($formation)) {
+            $this->formations[] = $formation;
+            $formation->addEnseignant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFormation(Formation $formation): self
+    {
+        if ($this->formations->contains($formation)) {
+            $this->formations->removeElement($formation);
+            $formation->removeEnseignant($this);
         }
 
         return $this;
