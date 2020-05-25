@@ -79,12 +79,18 @@ class Enseignant
      */
     private $modelesMails;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Creneau::class, mappedBy="enseignant")
+     */
+    private $creneaux;
+
     public function __construct()
     {
         $this->logsEnseignant = new ArrayCollection();
         $this->formations = new ArrayCollection();
         $this->remarques = new ArrayCollection();
         $this->modelesMails = new ArrayCollection();
+        $this->creneaux = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -303,6 +309,37 @@ class Enseignant
             // set the owning side to null (unless already changed)
             if ($modelesMail->getEnseignant() === $this) {
                 $modelesMail->setEnseignant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Creneau[]
+     */
+    public function getCreneaux(): Collection
+    {
+        return $this->creneaux;
+    }
+
+    public function addCreneaux(Creneau $creneaux): self
+    {
+        if (!$this->creneaux->contains($creneaux)) {
+            $this->creneaux[] = $creneaux;
+            $creneaux->setEnseignant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreneaux(Creneau $creneaux): self
+    {
+        if ($this->creneaux->contains($creneaux)) {
+            $this->creneaux->removeElement($creneaux);
+            // set the owning side to null (unless already changed)
+            if ($creneaux->getEnseignant() === $this) {
+                $creneaux->setEnseignant(null);
             }
         }
 
