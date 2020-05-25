@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LogEnseignant index{% endblock %}
+
+{% block body %}
+    <h1>LogEnseignant index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DateLog</th>
+                <th>TypeAction</th>
+                <th>Zone</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for log_enseignant in log_enseignants %}
+            <tr>
+                <td>{{ log_enseignant.id }}</td>
+                <td>{{ log_enseignant.dateLog ? log_enseignant.dateLog|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ log_enseignant.typeAction }}</td>
+                <td>{{ log_enseignant.zone }}</td>
+                <td>{{ log_enseignant.description }}</td>
+                <td>
+                    <a href="{{ path('log_enseignant_show', {'id': log_enseignant.id}) }}">show</a>
+                    <a href="{{ path('log_enseignant_edit', {'id': log_enseignant.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('log_enseignant_new') }}">Create new</a>
+{% endblock %}

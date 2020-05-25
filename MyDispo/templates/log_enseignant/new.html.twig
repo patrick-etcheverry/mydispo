@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New LogEnseignant{% endblock %}
+
+{% block body %}
+    <h1>Create new LogEnseignant</h1>
+
+    {{ include('log_enseignant/_form.html.twig') }}
+
+    <a href="{{ path('log_enseignant_index') }}">back to list</a>
+{% endblock %}

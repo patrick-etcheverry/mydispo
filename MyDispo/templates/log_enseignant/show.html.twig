@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LogEnseignant{% endblock %}
+
+{% block body %}
+    <h1>LogEnseignant</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ log_enseignant.id }}</td>
+            </tr>
+            <tr>
+                <th>DateLog</th>
+                <td>{{ log_enseignant.dateLog ? log_enseignant.dateLog|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>TypeAction</th>
+                <td>{{ log_enseignant.typeAction }}</td>
+            </tr>
+            <tr>
+                <th>Zone</th>
+                <td>{{ log_enseignant.zone }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ log_enseignant.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('log_enseignant_index') }}">back to list</a>
+
+    <a href="{{ path('log_enseignant_edit', {'id': log_enseignant.id}) }}">edit</a>
+
+    {{ include('log_enseignant/_delete_form.html.twig') }}
+{% endblock %}
