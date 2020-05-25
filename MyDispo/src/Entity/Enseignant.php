@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EnseignantRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -56,6 +58,16 @@ class Enseignant
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $motDePasse;
+
+    /**
+     * @ORM\OneToMany(targetEntity=LogEnseignant::class, mappedBy="enseignant")
+     */
+    private $logsEnseignant;
+
+    public function __construct()
+    {
+        $this->logsEnseignant = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -154,6 +166,37 @@ class Enseignant
     public function setMotDePasse(?string $motDePasse): self
     {
         $this->motDePasse = $motDePasse;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LogEnseignant[]
+     */
+    public function getLogsEnseignant(): Collection
+    {
+        return $this->logsEnseignant;
+    }
+
+    public function addLogsEnseignant(LogEnseignant $logsEnseignant): self
+    {
+        if (!$this->logsEnseignant->contains($logsEnseignant)) {
+            $this->logsEnseignant[] = $logsEnseignant;
+            $logsEnseignant->setEnseignant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLogsEnseignant(LogEnseignant $logsEnseignant): self
+    {
+        if ($this->logsEnseignant->contains($logsEnseignant)) {
+            $this->logsEnseignant->removeElement($logsEnseignant);
+            // set the owning side to null (unless already changed)
+            if ($logsEnseignant->getEnseignant() === $this) {
+                $logsEnseignant->setEnseignant(null);
+            }
+        }
 
         return $this;
     }

@@ -37,6 +37,11 @@ class LogEnseignant
      */
     private $description;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Enseignant::class, inversedBy="logsEnseignant")
+     */
+    private $enseignant;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +91,18 @@ class LogEnseignant
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getEnseignant(): ?Enseignant
+    {
+        return $this->enseignant;
+    }
+
+    public function setEnseignant(?Enseignant $enseignant): self
+    {
+        $this->enseignant = $enseignant;
 
         return $this;
     }
