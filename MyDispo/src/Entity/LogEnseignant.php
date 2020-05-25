@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\ActionRepository;
+use App\Repository\LogEnseignantRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ActionRepository::class)
+ * @ORM\Entity(repositoryClass=LogEnseignantRepository::class)
  */
-class Action
+class LogEnseignant
 {
     /**
      * @ORM\Id()
@@ -18,9 +18,14 @@ class Action
     private $id;
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $date;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
-    private $type;
+    private $typeAction;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -28,7 +33,7 @@ class Action
     private $zone;
 
     /**
-     * @ORM\Column(type="string", length=500)
+     * @ORM\Column(type="string", length=500, nullable=true)
      */
     private $description;
 
@@ -37,14 +42,26 @@ class Action
         return $this->id;
     }
 
-    public function getType(): ?string
+    public function getDate(): ?\DateTimeInterface
     {
-        return $this->type;
+        return $this->date;
     }
 
-    public function setType(string $type): self
+    public function setDate(\DateTimeInterface $date): self
     {
-        $this->type = $type;
+        $this->date = $date;
+
+        return $this;
+    }
+
+    public function getTypeAction(): ?string
+    {
+        return $this->typeAction;
+    }
+
+    public function setTypeAction(string $typeAction): self
+    {
+        $this->typeAction = $typeAction;
 
         return $this;
     }
@@ -66,7 +83,7 @@ class Action
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
