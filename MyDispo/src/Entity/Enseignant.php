@@ -74,11 +74,17 @@ class Enseignant
      */
     private $remarques;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ModeleMail::class, mappedBy="enseignant")
+     */
+    private $modelesMails;
+
     public function __construct()
     {
         $this->logsEnseignant = new ArrayCollection();
         $this->formations = new ArrayCollection();
         $this->remarques = new ArrayCollection();
+        $this->modelesMails = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -266,6 +272,37 @@ class Enseignant
             // set the owning side to null (unless already changed)
             if ($remarque->getEnseignant() === $this) {
                 $remarque->setEnseignant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ModeleMail[]
+     */
+    public function getModelesMails(): Collection
+    {
+        return $this->modelesMails;
+    }
+
+    public function addModelesMail(ModeleMail $modelesMail): self
+    {
+        if (!$this->modelesMails->contains($modelesMail)) {
+            $this->modelesMails[] = $modelesMail;
+            $modelesMail->setEnseignant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeModelesMail(ModeleMail $modelesMail): self
+    {
+        if ($this->modelesMails->contains($modelesMail)) {
+            $this->modelesMails->removeElement($modelesMail);
+            // set the owning side to null (unless already changed)
+            if ($modelesMail->getEnseignant() === $this) {
+                $modelesMail->setEnseignant(null);
             }
         }
 

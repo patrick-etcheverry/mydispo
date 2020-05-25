@@ -32,6 +32,11 @@ class ModeleMail
      */
     private $nom;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Enseignant::class, inversedBy="modelesMails")
+     */
+    private $enseignant;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class ModeleMail
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getEnseignant(): ?Enseignant
+    {
+        return $this->enseignant;
+    }
+
+    public function setEnseignant(?Enseignant $enseignant): self
+    {
+        $this->enseignant = $enseignant;
 
         return $this;
     }
