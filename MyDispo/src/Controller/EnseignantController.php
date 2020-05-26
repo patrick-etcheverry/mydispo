@@ -26,6 +26,17 @@ class EnseignantController extends AbstractController
     }
 
     /**
+     * @Route("/index", name="enseignant_indexadmin", methods={"GET"})
+     */
+    public function indexAdmin(EnseignantRepository $enseignantRepository): Response
+    {
+        return $this->render('enseignant/acceuiladmin.html.twig', [
+            'enseignants' => $enseignantRepository->findAll(),
+        ]);
+    }
+
+
+    /**
      * @Route("/new", name="enseignant_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
