@@ -3989,7 +3989,20 @@ input[type=button].btn-block {
   line-height: inherit;
   white-space: nowrap;
 }
+.navbar-brandTest {
+  display: inline-block;
+  padding-top: 0.3125rem;
+  padding-bottom: 0.3125rem;
+  margin-right: 5rem;
+  font-size: 1.25rem;
+  line-height: inherit;
+  white-space: nowrap;
+}
+
 .navbar-brand:hover, .navbar-brand:focus {
+  text-decoration: none;
+}
+.navbar-brandTest:hover, .navbar-brandTest:focus {
   text-decoration: none;
 }
 
@@ -4253,7 +4266,13 @@ input[type=button].btn-block {
 .navbar-light .navbar-brand {
   color: rgba(0, 0, 0, 0.9);
 }
+.navbar-light .navbar-brandTest {
+  color: rgba(0, 0, 0, 0.9);
+}
 .navbar-light .navbar-brand:hover, .navbar-light .navbar-brand:focus {
+  color: rgba(0, 0, 0, 0.9);
+}
+.navbar-light .navbar-brandTest:hover, .navbar-light .navbar-brandTest:focus {
   color: rgba(0, 0, 0, 0.9);
 }
 .navbar-light .navbar-nav .nav-link {
@@ -4291,7 +4310,13 @@ input[type=button].btn-block {
 .navbar-dark .navbar-brand {
   color: #fff;
 }
+.navbar-dark .navbar-brandTest {
+  color: #fff;
+}
 .navbar-dark .navbar-brand:hover, .navbar-dark .navbar-brand:focus {
+  color: #fff;
+}
+.navbar-dark .navbar-brandTest:hover, .navbar-dark .navbar-brandTest:focus {
   color: #fff;
 }
 .navbar-dark .navbar-nav .nav-link {
@@ -10100,6 +10125,12 @@ body {
   width: 225px;
   padding-left: 1rem;
   padding-right: 1rem;
+  margin: 0;
+}
+.sb-topnav .navbar-brandTest {
+
+  padding-left: 10rem;
+  padding-right: 4rem;
   margin: 0;
 }
 .sb-topnav.navbar-dark #sidebarToggle {
