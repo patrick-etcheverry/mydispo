@@ -14,11 +14,37 @@
     {% block navbar %}
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <a class="navbar-brand" href="#">MyDispo</a>
-        <center><a class="navbar-brandTest" href="#">Paramètres des formulaires</a>
-        <a class="navbar-brand" href="#">Les enseignants</a>
-        <a class="navbar-brand" href="#">Les saisies</a>
-        <a class="navbar-brand" href="#">Les mails</a></center>
 
+        <ul class="navbar-nav ml-auto ml-md-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Paramètres des formulaires</a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="#">Paramètres formulaire titulaire</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Paramètres formulaire vacataire</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Paramètres généraux</a>
+                </div>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto ml-md-0">
+                <a class="nav-link dropdown-toggleWithoutContent " id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Les enseignants</a>
+        </ul>
+
+        <ul class="navbar-nav ml-auto ml-md-0">
+                <a class="nav-link dropdown-toggleWithoutContent" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Les saisies</a>
+        </ul>
+        <ul class="navbar-nav ml-auto ml-md-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Les mails</a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="#">Envoie des mails</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Paramètres des mails</a>
+                </div>
+            </li>
+        </ul>
 
         ><!-- Navbar Search-->
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
