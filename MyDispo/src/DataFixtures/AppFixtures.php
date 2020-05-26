@@ -37,7 +37,7 @@ class AppFixtures extends Fixture
         $enseignant2->setPrenom('Philippe');
         $enseignant2->setMail('roose@gmail.com');
         $enseignant2->setStatut('Titulaire');
-        $enseignant2->setEnSommeil(false);
+        $enseignant2->setEnSommeil(true);
         $enseignant2->setToken('https://iutbayonne/formulaire/qiuOfeduig.fr');
         $enseignant2->setSaisieFaite(false);
 
