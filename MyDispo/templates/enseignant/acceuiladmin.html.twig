@@ -6,14 +6,12 @@
 
 
 
-
 <div class="container-fluid">
 	<div class="row">
-
 		<div class="col-md-12">
-			<div class="card bg-default">
+			<div class="card">
 				<h5 class="card-header">
-					<center><h1>Saisies des enseignants</h1></center>
+					<center><h2>Saisies des enseignants</h2></center>
 				</h5>
 				<div class="card-body">
 					<p class="card-text">
@@ -49,9 +47,11 @@
                           </td>
                           <td>{{ enseignant.saisieFaite ? '<i class="far fa-check-circle"></i>' : '<i class="far fa-times-circle"></i>' }}</td>
                           <td>
+                          <center>
                               <a href="{{ path('enseignant_show', {'id': enseignant.id}) }}"><i class="far fa-eye"></i></a>
                               <a href="{{ path('enseignant_edit', {'id': enseignant.id}) }}"><i class="fas fa-pencil-alt"></i></a>
                               <a href="{{ path('enseignant_delete', {'id': enseignant.id}) }}"><i class="far fa-trash-alt"></i></a>
+                          </center>
                           </td>
                       </tr>
                   {% else %}
@@ -61,16 +61,80 @@
                   {% endfor %}
                   </tbody>
               </table>
+          </p>
+        </div>
 					</p>
 				</div>
 			</div>
-		</div>
-		<div class="col-md-1">
 		</div>
 	</div>
 </div>
 
 
 
-    <a href="{{ path('enseignant_new') }}">Ajouter un nouvel enseignant</a>
+{# Partie Log #}
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<h5 class="card-header">
+					<center><h2>Saisies des enseignants</h2></center>
+				</h5>
+				<div class="card-body">
+					<p class="card-text">
+          <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                      <tr>
+                          <th>Date de modification</th>
+                          <th>Enseignant</th>
+                          <th>Statut</th>
+                          <th>Formations</th>
+                          <th>Actions</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  {% for enseignant in enseignants %}
+                      <tr>
+                          <td></td>
+                          <td>{{ enseignant.prenom }} {{ enseignant.nom }}</td>
+                          <td>{{ enseignant.statut }}</td>
+                          <td>
+                          {% for formation in enseignant.formations %}
+
+                              {% if loop.length > 1 %}
+                                  {% if loop.last %}{{formation}}{% else %}
+                                  {{formation}} -
+                                  {% endif %}
+
+                              {% else %}
+                              {{formation}}
+                              {% endif %}
+
+                          {% endfor %}
+                          </td>
+                          <td>
+                          <center>
+                              <a href="{{ path('enseignant_show', {'id': enseignant.id}) }}"><i class="far fa-eye"></i></a>
+                              <a href="{{ path('enseignant_edit', {'id': enseignant.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                          </center>
+                          </td>
+                      </tr>
+                  {% else %}
+                      <tr>
+                          <td colspan="10">Aucun enseignant enregistré</td>
+                      </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+          </p>
+        </div>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 {% endblock %}
