@@ -6,21 +6,43 @@ use App\Entity\Enseignant;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Formation;
 class EnseignantType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('nom')
-            ->add('prenom')
-            ->add('mail')
-            ->add('statut')
-            ->add('enSommeil')
-            ->add('token')
-            ->add('saisieFaite')
-            ->add('motDePasse')
-            ->add('formations')
+            ->add('prenom',TextType::class,array(
+                'label' => 'Prénom',))
+            ->add('mail',EmailType::class,array(
+                'label' => 'Adresse mail',))
+
+            ->add('statut', ChoiceType::class, array(
+                'choices'  => array(
+                    'Titulaire' => "Titulaire",
+                    'Vacataire' => "Vacataire"
+            ),
+               'label' => 'Statut de l\'enseignant'
+          ))
+            ->add('enSommeil', ChoiceType::class, array(
+                'choices'  => array(
+                    'Inactif' => true,
+                    'Actif' => false,),
+                'help' => "Un enseignant en mode sommeil ne recevra aucun mail de la part de l'application",
+                'label' => 'Etat de l\'enseignant'
+            ))
+            ->add('token',TextType::class,array(
+                'label' => 'Lien personnalisé',))
+            ->add('formations', EntityType::class, array(
+              'class' => Formation::class,
+              'multiple' => true,
+              'expanded' => false,
+              'help' => "La ou les formations dans lesquelles l'enseignant intervient",))
         ;
     }
 
