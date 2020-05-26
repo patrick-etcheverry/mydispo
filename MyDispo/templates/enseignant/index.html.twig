@@ -30,7 +30,7 @@
                           <td> {{ enseignant.nom }}</td>
                           <td> {{ enseignant.prenom }}</td>
                           <td> {{ enseignant.statut }}</td>
-                          <td>{{ enseignant.enSommeil ? 'Inactif' : 'Actif' }}</td>
+                          <td>{{ enseignant.enSommeil ? 'Inactif <i class="far fa-moon"></i>' : 'Actif' }}</td>
                           <td>
                           <center>
                               <a href="{{ path('enseignant_show', {'id': enseignant.id}) }}"><i class="far fa-eye"></i></a>
