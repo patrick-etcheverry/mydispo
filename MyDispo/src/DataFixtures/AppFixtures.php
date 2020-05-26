@@ -86,19 +86,19 @@ class AppFixtures extends Fixture
 
         $manager->persist($formationLP);
 
-        /*
+/*
                 //Création de remarques
-                $Nbremarques = 5;
-
-                for($i = 0; $i < $Nbremarques ; $i++){
+                $Nbremarques = 4;
+                new $listeEnseignants = array('1' => $enseignant1,'2' => $enseignant2,'3' => $enseignant3,'4' => $enseignant4);
+                for($i = 1; $i <= $Nbremarques ; $i++){
                   $remarque =  new Remarque ();
                   $remarque->setContenu($faker->text($maxNbChars = 200));
                   $remarque->setType($faker->randomElement($array = array ('Ponctuelle','Hebdomadaire')));
-                  $remarque->setEnseignant($enseignant1);
+                  $remarque->setEnseignant($listeEnseignants[$i]);
 
                   $manager->persist($remarque);
                 }
-        */
+*/
 
 
         // Envoyer les données en BD
