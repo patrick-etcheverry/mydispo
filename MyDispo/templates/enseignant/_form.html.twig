@@ -1,4 +1,50 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+
+
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<h5 class="card-header">
+					<center><h2><i class="fas fa-user"></i> Modifier le profil de {{enseignant.nom}} {{enseignant.prenom}}</h2><center>
+				</h5>
+				<div class="card-body">
+					<p class="card-text">
+          <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-3">
+		</div>
+		<div class="col-md-6">
+			<div class="card">
+				<h5 class="card-header">
+					<center><td><h4> <i class="far fa-user"></i> {{ enseignant.nom }} {{ enseignant.prenom }} </h4></td></center>
+				</h5>
+				<div class="card-body">
+					<p class="card-text">
+
+
+     {{ form_row(form.nom) }}
+     {{ form_row(form.prenom) }}
+     {{ form_row(form.mail) }}
+     {{ form_row(form.statut) }}
+     {{ form_row(form.enSommeil) }}
+     {{ form_row(form.token) }}
+     {{ form_row(form.formations) }}
+
+
+
+					</p>
+				</div>
+				<div class="card-footer">
+        <center><button class="btn-primary"><i class="fas fa-pencil-alt"></i> Modifier</button></center>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
