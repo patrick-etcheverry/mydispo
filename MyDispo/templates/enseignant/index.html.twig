@@ -3,47 +3,57 @@
 {% block title %}Enseignant index{% endblock %}
 
 {% block body %}
-    <h1>Enseignant index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Mail</th>
-                <th>Statut</th>
-                <th>EnSommeil</th>
-                <th>Token</th>
-                <th>SaisieFaite</th>
-                <th>MotDePasse</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for enseignant in enseignants %}
-            <tr>
-                <td>{{ enseignant.id }}</td>
-                <td>{{ enseignant.nom }}</td>
-                <td>{{ enseignant.prenom }}</td>
-                <td>{{ enseignant.mail }}</td>
-                <td>{{ enseignant.statut }}</td>
-                <td>{{ enseignant.enSommeil ? 'Yes' : 'No' }}</td>
-                <td>{{ enseignant.token }}</td>
-                <td>{{ enseignant.saisieFaite ? 'Yes' : 'No' }}</td>
-                <td>{{ enseignant.motDePasse }}</td>
-                <td>
-                    <a href="{{ path('enseignant_show', {'id': enseignant.id}) }}">show</a>
-                    <a href="{{ path('enseignant_edit', {'id': enseignant.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<h5 class="card-header">
+					<center><h2>Les enseignants</h2></center>
+				</h5>
+				<div class="card-body">
+					<p class="card-text">
+          <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                      <tr>
+                          <th>Nom</th>
+                          <th>Prénom</th>
+                          <th>Statut</th>
+                          <th>Etat</th>
+                          <th>Actions</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  {% for enseignant in enseignants %}
+                      <tr>
+                          <td> {{ enseignant.nom }}</td>
+                          <td> {{ enseignant.prenom }}</td>
+                          <td> {{ enseignant.statut }}</td>
+                          <td>{{ enseignant.enSommeil ? 'Inactif' : 'Actif' }}</td>
+                          <td>
+                          <center>
+                              <a href="{{ path('enseignant_show', {'id': enseignant.id}) }}"><i class="far fa-eye"></i></a>
+                              <a href="{{ path('enseignant_edit', {'id': enseignant.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                              <a href="{{ path('enseignant_delete', {'id': enseignant.id}) }}"><i class="far fa-trash-alt"></i></a>
+                          </center>
+                          </td>
+                      </tr>
+                  {% else %}
+                      <tr>
+                          <td colspan="10">Aucun enseignant enregistré</td>
+                      </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+          </p>
+        </div>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
     <a href="{{ path('enseignant_new') }}">Create new</a>
 {% endblock %}
