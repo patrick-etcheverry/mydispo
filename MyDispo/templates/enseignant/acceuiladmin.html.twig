@@ -11,7 +11,7 @@
 		<div class="col-md-12">
 			<div class="card">
 				<h5 class="card-header">
-					<center><h2>Saisies des enseignants</h2></center>
+					<center><h2>Les saisies des enseignants</h2></center>
 				</h5>
 				<div class="card-body">
 					<p class="card-text">
@@ -79,7 +79,11 @@
 		<div class="col-md-12">
 			<div class="card">
 				<h5 class="card-header">
-					<center><h2>Saisies des enseignants</h2></center>
+					<center><h2>Les dernières modifications</h2></center>
+          <center><p style="color:#FF0000";>3</p></center><center> <p>modifications depuis votre dernière connexion</p></center>
+
+
+
 				</h5>
 				<div class="card-body">
 					<p class="card-text">
@@ -97,7 +101,7 @@
                   <tbody>
                   {% for enseignant in enseignants %}
                       <tr>
-                          <td></td>
+                          <td>{{ random(+'now'|date('U'))|date('H:i - d/m/Y') }}</td>
                           <td>{{ enseignant.prenom }} {{ enseignant.nom }}</td>
                           <td>{{ enseignant.statut }}</td>
                           <td>
