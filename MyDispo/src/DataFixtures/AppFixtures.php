@@ -7,7 +7,8 @@ use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Remarque;
 use App\Entity\Enseignant;
 use App\Entity\Formation;
-
+use App\Entity\ModeleMail;
+use \Datetime;
 
 class AppFixtures extends Fixture
 {
@@ -29,6 +30,13 @@ class AppFixtures extends Fixture
         $enseignant1->setEnSommeil(false);
         $enseignant1->setToken('https://iutbayonne/formulaire/gtauzfeduig.fr');
         $enseignant1->setSaisieFaite(true);
+        $enseignant1->setDateSaisie(new DateTime('12/07/2020'));
+        $enseignant1->setDateDerniereModif(new DateTime(''));
+        $enseignant1->setMailRelanceRecu(true);
+        $enseignant1->setPremierMailRecu(true);
+        $enseignant1->setDatePremierMail(new DateTime('05/06/2020'));
+        $enseignant1->setDateDerniereRelance(new DateTime('12/07/2020'));
+        $enseignant1->setNbRelance(1);
 
         $manager->persist($enseignant1);
 
@@ -40,6 +48,13 @@ class AppFixtures extends Fixture
         $enseignant2->setEnSommeil(true);
         $enseignant2->setToken('https://iutbayonne/formulaire/qiuOfeduig.fr');
         $enseignant2->setSaisieFaite(false);
+        $enseignant2->setDateSaisie(new DateTime('05/06/2020'));
+        $enseignant2->setDateDerniereModif(new DateTime('05/06/2020'));
+        $enseignant2->setMailRelanceRecu(false);
+        $enseignant2->setPremierMailRecu(true);
+        $enseignant2->setDatePremierMail(new DateTime('05/06/2020'));
+        $enseignant2->setDateDerniereRelance(new DateTime(''));
+        $enseignant2->setNbRelance(0);
 
         $manager->persist($enseignant2);
 
@@ -51,6 +66,14 @@ class AppFixtures extends Fixture
         $enseignant3->setEnSommeil(false);
         $enseignant3->setToken('https://iutbayonne/formulaire/lqIZSURHduig.fr');
         $enseignant3->setSaisieFaite(false);
+        $enseignant3->setDateSaisie(new DateTime('08/06/2020'));
+        $enseignant3->setDateDerniereModif(new DateTime('09/06/2020'));
+        $enseignant3->setMailRelanceRecu(true);
+        $enseignant3->setPremierMailRecu(true);
+        $enseignant3->setDatePremierMail(new DateTime('05/06/2020'));
+        $enseignant3->setDateDerniereRelance(new DateTime('09/06/2020'));
+        $enseignant3->setNbRelance(2);
+
 
         $manager->persist($enseignant3);
 
@@ -62,6 +85,14 @@ class AppFixtures extends Fixture
         $enseignant4->setEnSommeil(false);
         $enseignant4->setToken('https://iutbayonne/formulaire/gQLOIUSHYeduig.fr');
         $enseignant4->setSaisieFaite(true);
+        $enseignant4->setDateSaisie(new DateTime(''));
+        $enseignant4->setDateDerniereModif(new DateTime(''));
+        $enseignant4->setMailRelanceRecu(false);
+        $enseignant4->setPremierMailRecu(false);
+        $enseignant4->setDatePremierMail(new DateTime(''));
+        $enseignant4->setDateDerniereRelance(new DateTime(''));
+        $enseignant4->setNbRelance(0);
+
 
         $manager->persist($enseignant4);
 
@@ -99,6 +130,24 @@ class AppFixtures extends Fixture
                   $manager->persist($remarque);
                 }
 */
+
+        // Création des modèles de mails
+        $modeleMailPremier = new ModeleMail();
+        $modeleMailPremier->setNom('Mail premier contact');
+        $modeleMailPremier->setSujet('Saisie de vos contraintes et disponibilités IUT Anglet');
+        $modeleMailPremier->setContenu('Bonjour, ....');
+
+        $modeleMailPremier = new ModeleMail();
+        $modeleMailPremier->setNom('Mail de relance');
+        $modeleMailPremier->setSujet('Relance pour la saisie de vos contraintes et disponibilités IUT Anglet');
+        $modeleMailPremier->setContenu('Bonjour, nous vous relancons....');
+
+        $modeleMailPremier = new ModeleMail();
+        $modeleMailPremier->setNom('Mail oubli');
+        $modeleMailPremier->setSujet('Lien oublié saisie de vos contraintes IUT Anglet');
+        $modeleMailPremier->setContenu('Bonjour, vous trouverez ci-dessous ...');
+
+
 
 
         // Envoyer les données en BD

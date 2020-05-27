@@ -44,6 +44,8 @@ class EnseignantType extends AbstractType
               'multiple' => true,
               'expanded' => true,
               'help' => "La ou les formations dans lesquelles l'enseignant intervient",))
+
+
         ;
     }
 
