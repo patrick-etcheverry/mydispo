@@ -31,7 +31,7 @@ class AppFixtures extends Fixture
         $enseignant1->setToken('https://iutbayonne/formulaire/gtauzfeduig.fr');
         $enseignant1->setSaisieFaite(true);
         $enseignant1->setDateSaisie(new DateTime('12/07/2020'));
-        $enseignant1->setDateDerniereModif(new DateTime(''));
+        $enseignant1->setDateDerniereModif(null);
         $enseignant1->setMailRelanceRecu(true);
         $enseignant1->setPremierMailRecu(true);
         $enseignant1->setDatePremierMail(new DateTime('05/06/2020'));
@@ -53,7 +53,7 @@ class AppFixtures extends Fixture
         $enseignant2->setMailRelanceRecu(false);
         $enseignant2->setPremierMailRecu(true);
         $enseignant2->setDatePremierMail(new DateTime('05/06/2020'));
-        $enseignant2->setDateDerniereRelance(new DateTime(''));
+        $enseignant2->setDateDerniereRelance(null);
         $enseignant2->setNbRelance(0);
 
         $manager->persist($enseignant2);
@@ -65,9 +65,9 @@ class AppFixtures extends Fixture
         $enseignant3->setStatut('Vacataire');
         $enseignant3->setEnSommeil(false);
         $enseignant3->setToken('https://iutbayonne/formulaire/lqIZSURHduig.fr');
-        $enseignant3->setSaisieFaite(false);
+        $enseignant3->setSaisieFaite(true);
         $enseignant3->setDateSaisie(new DateTime('08/06/2020'));
-        $enseignant3->setDateDerniereModif(new DateTime('09/06/2020'));
+        $enseignant3->setDateDerniereModif(new DateTime('05/06/2020'));
         $enseignant3->setMailRelanceRecu(true);
         $enseignant3->setPremierMailRecu(true);
         $enseignant3->setDatePremierMail(new DateTime('05/06/2020'));
@@ -84,13 +84,13 @@ class AppFixtures extends Fixture
         $enseignant4->setStatut('Titulaire');
         $enseignant4->setEnSommeil(false);
         $enseignant4->setToken('https://iutbayonne/formulaire/gQLOIUSHYeduig.fr');
-        $enseignant4->setSaisieFaite(true);
-        $enseignant4->setDateSaisie(new DateTime(''));
-        $enseignant4->setDateDerniereModif(new DateTime(''));
+        $enseignant4->setSaisieFaite(false);
+        $enseignant4->setDateSaisie(null);
+        $enseignant4->setDateDerniereModif(null);
         $enseignant4->setMailRelanceRecu(false);
         $enseignant4->setPremierMailRecu(false);
-        $enseignant4->setDatePremierMail(new DateTime(''));
-        $enseignant4->setDateDerniereRelance(new DateTime(''));
+        $enseignant4->setDatePremierMail(null);
+        $enseignant4->setDateDerniereRelance(null);
         $enseignant4->setNbRelance(0);
 
 

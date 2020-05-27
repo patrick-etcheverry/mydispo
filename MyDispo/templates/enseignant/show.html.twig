@@ -43,36 +43,40 @@
                       <th>Token</th>
                       <td>{{ enseignant.token }}</td>
                   </tr>
-									<th>SaisieFaite</th>
-	                <td>{{ enseignant.saisieFaite ? 'Yes' : 'No' }}</td>
+									<th>Saisie effectuée ? </th>
+	                <td>{{ enseignant.saisieFaite ? 'Oui' : 'Non' }}</td>
 	            </tr>
 	            <tr>
-	                <th>DateSaisie</th>
-	                <td>{{ enseignant.dateSaisie ? enseignant.dateSaisie|date('Y-m-d H:i:s') : '' }}</td>
+	                <th>Date de la saisie</th>
+	                <td>{{ enseignant.saisieFaite ? enseignant.dateSaisie|date('d/m/Y') : 'Aucune saisie' }}</td>
 	            </tr>
 	            <tr>
-	                <th>DateDerniereModif</th>
-	                <td>{{ enseignant.dateDerniereModif ? enseignant.dateDerniereModif|date('Y-m-d H:i:s') : '' }}</td>
+	                <th>Date de la dernière modification</th>
+	                <td>{{ enseignant.saisieFaite ? enseignant.dateDerniereModif|date('d/m/Y') : 'Aucune saisie' }}</td>
 	            </tr>
 	            <tr>
-	                <th>PremierMailRecu</th>
-	                <td>{{ enseignant.premierMailRecu ? 'Yes' : 'No' }}</td>
+	                <th>Premier mail reçu ?</th>
+	                <td>{{ enseignant.premierMailRecu ? 'Oui' : 'Non' }}</td>
 	            </tr>
 	            <tr>
-	                <th>MailRelanceRecu</th>
-	                <td>{{ enseignant.mailRelanceRecu ? 'Yes' : 'No' }}</td>
+	                <th>Mail de relance reçu ?</th>
+	                <td>{{ enseignant.mailRelanceRecu ? 'Oui' : 'Non' }}</td>
 	            </tr>
 	            <tr>
-	                <th>DatePremierMail</th>
-	                <td>{{ enseignant.datePremierMail ? enseignant.datePremierMail|date('Y-m-d H:i:s') : '' }}</td>
+	                <th>Date de l'envoie du premier mail</th>
+	                <td>{{ enseignant.premierMailRecu ? enseignant.datePremierMail|date('d/m/Y') : 'Aucun mail envoyé' }}</td>
 	            </tr>
 	            <tr>
-	                <th>DateDerniereRelance</th>
-	                <td>{{ enseignant.dateDerniereRelance ? enseignant.dateDerniereRelance|date('Y-m-d H:i:s') : '' }}</td>
+	                <th>Date de la denière relance par mail</th>
+	                <td>{{ enseignant.mailRelanceRecu ? enseignant.dateDerniereRelance|date('d/m/Y') : 'Aucune relance' }}</td>
 	            </tr>
 	            <tr>
-	                <th>NbRelance</th>
+	                <th>Nombre de relance</th>
+									{% if enseignant.nbRelance == 0 %}
+									<td>Aucune</td>
+									{% else %}
 	                <td>{{ enseignant.nbRelance }}</td>
+									{% endif %}
 	            </tr>
               </tbody>
           </table>
