@@ -21,22 +21,16 @@
 				</h5>
 				<div class="card-body">
 					<p class="card-text">
-
-
-     {{ form_row(form.nom) }}
-     {{ form_row(form.prenom) }}
-     {{ form_row(form.mail) }}
-     {{ form_row(form.statut) }}
-     {{ form_row(form.enSommeil) }}
-     {{ form_row(form.token) }}
-     {{ form_row(form.formations) }}
-
+					{{ form_start(form) }}
+					    {{ form_widget(form) }}
 
 
 					</p>
 				</div>
 				<div class="card-footer">
-        <center><button class="btn-primary"><i class="fas fa-pencil-alt"></i> Modifier</button></center>
+				<center><button class="btn-primary"><i class="fas fa-pencil-alt"></i>{{ button_label|default(' Save') }}</button></center>
+		{{ form_end(form) }}
+
 				</div>
 			</div>
 		</div>

@@ -41,7 +41,7 @@ class EnseignantType extends AbstractType
             ->add('formations', EntityType::class, array(
               'class' => Formation::class,
               'multiple' => true,
-              'expanded' => false,
+              'expanded' => true,
               'help' => "La ou les formations dans lesquelles l'enseignant intervient",))
         ;
     }
