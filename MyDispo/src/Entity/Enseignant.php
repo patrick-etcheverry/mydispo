@@ -55,11 +55,6 @@ class Enseignant
     private $saisieFaite;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $motDePasse;
-
-    /**
      * @ORM\OneToMany(targetEntity=LogEnseignant::class, mappedBy="enseignant")
      */
     private $logsEnseignant;
@@ -83,6 +78,41 @@ class Enseignant
      * @ORM\OneToMany(targetEntity=Creneau::class, mappedBy="enseignant")
      */
     private $creneaux;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateSaisie;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateDerniereModif;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $premierMailRecu;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $mailRelanceRecu;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $datePremierMail;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateDerniereRelance;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $nbRelance;
 
 
     public function __construct()
@@ -179,18 +209,6 @@ class Enseignant
     public function setSaisieFaite(bool $saisieFaite): self
     {
         $this->saisieFaite = $saisieFaite;
-
-        return $this;
-    }
-
-    public function getMotDePasse(): ?string
-    {
-        return $this->motDePasse;
-    }
-
-    public function setMotDePasse(?string $motDePasse): self
-    {
-        $this->motDePasse = $motDePasse;
 
         return $this;
     }
@@ -343,6 +361,90 @@ class Enseignant
                 $creneaux->setEnseignant(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDateSaisie(): ?\DateTimeInterface
+    {
+        return $this->dateSaisie;
+    }
+
+    public function setDateSaisie(?\DateTimeInterface $dateSaisie): self
+    {
+        $this->dateSaisie = $dateSaisie;
+
+        return $this;
+    }
+
+    public function getDateDerniereModif(): ?\DateTimeInterface
+    {
+        return $this->dateDerniereModif;
+    }
+
+    public function setDateDerniereModif(?\DateTimeInterface $dateDerniereModif): self
+    {
+        $this->dateDerniereModif = $dateDerniereModif;
+
+        return $this;
+    }
+
+    public function getPremierMailRecu(): ?bool
+    {
+        return $this->premierMailRecu;
+    }
+
+    public function setPremierMailRecu(bool $premierMailRecu): self
+    {
+        $this->premierMailRecu = $premierMailRecu;
+
+        return $this;
+    }
+
+    public function getMailRelanceRecu(): ?bool
+    {
+        return $this->mailRelanceRecu;
+    }
+
+    public function setMailRelanceRecu(bool $mailRelanceRecu): self
+    {
+        $this->mailRelanceRecu = $mailRelanceRecu;
+
+        return $this;
+    }
+
+    public function getDatePremierMail(): ?\DateTimeInterface
+    {
+        return $this->datePremierMail;
+    }
+
+    public function setDatePremierMail(?\DateTimeInterface $datePremierMail): self
+    {
+        $this->datePremierMail = $datePremierMail;
+
+        return $this;
+    }
+
+    public function getDateDerniereRelance(): ?\DateTimeInterface
+    {
+        return $this->dateDerniereRelance;
+    }
+
+    public function setDateDerniereRelance(?\DateTimeInterface $dateDerniereRelance): self
+    {
+        $this->dateDerniereRelance = $dateDerniereRelance;
+
+        return $this;
+    }
+
+    public function getNbRelance(): ?int
+    {
+        return $this->nbRelance;
+    }
+
+    public function setNbRelance(int $nbRelance): self
+    {
+        $this->nbRelance = $nbRelance;
 
         return $this;
     }
