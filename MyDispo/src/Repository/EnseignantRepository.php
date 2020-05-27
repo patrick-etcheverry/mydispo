@@ -22,8 +22,8 @@ class EnseignantRepository extends ServiceEntityRepository
     // /**
     //  * @return Enseignant[] Returns an array of Enseignant objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findByCritere($value)
     {
         return $this->createQueryBuilder('e')
             ->andWhere('e.exampleField = :val')
@@ -34,7 +34,7 @@ class EnseignantRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Enseignant

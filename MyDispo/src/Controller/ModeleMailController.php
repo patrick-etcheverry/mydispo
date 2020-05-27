@@ -102,9 +102,35 @@ public function formEnvoieMail(Request $request)
 
       $nom = $form["nom"]->getData()->getNom();
 
-        // Récupérer les stages enregistrées en BD avec le nom de l'entreprise "nomFormation"
         $modeleMail = $repositoryModeleMail->findOneByNomModeleMail($nom);
 
+        $tabFormation = $form["nomCourt"]->getData();
+        if ($tabFormation.length > 1){
+          // Ne pas prendre en compte la formation
+          $enseignants = $repositoryEnseignant->findByCritere($statut,$saisie);
+        }
+        else {
+          $formation = $tabFormation[0];
+          $tabStatut = $form["statut"]->getData();
+          if ($tabStatut.length > 1){
+            // Ne pas prendre en compte le statut
+            $enseignants = $repositoryEnseignant->findByCritere($formation,$saisie);
+
+          }
+          else {
+            $statut = $tabStatut[0];
+            $tabSaisie = $form["saisieFaite"]->getData();
+            if ($tabSaisie.length > 1){
+              // Ne pas prendre en compte la saisie
+              $enseignants = $repositoryEnseignant->findByCritere($formation,$statut);
+            }
+            else {
+              $saisie = $tabSaisie[0];
+        }}}
+
+
+        $repositoryEnseignant = $this->getDoctrine()->getRepository(Enseignant::class);
+        $enseignants = $repositoryEnseignant->findByCritere($formation,$statut,$saisie);
 
         return $this->render('modele_mail/envoieMailResume.html.twig', [
             'data' => $data,
