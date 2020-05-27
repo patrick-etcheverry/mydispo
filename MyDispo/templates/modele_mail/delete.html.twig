@@ -1,0 +1,5 @@
+{% extends 'modele_mail/show.html.twig' %}
+{% block body %}
+    {{ parent() }}
+    {{ include('modele_mail/_delete_form.html.twig') }}
+{% endblock %}

@@ -34,7 +34,7 @@ class EnseignantController extends AbstractController
             'enseignants' => $enseignantRepository->findAll(),
         ]);
     }
-    
+
     /**
      * @Route("/new", name="enseignant_new", methods={"GET","POST"})
      */
@@ -100,5 +100,14 @@ class EnseignantController extends AbstractController
         }
 
         return $this->redirectToRoute('enseignant_index');
+    }
+
+    /**
+     * @Route("/supprimer/{id}", name="enseignant_supprimer")
+     */
+    public function supprimer(Enseignant $enseignant){
+        return $this->render('enseignant/delete.html.twig', [
+            'enseignant' => $enseignant,
+        ]);
     }
 }

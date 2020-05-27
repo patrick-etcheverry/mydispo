@@ -91,4 +91,13 @@ class ModeleMailController extends AbstractController
 
         return $this->redirectToRoute('modele_mail_index');
     }
+
+    /**
+     * @Route("/supprimer/{id}", name="modele_mail_supprimer")
+     */
+    public function supprimer(ModeleMail $modeleMail){
+        return $this->render('modele_mail/delete.html.twig', [
+            'modele_mail' => $modeleMail,
+        ]);
+    }
 }
