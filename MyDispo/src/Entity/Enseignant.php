@@ -84,10 +84,6 @@ class Enseignant
      */
     private $creneaux;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Formulaire::class, mappedBy="enseignant", orphanRemoval=true)
-     */
-    private $formulaires;
 
     public function __construct()
     {
@@ -96,7 +92,6 @@ class Enseignant
         $this->remarques = new ArrayCollection();
         $this->modelesMails = new ArrayCollection();
         $this->creneaux = new ArrayCollection();
-        $this->formulaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -352,34 +347,4 @@ class Enseignant
         return $this;
     }
 
-    /**
-     * @return Collection|Formulaire[]
-     */
-    public function getFormulaires(): Collection
-    {
-        return $this->formulaires;
-    }
-
-    public function addFormulaire(Formulaire $formulaire): self
-    {
-        if (!$this->formulaires->contains($formulaire)) {
-            $this->formulaires[] = $formulaire;
-            $formulaire->setEnseignant($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFormulaire(Formulaire $formulaire): self
-    {
-        if ($this->formulaires->contains($formulaire)) {
-            $this->formulaires->removeElement($formulaire);
-            // set the owning side to null (unless already changed)
-            if ($formulaire->getEnseignant() === $this) {
-                $formulaire->setEnseignant(null);
-            }
-        }
-
-        return $this;
-    }
 }
