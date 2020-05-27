@@ -43,6 +43,37 @@
                       <th>Token</th>
                       <td>{{ enseignant.token }}</td>
                   </tr>
+									<th>SaisieFaite</th>
+	                <td>{{ enseignant.saisieFaite ? 'Yes' : 'No' }}</td>
+	            </tr>
+	            <tr>
+	                <th>DateSaisie</th>
+	                <td>{{ enseignant.dateSaisie ? enseignant.dateSaisie|date('Y-m-d H:i:s') : '' }}</td>
+	            </tr>
+	            <tr>
+	                <th>DateDerniereModif</th>
+	                <td>{{ enseignant.dateDerniereModif ? enseignant.dateDerniereModif|date('Y-m-d H:i:s') : '' }}</td>
+	            </tr>
+	            <tr>
+	                <th>PremierMailRecu</th>
+	                <td>{{ enseignant.premierMailRecu ? 'Yes' : 'No' }}</td>
+	            </tr>
+	            <tr>
+	                <th>MailRelanceRecu</th>
+	                <td>{{ enseignant.mailRelanceRecu ? 'Yes' : 'No' }}</td>
+	            </tr>
+	            <tr>
+	                <th>DatePremierMail</th>
+	                <td>{{ enseignant.datePremierMail ? enseignant.datePremierMail|date('Y-m-d H:i:s') : '' }}</td>
+	            </tr>
+	            <tr>
+	                <th>DateDerniereRelance</th>
+	                <td>{{ enseignant.dateDerniereRelance ? enseignant.dateDerniereRelance|date('Y-m-d H:i:s') : '' }}</td>
+	            </tr>
+	            <tr>
+	                <th>NbRelance</th>
+	                <td>{{ enseignant.nbRelance }}</td>
+	            </tr>
               </tbody>
           </table>
 					</p>

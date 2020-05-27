@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New FormulaireVacataire{% endblock %}
+
+{% block body %}
+    <h1>Create new FormulaireVacataire</h1>
+
+    {{ include('formulaire_vacataire/_form.html.twig') }}
+
+    <a href="{{ path('formulaire_vacataire_index') }}">back to list</a>
+{% endblock %}

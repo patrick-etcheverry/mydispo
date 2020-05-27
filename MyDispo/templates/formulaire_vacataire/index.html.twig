@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FormulaireVacataire index{% endblock %}
+
+{% block body %}
+    <h1>FormulaireVacataire index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>EchelleCalendrier</th>
+                <th>TexteHebdomadaire</th>
+                <th>TextePonctuel</th>
+                <th>RemarquesHebdoActives</th>
+                <th>RemarquesPonctuelActives</th>
+                <th>EstOuvert</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for formulaire_vacataire in formulaire_vacataires %}
+            <tr>
+                <td>{{ formulaire_vacataire.id }}</td>
+                <td>{{ formulaire_vacataire.echelleCalendrier }}</td>
+                <td>{{ formulaire_vacataire.texteHebdomadaire }}</td>
+                <td>{{ formulaire_vacataire.textePonctuel }}</td>
+                <td>{{ formulaire_vacataire.remarquesHebdoActives ? 'Yes' : 'No' }}</td>
+                <td>{{ formulaire_vacataire.remarquesPonctuelActives ? 'Yes' : 'No' }}</td>
+                <td>{{ formulaire_vacataire.estOuvert ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('formulaire_vacataire_show', {'id': formulaire_vacataire.id}) }}">show</a>
+                    <a href="{{ path('formulaire_vacataire_edit', {'id': formulaire_vacataire.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('formulaire_vacataire_new') }}">Create new</a>
+{% endblock %}

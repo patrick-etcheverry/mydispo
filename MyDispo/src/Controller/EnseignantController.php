@@ -34,8 +34,7 @@ class EnseignantController extends AbstractController
             'enseignants' => $enseignantRepository->findAll(),
         ]);
     }
-
-
+    
     /**
      * @Route("/new", name="enseignant_new", methods={"GET","POST"})
      */

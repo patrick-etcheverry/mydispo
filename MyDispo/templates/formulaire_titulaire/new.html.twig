@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New FormulaireTitulaire{% endblock %}
+
+{% block body %}
+    <h1>Create new FormulaireTitulaire</h1>
+
+    {{ include('formulaire_titulaire/_form.html.twig') }}
+
+    <a href="{{ path('formulaire_titulaire_index') }}">back to list</a>
+{% endblock %}

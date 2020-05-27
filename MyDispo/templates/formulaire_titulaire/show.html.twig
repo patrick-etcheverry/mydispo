@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FormulaireTitulaire{% endblock %}
+
+{% block body %}
+    <h1>FormulaireTitulaire</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ formulaire_titulaire.id }}</td>
+            </tr>
+            <tr>
+                <th>EchelleCalendrier</th>
+                <td>{{ formulaire_titulaire.echelleCalendrier }}</td>
+            </tr>
+            <tr>
+                <th>TexteHebdomadaire</th>
+                <td>{{ formulaire_titulaire.texteHebdomadaire }}</td>
+            </tr>
+            <tr>
+                <th>TextePonctuel</th>
+                <td>{{ formulaire_titulaire.textePonctuel }}</td>
+            </tr>
+            <tr>
+                <th>RemarquesHebdoActives</th>
+                <td>{{ formulaire_titulaire.remarquesHebdoActives ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>RemarquesPonctuelActives</th>
+                <td>{{ formulaire_titulaire.remarquesPonctuelActives ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>EstOuvert</th>
+                <td>{{ formulaire_titulaire.estOuvert ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>QuantiteProForte</th>
+                <td>{{ formulaire_titulaire.quantiteProForte }}</td>
+            </tr>
+            <tr>
+                <th>QuantiteProMoy</th>
+                <td>{{ formulaire_titulaire.quantiteProMoy }}</td>
+            </tr>
+            <tr>
+                <th>QuantiteProFaible</th>
+                <td>{{ formulaire_titulaire.quantiteProFaible }}</td>
+            </tr>
+            <tr>
+                <th>QuantitePersForte</th>
+                <td>{{ formulaire_titulaire.quantitePersForte }}</td>
+            </tr>
+            <tr>
+                <th>QuantitePersMoy</th>
+                <td>{{ formulaire_titulaire.quantitePersMoy }}</td>
+            </tr>
+            <tr>
+                <th>QuantitePersFaible</th>
+                <td>{{ formulaire_titulaire.quantitePersFaible }}</td>
+            </tr>
+            <tr>
+                <th>DureeProForte</th>
+                <td>{{ formulaire_titulaire.dureeProForte }}</td>
+            </tr>
+            <tr>
+                <th>DureeProMoy</th>
+                <td>{{ formulaire_titulaire.dureeProMoy }}</td>
+            </tr>
+            <tr>
+                <th>DureeProFaible</th>
+                <td>{{ formulaire_titulaire.dureeProFaible }}</td>
+            </tr>
+            <tr>
+                <th>DureePersForte</th>
+                <td>{{ formulaire_titulaire.dureePersForte }}</td>
+            </tr>
+            <tr>
+                <th>DureePersMoy</th>
+                <td>{{ formulaire_titulaire.dureePersMoy }}</td>
+            </tr>
+            <tr>
+                <th>DureePersFaible</th>
+                <td>{{ formulaire_titulaire.dureePersFaible }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('formulaire_titulaire_index') }}">back to list</a>
+
+    <a href="{{ path('formulaire_titulaire_edit', {'id': formulaire_titulaire.id}) }}">edit</a>
+
+    {{ include('formulaire_titulaire/_delete_form.html.twig') }}
+{% endblock %}

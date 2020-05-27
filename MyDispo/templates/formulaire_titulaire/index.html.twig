@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FormulaireTitulaire index{% endblock %}
+
+{% block body %}
+    <h1>FormulaireTitulaire index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>EchelleCalendrier</th>
+                <th>TexteHebdomadaire</th>
+                <th>TextePonctuel</th>
+                <th>RemarquesHebdoActives</th>
+                <th>RemarquesPonctuelActives</th>
+                <th>EstOuvert</th>
+                <th>QuantiteProForte</th>
+                <th>QuantiteProMoy</th>
+                <th>QuantiteProFaible</th>
+                <th>QuantitePersForte</th>
+                <th>QuantitePersMoy</th>
+                <th>QuantitePersFaible</th>
+                <th>DureeProForte</th>
+                <th>DureeProMoy</th>
+                <th>DureeProFaible</th>
+                <th>DureePersForte</th>
+                <th>DureePersMoy</th>
+                <th>DureePersFaible</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for formulaire_titulaire in formulaire_titulaires %}
+            <tr>
+                <td>{{ formulaire_titulaire.id }}</td>
+                <td>{{ formulaire_titulaire.echelleCalendrier }}</td>
+                <td>{{ formulaire_titulaire.texteHebdomadaire }}</td>
+                <td>{{ formulaire_titulaire.textePonctuel }}</td>
+                <td>{{ formulaire_titulaire.remarquesHebdoActives ? 'Yes' : 'No' }}</td>
+                <td>{{ formulaire_titulaire.remarquesPonctuelActives ? 'Yes' : 'No' }}</td>
+                <td>{{ formulaire_titulaire.estOuvert ? 'Yes' : 'No' }}</td>
+                <td>{{ formulaire_titulaire.quantiteProForte }}</td>
+                <td>{{ formulaire_titulaire.quantiteProMoy }}</td>
+                <td>{{ formulaire_titulaire.quantiteProFaible }}</td>
+                <td>{{ formulaire_titulaire.quantitePersForte }}</td>
+                <td>{{ formulaire_titulaire.quantitePersMoy }}</td>
+                <td>{{ formulaire_titulaire.quantitePersFaible }}</td>
+                <td>{{ formulaire_titulaire.dureeProForte }}</td>
+                <td>{{ formulaire_titulaire.dureeProMoy }}</td>
+                <td>{{ formulaire_titulaire.dureeProFaible }}</td>
+                <td>{{ formulaire_titulaire.dureePersForte }}</td>
+                <td>{{ formulaire_titulaire.dureePersMoy }}</td>
+                <td>{{ formulaire_titulaire.dureePersFaible }}</td>
+                <td>
+                    <a href="{{ path('formulaire_titulaire_show', {'id': formulaire_titulaire.id}) }}">show</a>
+                    <a href="{{ path('formulaire_titulaire_edit', {'id': formulaire_titulaire.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="20">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('formulaire_titulaire_new') }}">Create new</a>
+{% endblock %}

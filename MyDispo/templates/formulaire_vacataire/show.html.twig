@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FormulaireVacataire{% endblock %}
+
+{% block body %}
+    <h1>FormulaireVacataire</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ formulaire_vacataire.id }}</td>
+            </tr>
+            <tr>
+                <th>EchelleCalendrier</th>
+                <td>{{ formulaire_vacataire.echelleCalendrier }}</td>
+            </tr>
+            <tr>
+                <th>TexteHebdomadaire</th>
+                <td>{{ formulaire_vacataire.texteHebdomadaire }}</td>
+            </tr>
+            <tr>
+                <th>TextePonctuel</th>
+                <td>{{ formulaire_vacataire.textePonctuel }}</td>
+            </tr>
+            <tr>
+                <th>RemarquesHebdoActives</th>
+                <td>{{ formulaire_vacataire.remarquesHebdoActives ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>RemarquesPonctuelActives</th>
+                <td>{{ formulaire_vacataire.remarquesPonctuelActives ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>EstOuvert</th>
+                <td>{{ formulaire_vacataire.estOuvert ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('formulaire_vacataire_index') }}">back to list</a>
+
+    <a href="{{ path('formulaire_vacataire_edit', {'id': formulaire_vacataire.id}) }}">edit</a>
+
+    {{ include('formulaire_vacataire/_delete_form.html.twig') }}
+{% endblock %}

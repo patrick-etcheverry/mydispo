@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit FormulaireVacataire{% endblock %}
+
+{% block body %}
+    <h1>Edit FormulaireVacataire</h1>
+
+    {{ include('formulaire_vacataire/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('formulaire_vacataire_index') }}">back to list</a>
+
+    {{ include('formulaire_vacataire/_delete_form.html.twig') }}
+{% endblock %}
