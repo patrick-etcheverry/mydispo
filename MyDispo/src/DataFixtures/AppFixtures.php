@@ -48,8 +48,8 @@ class AppFixtures extends Fixture
         $enseignant2->setEnSommeil(true);
         $enseignant2->setToken('https://iutbayonne/formulaire/qiuOfeduig.fr');
         $enseignant2->setSaisieFaite(false);
-        $enseignant2->setDateSaisie(new DateTime('05/06/2020'));
-        $enseignant2->setDateDerniereModif(new DateTime('05/06/2020'));
+        $enseignant2->setDateSaisie(null);
+        $enseignant2->setDateDerniereModif(null);
         $enseignant2->setMailRelanceRecu(false);
         $enseignant2->setPremierMailRecu(true);
         $enseignant2->setDatePremierMail(new DateTime('05/06/2020'));
@@ -137,17 +137,21 @@ class AppFixtures extends Fixture
         $modeleMailPremier->setSujet('Saisie de vos contraintes et disponibilités IUT Anglet');
         $modeleMailPremier->setContenu('Bonjour, ....');
 
-        $modeleMailPremier = new ModeleMail();
-        $modeleMailPremier->setNom('Mail de relance');
-        $modeleMailPremier->setSujet('Relance pour la saisie de vos contraintes et disponibilités IUT Anglet');
-        $modeleMailPremier->setContenu('Bonjour, nous vous relancons....');
+        $manager->persist($modeleMailPremier);
 
-        $modeleMailPremier = new ModeleMail();
-        $modeleMailPremier->setNom('Mail oubli');
-        $modeleMailPremier->setSujet('Lien oublié saisie de vos contraintes IUT Anglet');
-        $modeleMailPremier->setContenu('Bonjour, vous trouverez ci-dessous ...');
+        $modeleMailRelance = new ModeleMail();
+        $modeleMailRelance->setNom('Mail de relance');
+        $modeleMailRelance->setSujet('Relance pour la saisie de vos contraintes et disponibilités IUT Anglet');
+        $modeleMailRelance->setContenu('Bonjour, nous vous relancons....');
 
+        $manager->persist($modeleMailRelance);
 
+        $modeleMailOubli = new ModeleMail();
+        $modeleMailOubli->setNom('Mail oubli');
+        $modeleMailOubli->setSujet('Lien oublié saisie de vos contraintes IUT Anglet');
+        $modeleMailOubli->setContenu('Bonjour, vous trouverez ci-dessous ...');
+
+        $manager->persist($modeleMailOubli);
 
 
         // Envoyer les données en BD

@@ -15,7 +15,7 @@ class ModeleMailType extends AbstractType
             ->add('sujet')
             ->add('contenu')
             ->add('nom')
-            ->add('enseignant')
+
         ;
     }
 

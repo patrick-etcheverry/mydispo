@@ -3,14 +3,30 @@
 {% block title %}ModeleMail{% endblock %}
 
 {% block body %}
-    <h1>ModeleMail</h1>
 
+    <div class="container-fluid">
+    	<div class="row">
+    		<div class="col-md-12">
+    			<div class="card">
+    				<div class="card-body">
+    					<p class="card-text">
+              <div class="container-fluid">
+    	<div class="row">
+    		<div class="col-md-3">
+    		</div>
+    		<div class="col-md-6">
+    			<div class="card">
+    				<h5 class="card-header">
+    					<center><td><h4> <i class="far fa-envelope"></i> {{ modele_mail.nom }}</h4></td></center>
+    				</h5>
+    				<div class="card-body">
+    					<p class="card-text">
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ modele_mail.id }}</td>
-            </tr>
+        <tr>
+            <th>Nom</th>
+            <td>{{ modele_mail.nom }}</td>
+        </tr>
             <tr>
                 <th>Sujet</th>
                 <td>{{ modele_mail.sujet }}</td>
@@ -19,16 +35,24 @@
                 <th>Contenu</th>
                 <td>{{ modele_mail.contenu }}</td>
             </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ modele_mail.nom }}</td>
-            </tr>
+
         </tbody>
     </table>
+    </p>
+    </div>
+    <div class="card-footer">
+    </div>
+    </div>
+    </div>
+    <div class="col-md-3">
+    </div>
+    </div>
+    </div>
+    </p>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
 
-    <a href="{{ path('modele_mail_index') }}">back to list</a>
-
-    <a href="{{ path('modele_mail_edit', {'id': modele_mail.id}) }}">edit</a>
-
-    {{ include('modele_mail/_delete_form.html.twig') }}
 {% endblock %}
