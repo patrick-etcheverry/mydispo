@@ -3,6 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\ModeleMail;
+use App\Entity\Formation;
+use App\Entity\Enseignant;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Form\ModeleMailType;
 use App\Repository\ModeleMailRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -47,6 +51,58 @@ class ModeleMailController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/envoieMail", name="envoie_modele_mail", methods={"GET","POST"})
+     */
+public function formEnvoieMail(Request $request)
+{
+    $defaultData = ['message' => 'Type your message here'];
+    $form = $this->createFormBuilder($defaultData)
+        ->add('nom', EntityType::class, array(
+                'class' => ModeleMail::class,
+                'choice_label' => 'nom',
+                'label' => 'Type de mail',
+                'multiple' => false,
+                'expanded' => false
+            ))
+            ->add('nomCourt', EntityType::class, array(
+                    'class' => Formation::class,
+                    'choice_label' => 'nomCourt',
+                    'label' => 'Formation ciblée',
+                    'multiple' => true,
+                    'expanded' => true
+                ))
+                ->add('statut', ChoiceType::class, array(
+                        'choices' => [
+                          'Titulaire' => 'Titulaire',
+                          'Vacataire' => 'Vacataire',
+                          ],
+                        'label' => 'Type de statut ciblé',
+                        'multiple' => true,
+                        'expanded' => true
+                    ))
+                ->add('saisieFaite', ChoiceType::class, array(
+                        'choices' => [
+                          'Saisie effectuée' => true,
+                          'Saisie non effectuée' => false,
+                          ],
+                        'label' => 'Type de saisie ciblée',
+                        'multiple' => true,
+                        'expanded' => true
+                    ))
+        ->getForm();
+
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        // data is an array with "name", "email", and "message" keys
+        $data = $form->getData();
+    }
+    return $this->render('modele_mail/envoieMail.html.twig', [
+        'form' => $form->createView(),
+    ]);
+  }
 
     /**
      * @Route("/{id}", name="modele_mail_show", methods={"GET"})
