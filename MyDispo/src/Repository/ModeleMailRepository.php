@@ -36,15 +36,15 @@ class ModeleMailRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?ModeleMail
+
+    public function findOneByNomModeleMail($nomModeleMail): ?ModeleMail
     {
         return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('m.nom = :val')
+            ->setParameter('val', $nomModeleMail)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
+
 }

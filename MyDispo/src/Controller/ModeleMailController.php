@@ -96,10 +96,20 @@ public function formEnvoieMail(Request $request)
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-        // data is an array with "name", "email", and "message" keys
-        $data = $form->getData();
+      // data is an array with "name", "email", and "message" keys
+      $data = $form->getData();
+      $repositoryModeleMail = $this->getDoctrine()->getRepository(ModeleMail::class);
+
+      $nom = $form["nom"]->getData()->getNom();
+
+        // Récupérer les stages enregistrées en BD avec le nom de l'entreprise "nomFormation"
+        $modeleMail = $repositoryModeleMail->findOneByNomModeleMail($nom);
+
+
         return $this->render('modele_mail/envoieMailResume.html.twig', [
             'data' => $data,
+            'modeleMail' => $modeleMail,
+            'nomModeleMail' => $data['nom'],
             'tabFormation' => $form->get('nomCourt')->getData(),
             'tabStatut' => $form->get('statut')->getData(),
             'tabSaisie' => $form->get('saisieFaite')->getData(),
