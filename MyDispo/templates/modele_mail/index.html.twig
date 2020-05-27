@@ -29,7 +29,7 @@
             <tr>
                 <td>{{ modele_mail.nom }}</td>
                 <td>{{ modele_mail.sujet }}</td>
-                <td>{{ modele_mail.contenu }}</td>
+                <td>{{ modele_mail.contenu|length > 50 ? modele_mail.contenu|slice(0, 50) ~ '...' : modele_mail.contenu }} </td>
                 <td>
                 <center>
                     <a href="{{ path('modele_mail_show', {'id': modele_mail.id}) }}"><i class="far fa-eye"></i></a>
