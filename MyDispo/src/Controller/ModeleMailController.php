@@ -84,8 +84,8 @@ public function formEnvoieMail(Request $request)
                     ))
                 ->add('saisieFaite', ChoiceType::class, array(
                         'choices' => [
-                          'Saisie effectuée' => true,
-                          'Saisie non effectuée' => false,
+                          'Saisie effectuée' => 'Saisie effectuée',
+                          'Saisie non effectuée' => 'Saisie non effectuée',
                           ],
                         'label' => 'Type de saisie ciblée',
                         'multiple' => true,
@@ -98,6 +98,13 @@ public function formEnvoieMail(Request $request)
     if ($form->isSubmitted() && $form->isValid()) {
         // data is an array with "name", "email", and "message" keys
         $data = $form->getData();
+        return $this->render('modele_mail/envoieMailResume.html.twig', [
+            'data' => $data,
+            'tabFormation' => $form->get('nomCourt')->getData(),
+            'tabStatut' => $form->get('statut')->getData(),
+            'tabSaisie' => $form->get('saisieFaite')->getData(),
+        ]);
+
     }
     return $this->render('modele_mail/envoieMail.html.twig', [
         'form' => $form->createView(),

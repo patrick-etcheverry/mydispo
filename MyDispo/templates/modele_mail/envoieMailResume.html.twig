@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résumé envoie mail{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-body">
+					<p class="card-text">
+					<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-3">
+		</div>
+		<div class="col-md-6">
+			<div class="card">
+				<h5 class="card-header">
+					<center><td><h4> <i class="far fa-envelope"></i> Résumé du mail</h4></td></center>
+				</h5>
+				<div class="card-body">
+					<p class="card-text">
+<table class="table">
+		<tbody>
+		<tr>
+				<th>Type de mail</th>
+				<td>{{ data['nom'] }}</td>
+		</tr>
+		<tr>
+		<th>Formation ciblée</th>
+		{% if tabFormation|length > 1 %}
+		<td>{{ tabFormation[0] }} - {{ tabFormation[1] }}</td>
+		{% else %}
+		<td>{{ tabFormation[0] }}</td>
+		{% endif %}
+		</tr>
+		<tr>
+				<th>Type de statut ciblé</th>
+				{% if tabStatut|length > 1 %}
+				<td>{{ tabStatut[0] }} - {{ tabStatut[1] }}</td>
+				{% else %}
+				<td>{{ tabStatut[0] }}</td>
+				{% endif %}
+		</tr>
+		<tr>
+				<th>Type de saisie ciblée</th>
+				{% if tabSaisie|length > 1 %}
+				<td>{{ tabSaisie[0] }} - {{ tabSaisie[1] }}</td>
+				{% else %}
+				<td>{{ tabSaisie[0] }}</td>
+				{% endif %}
+		</tr>
+
+
+		</tbody>
+</table>
+</p>
+</div>
+<div class="card-footer">
+</div>
+</div>
+</div>
+<div class="col-md-3">
+</div>
+</div>
+</div>
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+{% endblock %}
