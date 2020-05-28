@@ -13,7 +13,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\HttpFoundation\Session\Session;
+use \Swift_Mailer;
+use \Swift_SmtpTransport;
 /**
  * @Route("/modele/mail")
  */
@@ -154,6 +156,10 @@ public function formEnvoieMail(Request $request)
         break;
 }
 
+$session = new Session();
+$session->set('enseignants',$enseignants);
+$session->set('modeleMail',$modeleMail);
+
         return $this->render('modele_mail/envoieMailResume.html.twig', [
             'data' => $data,
             'modeleMail' => $modeleMail,
@@ -169,6 +175,36 @@ public function formEnvoieMail(Request $request)
         'form' => $form->createView(),
     ]);
   }
+
+
+  /**
+   * @Route("/confirmationEnvoieMail/", name="envoie_mail", methods={"GET"})
+   */
+  public function notifierEnseignant()
+  {
+          $session = new Session();
+        $modeleMail = $session->get('modeleMail');
+        $enseignants = $session->get('enseignants');
+        $sujet =$modeleMail->getSujet();
+          $contenu = $modeleMail->getContenu();
+          foreach ( $enseignants  as  $enseignantCourant ){
+          $transport = (new \Swift_SmtpTransport('smtp.gmail.com', 465))
+            ->setHost('smtp.gmail.com')
+            ->setPort('465')
+            ->setEncryption('ssl')
+            ->setAuthMode('login')
+            ->setUsername($_ENV['MAILER_USER'])
+            ->setPassword($_ENV['MAILER_PASSWORD']);
+        $mailer = new \Swift_Mailer($transport);
+        $message = (new \Swift_Message($sujet))
+           ->setFrom('mydispoo@gmail.com')
+           ->setTo($enseignantCourant->getMail())
+           ->setBody($contenu);
+        $mailer->send($message);
+        }
+        return $this->render('modele_mail/confirmationEnvoieMail.html.twig');
+    }
+
 
     /**
      * @Route("/{id}", name="modele_mail_show", methods={"GET"})
