@@ -45,7 +45,12 @@
 
                           {% endfor %}
                           </td>
-                          <td>{{ enseignant.saisieFaite ? '<i class="far fa-check-circle"></i>' : '<i class="far fa-times-circle"></i>' }}</td>
+                          <td>{% if enseignant.saisieFaite == true %}
+														Oui <i class="far fa-check-circle"></i> - Le {{enseignant.dateSaisie|date("d/m/Y à h:s")}}
+														{% else %}
+														Non <i class="far fa-times-circle"></i>
+														{% endif %}
+														</td>
                           <td>
                           <center>
                               <a href="{{ path('enseignant_show', {'id': enseignant.id}) }}"><i class="far fa-eye"></i></a>
