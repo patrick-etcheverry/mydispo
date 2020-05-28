@@ -154,6 +154,10 @@ public function formEnvoieMail(Request $request)
         // [OK] Recherche juste avec les formations
         $enseignants = $repositoryEnseignant->findByFormations($formations[0]->getNomCourt());
         break;
+    case 7:
+        // [OK] Recherche avec tout
+        $enseignants = $repositoryEnseignant->findByAll();
+        break;
 }
 
 $session = new Session();

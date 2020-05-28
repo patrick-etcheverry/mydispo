@@ -108,6 +108,14 @@ class EnseignantRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findByAll()
+    {
+        return $this->createQueryBuilder('e')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 
 
     /*
