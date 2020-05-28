@@ -3,7 +3,7 @@
 {% block title %}Modifier profil de {{enseignant.nom}} {{enseignant.prenom}}{% endblock %}
 
 {% block body %}
-
+<center><h2><i class="fas fa-user"></i> Modifier le profil de {{enseignant.nom}} {{enseignant.prenom}}</h2></center>
 
     {{ include('enseignant/_form.html.twig', {'button_label': 'Modifier'}) }}
 
