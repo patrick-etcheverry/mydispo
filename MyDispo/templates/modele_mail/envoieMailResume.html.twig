@@ -107,9 +107,15 @@
 </p>
 </div>
 <div class="card-footer">
+{% if enseignants is empty %}
 <center>
-	<button class="btn-primary"><a href="{{ path('envoie_mail') }}"><i class="far fa-envelope"></i> Confirmer l'envoi du mail </a></button>
+	<a href="{{ path('envoie_mail') }}"><button class="disabled" disabled><i class="far fa-envelope"></i> Confirmer l'envoi du mail </button></a>
 	</center>
+{% else %}
+<center>
+	<a href="{{ path('envoie_mail') }}"><button class="btn-primary"><i class="far fa-envelope"></i> Confirmer l'envoi du mail </button></a>
+	</center>
+{% endif %}
 </div>
 </div>
 </div>
