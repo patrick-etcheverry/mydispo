@@ -22,19 +22,93 @@ class EnseignantRepository extends ServiceEntityRepository
     // /**
     //  * @return Enseignant[] Returns an array of Enseignant objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findByStatut($statut)
     {
         return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('e.statut = :val')
+            ->setParameter('val', $statut)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
+    public function findBySaisieFaite($saisieFaite)
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.statut = :val')
+            ->setParameter('val', $saisieFaite)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findBy1($tab)
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.saisieFaite = :val')
+            ->andWhere('e.statut = :val2')
+            ->setParameter('val', $tab['saisieFaite'])
+            ->setParameter('val2', $tab['statut'])
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findBy0($tab)
+    {
+        return $this->createQueryBuilder('e')
+            ->leftJoin('e.formations','f')
+            ->andWhere('e.saisieFaite = :val')
+            ->andWhere('e.statut = :val2')
+            ->andWhere('f.nomCourt = :val3')
+            ->setParameter('val', $tab['saisieFaite'])
+            ->setParameter('val2', $tab['statut'])
+            ->setParameter('val3', $tab['formations'])
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findBy2($tab)
+    {
+        return $this->createQueryBuilder('e')
+            ->leftJoin('e.formations','f')
+            ->andWhere('e.saisieFaite = :val')
+            ->andWhere('f.nomCourt = :val2')
+            ->setParameter('val', $tab['saisieFaite'])
+            ->setParameter('val2', $tab['formations'])
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
+    public function findByFormations($formations)
+    {
+        return $this->createQueryBuilder('e')
+            ->leftJoin('e.formations','f')
+            ->andWhere('f.nomCourt = :val')
+            ->setParameter('val', $formations)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findBy4($tab)
+    {
+        return $this->createQueryBuilder('e')
+            ->leftJoin('e.formations','f')
+            ->andWhere('e.statut = :val2')
+            ->andWhere('f.nomCourt = :val')
+            ->setParameter('val', $tab['formations'])
+            ->setParameter('val2', $tab['statut'])
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
 
     /*
     public function findOneBySomeField($value): ?Enseignant

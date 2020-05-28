@@ -84,8 +84,8 @@ public function formEnvoieMail(Request $request)
                     ))
                 ->add('saisieFaite', ChoiceType::class, array(
                         'choices' => [
-                          'Saisie effectuée' => 'Saisie effectuée',
-                          'Saisie non effectuée' => 'Saisie non effectuée',
+                          'Saisie effectuée' => true,
+                          'Saisie non effectuée' => false,
                           ],
                         'label' => 'Type de saisie ciblée',
                         'multiple' => true,
@@ -99,16 +99,65 @@ public function formEnvoieMail(Request $request)
       // data is an array with "name", "email", and "message" keys
       $data = $form->getData();
       $repositoryModeleMail = $this->getDoctrine()->getRepository(ModeleMail::class);
+      $repositoryEnseignant = $this->getDoctrine()->getRepository(Enseignant::class);
 
       $nom = $form["nom"]->getData()->getNom();
+      $formations = $form["nomCourt"]->getData();
+      $statut = $form["statut"]->getData();
+      $saisieFaite = $form["saisieFaite"]->getData();
 
-        // Récupérer les stages enregistrées en BD avec le nom de l'entreprise "nomFormation"
+
         $modeleMail = $repositoryModeleMail->findOneByNomModeleMail($nom);
 
+
+        $compteur = 0;
+        //si le nombre d'élément dans le tableau des formations est > 2
+        if(sizeof($formations) > 1){
+          $compteur = 1;
+        }
+          // si le nombre d'élément dans le tableau des statuts est > 2
+        if (sizeof($statut) > 1){
+          $compteur = $compteur + 2;
+        }
+        // si le nombre d'élément dans le tableau des saisies est > 2
+        if (sizeof($saisieFaite) > 1){
+            $compteur = $compteur + 4;
+        }
+        switch ($compteur) {
+    case 0:
+        // [OK] Recherche juste avec les saisies et statuts et formations
+        $enseignants = $repositoryEnseignant->findBy0($tab = array('saisieFaite' => $saisieFaite ,'statut' => $statut, 'formations' => $formations[0]->getNomCourt() ));
+        break;
+    case 1:
+      // [OK] Recherche juste avec les saisies et statuts
+      $enseignants = $repositoryEnseignant->findBy1($tab = array('saisieFaite' => $saisieFaite ,'statut' => $statut ));
+        break;
+    case 2:
+        // [OK] Recherche juste avec les saisies et formations
+        $enseignants = $repositoryEnseignant->findBy2($tab = array('saisieFaite' => $saisieFaite ,'formations' => $formations[0]->getNomCourt() ));
+        break;
+    case 4:
+        // [OK] Recherche juste avec les statuts et formations
+        $enseignants = $repositoryEnseignant->findBy4($tab = array('statut' => $statut ,'formations' => $formations[0]->getNomCourt() ));
+        break;
+    case 3:
+        // [OK] Recherche juste avec les saisies
+        $enseignants = $repositoryEnseignant->findBySaisieFaite($saisieFaite);
+        break;
+    case 5:
+        // [OK] Recherche juste avec les statuts
+        $enseignants = $repositoryEnseignant->findByStatut($statut);
+        break;
+    case 6:
+        // [OK] Recherche juste avec les formations
+        $enseignants = $repositoryEnseignant->findByFormations($formations[0]->getNomCourt());
+        break;
+}
 
         return $this->render('modele_mail/envoieMailResume.html.twig', [
             'data' => $data,
             'modeleMail' => $modeleMail,
+            'enseignants' => $enseignants,
             'nomModeleMail' => $data['nom'],
             'tabFormation' => $form->get('nomCourt')->getData(),
             'tabStatut' => $form->get('statut')->getData(),

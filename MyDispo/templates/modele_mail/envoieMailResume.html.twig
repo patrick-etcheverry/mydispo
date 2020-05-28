@@ -55,6 +55,15 @@
 				<th>Message du mail</th>
 				<td>{{ modeleMail.contenu }}</td>
 		</tr>
+		<tr>
+				<th>Enseignant</th>
+				<td>
+				{% for enseignantCourant in enseignants %}
+				{{enseignantCourant.nom}}
+
+    		{% endfor %}
+				</td>
+		</tr>
 
 
 		</tbody>
