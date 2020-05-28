@@ -53,7 +53,7 @@ class Enseignant
     /**
      * @ORM\Column(type="boolean")
      */
-    private $saisieFaite;
+    private $saisieFaite = false;
 
     /**
      * @ORM\OneToMany(targetEntity=LogEnseignant::class, mappedBy="enseignant")
@@ -93,12 +93,12 @@ class Enseignant
     /**
      * @ORM\Column(type="boolean")
      */
-    private $premierMailRecu;
+    private $premierMailRecu= false;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $mailRelanceRecu;
+    private $mailRelanceRecu= false;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -113,8 +113,7 @@ class Enseignant
     /**
      * @ORM\Column(type="integer")
      */
-    private $nbRelance;
-
+    private $nbRelance= 0;
 
     public function __construct()
     {

@@ -32,8 +32,8 @@ class EnseignantType extends AbstractType
                   ))
                   ->add('enSommeil', ChoiceType::class, array(
                       'choices'  => array(
-                          'Inactif' => true,
-                          'Actif' => false,),
+                           'Actif' => false,
+                          'Inactif' => true,),
                       'help' => "Un enseignant en mode sommeil ne recevra aucun mail de la part de l'application",
                       'label' => 'Etat de l\'enseignant'
                   ))
@@ -44,8 +44,6 @@ class EnseignantType extends AbstractType
               'multiple' => true,
               'expanded' => true,
               'help' => "La ou les formations dans lesquelles l'enseignant intervient",))
-
-
         ;
     }
 
