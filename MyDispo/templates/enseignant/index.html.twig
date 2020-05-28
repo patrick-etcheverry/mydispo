@@ -21,6 +21,8 @@
                           <th>Prénom</th>
                           <th>Statut</th>
                           <th>Etat</th>
+													<th> Premier mail reçu ? </th>
+													<th> Mail de relance reçu ? </th>
                           <th>Actions</th>
                       </tr>
                   </thead>
@@ -31,6 +33,25 @@
                           <td> {{ enseignant.prenom }}</td>
                           <td> {{ enseignant.statut }}</td>
                           <td>{{ enseignant.enSommeil ? 'Inactif <i class="far fa-moon"></i>' : 'Actif' }}</td>
+													<td>
+													{% if enseignant.premierMailRecu == true %}
+													Oui - Le {{enseignant.datePremierMail|date("d/m/Y à h:s")}}
+													{% else %}
+													Non reçu
+													{% endif %}
+													</td>
+													<td>
+													{% if enseignant.mailRelanceRecu == true %}
+													Oui - Dernière relance : Le {{enseignant.datePremierMail|date("d/m/Y à h:s")}} ({{enseignant.nbRelance}}
+													{% if enseignant.nbRelance >1  %}
+													relances au total)
+													{% else %}
+													relance au total)
+													{% endif %}
+													{% else %}
+													Non reçu
+													{% endif %}
+													</td>
                           <td>
                           <center>
                               <a href="{{ path('enseignant_show', {'id': enseignant.id}) }}"><i class="far fa-eye"></i></a>
