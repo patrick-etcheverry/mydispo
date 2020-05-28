@@ -61,14 +61,45 @@
 				<td>{{ modeleMail.contenu }}</td>
 		</tr>
 		<tr>
-				<th>Enseignant</th>
-				<td>
-				{% for enseignantCourant in enseignants %}
-				{{enseignantCourant.nom}}
-
-    		{% endfor %}
-				</td>
+		<th>Liste des enseignants</th>
+		<td>
+				<div class="table-responsive">
+						<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+								<thead>
+										<tr>
+												<th>Nom</th>
+												<th>Prénom</th>
+												<th>Statut</th>
+												<th>Mail</th>
+										</tr>
+								</thead>
+								<tbody>
+								{% for enseignantCourant in enseignants %}
+										<tr>
+												<td> {{ enseignantCourant.nom }}</td>
+												<td> {{ enseignantCourant.prenom }}</td>
+												<td> {{ enseignantCourant.statut }}</td>
+												<td>{{ enseignantCourant.mail }}</td>
+												<td>
+												<center>
+														<a href="{{ path('enseignant_show', {'id': enseignantCourant.id}) }}"><i class="far fa-eye"></i></a>
+												</center>
+												</td>
+										</tr>
+								{% else %}
+										<tr>
+												<td colspan="10">Aucun enseignant ciblé par ce mail</td>
+										</tr>
+								{% endfor %}
+								</tbody>
+						</table>
+				</p>
+			</div>
+				</p>
+			</div>
+		</div>
 		</tr>
+		</td>
 
 
 		</tbody>
