@@ -46,9 +46,14 @@
 		<tr>
 				<th>Type de saisie ciblée</th>
 				{% if tabSaisie|length > 1 %}
-				<td>{{ tabSaisie[0] }} - {{ tabSaisie[1] }}</td>
+				<td>Saisie effectuée - Saisie non effectuée</td>
 				{% else %}
-				<td>{{ tabSaisie[0] }}</td>
+				{% if tabSaisie[0] == 1 %}
+				<td>Saisie effectuée</td>
+				{% endif %}
+				{% if tabSaisie[0] == null %}
+				<td>Saisie non effectuée </td>
+				{% endif %}
 				{% endif %}
 		</tr>
 		<tr>
