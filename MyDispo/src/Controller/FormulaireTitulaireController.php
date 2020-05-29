@@ -67,7 +67,7 @@ class FormulaireTitulaireController extends AbstractController
 
         return $this->render('formulaire_titulaire/parametrage.html.twig', [
             'formulaire_titulaire' => $formulaireTitulaire,
-            'events' => $creneauRepository->findByType("zoneGrisee");
+            'events' => $creneauRepository->findByType("zoneGrisee"),
             'form' => $form->createView(),
         ]);
     }
