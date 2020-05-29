@@ -23,113 +23,59 @@ class EnseignantRepository extends ServiceEntityRepository
     //  * @return Enseignant[] Returns an array of Enseignant objects
     //  */
 
-    public function findByStatut($statut)
+
+    public function findByGeneral($tab)
     {
         $requete= $this->createQueryBuilder('e');
 
-        // Construction du andWhere pour le statut
-        if(1==1){
-          $requete
-          ->andWhere('e.statut = :val')
-          ->setParameter('val', $statut);
-        }
-/*
-        // Construction du andWhere pour la formation
-        if(1==1){
-          $requete
-          ->andWhere('e.statut = :val')
-          ->setParameter('val', $statut);
-        }*/
-        return $requete
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
-    public function findBySaisieFaite($saisieFaite)
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.saisieFaite = :val')
-            ->setParameter('val', $saisieFaite)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
-    public function findBy1($tab)
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.saisieFaite = :val')
-            ->andWhere('e.statut = :val2')
-            ->setParameter('val', $tab['saisieFaite'])
-            ->setParameter('val2', $tab['statut'])
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
-    public function findBy0($tab)
-    {
-        return $this->createQueryBuilder('e')
-            ->leftJoin('e.formations','f')
+          if(array_key_exists('saisieFaite', $tab) && array_key_exists('statut', $tab) && array_key_exists('formations', $tab)){
+            $requete->leftJoin('e.formations','f')
             ->andWhere('e.saisieFaite = :val')
             ->andWhere('e.statut = :val2')
             ->andWhere('f.nomCourt = :val3')
             ->setParameter('val', $tab['saisieFaite'])
             ->setParameter('val2', $tab['statut'])
-            ->setParameter('val3', $tab['formations'])
-            ->getQuery()
-            ->getResult()
-        ;
-    }
+            ->setParameter('val3', $tab['formations']);
+          }
+          if(array_key_exists('saisieFaite', $tab) && array_key_exists('statut', $tab) && array_key_exists('formations', $tab) == false ){
 
-    public function findBy2($tab)
-    {
-        return $this->createQueryBuilder('e')
-            ->leftJoin('e.formations','f')
+            $requete->andWhere('e.saisieFaite = :val')
+            ->andWhere('e.statut = :val2')
+            ->setParameter('val', $tab['saisieFaite'])
+            ->setParameter('val2', $tab['statut']);
+          }
+          if(array_key_exists('saisieFaite', $tab) && array_key_exists('formations', $tab) && array_key_exists('statut', $tab) == false){
+            $requete->leftJoin('e.formations','f')
             ->andWhere('e.saisieFaite = :val')
             ->andWhere('f.nomCourt = :val2')
             ->setParameter('val', $tab['saisieFaite'])
-            ->setParameter('val2', $tab['formations'])
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
-
-    public function findByFormations($formations)
-    {
-        return $this->createQueryBuilder('e')
-            ->leftJoin('e.formations','f')
-            ->andWhere('f.nomCourt = :val')
-            ->setParameter('val', $formations)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
-    public function findBy4($tab)
-    {
-        return $this->createQueryBuilder('e')
-            ->leftJoin('e.formations','f')
+            ->setParameter('val2', $tab['formations']);
+          }
+          if(array_key_exists('statut', $tab) && array_key_exists('formations', $tab) && array_key_exists('saisieFaite', $tab) == false){
+            $requete->leftJoin('e.formations','f')
             ->andWhere('e.statut = :val2')
             ->andWhere('f.nomCourt = :val')
             ->setParameter('val', $tab['formations'])
-            ->setParameter('val2', $tab['statut'])
+            ->setParameter('val2', $tab['statut']);
+          }
+          if(array_key_exists('saisieFaite', $tab) && array_key_exists('formations', $tab) == false && array_key_exists('statut', $tab) == false){
+            $requete->andWhere('e.saisieFaite = :val')
+            ->setParameter('val', $tab['saisieFaite']);
+          }
+          if(array_key_exists('statut', $tab) && array_key_exists('formations', $tab) == false && array_key_exists('saisieFaite', $tab) == false){
+            $requete->andWhere('e.statut = :val')
+            ->setParameter('val', $tab['statut']);
+          }
+          if(array_key_exists('formations', $tab) && array_key_exists('statut', $tab) == false && array_key_exists('saisieFaite', $tab) == false){
+            $requete->leftJoin('e.formations','f')
+            ->andWhere('f.nomCourt = :val')
+            ->setParameter('val', $tab['formations']);
+          }
+        return $requete
             ->getQuery()
             ->getResult()
         ;
     }
-
-    public function findByAll()
-    {
-        return $this->createQueryBuilder('e')
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
-
 
     /*
     public function findOneBySomeField($value): ?Enseignant

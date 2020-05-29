@@ -128,31 +128,31 @@ public function formEnvoieMail(Request $request)
         switch ($compteur) {
     case 0:
         // [OK] Recherche juste avec les saisies et statuts et formations
-        $enseignants = $repositoryEnseignant->findBy0($tab = array('saisieFaite' => $saisieFaite ,'statut' => $statut, 'formations' => $formations[0]->getNomCourt() ));
+        $enseignants = $repositoryEnseignant->findByGeneral($tab = array('saisieFaite' => $saisieFaite ,'statut' => $statut, 'formations' => $formations[0]->getNomCourt() ));
         break;
     case 1:
       // [OK] Recherche juste avec les saisies et statuts
-      $enseignants = $repositoryEnseignant->findBy1($tab = array('saisieFaite' => $saisieFaite ,'statut' => $statut ));
+      $enseignants = $repositoryEnseignant->findByGeneral($tab = array('saisieFaite' => $saisieFaite ,'statut' => $statut ));
         break;
     case 2:
         // [OK] Recherche juste avec les saisies et formations
-        $enseignants = $repositoryEnseignant->findBy2($tab = array('saisieFaite' => $saisieFaite ,'formations' => $formations[0]->getNomCourt() ));
+        $enseignants = $repositoryEnseignant->findByGeneral($tab = array('saisieFaite' => $saisieFaite ,'formations' => $formations[0]->getNomCourt() ));
         break;
     case 4:
         // [OK] Recherche juste avec les statuts et formations
-        $enseignants = $repositoryEnseignant->findBy4($tab = array('statut' => $statut ,'formations' => $formations[0]->getNomCourt() ));
+        $enseignants = $repositoryEnseignant->findByGeneral($tab = array('statut' => $statut ,'formations' => $formations[0]->getNomCourt() ));
         break;
     case 3:
         // [OK] Recherche juste avec les saisies
-        $enseignants = $repositoryEnseignant->findBySaisieFaite($saisieFaite);
+        $enseignants = $repositoryEnseignant->findByGeneral($tab = array('saisieFaite' => $saisieFaite));
         break;
     case 5:
         // [OK] Recherche juste avec les statuts
-        $enseignants = $repositoryEnseignant->findByStatut($statut);
+        $enseignants = $repositoryEnseignant->findByGeneral($tab = array('statut' => $statut));
         break;
     case 6:
         // [OK] Recherche juste avec les formations
-        $enseignants = $repositoryEnseignant->findByFormations($formations[0]->getNomCourt());
+        $enseignants = $repositoryEnseignant->findByGeneral($tab = array('formations' => $formations[0]->getNomCourt() ));
         break;
     case 7:
         // [OK] Recherche avec tout
@@ -163,6 +163,7 @@ public function formEnvoieMail(Request $request)
 $session = new Session();
 $session->set('enseignants',$enseignants);
 $session->set('modeleMail',$modeleMail);
+
 
         return $this->render('modele_mail/envoieMailResume.html.twig', [
             'data' => $data,
