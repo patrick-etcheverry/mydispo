@@ -24,7 +24,19 @@
                 <div class="card-body">
                   <p class="card-text">
                     {{ form_start(form) }}
-                    {{ form_widget(form) }}
+                     {{ form_row(form.nom) }}
+                    <h6>Envoyer un mail à tous les enseignants respectant les critères suivants:</h6>
+                    <p><em>
+                      Exemple :</br>
+                      Pour cibler un enseignant intervenant en DUT Informatique ayant n'importe quel statut et ayant fait sa saisie : </br>
+                                      - Cocher la case "DUT Info" </br>
+                                      - Cocher les cases "Titulaire" et "Vacataire" </br>
+                                      - Cocher la case "Une saisie effectuée"
+                    </em></p>
+                    {{ form_row(form.nomCourt) }}
+                    {{ form_row(form.statut) }}
+                    {{ form_row(form.saisieFaite) }}
+
 
                   </p>
                 </div>

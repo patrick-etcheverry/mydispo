@@ -71,7 +71,7 @@ public function formEnvoieMail(Request $request)
             ->add('nomCourt', EntityType::class, array(
                     'class' => Formation::class,
                     'choice_label' => 'nomCourt',
-                    'label' => 'Formation ciblée',
+                    'label' => 'Enseignant intervenant en :',
                     'multiple' => true,
                     'expanded' => true
                 ))
@@ -80,16 +80,16 @@ public function formEnvoieMail(Request $request)
                           'Titulaire' => 'Titulaire',
                           'Vacataire' => 'Vacataire',
                           ],
-                        'label' => 'Type de statut ciblé',
+                        'label' => 'Enseignant ayant le statut de :',
                         'multiple' => true,
                         'expanded' => true
                     ))
                 ->add('saisieFaite', ChoiceType::class, array(
                         'choices' => [
-                          'Saisie effectuée' => true,
-                          'Saisie non effectuée' => false,
+                          'Une saisie effectuée' => true,
+                          'Une saisie non effectuée' => false,
                           ],
-                        'label' => 'Type de saisie ciblée',
+                        'label' => 'Enseignant avec : ',
                         'multiple' => true,
                         'expanded' => true
                     ))
