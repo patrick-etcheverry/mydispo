@@ -64,7 +64,7 @@ public function formEnvoieMail(Request $request)
         ->add('nom', EntityType::class, array(
                 'class' => ModeleMail::class,
                 'choice_label' => 'nom',
-                'label' => 'Type de mail',
+                'label' => 'Type de mail :',
                 'multiple' => false,
                 'expanded' => false
             ))

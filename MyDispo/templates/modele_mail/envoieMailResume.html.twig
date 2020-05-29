@@ -3,148 +3,174 @@
 {% block title %}Résumé envoie mail{% endblock %}
 
 {% block body %}
-
-  <div class="card">
-    <div class="card-body">
-      <p class="card-text">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-              <div class="card">
-                <h5 class="card-header">
-                  <center>
-                    <td>
-                      <h4>
-                        <i class="far fa-envelope"></i>
-                        Résumé du mail</h4>
-                    </td>
-                  </center>
-                </h5>
-                <div class="card-body">
-                  <p class="card-text">
-                    <table class="table">
-                      <tbody>
-                        <tr>
-                          <th>Type de mail</th>
-                          <td>{{ data['nom'] }}</td>
-                        </tr>
-                        <tr>
-                          <th>Formation ciblée</th>
-                          {% if tabFormation | length > 1 %}
-                            <td>{{ tabFormation[0] }}
-                              -
-                              {{ tabFormation[1] }}</td>
-                          {% else %}
-                            <td>{{ tabFormation[0] }}</td>
-                          {% endif %}
-                        </tr>
-                        <tr>
-                          <th>Type de statut ciblé</th>
-                          {% if tabStatut | length > 1 %}
-                            <td>{{ tabStatut[0] }}
-                              -
-                              {{ tabStatut[1] }}</td>
-                          {% else %}
-                            <td>{{ tabStatut[0] }}</td>
-                          {% endif %}
-                        </tr>
-                        <tr>
-                          <th>Type de saisie ciblée</th>
-                          {% if tabSaisie | length > 1 %}
-                            <td>Saisie effectuée - Saisie non effectuée</td>
-                          {% else %}
-                            {% if tabSaisie[0] == 1 %}
-                              <td>Saisie effectuée</td>
-                            {% endif %}
-                            {% if tabSaisie[0] == null %}
-                              <td>Saisie non effectuée
-                              </td>
-                            {% endif %}
-                          {% endif %}
-                        </tr>
-                        <tr>
-                          <th>Message du mail</th>
-                          <td>{{ modeleMail.contenu }}</td>
-                        </tr>
-                        <tr>
-                          <th>Liste des destinataires</th>
-                          <td>
-                            <div class="table-responsive">
-                              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                  <tr>
-                                    <th>Nom</th>
-                                    <th>Prénom</th>
-                                    <th>Statut</th>
-                                    <th>Mail</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {% for enseignantCourant in enseignants %}
-                                    <tr>
-                                      <td>
-                                        {{ enseignantCourant.nom }}</td>
-                                      <td>
-                                        {{ enseignantCourant.prenom }}</td>
-                                      <td>
-                                        {{ enseignantCourant.statut }}</td>
-                                      <td>{{ enseignantCourant.mail }}</td>
-                                      <td>
-                                        <center>
-                                          <a href="{{ path('enseignant_show', {'id': enseignantCourant.id}) }}">
-                                            <i class="far fa-eye"></i>
-                                          </a>
-                                        </center>
-                                      </td>
-                                    </tr>
-                                  {% else %}
-                                    <tr>
-                                      <td colspan="10">Aucun enseignant ciblé par ce mail</td>
-                                    </tr>
-                                  {% endfor %}
-                                </tbody>
-                              </table>
-                            </p>
-                          </div>
-                        </p>
-                      </div>
-                    </div>
-                  </tr>
-                </td>
-
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <div class="card">
+        <h5 class="card-header">
+          <center>
+            <i class="far fa-envelope"></i>
+            Résumé du mail
+          </center>
+        </h5>
+        <div class="card-body">
+          <p class="card-text">
+            <center>
+              <i class="fas fa-users-cog"></i>
+              <strong>Cible du mail</strong>
+            </center>
+              </br>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th>Type de mail :</th>
+                  <td>{{ data['nom'] }}</td>
+                </tr>
+                <tr>
+                  <th>Enseignant intervenant en :</th>
+                  {% if tabFormation | length > 1 %}
+                    <td>{{ tabFormation[0] }}
+                      -
+                      {{ tabFormation[1] }}</td>
+                  {% else %}
+                    <td>{{ tabFormation[0] }}</td>
+                  {% endif %}
+                </tr>
+                <tr>
+                  <th>Enseignant ayant le statut de :</th>
+                  {% if tabStatut | length > 1 %}
+                    <td>{{ tabStatut[0] }}
+                      -
+                      {{ tabStatut[1] }}</td>
+                  {% else %}
+                    <td>{{ tabStatut[0] }}</td>
+                  {% endif %}
+                </tr>
+                <tr>
+                  <th>Enseignant avec :</th>
+                  {% if tabSaisie | length > 1 %}
+                    <td>Une saisie effectuée - Une saisie non effectuée</td>
+                  {% else %}
+                    {% if tabSaisie[0] == 1 %}
+                      <td>Une saisie effectuée</td>
+                    {% endif %}
+                    {% if tabSaisie[0] == null %}
+                      <td>Une saisie non effectuée</td>
+                    {% endif %}
+                  {% endif %}
+                </tr>
               </tbody>
             </table>
           </p>
         </div>
-        <div class="card-footer">
-          {% if enseignants is empty %}
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <p class="card-text">
             <center>
-              <a href="{{ path('envoie_mail') }}">
-                <button class="disabled" disabled="disabled">
-                  <i class="far fa-envelope"></i>
-                  Confirmer l'envoi du mail
-                </button>
-              </a>
+              <i class="fas fa-users"></i>
+              <strong>Liste des destinataires</strong>
             </center>
-          {% else %}
-            <center>
-              <a href="{{ path('envoie_mail') }}">
-                <button class="btn-primary">
-                  <i class="far fa-envelope"></i>
-                  Confirmer l'envoi du mail
-                </button>
-              </a>
-            </center>
-          {% endif %}
+            </br>
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Prénom</th>
+                  <th>Statut</th>
+                  <th>Mail</th>
+                  <th>Formations</th>
+                  <th>Saisie</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for enseignantCourant in enseignants %}
+                  <tr>
+                    <td>
+                      {{ enseignantCourant.nom }}</td>
+                    <td>
+                      {{ enseignantCourant.prenom }}</td>
+                    <td>
+                      {{ enseignantCourant.statut }}</td>
+                    <td>{{ enseignantCourant.mail }}</td>
+                    <td>{% for formation in enseignantCourant.formations %}
+
+                      {% if loop.length > 1 %}
+                        {% if loop.last %}{{formation}}
+                        {% else %}
+                          {{formation}}
+                          -
+                        {% endif %}
+
+                      {% else %}
+                        {{formation}}
+                      {% endif %}
+
+                    {% endfor %}</td>
+                    <td>{% if enseignantCourant.saisieFaite == true %}
+                      Saisie effectuée
+                      {% else %}
+                      Saisie non effectuée
+                      {% endif %}
+
+                    </td>
+                    <td>
+                      <center>
+                        <a href="{{ path('enseignant_show', {'id': enseignantCourant.id}) }}">
+                          <i class="far fa-eye"></i>
+                        </a>
+                      </center>
+                    </td>
+                  </tr>
+                {% else %}
+                  <tr>
+                    <td colspan="10">Aucun enseignant ciblé par ce mail</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
         </div>
+      </p>
       </div>
     </div>
-    <div class="col-md-3"></div>
-  </div>
-</div>
-</p>
-</div>
-</div>
 
+    <div class="card">
+      <div class="card-body">
+        <p class="card-text">
+          <center>
+            <i class="far fa-envelope"></i>
+            <strong>Contenu du mail</strong>
+          </center>
+                        </br>
+          {{ modeleMail.contenu | nl2br }}
+        </p>
+      </div>
+      <div class="card-footer">
+        {% if enseignants is empty %}
+          <center>
+            <a href="{{ path('envoie_mail') }}">
+              <button class="disabled" disabled="disabled">
+                <i class="far fa-envelope"></i>
+                Confirmer l'envoi du mail
+              </button>
+            </a>
+          </center>
+        {% else %}
+          <center>
+            <a href="{{ path('envoie_mail') }}">
+              <button class="btn-primary">
+                <i class="far fa-envelope"></i>
+                Confirmer l'envoi du mail
+              </button>
+            </a>
+          </center>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3"></div>
+</div>
 {% endblock %}

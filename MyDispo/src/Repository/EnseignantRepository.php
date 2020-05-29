@@ -49,7 +49,7 @@ class EnseignantRepository extends ServiceEntityRepository
     public function findBySaisieFaite($saisieFaite)
     {
         return $this->createQueryBuilder('e')
-            ->andWhere('e.statut = :val')
+            ->andWhere('e.saisieFaite = :val')
             ->setParameter('val', $saisieFaite)
             ->getQuery()
             ->getResult()
