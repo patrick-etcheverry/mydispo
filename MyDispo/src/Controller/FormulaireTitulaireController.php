@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\FormulaireTitulaire;
 use App\Form\FormulaireTitulaireType;
 use App\Repository\FormulaireTitulaireRepository;
+use App\Repository\CreneauRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,15 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class FormulaireTitulaireController extends AbstractController
 {
-    /**
-     * @Route("/", name="formulaire_titulaire_index", methods={"GET"})
-     */
-    public function index(FormulaireTitulaireRepository $formulaireTitulaireRepository): Response
-    {
-        return $this->render('formulaire_titulaire/index.html.twig', [
-            'formulaire_titulaires' => $formulaireTitulaireRepository->findAll(),
-        ]);
-    }
+
 
     /**
      * @Route("/new", name="formulaire_titulaire_new", methods={"GET","POST"})
@@ -61,7 +54,7 @@ class FormulaireTitulaireController extends AbstractController
     /**
      * @Route("/{id}/edit", name="formulaire_titulaire_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, FormulaireTitulaire $formulaireTitulaire): Response
+    public function edit(Request $request, FormulaireTitulaire $formulaireTitulaire,CreneauRepository $creneauRepository): Response
     {
         $form = $this->createForm(FormulaireTitulaireType::class, $formulaireTitulaire);
         $form->handleRequest($request);
@@ -69,11 +62,12 @@ class FormulaireTitulaireController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('formulaire_titulaire_index');
+            return $this->redirectToRoute('enseignant_indexadmin');
         }
 
-        return $this->render('formulaire_titulaire/edit.html.twig', [
+        return $this->render('formulaire_titulaire/parametrage.html.twig', [
             'formulaire_titulaire' => $formulaireTitulaire,
+            'events' => $creneauRepository->findByType("zoneGrisee");
             'form' => $form->createView(),
         ]);
     }

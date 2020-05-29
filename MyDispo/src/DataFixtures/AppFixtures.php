@@ -153,6 +153,31 @@ class AppFixtures extends Fixture
 
         $manager->persist($modeleMailOubli);
 
+        $formulaireTitulaire= new FormulaireTitulaire();
+        $formulaireTitulaire->setEchelleCalendrier(60);
+        $formulaireTitulaire->setTexteHebdomadaire("");
+        $formulaireTitulaire->setTextePonctuel("");
+        $formulaireTitulaire->setRemarquesHebdoActives(true);
+        $formulaireTitulaire->setRemarquesPonctuelActives(true);
+        $formulaireTitulaire->setEstOuvert(true);
+
+        $formulaireTitulaire->setQuantiteProForte(1);
+        $formulaireTitulaire->setDureeProForte(60);
+        $formulaireTitulaire->setQuantiteProMoy(1);
+        $formulaireTitulaire->setDureeProMoy(60);
+        $formulaireTitulaire->setQuantiteProFaible(1);
+        $formulaireTitulaire->setDureeProFaible(60);
+
+        $formulaireTitulaire->setQuantitePersForte(1);
+        $formulaireTitulaire->setDureePersForte(60);
+        $formulaireTitulaire->setQuantitePersMoy(1);
+        $formulaireTitulaire->setDureePersMoy(60);
+        $formulaireTitulaire->setQuantitePersFaible(1);
+        $formulaireTitulaire->setDureePersFaible(60);
+
+
+        $manager->persist($formulaireTitulaire);
+
 
         // Envoyer les données en BD
         $manager->flush();

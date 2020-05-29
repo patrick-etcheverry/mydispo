@@ -23,12 +23,12 @@ class FormulaireTitulaire
     private $echelleCalendrier;
 
     /**
-     * @ORM\Column(type="string", length=3000)
+     * @ORM\Column(type="text")
      */
     private $texteHebdomadaire;
 
     /**
-     * @ORM\Column(type="string", length=3000)
+     * @ORM\Column(type="text")
      */
     private $textePonctuel;
 

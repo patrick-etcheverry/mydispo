@@ -19,6 +19,23 @@ class CreneauRepository extends ServiceEntityRepository
         parent::__construct($registry, Creneau::class);
     }
 
+     /**
+      * @return Creneau[] Returns an array of Creneau objects
+      */
+
+    public function findByType($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.type = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
+
+
     // /**
     //  * @return Creneau[] Returns an array of Creneau objects
     //  */

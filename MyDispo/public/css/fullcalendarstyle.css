@@ -1,0 +1,94 @@
+/* The side navigation menu */
+.sidenav {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed;
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  right: 0;
+  background-color: #111; /* Black*/
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 1s;
+}
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #818181;
+  display: block;
+}
+
+.sidenav button {
+  margin: 8px 8px 8px 32px;
+  font-size: 14px;
+  color: #818181;
+  background-color: #111;
+  border: none;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.sidenav p {
+
+  color: #f1f1f1;
+  margin: 8px 8px 8px 32px;
+  font-weight: bold;
+  font-size: 22px;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.sidenav input {
+  display: block;
+  margin-left: 32px;
+  background-color: #111;
+  border: 1px solid #f1f1f1;
+  color: #818181;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav button:hover {
+  color: #f1f1f1;
+}
+
+
+
+.sidenav input:focus {
+  caret-color: white;
+  color: white;
+  border: 1px solid lightblue;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  left: 125px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.plusBord {
+      border: 2px solid;
+}
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+  transition: margin-right 1s;
+  padding: 20px;
+}
+
+.tippy-content {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

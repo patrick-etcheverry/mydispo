@@ -46,12 +46,12 @@
                 <td>{{ formulaire_titulaire.quantitePersForte }}</td>
                 <td>{{ formulaire_titulaire.quantitePersMoy }}</td>
                 <td>{{ formulaire_titulaire.quantitePersFaible }}</td>
-                <td>{{ formulaire_titulaire.dureeProForte }}</td>
-                <td>{{ formulaire_titulaire.dureeProMoy }}</td>
-                <td>{{ formulaire_titulaire.dureeProFaible }}</td>
-                <td>{{ formulaire_titulaire.dureePersForte }}</td>
-                <td>{{ formulaire_titulaire.dureePersMoy }}</td>
-                <td>{{ formulaire_titulaire.dureePersFaible }}</td>
+                <td>{{ formulaire_titulaire.dureeProForte ? formulaire_titulaire.dureeProForte|date('H:i:s') : '' }}</td>
+                <td>{{ formulaire_titulaire.dureeProMoy ? formulaire_titulaire.dureeProMoy|date('H:i:s') : '' }}</td>
+                <td>{{ formulaire_titulaire.dureeProFaible ? formulaire_titulaire.dureeProFaible|date('H:i:s') : '' }}</td>
+                <td>{{ formulaire_titulaire.dureePersForte ? formulaire_titulaire.dureePersForte|date('H:i:s') : '' }}</td>
+                <td>{{ formulaire_titulaire.dureePersMoy ? formulaire_titulaire.dureePersMoy|date('H:i:s') : '' }}</td>
+                <td>{{ formulaire_titulaire.dureePersFaible ? formulaire_titulaire.dureePersFaible|date('H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('formulaire_titulaire_show', {'id': formulaire_titulaire.id}) }}">show</a>
                     <a href="{{ path('formulaire_titulaire_edit', {'id': formulaire_titulaire.id}) }}">edit</a>
