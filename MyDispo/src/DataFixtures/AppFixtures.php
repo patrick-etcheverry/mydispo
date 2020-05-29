@@ -8,6 +8,7 @@ use App\Entity\Remarque;
 use App\Entity\Enseignant;
 use App\Entity\Formation;
 use App\Entity\ModeleMail;
+use App\Entity\FormulaireTitulaire;
 use \Datetime;
 
 class AppFixtures extends Fixture
@@ -96,7 +97,79 @@ class AppFixtures extends Fixture
 
         $manager->persist($enseignant4);
 
+        $enseignant5 = new Enseignant();
+        $enseignant5->setNom('Dalmau');
+        $enseignant5->setPrenom('Marc');
+        $enseignant5->setMail('thombouchet@aol.com');
+        $enseignant5->setStatut('Titulaire');
+        $enseignant5->setEnSommeil(false);
+        $enseignant5->setToken('https://iutbayonne/formulaire/gtauzfeduig.fr');
+        $enseignant5->setSaisieFaite(true);
+        $enseignant5->setDateSaisie(new DateTime('12/07/2020'));
+        $enseignant5->setDateDerniereModif(null);
+        $enseignant5->setMailRelanceRecu(false);
+        $enseignant5->setPremierMailRecu(true);
+        $enseignant5->setDatePremierMail(new DateTime('05/06/2020'));
+        $enseignant5->setDateDerniereRelance(null);
+        $enseignant5->setNbRelance(1);
 
+        $manager->persist($enseignant5);
+
+        $enseignant6 = new Enseignant();
+        $enseignant6->setNom('Urruty');
+        $enseignant6->setPrenom('Damien');
+        $enseignant6->setMail('thombouchet@aol.com');
+        $enseignant6->setStatut('Vacataire');
+        $enseignant6->setEnSommeil(true);
+        $enseignant6->setToken('https://iutbayonne/formulaire/qiuOfeduig.fr');
+        $enseignant6->setSaisieFaite(false);
+        $enseignant6->setDateSaisie(null);
+        $enseignant6->setDateDerniereModif(null);
+        $enseignant6->setMailRelanceRecu(false);
+        $enseignant6->setPremierMailRecu(true);
+        $enseignant6->setDatePremierMail(new DateTime('05/06/2020'));
+        $enseignant6->setDateDerniereRelance(null);
+        $enseignant6->setNbRelance(0);
+
+        $manager->persist($enseignant6);
+
+        $enseignant7 = new Enseignant();
+        $enseignant7->setNom('Lopistheguy');
+        $enseignant7->setPrenom('Philippe');
+        $enseignant7->setMail('thombouchet@aol.com');
+        $enseignant7->setStatut('Titulaire');
+        $enseignant7->setEnSommeil(false);
+        $enseignant7->setToken('https://iutbayonne/formulaire/lqIZSURHduig.fr');
+        $enseignant7->setSaisieFaite(false);
+        $enseignant7->setDateSaisie(null);
+        $enseignant7->setDateDerniereModif(null);
+        $enseignant7->setMailRelanceRecu(false);
+        $enseignant7->setPremierMailRecu(false);
+        $enseignant7->setDatePremierMail(null);
+        $enseignant7->setDateDerniereRelance(null);
+        $enseignant7->setNbRelance(2);
+
+
+        $manager->persist($enseignant7);
+
+        $enseignant8 = new Enseignant();
+        $enseignant8->setNom('Laplace');
+        $enseignant8->setPrenom('Sophie');
+        $enseignant8->setMail('thombouchet@aol.com');
+        $enseignant8->setStatut('Titulaire');
+        $enseignant8->setEnSommeil(false);
+        $enseignant8->setToken('https://iutbayonne/formulaire/gQLOIUSHYeduig.fr');
+        $enseignant8->setSaisieFaite(true);
+        $enseignant8->setDateSaisie(null);
+        $enseignant8->setDateDerniereModif(new DateTime('05/06/2020'));
+        $enseignant8->setMailRelanceRecu(false);
+        $enseignant8->setPremierMailRecu(true);
+        $enseignant8->setDatePremierMail(null);
+        $enseignant8->setDateDerniereRelance(null);
+        $enseignant8->setNbRelance(0);
+
+
+        $manager->persist($enseignant8);
 
         //Création des formations
         $formationDUT = new Formation();
@@ -104,6 +177,9 @@ class AppFixtures extends Fixture
         $formationDUT->setNomLong('Diplôme Universitaire de technologie Informatique');
         $formationDUT->addEnseignant($enseignant1);
         $formationDUT->addEnseignant($enseignant2);
+        $formationDUT->addEnseignant($enseignant5);
+        $formationDUT->addEnseignant($enseignant6);
+        $formationDUT->addEnseignant($enseignant7);
 
         $manager->persist($formationDUT);
 
@@ -113,6 +189,8 @@ class AppFixtures extends Fixture
         $formationLP->addEnseignant($enseignant3);
         $formationLP->addEnseignant($enseignant4);
         $formationLP->addEnseignant($enseignant2);
+        $formationLP->addEnseignant($enseignant6);
+        $formationLP->addEnseignant($enseignant8);
 
 
         $manager->persist($formationLP);
@@ -135,21 +213,65 @@ class AppFixtures extends Fixture
         $modeleMailPremier = new ModeleMail();
         $modeleMailPremier->setNom('Mail premier contact');
         $modeleMailPremier->setSujet('Saisie de vos contraintes et disponibilités IUT Anglet');
-        $modeleMailPremier->setContenu('Bonjour, ....');
+        $modeleMailPremier->setContenu(
+          'Bonjour,
+
+           L\'année universitaire 2020-2021 approche !
+           Je vous contact aujourd\'hui dans le but de saisir vos disponibilités et contraintes pour l\'année 2020-2021.
+           Pour trouverez en suivant un lien vous permettant de saisir vos contraintes et disponibilités sur notre nouveau site web.
+
+           Lien :
+
+           Si vous avez des questions ou des remarques contactez-moi.
+
+           Cordialement,
+
+           Patrick Etcheverry
+
+          '
+        );
 
         $manager->persist($modeleMailPremier);
 
         $modeleMailRelance = new ModeleMail();
         $modeleMailRelance->setNom('Mail de relance');
         $modeleMailRelance->setSujet('Relance pour la saisie de vos contraintes et disponibilités IUT Anglet');
-        $modeleMailRelance->setContenu('Bonjour, nous vous relancons....');
+        $modeleMailRelance->setContenu(
+          'Bonjour,
 
+           L\'année universitaire 2020-2021 approche !
+           Je vous relance suite à la saisie de vos disponibilités et contraintes pour l\'universitaire 2020-2021.
+           Veuillez-vous rendre sur le lien ci-joint pour effectuer vos saisies.
+           Lien :
+
+           Si vous avez des questions ou des remarques contactez-moi.
+
+           Cordialement,
+
+           Patrick Etcheverry
+
+          '
+            );
         $manager->persist($modeleMailRelance);
 
         $modeleMailOubli = new ModeleMail();
         $modeleMailOubli->setNom('Mail oubli');
         $modeleMailOubli->setSujet('Lien oublié saisie de vos contraintes IUT Anglet');
-        $modeleMailOubli->setContenu('Bonjour, vous trouverez ci-dessous ...');
+        $modeleMailOubli->setContenu(
+
+            'Bonjour,
+
+             Vous avez oublié votre lien personnalisé pour la saisie de vos contraintes et disponibilités pour l\'année 2020-2021 ?
+             Voici votre lien :
+
+             Si vous avez des questions ou des remarques contactez-moi.
+
+             Cordialement,
+
+             Patrick Etcheverry
+
+            '
+              );
 
         $manager->persist($modeleMailOubli);
 

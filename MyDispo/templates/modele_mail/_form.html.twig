@@ -1,37 +1,38 @@
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-12">
-			<div class="card">
-				<div class="card-body">
-					<p class="card-text">
-          <div class="container-fluid">
-	<div class="row">
-		<div class="col-md-3">
-		</div>
-		<div class="col-md-6">
-			<div class="card">
-				<h5 class="card-header">
-					    					<center><td><h4> <i class="far fa-envelope"></i> {{ modele_mail.nom }}</h4></td></center>
-				</h5>
-				<div class="card-body">
-					<p class="card-text">
-{{ form_start(form) }}
-    {{ form_widget(form) }}
+<div class="card">
+  <div class="card-body">
+    <p class="card-text">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-6">
+            <div class="card">
+              <h5 class="card-header">
+                <center>
+                  <td>
+                    <h4>
+                      <i class="far fa-envelope"></i>
+                      {{ modele_mail.nom }}</h4>
+                  </td>
+                </center>
+              </h5>
+              <div class="card-body">
+                <p class="card-text">
+                  {{ form_start(form) }}
+                  {{ form_widget(form) }}
 
-
-					</p>
-				</div>
-				<div class="card-footer">
-    <center><button class="btn-primary"><i class="fas fa-pencil-alt"></i>{{ button_label|default(' Créer') }}</button></center>
-{{ form_end(form) }}
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
+                </p>
+              </div>
+              <div class="card-footer">
+                <center>
+                  <button class="btn-primary">
+                    <i class="fas fa-pencil-alt"></i>{{ button_label|default(' Créer') }}</button>
+                </center>
+                {{ form_end(form) }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p>
+  </div>
 </div>

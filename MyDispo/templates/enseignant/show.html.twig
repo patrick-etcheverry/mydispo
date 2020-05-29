@@ -1,101 +1,107 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Profil de {{enseignant.nom}} {{enseignant.prenom}}{% endblock %}
+{% block title %}Profil de
+  {{enseignant.nom}}
+  {{enseignant.prenom}}
+{% endblock %}
 
 {% block body %}
 
+  <div class="card">
+    <h5 class="card-header">
+      <center>
+        <h2>
+          <i class="fas fa-user"></i>
+          Profil de
+          {{enseignant.nom}}
+          {{enseignant.prenom}}</h2>
+        <center></h5>
+        <div class="card-body">
+          <p class="card-text">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                  <div class="card">
+                    <h5 class="card-header">
+                      <center>
+                        <td>
+                          <h4>
+                            <i class="far fa-user"></i>
+                            {{ enseignant.nom }}
+                            {{ enseignant.prenom }}
+                          </h4>
+                        </td>
+                      </center>
+                    </h5>
+                    <div class="card-body">
+                      <p class="card-text">
+                        <table class="table">
+                          <tbody>
+                            <tr>
+                              <th>Adresse Mail</th>
+                              <td>{{ enseignant.mail }}</td>
+                            </tr>
+                            <tr>
+                              <th>Statut</th>
+                              <td>{{ enseignant.statut }}</td>
+                            </tr>
+                            <tr>
+                              <th>Etat</th>
+                              <td>{{ enseignant.enSommeil ? 'Inactif' : 'Actif' }}</td>
+                            </tr>
+                            <tr>
+                              <th>Token</th>
+                              <td>{{ enseignant.token }}</td>
+                            </tr>
+                            <th>Saisie effectuée ?
+                            </th>
+                            <td>{{ enseignant.saisieFaite ? 'Oui' : 'Non' }}</td>
+                          </tr>
+                          <tr>
+                            <th>Date de la saisie</th>
+                            <td>{{ enseignant.saisieFaite ? enseignant.dateSaisie|date('d/m/Y') : 'Aucune saisie' }}</td>
+                          </tr>
+                          <tr>
+                            <th>Date de la dernière modification</th>
+                            <td>{{ enseignant.saisieFaite ? enseignant.dateDerniereModif|date('d/m/Y') : 'Aucune saisie' }}</td>
+                          </tr>
+                          <tr>
+                            <th>Premier mail reçu ?</th>
+                            <td>{{ enseignant.premierMailRecu ? 'Oui' : 'Non' }}</td>
+                          </tr>
+                          <tr>
+                            <th>Mail de relance reçu ?</th>
+                            <td>{{ enseignant.mailRelanceRecu ? 'Oui' : 'Non' }}</td>
+                          </tr>
+                          <tr>
+                            <th>Date de l'envoie du premier mail</th>
+                            <td>{{ enseignant.premierMailRecu ? enseignant.datePremierMail|date('d/m/Y') : 'Aucun mail envoyé' }}</td>
+                          </tr>
+                          <tr>
+                            <th>Date de la denière relance par mail</th>
+                            <td>{{ enseignant.mailRelanceRecu ? enseignant.dateDerniereRelance|date('d/m/Y') : 'Aucune relance' }}</td>
+                          </tr>
+                          <tr>
+                            <th>Nombre de relance</th>
+                            {% if enseignant.nbRelance == 0 %}
+                              <td>Aucune</td>
+                            {% else %}
+                              <td>{{ enseignant.nbRelance }}</td>
+                            {% endif %}
+                          </tr>
+                        </tbody>
+                      </table>
+                    </p>
+                  </div>
+                  <div class="card-footer"></div>
+                </div>
+              </div>
+              <div class="col-md-3"></div>
+            </div>
+          </div>
+        </p>
+      </div>
+    </div>
 
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-12">
-			<div class="card">
-				<h5 class="card-header">
-					<center><h2><i class="fas fa-user"></i> Profil de {{enseignant.nom}} {{enseignant.prenom}}</h2><center>
-				</h5>
-				<div class="card-body">
-					<p class="card-text">
-          <div class="container-fluid">
-	<div class="row">
-		<div class="col-md-3">
-		</div>
-		<div class="col-md-6">
-			<div class="card">
-				<h5 class="card-header">
-					<center><td><h4> <i class="far fa-user"></i> {{ enseignant.nom }} {{ enseignant.prenom }} </h4></td></center>
-				</h5>
-				<div class="card-body">
-					<p class="card-text">
-          <table class="table">
-              <tbody>
-                  <tr>
-                      <th>Adresse Mail</th>
-                      <td>{{ enseignant.mail }}</td>
-                  </tr>
-                  <tr>
-                      <th>Statut</th>
-                      <td>{{ enseignant.statut }}</td>
-                  </tr>
-                  <tr>
-                      <th>Etat</th>
-                      <td>{{ enseignant.enSommeil ? 'Inactif' : 'Actif' }}</td>
-                  </tr>
-                  <tr>
-                      <th>Token</th>
-                      <td>{{ enseignant.token }}</td>
-                  </tr>
-									<th>Saisie effectuée ? </th>
-	                <td>{{ enseignant.saisieFaite ? 'Oui' : 'Non' }}</td>
-	            </tr>
-	            <tr>
-	                <th>Date de la saisie</th>
-	                <td>{{ enseignant.saisieFaite ? enseignant.dateSaisie|date('d/m/Y') : 'Aucune saisie' }}</td>
-	            </tr>
-	            <tr>
-	                <th>Date de la dernière modification</th>
-	                <td>{{ enseignant.saisieFaite ? enseignant.dateDerniereModif|date('d/m/Y') : 'Aucune saisie' }}</td>
-	            </tr>
-	            <tr>
-	                <th>Premier mail reçu ?</th>
-	                <td>{{ enseignant.premierMailRecu ? 'Oui' : 'Non' }}</td>
-	            </tr>
-	            <tr>
-	                <th>Mail de relance reçu ?</th>
-	                <td>{{ enseignant.mailRelanceRecu ? 'Oui' : 'Non' }}</td>
-	            </tr>
-	            <tr>
-	                <th>Date de l'envoie du premier mail</th>
-	                <td>{{ enseignant.premierMailRecu ? enseignant.datePremierMail|date('d/m/Y') : 'Aucun mail envoyé' }}</td>
-	            </tr>
-	            <tr>
-	                <th>Date de la denière relance par mail</th>
-	                <td>{{ enseignant.mailRelanceRecu ? enseignant.dateDerniereRelance|date('d/m/Y') : 'Aucune relance' }}</td>
-	            </tr>
-	            <tr>
-	                <th>Nombre de relance</th>
-									{% if enseignant.nbRelance == 0 %}
-									<td>Aucune</td>
-									{% else %}
-	                <td>{{ enseignant.nbRelance }}</td>
-									{% endif %}
-	            </tr>
-              </tbody>
-          </table>
-					</p>
-				</div>
-				<div class="card-footer">
-				</div>
-			</div>
-		</div>
-		<div class="col-md-3">
-		</div>
-	</div>
-</div>
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-
-{% endblock %}
+  {% endblock %}

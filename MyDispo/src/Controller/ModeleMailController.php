@@ -156,7 +156,7 @@ public function formEnvoieMail(Request $request)
         break;
     case 7:
         // [OK] Recherche avec tout
-        $enseignants = $repositoryEnseignant->findByAll();
+        $enseignants = $repositoryEnseignant->findAll();
         break;
 }
 
@@ -201,7 +201,7 @@ $session->set('modeleMail',$modeleMail);
             ->setPassword($_ENV['MAILER_PASSWORD']);
         $mailer = new \Swift_Mailer($transport);
         $message = (new \Swift_Message($sujet))
-           ->setFrom('mydispoo@gmail.com')
+           ->setFrom($_ENV['MAILER_USER'])
            ->setTo($enseignantCourant->getMail())
            ->setBody($contenu);
         $mailer->send($message);

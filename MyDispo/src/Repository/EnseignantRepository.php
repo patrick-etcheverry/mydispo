@@ -25,9 +25,22 @@ class EnseignantRepository extends ServiceEntityRepository
 
     public function findByStatut($statut)
     {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.statut = :val')
-            ->setParameter('val', $statut)
+        $requete= $this->createQueryBuilder('e');
+
+        // Construction du andWhere pour le statut
+        if(1==1){
+          $requete
+          ->andWhere('e.statut = :val')
+          ->setParameter('val', $statut);
+        }
+/*
+        // Construction du andWhere pour la formation
+        if(1==1){
+          $requete
+          ->andWhere('e.statut = :val')
+          ->setParameter('val', $statut);
+        }*/
+        return $requete
             ->getQuery()
             ->getResult()
         ;

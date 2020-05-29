@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class EnseignantController extends AbstractController
 {
+
     /**
      * @Route("/", name="enseignant_index", methods={"GET"})
      */
@@ -58,6 +59,8 @@ class EnseignantController extends AbstractController
         ]);
     }
 
+
+
     /**
      * @Route("/{id}", name="enseignant_show", methods={"GET"})
      */
@@ -67,6 +70,8 @@ class EnseignantController extends AbstractController
             'enseignant' => $enseignant,
         ]);
     }
+
+
 
     /**
      * @Route("/{id}/edit", name="enseignant_edit", methods={"GET","POST"})
@@ -110,4 +115,7 @@ class EnseignantController extends AbstractController
             'enseignant' => $enseignant,
         ]);
     }
+
+
+
 }
