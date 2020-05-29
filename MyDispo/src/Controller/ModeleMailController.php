@@ -93,6 +93,15 @@ public function formEnvoieMail(Request $request)
                         'multiple' => true,
                         'expanded' => true
                     ))
+                    ->add('mailRelanceRecu', ChoiceType::class, array(
+                            'choices' => [
+                              'Ayant reçu un mail de relance' => true,
+                              'N\'ayant pas reçu de mail de relance' => false,
+                              ],
+                            'label' => 'Enseignant : ',
+                            'multiple' => true,
+                            'expanded' => true
+                        ))
         ->getForm();
 
     $form->handleRequest($request);
@@ -107,58 +116,11 @@ public function formEnvoieMail(Request $request)
       $formations = $form["nomCourt"]->getData();
       $statut = $form["statut"]->getData();
       $saisieFaite = $form["saisieFaite"]->getData();
+      $mailRelanceRecu = $form["mailRelanceRecu"]->getData();
+      $modeleMail = $repositoryModeleMail->findOneByNomModeleMail($nom);
 
+      $enseignants = $repositoryEnseignant->findByGeneral($tab = array('saisieFaite' => $saisieFaite ,'statut' => $statut, 'formations' => $formations, 'mailRelanceRecu' => $mailRelanceRecu ));
 
-        $modeleMail = $repositoryModeleMail->findOneByNomModeleMail($nom);
-
-
-        $compteur = 0;
-        //si le nombre d'élément dans le tableau des formations est > 2
-        if(sizeof($formations) > 1){
-          $compteur = 1;
-        }
-          // si le nombre d'élément dans le tableau des statuts est > 2
-        if (sizeof($statut) > 1){
-          $compteur = $compteur + 2;
-        }
-        // si le nombre d'élément dans le tableau des saisies est > 2
-        if (sizeof($saisieFaite) > 1){
-            $compteur = $compteur + 4;
-        }
-        switch ($compteur) {
-    case 0:
-        // [OK] Recherche juste avec les saisies et statuts et formations
-        $enseignants = $repositoryEnseignant->findByGeneral($tab = array('saisieFaite' => $saisieFaite ,'statut' => $statut, 'formations' => $formations[0]->getNomCourt() ));
-        break;
-    case 1:
-      // [OK] Recherche juste avec les saisies et statuts
-      $enseignants = $repositoryEnseignant->findByGeneral($tab = array('saisieFaite' => $saisieFaite ,'statut' => $statut ));
-        break;
-    case 2:
-        // [OK] Recherche juste avec les saisies et formations
-        $enseignants = $repositoryEnseignant->findByGeneral($tab = array('saisieFaite' => $saisieFaite ,'formations' => $formations[0]->getNomCourt() ));
-        break;
-    case 4:
-        // [OK] Recherche juste avec les statuts et formations
-        $enseignants = $repositoryEnseignant->findByGeneral($tab = array('statut' => $statut ,'formations' => $formations[0]->getNomCourt() ));
-        break;
-    case 3:
-        // [OK] Recherche juste avec les saisies
-        $enseignants = $repositoryEnseignant->findByGeneral($tab = array('saisieFaite' => $saisieFaite));
-        break;
-    case 5:
-        // [OK] Recherche juste avec les statuts
-        $enseignants = $repositoryEnseignant->findByGeneral($tab = array('statut' => $statut));
-        break;
-    case 6:
-        // [OK] Recherche juste avec les formations
-        $enseignants = $repositoryEnseignant->findByGeneral($tab = array('formations' => $formations[0]->getNomCourt() ));
-        break;
-    case 7:
-        // [OK] Recherche avec tout
-        $enseignants = $repositoryEnseignant->findAll();
-        break;
-}
 
 $session = new Session();
 $session->set('enseignants',$enseignants);
@@ -170,6 +132,7 @@ $session->set('modeleMail',$modeleMail);
             'modeleMail' => $modeleMail,
             'enseignants' => $enseignants,
             'nomModeleMail' => $data['nom'],
+            'tabMailRelanceRecu' => $form->get('mailRelanceRecu')->getData(),
             'tabFormation' => $form->get('nomCourt')->getData(),
             'tabStatut' => $form->get('statut')->getData(),
             'tabSaisie' => $form->get('saisieFaite')->getData(),

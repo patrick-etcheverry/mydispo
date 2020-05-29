@@ -59,6 +59,19 @@
                     {% endif %}
                   {% endif %}
                 </tr>
+                tr>
+                  <th>Enseignant  :</th>
+                  {% if tabMailRelanceRecu | length > 1 %}
+                    <td>Ayant reçu un mail de relance - N'ayant pas reçu un mail de relance</td>
+                  {% else %}
+                    {% if tabMailRelanceRecu[0] == 1 %}
+                      <td>Ayant reçu un mail de relance</td>
+                    {% endif %}
+                    {% if tabMailRelanceRecu[0] == null %}
+                      <td>N'ayant pas reçu un mail de relance</td>
+                    {% endif %}
+                  {% endif %}
+                </tr>
               </tbody>
             </table>
           </p>
@@ -83,6 +96,7 @@
                   <th>Mail</th>
                   <th>Formations</th>
                   <th>Saisie</th>
+                  <th>Mail de relance</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -114,6 +128,13 @@
                       Saisie effectuée
                       {% else %}
                       Saisie non effectuée
+                      {% endif %}
+
+                    </td>
+                    <td>{% if enseignantCourant.mailRelanceRecu == true %}
+                      Reçu
+                      {% else %}
+                      Non reçu
                       {% endif %}
 
                     </td>
