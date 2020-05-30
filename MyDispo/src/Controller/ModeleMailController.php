@@ -7,6 +7,7 @@ use App\Entity\Formation;
 use App\Entity\Enseignant;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bridge\Doctrine\Form\Type\IntegerType;
 use App\Form\ModeleMailType;
 use App\Repository\ModeleMailRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -172,6 +173,45 @@ $session->set('modeleMail',$modeleMail);
         }
         return $this->render('modele_mail/confirmationEnvoieMail.html.twig');
     }
+
+    /**
+     * @Route("/premierMail/{id}/{compteur}", name="notifierUnEnseignant_PremierMail", methods={"GET"})
+     */
+    public function notifierUnEnseignantPremierMail(Enseignant $enseignant , int $compteur = 1 )
+    {
+      switch ($compteur)
+      {
+        case 1 :
+            $nom = 'Mail premier contact';
+            break;
+        case 2 :
+            $nom = 'Mail de relance';
+            break;
+        case 3 :
+            $nom = 'Mail oubli';
+            break;
+      }
+            $repositoryModeleMail = $this->getDoctrine()->getRepository(ModeleMail::class);
+            $modeleMail = $repositoryModeleMail->findOneByNomModeleMail($nom);
+
+            $transport = (new \Swift_SmtpTransport('smtp.gmail.com', 465))
+              ->setHost('smtp.gmail.com')
+              ->setPort('465')
+              ->setEncryption('ssl')
+              ->setAuthMode('login')
+              ->setUsername($_ENV['MAILER_USER'])
+              ->setPassword($_ENV['MAILER_PASSWORD']);
+          $mailer = new \Swift_Mailer($transport);
+          $message = (new \Swift_Message($modeleMail->getSujet()))
+             ->setFrom($_ENV['MAILER_USER'])
+             ->setTo($enseignant->getMail())
+             ->setBody($modeleMail->getContenu());
+          $mailer->send($message);
+
+          return $this->render('modele_mail/confirmationEnvoieMail.html.twig');
+  }
+
+
 
 
     /**
