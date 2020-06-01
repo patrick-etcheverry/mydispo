@@ -67,14 +67,16 @@ public function formEnvoieMail(Request $request)
                 'choice_label' => 'nom',
                 'label' => 'Type de mail :',
                 'multiple' => false,
-                'expanded' => false
+                'expanded' => false,
+                'required' => true
             ))
             ->add('nomCourt', EntityType::class, array(
                     'class' => Formation::class,
                     'choice_label' => 'nomCourt',
                     'label' => 'Enseignant intervenant en :',
                     'multiple' => true,
-                    'expanded' => true
+                    'expanded' => true,
+                    'required' => true
                 ))
                 ->add('statut', ChoiceType::class, array(
                         'choices' => [
@@ -83,7 +85,8 @@ public function formEnvoieMail(Request $request)
                           ],
                         'label' => 'Enseignant ayant le statut de :',
                         'multiple' => true,
-                        'expanded' => true
+                        'expanded' => true,
+                        'required' => true
                     ))
                 ->add('saisieFaite', ChoiceType::class, array(
                         'choices' => [
@@ -92,7 +95,8 @@ public function formEnvoieMail(Request $request)
                           ],
                         'label' => 'Enseignant avec : ',
                         'multiple' => true,
-                        'expanded' => true
+                        'expanded' => true,
+                        'required' => true
                     ))
                     ->add('mailRelanceRecu', ChoiceType::class, array(
                             'choices' => [
@@ -101,7 +105,8 @@ public function formEnvoieMail(Request $request)
                               ],
                             'label' => 'Enseignant : ',
                             'multiple' => true,
-                            'expanded' => true
+                            'expanded' => true,
+                            'required' => true
                         ))
         ->getForm();
 
