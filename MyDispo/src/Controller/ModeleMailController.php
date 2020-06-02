@@ -17,6 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
 use \Swift_Mailer;
 use \Swift_SmtpTransport;
+use Symfony\Component\Validator\Constraints\DateTime;
+use Doctrine\Common\Persistence\ObjectManager;
 /**
  * @Route("/modele/mail")
  */
@@ -182,20 +184,37 @@ $session->set('modeleMail',$modeleMail);
     /**
      * @Route("/premierMail/{id}/{compteur}", name="notifierUnEnseignant_PremierMail", methods={"GET"})
      */
-    public function notifierUnEnseignantPremierMail(Enseignant $enseignant , int $compteur = 1 )
+    public function notifierUnEnseignantPremierMail(Enseignant $enseignant , int $compteur = 1)
     {
+      new \DateTimeZone('Europe/Paris');
       switch ($compteur)
       {
         case 1 :
             $nom = 'Mail premier contact';
+            $enseignant->setPremierMailRecu(true);
+            $enseignant->setDatePremierMail(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
+            $enseignant->getDatePremierMail()->setTimezone(new \DateTimeZone('UTC'));
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($enseignant);
+            $entityManager->flush();
             break;
         case 2 :
             $nom = 'Mail de relance';
+            $enseignant->setMailRelanceRecu(true);
+            $enseignant->setDateDerniereRelance(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
+            $enseignant->getDateDerniereRelance()->setTimezone(new \DateTimeZone('UTC'));
+            $enseignant->setNbRelance($enseignant->getNbRelance() +1);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($enseignant);
+            $entityManager->flush();
             break;
         case 3 :
             $nom = 'Mail oubli';
             break;
       }
+
+
+
             $repositoryModeleMail = $this->getDoctrine()->getRepository(ModeleMail::class);
             $modeleMail = $repositoryModeleMail->findOneByNomModeleMail($nom);
 

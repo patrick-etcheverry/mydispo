@@ -418,7 +418,7 @@ class Enseignant
         return $this->datePremierMail;
     }
 
-    public function setDatePremierMail(?\DateTimeInterface $datePremierMail): self
+    public function setDatePremierMail(?\DateTime $datePremierMail): self
     {
         $this->datePremierMail = $datePremierMail;
 
@@ -430,7 +430,7 @@ class Enseignant
         return $this->dateDerniereRelance;
     }
 
-    public function setDateDerniereRelance(?\DateTimeInterface $dateDerniereRelance): self
+    public function setDateDerniereRelance(?\DateTime $dateDerniereRelance): self
     {
         $this->dateDerniereRelance = $dateDerniereRelance;
 
