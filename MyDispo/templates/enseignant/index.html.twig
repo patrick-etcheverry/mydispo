@@ -42,7 +42,7 @@
                   <td>
                     {% if enseignant.premierMailRecu == true %}
                       Oui - Le
-                      {{enseignant.datePremierMail|date("d/m/Y à h:s")}}
+                      {{enseignant.datePremierMail|date("d/m/Y à H:i", "Europe/Paris")}}
                     {% else %}
                       Non reçu
                     {% endif %}
@@ -50,7 +50,7 @@
                   <td>
                     {% if enseignant.mailRelanceRecu == true %}
                       Oui - Dernière relance : Le
-                      {{enseignant.datePremierMail|date("d/m/Y à h:s")}}
+                      {{enseignant.dateDerniereRelance|date("d/m/Y à H:i", "Europe/Paris")}}
                       ({{enseignant.nbRelance}}
                       {% if enseignant.nbRelance > 1 %}
                         relances au total)

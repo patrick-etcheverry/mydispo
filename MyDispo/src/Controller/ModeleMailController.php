@@ -173,7 +173,7 @@ $session->set('modeleMail',$modeleMail);
             ->setPassword($_ENV['MAILER_PASSWORD']);
         $mailer = new \Swift_Mailer($transport);
         $message = (new \Swift_Message($sujet))
-           ->setFrom($_ENV['MAILER_USER'])
+           ->setFrom(['mydispoo@gmail.com' => 'Patrick Etcheverry'])
            ->setTo($enseignantCourant->getMail())
            ->setBody($contenu);
         $mailer->send($message);
@@ -184,7 +184,7 @@ $session->set('modeleMail',$modeleMail);
     /**
      * @Route("/premierMail/{id}/{compteur}", name="notifierUnEnseignant_PremierMail", methods={"GET"})
      */
-    public function notifierUnEnseignantPremierMail(Enseignant $enseignant , int $compteur = 1)
+    public function notifierUnEnseignantPremierMail(Enseignant $enseignant , int $compteur)
     {
       new \DateTimeZone('Europe/Paris');
       switch ($compteur)
@@ -192,27 +192,26 @@ $session->set('modeleMail',$modeleMail);
         case 1 :
             $nom = 'Mail premier contact';
             $enseignant->setPremierMailRecu(true);
-            $enseignant->setDatePremierMail(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
-            $enseignant->getDatePremierMail()->setTimezone(new \DateTimeZone('UTC'));
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($enseignant);
-            $entityManager->flush();
+            $date1 = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+            $date1->setTimezone(new \DateTimeZone('UTC'));
+            $enseignant->setDatePremierMail($date1);
             break;
         case 2 :
             $nom = 'Mail de relance';
             $enseignant->setMailRelanceRecu(true);
-            $enseignant->setDateDerniereRelance(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
-            $enseignant->getDateDerniereRelance()->setTimezone(new \DateTimeZone('UTC'));
+            $date2 = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+            $date2->setTimezone(new \DateTimeZone('UTC'));
+            $enseignant->setDateDerniereRelance($date2);
             $enseignant->setNbRelance($enseignant->getNbRelance() +1);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($enseignant);
-            $entityManager->flush();
+
             break;
         case 3 :
             $nom = 'Mail oubli';
             break;
       }
-
+      $entityManager = $this->getDoctrine()->getManager();
+      $entityManager->persist($enseignant);
+      $entityManager->flush();
 
 
             $repositoryModeleMail = $this->getDoctrine()->getRepository(ModeleMail::class);

@@ -365,24 +365,24 @@ class Enseignant
         return $this;
     }
 
-    public function getDateSaisie(): ?\DateTimeInterface
+    public function getDateSaisie(): ?\DateTime
     {
         return $this->dateSaisie;
     }
 
-    public function setDateSaisie(?\DateTimeInterface $dateSaisie): self
+    public function setDateSaisie(?\DateTime $dateSaisie): self
     {
         $this->dateSaisie = $dateSaisie;
 
         return $this;
     }
 
-    public function getDateDerniereModif(): ?\DateTimeInterface
+    public function getDateDerniereModif(): ?\DateTime
     {
         return $this->dateDerniereModif;
     }
 
-    public function setDateDerniereModif(?\DateTimeInterface $dateDerniereModif): self
+    public function setDateDerniereModif(?\DateTime $dateDerniereModif): self
     {
         $this->dateDerniereModif = $dateDerniereModif;
 
@@ -413,7 +413,7 @@ class Enseignant
         return $this;
     }
 
-    public function getDatePremierMail(): ?\DateTimeInterface
+    public function getDatePremierMail(): ?\DateTime
     {
         return $this->datePremierMail;
     }
@@ -425,7 +425,7 @@ class Enseignant
         return $this;
     }
 
-    public function getDateDerniereRelance(): ?\DateTimeInterface
+    public function getDateDerniereRelance(): ?\DateTime
     {
         return $this->dateDerniereRelance;
     }
