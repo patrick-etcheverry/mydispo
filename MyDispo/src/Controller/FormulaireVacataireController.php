@@ -9,12 +9,35 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\CreneauRepository;
 
 /**
  * @Route("/formulaire/vacataire")
  */
 class FormulaireVacataireController extends AbstractController
 {
+
+  /**
+   * @Route("/edit", name="formulaire_vacataire_edit", methods={"GET","POST"})
+   */
+  public function edit(Request $request,CreneauRepository $creneauRepository, FormulaireVacataireRepository $formvacataireRepository): Response
+  {
+      $formulaireVacataire = $formvacataireRepository->findAll()[0];
+      $form = $this->createForm(FormulaireVacataireType::class, $formulaireVacataire);
+      $form->handleRequest($request);
+
+      if ($form->isSubmitted() && $form->isValid()) {
+          $this->getDoctrine()->getManager()->flush();
+
+          return $this->redirectToRoute('enseignant_indexadmin');
+      }
+      return $this->render('formulaire_vacataire/parametrage.html.twig', [
+          'formulaire_vacataire' => $formulaireVacataire,
+          'events' => $creneauRepository->findByType("zoneGrisee"),
+          'form' => $form->createView(),
+      ]);
+  }
+  
     /**
      * @Route("/", name="formulaire_vacataire_index", methods={"GET"})
      */
@@ -58,25 +81,7 @@ class FormulaireVacataireController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="formulaire_vacataire_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, FormulaireVacataire $formulaireVacataire): Response
-    {
-        $form = $this->createForm(FormulaireVacataireType::class, $formulaireVacataire);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('formulaire_vacataire_index');
-        }
-
-        return $this->render('formulaire_vacataire/edit.html.twig', [
-            'formulaire_vacataire' => $formulaireVacataire,
-            'form' => $form->createView(),
-        ]);
-    }
 
     /**
      * @Route("/{id}", name="formulaire_vacataire_delete", methods={"DELETE"})

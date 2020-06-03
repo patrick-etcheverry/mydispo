@@ -9,86 +9,127 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use \DateTime;
 
 /**
- * @Route("/creneau")
- */
+* @Route("/creneau")
+*/
 class CreneauController extends AbstractController
 {
-    /**
-     * @Route("/", name="creneau_index", methods={"GET"})
-     */
-    public function index(CreneauRepository $creneauRepository): Response
-    {
-        return $this->render('creneau/index.html.twig', [
-            'creneaus' => $creneauRepository->findAll(),
-        ]);
+  /**
+  * @Route("/ajout", name="creneau_ajouter", methods={"POST"})
+  */
+  public function ajouterCreneau(): Response
+  {
+
+    $creneau = new Creneau();
+    if (isset($_POST["titleevt"])) {
+          $titre = $_POST["titleevt"];
     }
 
-    /**
-     * @Route("/new", name="creneau_new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $creneau = new Creneau();
-        $form = $this->createForm(CreneauType::class, $creneau);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($creneau);
-            $entityManager->flush();
+    $debut = $_POST["startevt"];
+    $fin = $_POST["endevt"];
+    $type = $_POST["typeevt"];
 
-            return $this->redirectToRoute('creneau_index');
-        }
 
-        return $this->render('creneau/new.html.twig', [
-            'creneau' => $creneau,
-            'form' => $form->createView(),
-        ]);
+
+    $creneau->setTitre($titre);
+    $creneau->setDateDebut(new DateTime($debut));
+    $creneau->setDateFin(new DateTime($fin));
+    $creneau->setType($type);
+    $creneau->setPrioOuPref("");
+
+    $entityManager = $this->getDoctrine()->getManager();
+    $entityManager->persist($creneau);
+    $entityManager->flush();
+
+    return new Response("Les créneaux ont bien été enregistrées");
+
+  }
+
+  /**
+  * @Route("/", name="creneau_index", methods={"GET"})
+  */
+  public function index(CreneauRepository $creneauRepository): Response
+  {
+    return $this->render('creneau/index.html.twig', [
+      'creneaus' => $creneauRepository->findAll(),
+    ]);
+  }
+
+  /**
+  * @Route("/new", name="creneau_new", methods={"GET","POST"})
+  */
+  public function new(Request $request): Response
+  {
+    $creneau = new Creneau();
+    $form = $this->createForm(CreneauType::class, $creneau);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+      $entityManager = $this->getDoctrine()->getManager();
+      $entityManager->persist($creneau);
+      $entityManager->flush();
+
+      return $this->redirectToRoute('creneau_index');
     }
 
-    /**
-     * @Route("/{id}", name="creneau_show", methods={"GET"})
-     */
-    public function show(Creneau $creneau): Response
-    {
-        return $this->render('creneau/show.html.twig', [
-            'creneau' => $creneau,
-        ]);
+    return $this->render('creneau/new.html.twig', [
+      'creneau' => $creneau,
+      'form' => $form->createView(),
+    ]);
+  }
+
+
+
+  /**
+  * @Route("/{id}", name="creneau_show", methods={"GET"})
+  */
+  public function show(Creneau $creneau): Response
+  {
+    return $this->render('creneau/show.html.twig', [
+      'creneau' => $creneau,
+    ]);
+  }
+
+  /**
+  * @Route("/{id}/edit", name="creneau_edit", methods={"GET","POST"})
+  */
+  public function edit(Request $request, Creneau $creneau): Response
+  {
+    $form = $this->createForm(CreneauType::class, $creneau);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+      $this->getDoctrine()->getManager()->flush();
+
+      return $this->redirectToRoute('creneau_index');
     }
 
-    /**
-     * @Route("/{id}/edit", name="creneau_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Creneau $creneau): Response
-    {
-        $form = $this->createForm(CreneauType::class, $creneau);
-        $form->handleRequest($request);
+    return $this->render('creneau/edit.html.twig', [
+      'creneau' => $creneau,
+      'form' => $form->createView(),
+    ]);
+  }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('creneau_index');
-        }
-
-        return $this->render('creneau/edit.html.twig', [
-            'creneau' => $creneau,
-            'form' => $form->createView(),
-        ]);
+  /**
+  * @Route("/{id}", name="creneau_delete", methods={"DELETE"})
+  */
+  public function delete(Request $request, Creneau $creneau): Response
+  {
+    if ($this->isCsrfTokenValid('delete'.$creneau->getId(), $request->request->get('_token'))) {
+      $entityManager = $this->getDoctrine()->getManager();
+      $entityManager->remove($creneau);
+      $entityManager->flush();
     }
 
-    /**
-     * @Route("/{id}", name="creneau_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, Creneau $creneau): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$creneau->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($creneau);
-            $entityManager->flush();
-        }
+    return $this->redirectToRoute('creneau_index');
+  }
 
-        return $this->redirectToRoute('creneau_index');
-    }
+
+
+
+
+
 }

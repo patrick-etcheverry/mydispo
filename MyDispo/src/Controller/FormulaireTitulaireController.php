@@ -17,6 +17,26 @@ use Symfony\Component\Routing\Annotation\Route;
 class FormulaireTitulaireController extends AbstractController
 {
 
+  /**
+   * @Route("/edit", name="formulaire_titulaire_edit", methods={"GET","POST"})
+   */
+  public function edit(Request $request,CreneauRepository $creneauRepository, FormulaireTitulaireRepository $formtitulaireRepository): Response
+  {
+      $formulaireTitulaire = $formtitulaireRepository->findAll()[0];
+      $form = $this->createForm(FormulaireTitulaireType::class, $formulaireTitulaire);
+      $form->handleRequest($request);
+
+      if ($form->isSubmitted() && $form->isValid()) {
+          $this->getDoctrine()->getManager()->flush();
+
+          return $this->redirectToRoute('formulaire_titulaire_edit');
+      }
+      return $this->render('formulaire_titulaire/parametrage.html.twig', [
+          'formulaire_titulaire' => $formulaireTitulaire,
+          'events' => $creneauRepository->findByType("zoneGrisee"),
+          'form' => $form->createView(),
+      ]);
+  }
 
     /**
      * @Route("/new", name="formulaire_titulaire_new", methods={"GET","POST"})
@@ -51,26 +71,9 @@ class FormulaireTitulaireController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="formulaire_titulaire_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, FormulaireTitulaire $formulaireTitulaire,CreneauRepository $creneauRepository): Response
-    {
-        $form = $this->createForm(FormulaireTitulaireType::class, $formulaireTitulaire);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('enseignant_indexadmin');
-        }
 
-        return $this->render('formulaire_titulaire/parametrage.html.twig', [
-            'formulaire_titulaire' => $formulaireTitulaire,
-            'events' => $creneauRepository->findByType("zoneGrisee"),
-            'form' => $form->createView(),
-        ]);
-    }
 
     /**
      * @Route("/{id}", name="formulaire_titulaire_delete", methods={"DELETE"})

@@ -17,7 +17,7 @@ class FormulaireTitulaireType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
       $builder
-          ->add('echelleCalendrier')
+          ->add('echelleCalendrier',IntegerType::class,['label' => 'Nombre de minutes entre chaque case du calendrier',])
           ->add('texteHebdomadaire',TextareaType::class,array(
               'label' => 'Texte affiché pour la saisie des contraintes hebdomadaires',))
           ->add('textePonctuel',TextareaType::class,['label' => 'Texte affiché pour la saisie des contraintes ponctuelles',])
