@@ -20,7 +20,7 @@ class FormulaireVacataireController extends AbstractController
   /**
    * @Route("/edit", name="formulaire_vacataire_edit", methods={"GET","POST"})
    */
-  public function edit(Request $request,CreneauRepository $creneauRepository, FormulaireVacataireRepository $formvacataireRepository): Response
+  public function edit(Request $request, FormulaireVacataireRepository $formvacataireRepository): Response
   {
       $formulaireVacataire = $formvacataireRepository->findAll()[0];
       $form = $this->createForm(FormulaireVacataireType::class, $formulaireVacataire);
@@ -29,15 +29,14 @@ class FormulaireVacataireController extends AbstractController
       if ($form->isSubmitted() && $form->isValid()) {
           $this->getDoctrine()->getManager()->flush();
 
-          return $this->redirectToRoute('enseignant_indexadmin');
+          return $this->redirectToRoute('formulaire_vacataire_edit');
       }
       return $this->render('formulaire_vacataire/parametrage.html.twig', [
           'formulaire_vacataire' => $formulaireVacataire,
-          'events' => $creneauRepository->findByType("zoneGrisee"),
           'form' => $form->createView(),
       ]);
   }
-  
+
     /**
      * @Route("/", name="formulaire_vacataire_index", methods={"GET"})
      */

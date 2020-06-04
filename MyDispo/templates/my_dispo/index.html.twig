@@ -30,31 +30,29 @@
         <button id="remove">Supprimer ce créneau</button>
       </div>
 
-      <div id='main'>
+      <div id="main">
 
+      <ul class="nav nav-tabs">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active" id="horaires-tab" data-toggle="tab" href="#horaires" role="tab" aria-controls="horaires" aria-selected="true">Horaires non saisissables</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="evenements-tab" data-toggle="tab" href="#evenements" role="tab" aria-controls="evenements" aria-selected="false">Événements spéciaux</a>
+        </li>
 
-        <ul class="nav nav-tabs">
+      </ul>
 
-          <li>
-            <a class="nav-link active" id="horairestab" data-toggle="tab" href="#horaires">Horaires non saisisables</a>
-          </li>
-          <li>
-            <a class="nav-link" data-toggle="tab" href="#explications">Paragraphes explicatifs</a>
-          </li>
-
-        </ul>
-
-        <div class="tab-content">
-          <div id="echelle" class="tab-pane fade show active">
-
-          </div>
-          <div id="horaires" class="tab-pane fade">
-            <div id='calendar'></div>
-          </div>
-
-          <button class="btn btn-primary" id="submit"></button>
+      <div class="tab-content">
+        <div id="horaires" class="tab-pane fade show active" role="tabpanel" aria-labelledby="horaires-tab">
+        <div id='calendar'></div>
+        </div>
+        <div id="evenements" class="tab-pane fade" role="tabpanel" aria-labelledby="evenements-tab">
         </div>
       </div>
+
+        <button class="btn btn-primary" id="submit">Enregistrer les modifications</button>
+  </div>
+
     </div>
   </div>
 
@@ -62,7 +60,7 @@
 {% endblock %}
 
 {% block javascripts %}
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
   <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
 
@@ -137,14 +135,14 @@
         themeSystem: 'bootstrap',
         contentHeight: "auto",
         allDaySlot: false,
-        slotDuration: {{ echelle }},
-        slotLabelInterval: {{ echelle }},
+        slotDuration: '{{ echelle }}'.minsToHHMMSS(),
+        slotLabelInterval: '{{ echelle }}'.minsToHHMMSS(),
         minTime: "08:00",
         maxTime: "18:00:00",
         weekNumberCalculation: "ISO",
         weekends: false,
         selectable: true,
-          events: {{ events|raw  }},
+        events: {{ events|raw  }},
         columnHeaderFormat: {
           weekday: 'long'
         },
@@ -226,7 +224,7 @@
       });
 
 
-      document.getElementById('horairestab').onclick = function() {
+      document.getElementById('horaires-tab').onclick = function() {
         calendar.render();
       }; //Rafraîchissement du calendrier
 

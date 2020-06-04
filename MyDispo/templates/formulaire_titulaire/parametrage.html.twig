@@ -35,34 +35,34 @@
       {{ form_start(form) }}
 
       <ul class="nav nav-tabs">
-        <li>
-          <a class="nav-link active" data-toggle="tab" href="#echelle">Echelle du calendrier</a>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active" id="echelle-tab" data-toggle="tab" href="#echelle" role="tab" aria-controls="echelle" aria-selected="true">Echelle du calendrier</a>
         </li>
-        <li>
-          <a class="nav-link" data-toggle="tab" href="#contraintesperso">Préférences personelles</a>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="contraintesperso-tab" data-toggle="tab" href="#contraintesperso" role="tab" aria-controls="contraintesperso" aria-selected="false">Préférences personelles</a>
         </li>
-        <li>
-          <a class="nav-link" data-toggle="tab" href="#contraintespro">Contraintes professionnelles</a>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="contraintespro-tab" data-toggle="tab" href="#contraintespro" role="tab" aria-controls="contraintespro" aria-selected="false">Contraintes professionnelles</a>
         </li>
-        <li>
-          <a class="nav-link" id="horairestab" data-toggle="tab" href="#horaires">Horaires non saisisables</a>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="horaires-tab" data-toggle="tab" href="#horaires" role="tab" aria-controls="horaires" aria-selected="false">Horaires non saisisables</a>
         </li>
-        <li>
-          <a class="nav-link" data-toggle="tab" href="#explications">Paragraphes explicatifs</a>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="explications-tab" data-toggle="tab" href="#explications" role="tab" aria-controls="explications" aria-selected="false">Paragraphes explicatifs</a>
         </li>
-        <li>
-          <a class="nav-link" data-toggle="tab" href="#remarques">Remarques éventuelles</a>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="remarques-tab" data-toggle="tab" href="#remarques" role="tab" aria-controls="remarques" aria-selected="false">Remarques éventuelles</a>
         </li>
-        <li>
-          <a class="nav-link" data-toggle="tab" href="#etat">Ouverture/Fermeture formulaire</a>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="etat-tab" data-toggle="tab" href="#etat" role="tab" aria-controls="etat" aria-selected="false">Ouverture/Fermeture formulaire</a>
         </li>
       </ul>
 
       <div class="tab-content">
-        <div id="echelle" class="tab-pane fade show active">
+        <div id="echelle" class="tab-pane fade show active" role="tabpanel" aria-labelledby="echelle-tab">
           {{ form_row (form.echelleCalendrier) }}
         </div>
-        <div id="contraintesperso" class="tab-pane fade">
+        <div id="contraintesperso" class="tab-pane fade" role="tabpanel" aria-labelledby="contraintesperso-tab">
           {{ form_row (form.quantitePersFaible) }}
           {{ form_row (form.dureePersFaible) }}
           {{ form_row (form.quantitePersMoy) }}
@@ -70,7 +70,7 @@
           {{ form_row (form.quantitePersForte) }}
           {{ form_row (form.dureePersForte) }}
         </div>
-        <div id="contraintespro" class="tab-pane fade">
+        <div id="contraintespro" class="tab-pane fade" role="tabpanel" aria-labelledby="contraintespro-tab">
           {{ form_row (form.quantiteProFaible) }}
           {{ form_row (form.dureeProFaible) }}
           {{ form_row (form.quantiteProMoy) }}
@@ -78,18 +78,18 @@
           {{ form_row (form.quantiteProForte) }}
           {{ form_row (form.dureeProForte) }}
         </div>
-        <div id="horaires" class="tab-pane fade">
+        <div id="horaires" class="tab-pane fade" role="tabpanel" aria-labelledby="horaires-tab">
           <div id='calendar'></div>
         </div>
-        <div id="explications" class="tab-pane fade">
+        <div id="explications" class="tab-pane fade" role="tabpanel" aria-labelledby="explications-tab">
           {{ form_row (form.texteHebdomadaire) }}
           {{ form_row (form.textePonctuel) }}
         </div>
-        <div id="remarques" class="tab-pane fade">
+        <div id="remarques" class="tab-pane fade" role="tabpanel" aria-labelledby="remarques-tab">
           {{ form_row (form.remarquesHebdoActives) }}
           {{ form_row (form.remarquesPonctuelActives) }}
         </div>
-        <div id="etat" class="tab-pane fade">
+        <div id="etat" class="tab-pane fade" role="tabpanel" aria-labelledby="etat-tab">
           {{ form_row (form.estOuvert) }}
 
         </div>
@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
     calendar.render();
   };
 
-  document.getElementById('horairestab').onclick = function() {
+  document.getElementById('horaires-tab').onclick = function() {
     calendar.render();
   }; //Rafraîchissement du calendrier
 
