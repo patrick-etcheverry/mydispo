@@ -59,30 +59,30 @@
                   <td>
                     <center>
                       <a href="{{ path('enseignant_show', {'id': enseignant.id}) }}" style="text-decoration: none">
-                        <i class="far fa-eye"></i>
+                        <i class="far fa-eye" title="Voir l'enseignant"></i>
                       </a>
                       <a href="{{ path('enseignant_edit', {'id': enseignant.id}) }}" style="text-decoration: none">
-                        <i class="fas fa-pencil-alt"></i>
+                        <i class="fas fa-pencil-alt" title="Modifier l'enseignant"></i>
                       </a>
                       <a href="{{ path('enseignant_delete', {'id': enseignant.id}) }}" style="text-decoration: none">
-                        <i class="far fa-trash-alt"></i>
+                        <i class="far fa-trash-alt" title="Supprimer l'enseignant"></i>
                       </a>
 
                       <a href="{{ path('notifierUnEnseignant', {'id': enseignant.id , 'compteur': 1}) }}" style="text-decoration: none">
-                        <img src="{{ asset('icones/PremierMail.png') }}"/>
+                        <img src="{{ asset('icones/PremierMail.png') }}" title="Envoyer le premier mail"/>
                       </a>
                       {% if enseignant.premierMailRecu == true %}
                       <a href="{{ path('notifierUnEnseignant', {'id': enseignant.id , 'compteur': 2}) }}" style="text-decoration: none">
-                        <img src="{{ asset('icones/MailRelance.png') }}"/>
+                        <img src="{{ asset('icones/MailRelance.png') }}" title="Envoyer le mail de relance"/>
                       </a>
                       {% else %}
                       <a>
-                        <img src="{{ asset('icones/MailRelanceDisable.png') }}"/>
+                        <img src="{{ asset('icones/MailRelanceDisable.png') }}" />
                       </a>
                       {% endif %}
 
                       <a href="{{ path('notifierUnEnseignant', {'id': enseignant.id , 'compteur': 3}) }}" style="text-decoration: none">
-                        <img src="{{ asset('icones/MailOubli.png') }}"/>
+                        <img src="{{ asset('icones/MailOubli.png') }}" title="Envoyer le mail d'oubli"/>
                       </a>
                     </center>
                   </td>
