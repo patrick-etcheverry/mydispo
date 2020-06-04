@@ -41,15 +41,15 @@
                   <td>{{ enseignant.enSommeil ? 'Inactif <i class="far fa-moon"></i>' : 'Actif' }}</td>
                   <td>
                     {% if enseignant.premierMailRecu == true %}
-                      Oui - Le
+                      Oui <font color="green"><i class="far fa-check-circle" ></i></font> - Le
                       {{enseignant.datePremierMail|date("d/m/Y à H:i", "Europe/Paris")}}
                     {% else %}
-                      Non reçu
+                      Non reçu <font color="orange"><i class="far fa-times-circle"></i></font>
                     {% endif %}
                   </td>
                   <td>
                     {% if enseignant.mailRelanceRecu == true %}
-                      Oui - Dernière relance : Le
+                      Oui <font color="green"><i class="far fa-check-circle" ></i></font>- Dernière relance : Le
                       {{enseignant.dateDerniereRelance|date("d/m/Y à H:i", "Europe/Paris")}}
                       ({{enseignant.nbRelance}}
                       {% if enseignant.nbRelance > 1 %}
@@ -58,7 +58,7 @@
                         relance au total)
                       {% endif %}
                     {% else %}
-                      Non reçu
+                      Non reçu <font color="orange"><i class="far fa-times-circle"></i></font>
                     {% endif %}
                   </td>
                   <td>

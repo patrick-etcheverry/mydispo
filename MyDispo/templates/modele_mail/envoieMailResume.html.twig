@@ -63,10 +63,10 @@
                           <td>Toutes les saisies</td>
                         {% else %}
                           {% if tabSaisie == 'false' %}
-                            <td>Non</td>
+                            <td>Non <font color="orange"><i class="far fa-times-circle"></i></font></td>
                           {% else %}
                           {% if tabSaisie == 'true' %}
-                            <td>Oui</td>
+                            <td>Oui <font color="green"><i class="far fa-check-circle" ></i></font></td>
                           {% endif %}
                           {% endif %}
                         {% endif %}
@@ -78,10 +78,10 @@
                         <td>Toutes les relances</td>
                       {% else %}
                         {% if tabMailRelanceRecu == 'false' %}
-                          <td>Non</td>
+                          <td>Non <font color="orange"><i class="far fa-times-circle"></i></font></td>
                         {% else %}
                         {% if tabMailRelanceRecu == 'true' %}
-                          <td>Oui</td>
+                          <td>Oui <font color="green"><i class="far fa-check-circle" ></i></font></td>
                           {% endif %}
                           {% endif %}
                         {% endif %}
@@ -168,9 +168,9 @@
               </td>
               <td>
                 {% if enseignantCourant.saisieFaite == true %}
-                  Saisie effectuée
+                  Saisie effectuée <font color="green"><i class="far fa-check-circle" ></i></font>
                 {% else %}
-                  Saisie non effectuée
+                  Saisie non effectuée <font color="orange"><i class="far fa-times-circle"></i></font>
                 {% endif %}
 
               </td>
@@ -184,9 +184,9 @@
               </td>
               <td>
                 {% if enseignantCourant.mailRelanceRecu == true %}
-                  Reçu
+                  Reçu <font color="green"><i class="far fa-check-circle" ></i></font>
                 {% else %}
-                  Non reçu
+                  Non reçu <font color="orange"><i class="far fa-times-circle"></i></font>
                 {% endif %}
 
               </td>

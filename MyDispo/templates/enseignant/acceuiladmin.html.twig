@@ -48,12 +48,12 @@
                   <td>
                     {% if enseignant.saisieFaite == true %}
                       Oui
-                      <i class="far fa-check-circle"></i>
+                      <font color="green"><i class="far fa-check-circle" ></i></font>
                       - Le
                       {{enseignant.dateSaisie|date("d/m/Y à h:s")}}
                     {% else %}
                       Non
-                      <i class="far fa-times-circle"></i>
+                      <font color="orange"><i class="far fa-times-circle"></i></font>
                     {% endif %}
                   </td>
                   <td>
