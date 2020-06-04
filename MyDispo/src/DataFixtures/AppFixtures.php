@@ -161,7 +161,7 @@ class AppFixtures extends Fixture
         $enseignant8->setEnSommeil(false);
         $enseignant8->setToken('https://iutbayonne/formulaire/gQLOIUSHYeduig.fr');
         $enseignant8->setSaisieFaite(true);
-        $enseignant8->setDateSaisie(null);
+        $enseignant8->setDateSaisie(new DateTime('06/06/2020'));
         $enseignant8->setDateDerniereModif(new DateTime('05/06/2020'));
         $enseignant8->setMailRelanceRecu(false);
         $enseignant8->setPremierMailRecu(true);

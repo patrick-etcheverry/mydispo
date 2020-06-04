@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ModeleMail{% endblock %}
+{% block title %}Confirmation token{% endblock %}
 
 {% block body %}
 
@@ -14,14 +14,14 @@
               <div class="card">
                 <h5 class="card-header">
                   <center>
-                    <td>Confirmation de l'envoi</h4>
+                    <td>Confirmation de la génération des tokens</h4>
                   </td>
                 </center>
               </h5>
               <div class="card-body">
                 <p class="card-text">
                   <center>
-                    Le mail a bien été envoyé !
+                    Tous les tokens ont bien été regénérés !
                   </br>
                     <em>Vous serez automatiquement rediriger dans 3 secondes</em>
                   </center>
@@ -36,6 +36,6 @@
     </p>
   </div>
 </div>
-<meta http-equiv="refresh" content="3;url={{ path('enseignant_indexadmin') }}">
+<meta http-equiv="refresh" content="3;url={{ path('enseignant_index') }}">
 
 {% endblock %}

@@ -9,12 +9,39 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/enseignant")
  */
 class EnseignantController extends AbstractController
 {
+  /**
+   * @Route("/GenerationToken", name="random_token")
+  */
+  public function GenererToken()
+      {
+        $entityManager = $this->getDoctrine()->getManager();
+        $repositoryEnseignant = $this->getDoctrine()->getRepository(Enseignant::class);
+        $enseignants = $repositoryEnseignant->findAll();
+
+        $listeCharacteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($listeCharacteres);
+
+        foreach ($enseignants as $enseignantCourant) {
+          $randomString = $enseignantCourant->getId();
+            for ($i = 0; $i < $charactersLength; $i++) {
+                $randomString .= $listeCharacteres[rand(0, $charactersLength - 1)];
+            }
+          $enseignantCourant->setToken($randomString);
+          $entityManager->persist($enseignantCourant);
+          $entityManager->flush();
+        }
+
+
+        return $this->render('enseignant/confirmationToken.html.twig');
+
+      }
 
     /**
      * @Route("/", name="enseignant_index", methods={"GET"})
@@ -115,6 +142,7 @@ class EnseignantController extends AbstractController
             'enseignant' => $enseignant,
         ]);
     }
+
 
 
 
