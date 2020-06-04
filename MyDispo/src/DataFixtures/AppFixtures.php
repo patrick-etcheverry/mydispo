@@ -9,6 +9,7 @@ use App\Entity\Enseignant;
 use App\Entity\Formation;
 use App\Entity\ModeleMail;
 use App\Entity\FormulaireTitulaire;
+use App\Entity\FormulaireVacataire;
 use \Datetime;
 
 class AppFixtures extends Fixture
@@ -299,6 +300,17 @@ class AppFixtures extends Fixture
 
 
         $manager->persist($formulaireTitulaire);
+
+        $formulaireVacataire= new FormulaireVacataire();
+        $formulaireVacataire->setEchelleCalendrier(60);
+        $formulaireVacataire->setTexteHebdomadaire("");
+        $formulaireVacataire->setTextePonctuel("");
+        $formulaireVacataire->setRemarquesHebdoActives(true);
+        $formulaireVacataire->setRemarquesPonctuelActives(true);
+        $formulaireVacataire->setEstOuvert(true);
+
+
+        $manager->persist($formulaireVacataire);
 
 
         // Envoyer les données en BD

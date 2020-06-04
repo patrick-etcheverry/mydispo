@@ -220,14 +220,12 @@ document.addEventListener('DOMContentLoaded', function() {
         weekday: 'long',
         hour: '2-digit',
         minute: '2-digit',
-        timeZone: 'Europe/Paris',
         locale: 'fr'
       });
       var dateFin = calendar.formatDate(info.event.end, {
         weekday: 'long',
         hour: '2-digit',
         minute: '2-digit',
-        timeZone: 'Europe/Paris',
         locale: 'fr'
       });
       var contenu = "Titre : " + info.event.title + "</br>Début : " + dateDeb + "</br>Fin : " + dateFin;
@@ -289,8 +287,6 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
 
-  calendar.render();
-  calendar.rerenderEvents();
   calendar.render();
 
 });

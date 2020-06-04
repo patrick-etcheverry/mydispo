@@ -19,6 +19,21 @@ class FormulaireTitulaireRepository extends ServiceEntityRepository
         parent::__construct($registry, FormulaireTitulaire::class);
     }
 
+
+
+
+
+    public function selectEchelleCalendrier()
+    {
+      return $this->createQueryBuilder('f')
+      ->select('f.echelleCalendrier')
+      ->getQuery()
+      ->getResult()
+      ;
+    }
+
+
+
     // /**
     //  * @return FormulaireTitulaire[] Returns an array of FormulaireTitulaire objects
     //  */

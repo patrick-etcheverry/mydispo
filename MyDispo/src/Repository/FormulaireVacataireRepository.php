@@ -19,6 +19,17 @@ class FormulaireVacataireRepository extends ServiceEntityRepository
         parent::__construct($registry, FormulaireVacataire::class);
     }
 
+
+
+    public function selectEchelleCalendrier()
+    {
+      return $this->createQueryBuilder('f')
+      ->select('f.echelleCalendrier')
+      ->getQuery()
+      ->getResult()
+      ;
+    }
+    
     // /**
     //  * @return FormulaireVacataire[] Returns an array of FormulaireVacataire objects
     //  */
