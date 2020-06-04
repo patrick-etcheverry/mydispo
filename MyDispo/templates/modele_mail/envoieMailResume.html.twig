@@ -41,42 +41,51 @@
                           <td>{{ tabFormation[0] }}</td>
                         {% endif %}
                       </tr>
+
                       <tr>
                         <th>Enseignant ayant le statut de :</th>
-                        {% if tabStatut | length > 1 %}
-                          <td>{{ tabStatut[0] }}
-                            -
-                            {{ tabStatut[1] }}</td>
-                        {% else %}
-                          <td>{{ tabStatut[0] }}</td>
-                        {% endif %}
-                      </tr>
+                          {% if tabStatut == "Titulaire" %}
+                            <td>Titulaire</td>
+                          {% else %}
+                            {% if tabStatut == "Vacataire" %}
+                              <td>Vacataire</td>
+                            {% else %}
+                              {% if tabStatut == "Tous les statuts" %}
+                                <td>Tous les statuts</td>
+                                {% endif %}
+                            {% endif %}
+                          {% endif %}
+                        </tr>
+
                       <tr>
                         <th>Saisie effectuée :</th>
-                        {% if tabSaisie | length > 1 %}
-                          <td>Sans importance (aucun filtre)</td>
+                        {% if tabSaisie == "Toutes les saisies" %}
+                          <td>Toutes les saisies</td>
                         {% else %}
-                          {% if tabSaisie[0] == 1 %}
+                          {% if tabSaisie == 'false' %}
+                            <td>Non</td>
+                          {% else %}
+                          {% if tabSaisie == 'true' %}
                             <td>Oui</td>
                           {% endif %}
-                          {% if tabSaisie[0] == null %}
-                            <td>Non</td>
                           {% endif %}
                         {% endif %}
                       </tr>
 
+                      <tr>
                       <th>Mail de relance reçu :</th>
-                      {% if tabMailRelanceRecu | length > 1 %}
-                        <td>Sans importance (aucun filtre)</td>
+                      {% if tabMailRelanceRecu == "Toutes les relances" %}
+                        <td>Toutes les relances</td>
                       {% else %}
-                        {% if tabMailRelanceRecu[0] == 1 %}
-                          <td>Oui</td>
-                        {% endif %}
-                        {% if tabMailRelanceRecu[0] == null %}
+                        {% if tabMailRelanceRecu == 'false' %}
                           <td>Non</td>
+                        {% else %}
+                        {% if tabMailRelanceRecu == 'true' %}
+                          <td>Oui</td>
+                          {% endif %}
+                          {% endif %}
                         {% endif %}
-                      {% endif %}
-                    </tr>
+                      </tr>
                   </tbody>
                 </table>
               </p>
@@ -183,7 +192,7 @@
               </td>
               <td>
                 {% if enseignantCourant.dateDerniereRelance == null %}
-                  
+
                 {% else %}
                 {{enseignantCourant.dateDerniereRelance|date("d/m/Y à H:i", "Europe/Paris")}}
                 {% endif %}

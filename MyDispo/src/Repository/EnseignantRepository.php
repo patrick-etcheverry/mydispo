@@ -31,49 +31,49 @@ class EnseignantRepository extends ServiceEntityRepository
         $requete= $this->createQueryBuilder('e');
 
         // Recherche sans critère
-        if(sizeof($tab['statut']) > 1 && sizeof($tab['formations']) > 1 && sizeof($tab['saisieFaite']) > 1 && sizeof($tab['mailRelanceRecu']) > 1 ){
+        if($tab['statut'] == "Tous les statuts" && sizeof($tab['formations']) > 1 && $tab['saisieFaite'] == "Toutes les saisies" && $tab['mailRelanceRecu'] == "Toutes les relances" ){
         return $requete
             ->getQuery()
             ->getResult()
         ;
         }
         // Recherche seulement sur la saisieFaite
-        if(sizeof($tab['statut']) > 1 && sizeof($tab['formations']) > 1 && sizeof($tab['mailRelanceRecu']) > 1 && sizeof($tab['saisieFaite']) < 2){
+        if($tab['statut'] == "Tous les statuts" && sizeof($tab['formations']) > 1 && $tab['mailRelanceRecu'] == "Toutes les relances" && $tab['saisieFaite'] != "Toutes les saisies"){
           $requete->andWhere('e.saisieFaite = :val')
           ->setParameter('val', $tab['saisieFaite']);
         }
         // Recherche seulement sur le statut
-        if(sizeof($tab['saisieFaite']) > 1 && sizeof($tab['formations']) > 1 && sizeof($tab['mailRelanceRecu']) > 1 && sizeof($tab['statut']) < 2){
+        if($tab['saisieFaite'] == "Toutes les saisies" && sizeof($tab['formations']) > 1 && $tab['mailRelanceRecu'] == "Toutes les relances" && $tab['statut'] != "Tous les statuts"){
           $requete->andWhere('e.statut = :val')
           ->setParameter('val', $tab['statut']);
         }
         // Recherche seulement sur le mail de relance
-        if(sizeof($tab['saisieFaite']) > 1 && sizeof($tab['formations']) > 1 && sizeof($tab['statut']) > 1 && sizeof($tab['mailRelanceRecu']) < 2){
+        if($tab['saisieFaite'] == "Toutes les saisies" && sizeof($tab['formations']) > 1 && $tab['statut'] == "Tous les statuts" && $tab['mailRelanceRecu'] != "Toutes les relances"){
           $requete->andWhere('e.mailRelanceRecu = :val')
           ->setParameter('val', $tab['mailRelanceRecu']);
         }
         // Recherche seulement sur les formations
-        if(sizeof($tab['saisieFaite']) > 1 && sizeof($tab['mailRelanceRecu']) > 1 && sizeof($tab['statut']) > 1 && sizeof($tab['formations']) < 2){
+        if($tab['saisieFaite'] == "Toutes les saisies" && $tab['mailRelanceRecu'] == "Toutes les relances" && $tab['statut'] == "Tous les statuts" && sizeof($tab['formations']) < 2){
           $requete->leftJoin('e.formations','f')
           ->andWhere('f.nomCourt = :val')
           ->setParameter('val', $tab['formations'][0]->getNomCourt());
         }
         // Recherche seulement sur le statut et le mail de relance
-        if(sizeof($tab['saisieFaite']) > 1 && sizeof($tab['formations']) > 1 && sizeof($tab['statut']) < 2 && sizeof($tab['mailRelanceRecu']) < 2){
+        if($tab['saisieFaite'] == "Toutes les saisies" && sizeof($tab['formations']) > 1 && $tab['statut'] != "Tous les statuts" && $tab['mailRelanceRecu'] != "Toutes les relances"){
           $requete->andWhere('e.mailRelanceRecu = :val')
           ->andWhere('e.statut = :val2')
           ->setParameter('val', $tab['mailRelanceRecu'])
           ->setParameter('val2', $tab['statut']);
         }
         // Recherche seulement sur la saisie faite et le mail de relance
-        if(sizeof($tab['statut']) > 1 && sizeof($tab['formations']) > 1 && sizeof($tab['saisieFaite']) < 2 && sizeof($tab['mailRelanceRecu']) < 2){
+        if($tab['statut'] == "Tous les statuts" && sizeof($tab['formations']) > 1 && $tab['saisieFaite'] != "Toutes les saisies" && $tab['mailRelanceRecu'] != "Toutes les relances"){
           $requete->andWhere('e.mailRelanceRecu = :val')
           ->andWhere('e.saisieFaite = :val2')
           ->setParameter('val', $tab['mailRelanceRecu'])
           ->setParameter('val2', $tab['saisieFaite']);
         }
         // Recherche seulement sur les formations et le mail de relance
-        if(sizeof($tab['saisieFaite']) > 1 && sizeof($tab['statut']) > 1 && sizeof($tab['formations']) < 2 && sizeof($tab['mailRelanceRecu']) < 2){
+        if($tab['saisieFaite'] == "Toutes les saisies" && $tab['statut'] == "Tous les statuts" && sizeof($tab['formations']) < 2 && $tab['mailRelanceRecu'] != "Toutes les relances"){
           $requete->leftJoin('e.formations','f')
           ->andWhere('f.nomCourt = :val')
           ->andWhere('e.mailRelanceRecu = :val2')
@@ -81,7 +81,7 @@ class EnseignantRepository extends ServiceEntityRepository
           ->setParameter('val2', $tab['mailRelanceRecu']);
         }
         // Recherche seulement sur les formations et le statut
-        if(sizeof($tab['saisieFaite']) > 1 && sizeof($tab['mailRelanceRecu']) > 1 && sizeof($tab['formations']) < 2 && sizeof($tab['statut']) < 2){
+        if($tab['saisieFaite'] == "Toutes les saisies" && $tab['mailRelanceRecu'] == "Toutes les relances" && sizeof($tab['formations']) < 2 && $tab['statut'] != "Tous les statuts"){
           $requete->leftJoin('e.formations','f')
           ->andWhere('f.nomCourt = :val')
           ->andWhere('e.statut = :val2')
@@ -89,7 +89,7 @@ class EnseignantRepository extends ServiceEntityRepository
           ->setParameter('val2', $tab['statut']);
         }
         // Recherche seulement sur les formations et la saisie faite
-        if(sizeof($tab['statut']) > 1 && sizeof($tab['mailRelanceRecu']) > 1 && sizeof($tab['formations']) < 2 && sizeof($tab['saisieFaite']) < 2){
+        if($tab['statut'] == "Tous les statuts" && $tab['mailRelanceRecu'] == "Toutes les relances" && sizeof($tab['formations']) < 2 && $tab['saisieFaite'] != "Toutes les saisies"){
           $requete->leftJoin('e.formations','f')
           ->andWhere('f.nomCourt = :val')
           ->andWhere('e.saisieFaite = :val2')
@@ -97,44 +97,44 @@ class EnseignantRepository extends ServiceEntityRepository
           ->setParameter('val2', $tab['saisieFaite']);
         }
         // Recherche seulement sur la saisie faite et le statut
-        if(sizeof($tab['formations']) > 1 && sizeof($tab['mailRelanceRecu']) > 1 && sizeof($tab['statut']) < 2 && sizeof($tab['saisieFaite']) < 2){
+        if(sizeof($tab['formations']) > 1 && $tab['mailRelanceRecu'] == "Toutes les relances" && $tab['statut'] != "Tous les statuts" && $tab['saisieFaite'] != "Toutes les saisies"){
           $requete->andWhere('e.statut = :val')
           ->andWhere('e.saisieFaite = :val2')
           ->setParameter('val', $tab['statut'])
           ->setParameter('val2', $tab['saisieFaite']);
         }
         // Recherche seulement sur les formations et le statut et le saisie faite
-        if( sizeof($tab['mailRelanceRecu']) > 1 && sizeof($tab['statut']) < 2 && sizeof($tab['formations']) < 2 && sizeof($tab['saisieFaite']) < 2){
+        if( $tab['mailRelanceRecu'] == "Toutes les relances" && $tab['statut'] != "Tous les statuts" && sizeof($tab['formations']) < 2 && $tab['saisieFaite'] != "Toutes les saisies"){
           $requete->leftJoin('e.formations','f')
           ->andWhere('f.nomCourt = :val')
           ->andWhere('e.saisieFaite = :val2')
-          ->andWhere('e.statut = :val2')
+          ->andWhere('e.statut = :val3')
           ->setParameter('val', $tab['formations'][0]->getNomCourt())
           ->setParameter('val2', $tab['saisieFaite'])
           ->setParameter('val3', $tab['statut']);
         }
         // Recherche seulement sur les formations et le statut et le mail de relance
-        if( sizeof($tab['saisieFaite'])  > 1 && sizeof($tab['statut']) < 2 && sizeof($tab['formations']) < 2 && sizeof($tab['mailRelanceRecu']) < 2){
+        if( $tab['saisieFaite'] == "Toutes les saisies" && $tab['statut'] != "Tous les statuts" && sizeof($tab['formations']) < 2 && $tab['mailRelanceRecu'] != "Toutes les relances"){
           $requete->leftJoin('e.formations','f')
           ->andWhere('f.nomCourt = :val')
           ->andWhere('e.mailRelanceRecu = :val2')
-          ->andWhere('e.statut = :val2')
+          ->andWhere('e.statut = :val3')
           ->setParameter('val', $tab['formations'][0]->getNomCourt())
           ->setParameter('val2', $tab['mailRelanceRecu'])
           ->setParameter('val3', $tab['statut']);
         }
         // Recherche seulement sur les formations et le mail de relance et la saisiefaite
-        if(  sizeof($tab['statut']) > 1 && sizeof($tab['saisieFaite']) < 2 && sizeof($tab['formations']) < 2 && sizeof($tab['mailRelanceRecu']) < 2){
+        if(  $tab['statut'] == "Tous les statuts" && $tab['saisieFaite'] != "Toutes les saisies" && sizeof($tab['formations']) < 2 && $tab['mailRelanceRecu'] != "Toutes les relances"){
           $requete->leftJoin('e.formations','f')
           ->andWhere('f.nomCourt = :val')
           ->andWhere('e.mailRelanceRecu = :val2')
-          ->andWhere('e.saisieFaite = :val2')
+          ->andWhere('e.saisieFaite = :val3')
           ->setParameter('val', $tab['formations'][0]->getNomCourt())
           ->setParameter('val2', $tab['mailRelanceRecu'])
           ->setParameter('val3', $tab['saisieFaite']);
         }
         // Recherche seulement sur le statut et le mail de relance et la saisiefaite
-        if( sizeof($tab['formations']) > 1 &&  sizeof($tab['saisieFaite']) < 2 && sizeof($tab['statut']) < 2 && sizeof($tab['mailRelanceRecu']) < 2){
+        if( sizeof($tab['formations']) > 1 &&  $tab['saisieFaite'] != "Toutes les saisies" && $tab['statut'] != "Tous les statuts" && $tab['mailRelanceRecu'] != "Toutes les relances"){
           $requete->andWhere('e.statut = :val')
           ->andWhere('e.mailRelanceRecu = :val2')
           ->andWhere('e.saisieFaite = :val3')
@@ -143,7 +143,7 @@ class EnseignantRepository extends ServiceEntityRepository
           ->setParameter('val3', $tab['saisieFaite']);
         }
         // Recherche seulement sur le statut et le mail de relance et la saisiefaite et les formations
-        if( sizeof($tab['formations']) < 2 &&  sizeof($tab['saisieFaite']) < 2 && sizeof($tab['statut']) < 2 && sizeof($tab['mailRelanceRecu']) < 2){
+        if( sizeof($tab['formations']) < 2 &&  $tab['saisieFaite'] != "Toutes les saisies" && $tab['statut'] != "Tous les statuts" && $tab['mailRelanceRecu'] != "Toutes les relances"){
           $requete->leftJoin('e.formations','f')
           ->andWhere('f.nomCourt = :val4')
           ->andWhere('e.mailRelanceRecu = :val2')

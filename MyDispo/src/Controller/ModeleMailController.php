@@ -15,8 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
-use \Swift_Mailer;
-use \Swift_SmtpTransport;
+
 use Symfony\Component\Validator\Constraints\DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 /**
@@ -84,29 +83,32 @@ public function formEnvoieMail(Request $request)
                         'choices' => [
                           'Titulaire' => 'Titulaire',
                           'Vacataire' => 'Vacataire',
+                          'Tous les statuts' => 'Tous les statuts',
                           ],
                         'label' => 'Enseignant ayant le statut de :',
-                        'multiple' => true,
+                        'multiple' => false,
                         'expanded' => true,
                         'required' => true
                     ))
                 ->add('saisieFaite', ChoiceType::class, array(
                         'choices' => [
-                          'Une saisie effectuée' => true,
-                          'Une saisie non effectuée' => false,
+                          'Une saisie effectuée' => 'true',
+                          'Une saisie non effectuée' => 'false',
+                          'Toutes les saisies' => 'Toutes les saisies',
                           ],
                         'label' => 'Enseignant avec : ',
-                        'multiple' => true,
+                        'multiple' => false,
                         'expanded' => true,
                         'required' => true
                     ))
                     ->add('mailRelanceRecu', ChoiceType::class, array(
                             'choices' => [
-                              'Ayant reçu un mail de relance' => true,
-                              'N\'ayant pas reçu de mail de relance' => false,
+                              'Ayant reçu un mail de relance' => 'true',
+                              'N\'ayant pas reçu de mail de relance' => 'false',
+                              'Toutes les relances' => 'Toutes les relances',
                               ],
                             'label' => 'Enseignant : ',
-                            'multiple' => true,
+                            'multiple' => false,
                             'expanded' => true,
                             'required' => true
                         ))
@@ -115,7 +117,6 @@ public function formEnvoieMail(Request $request)
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      // data is an array with "name", "email", and "message" keys
       $data = $form->getData();
       $repositoryModeleMail = $this->getDoctrine()->getRepository(ModeleMail::class);
       $repositoryEnseignant = $this->getDoctrine()->getRepository(Enseignant::class);
@@ -153,38 +154,12 @@ $session->set('modeleMail',$modeleMail);
   }
 
 
-  /**
-   * @Route("/confirmationEnvoieMail/", name="envoie_mail", methods={"GET"})
-   */
-  public function notifierEnseignant()
-  {
-          $session = new Session();
-        $modeleMail = $session->get('modeleMail');
-        $enseignants = $session->get('enseignants');
-        $sujet =$modeleMail->getSujet();
-          $contenu = $modeleMail->getContenu();
-          foreach ( $enseignants  as  $enseignantCourant ){
-          $transport = (new \Swift_SmtpTransport('smtp.gmail.com', 465))
-            ->setHost('smtp.gmail.com')
-            ->setPort('465')
-            ->setEncryption('ssl')
-            ->setAuthMode('login')
-            ->setUsername($_ENV['MAILER_USER'])
-            ->setPassword($_ENV['MAILER_PASSWORD']);
-        $mailer = new \Swift_Mailer($transport);
-        $message = (new \Swift_Message($sujet))
-           ->setFrom(['mydispoo@gmail.com' => 'Patrick Etcheverry'])
-           ->setTo($enseignantCourant->getMail())
-           ->setBody($contenu);
-        $mailer->send($message);
-        }
-        return $this->render('modele_mail/confirmationEnvoieMail.html.twig');
-    }
+
 
     /**
-     * @Route("/premierMail/{id}/{compteur}", name="notifierUnEnseignant_PremierMail", methods={"GET"})
+     * @Route("/premierMail/{id}/{compteur}", name="notifierUnEnseignant", methods={"GET"})
      */
-    public function notifierUnEnseignantPremierMail(Enseignant $enseignant , int $compteur)
+    public function notifierUnEnseignant(Enseignant $enseignant , int $compteur)
     {
       new \DateTimeZone('Europe/Paris');
       switch ($compteur)
@@ -226,7 +201,7 @@ $session->set('modeleMail',$modeleMail);
               ->setPassword($_ENV['MAILER_PASSWORD']);
           $mailer = new \Swift_Mailer($transport);
           $message = (new \Swift_Message($modeleMail->getSujet()))
-             ->setFrom($_ENV['MAILER_USER'])
+             ->setFrom('Patrick Etcheverry')
              ->setTo($enseignant->getMail())
              ->setBody($modeleMail->getContenu());
           $mailer->send($message);
@@ -293,5 +268,5 @@ $session->set('modeleMail',$modeleMail);
         ]);
     }
 
-    
+
 }

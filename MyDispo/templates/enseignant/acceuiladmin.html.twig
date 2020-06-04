@@ -68,11 +68,11 @@
                         <i class="far fa-trash-alt"></i>
                       </a>
 
-                      <a href="{{ path('notifierUnEnseignant_PremierMail', {'id': enseignant.id , 'compteur': 1}) }}" style="text-decoration: none">
+                      <a href="{{ path('notifierUnEnseignant', {'id': enseignant.id , 'compteur': 1}) }}" style="text-decoration: none">
                         <img src="{{ asset('icones/PremierMail.png') }}"/>
                       </a>
                       {% if enseignant.premierMailRecu == true %}
-                      <a href="{{ path('notifierUnEnseignant_PremierMail', {'id': enseignant.id , 'compteur': 2}) }}" style="text-decoration: none">
+                      <a href="{{ path('notifierUnEnseignant', {'id': enseignant.id , 'compteur': 2}) }}" style="text-decoration: none">
                         <img src="{{ asset('icones/MailRelance.png') }}"/>
                       </a>
                       {% else %}
@@ -81,7 +81,7 @@
                       </a>
                       {% endif %}
 
-                      <a href="{{ path('notifierUnEnseignant_PremierMail', {'id': enseignant.id , 'compteur': 3}) }}" style="text-decoration: none">
+                      <a href="{{ path('notifierUnEnseignant', {'id': enseignant.id , 'compteur': 3}) }}" style="text-decoration: none">
                         <img src="{{ asset('icones/MailOubli.png') }}"/>
                       </a>
                     </center>

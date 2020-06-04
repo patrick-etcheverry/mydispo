@@ -24,37 +24,52 @@
                 <div class="card-body">
                   <p class="card-text">
                     {{ form_start(form) }}
-                     {{ form_row(form.nom) }}
+                    {{ form_row(form.nom) }}
                     <h6>Envoyer un mail à tous les enseignants respectant les critères suivants:</h6>
-                    <p><em>
-                      Exemple :</br>
-                      Pour cibler un enseignant intervenant en DUT Informatique ayant n'importe quel statut, ayant fait sa saisie et ayant n'ayant pas recu un mail de relance : </br>
-                                      - Cocher la case "DUT Info" </br>
-                                      - Cocher les cases "Titulaire" et "Vacataire" </br>
-                                      - Cocher la case "Une saisie effectuée" </br>
-                                      - Cocher la case "N'ayant pas reçu de mail de relance"
-                    </em></p>
-                    {{ form_row(form.nomCourt) }}
-                    {{ form_row(form.statut) }}
-                    {{ form_row(form.saisieFaite) }}
-                    {{ form_row(form.mailRelanceRecu) }}
 
-
-                  </p>
-                </div>
-                <div class="card-footer">
-                  <center>
-                    <button class="btn-primary">
-                      <i class="fas fa-pencil-alt"></i>{{ button_label|default(' Envoyer ') }}</button>
-                  </center>
-                  {{ form_end(form) }}
-                </div>
-              </div>
+                    <div class="element">
+                      <i class="fas fa-info-circle"></i>
+                      <div class="infobulle">
+                        <p>
+                          <em>
+                            Exemple :</br>
+                          Pour cibler un enseignant intervenant dans n'importe quelle formation :
+                        </br>
+                        - Cocher la case "DUT Info" et "LP Info"
+                      </br>
+                </em>
+              </p>
             </div>
           </div>
-        </div>
-      </p>
+          {{ form_label(form.nomCourt) }}
+          {{ form_widget(form.nomCourt) }}
+          {{ form_row(form.statut) }}
+          {{ form_row(form.saisieFaite) }}
+          {{ form_row(form.mailRelanceRecu) }}
+
+        </p>
+      </div>
+      <div class="card-footer">
+        <center>
+          <button class="btn-primary">
+            <i class="fas fa-pencil-alt"></i>{{ button_label|default(' Envoyer ') }}</button>
+        </center>
+        {{ form_end(form) }}
+      </div>
     </div>
   </div>
+</div>
+</div>
+</p>
+</div>
+</div>
+
+<script>
+function ok() {
+alert('test');
+}
+</script>
+
+<style></style>
 
 {% endblock %}

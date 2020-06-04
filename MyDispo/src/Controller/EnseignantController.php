@@ -9,8 +9,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+use Symfony\Component\HttpFoundation\Session\Session;
+use \Swift_Mailer;
+use \Swift_SmtpTransport;
 /**
  * @Route("/enseignant")
  */
@@ -42,6 +44,59 @@ class EnseignantController extends AbstractController
         return $this->render('enseignant/confirmationToken.html.twig');
 
       }
+
+      /**
+       * @Route("/confirmationEnvoieMail/", name="envoie_mail", methods={"GET"})
+       */
+      public function notifierEnseignant()
+      {
+
+            $session = new Session();
+            $modeleMail = $session->get('modeleMail');
+            $enseignants = $session->get('enseignants');
+            $sujet =$modeleMail->getSujet();
+              $contenu = $modeleMail->getContenu();
+              foreach ( $enseignants  as  $enseignantCourant ){
+              $transport = (new \Swift_SmtpTransport('smtp.gmail.com', 465))
+                ->setHost('smtp.gmail.com')
+                ->setPort('465')
+                ->setEncryption('ssl')
+                ->setAuthMode('login')
+                ->setUsername($_ENV['MAILER_USER'])
+                ->setPassword($_ENV['MAILER_PASSWORD']);
+            $mailer = new \Swift_Mailer($transport);
+            $message = (new \Swift_Message($sujet))
+               ->setFrom('Patrick Etcheverry')
+               ->setTo($enseignantCourant->getMail())
+               ->setBody($contenu);
+            $mailer->send($message);
+/*
+            // Premier mail
+            if($sujet == 'Saisie de vos contraintes et disponibilités IUT Anglet'){
+              $enseignantCourant->setPremierMailRecu(true);
+              $date1 = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+              $date1->setTimezone(new \DateTimeZone('UTC'));
+              $enseignantCourant->setDatePremierMail($date1);
+            }
+            else{
+              // Mail relance
+              if($sujet == 'Relance pour la saisie de vos contraintes et disponibilités IUT Anglet'){
+                $enseignantCourant->setMailRelanceRecu(true);
+                $date2 = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+                $date2->setTimezone(new \DateTimeZone('UTC'));
+                $enseignantCourant->setDateDerniereRelance($date2);
+                $enseignantCourant->setNbRelance($enseignantCourant->getNbRelance() +1);
+
+              }
+            }
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($enseignantCourant);
+            $entityManager->flush();
+*/
+          }
+            return $this->render('modele_mail/confirmationEnvoieMail.html.twig');
+        }
 
     /**
      * @Route("/", name="enseignant_index", methods={"GET"})
