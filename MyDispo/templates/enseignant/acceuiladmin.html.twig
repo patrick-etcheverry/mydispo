@@ -67,12 +67,20 @@
                       <a href="{{ path('enseignant_delete', {'id': enseignant.id}) }}">
                         <i class="far fa-trash-alt"></i>
                       </a>
+
                       <a href="{{ path('notifierUnEnseignant_PremierMail', {'id': enseignant.id , 'compteur': 1}) }}">
                         <img src="{{ asset('icones/PremierMail.png') }}"/>
                       </a>
+                      {% if enseignant.premierMailRecu == true %}
                       <a href="{{ path('notifierUnEnseignant_PremierMail', {'id': enseignant.id , 'compteur': 2}) }}">
                         <img src="{{ asset('icones/MailRelance.png') }}"/>
                       </a>
+                      {% else %}
+                      <a>
+                        <img src="{{ asset('icones/MailRelanceDisable.png') }}"/>
+                      </a>
+                      {% endif %}
+
                       <a href="{{ path('notifierUnEnseignant_PremierMail', {'id': enseignant.id , 'compteur': 3}) }}">
                         <img src="{{ asset('icones/MailOubli.png') }}"/>
                       </a>
@@ -89,14 +97,6 @@
         </p>
       </div>
     </p>
-  </div>
-  <div class="card-footer">
-    <center>
-      <button class="btn-primary">
-        <i class="fas fa-download"></i>
-        Télécharger toutes les données
-      </button>
-    </center>
   </div>
 </div>
 </div>

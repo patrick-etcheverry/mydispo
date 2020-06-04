@@ -232,6 +232,9 @@ $session->set('modeleMail',$modeleMail);
           $mailer->send($message);
 
           return $this->render('modele_mail/confirmationEnvoieMail.html.twig');
+
+
+
   }
 
 
