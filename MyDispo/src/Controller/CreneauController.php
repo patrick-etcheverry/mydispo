@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use \DateTime;
+use \DateTimeZone;
 
 /**
 * @Route("/creneau")
@@ -36,7 +37,9 @@ class CreneauController extends AbstractController
 
     $creneau->setTitre($titre);
     $creneau->setDateDebut(new DateTime($debut));
+    $creneau->getDateDebut()->setTimeZone(new DateTimeZone('Europe/Paris'));
     $creneau->setDateFin(new DateTime($fin));
+    $creneau->getDateFin()->setTimeZone(new DateTimeZone('Europe/Paris'));
     $creneau->setType($type);
     $creneau->setPrioOuPref("");
 

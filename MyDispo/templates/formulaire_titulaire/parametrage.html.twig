@@ -161,7 +161,7 @@ var events;
 function ajax(start, end, title, type) {
 
   $.ajax({
-    url: "{{ absolute_url(path('creneau_ajouter')) }}",
+    url: "{{ url('creneau_ajouter') }}",
     data: {
       startevt: start,
       endevt: end,
@@ -190,6 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
     weekNumberCalculation: "ISO",
     weekends: false,
     selectable: true,
+    events: {{ events|raw  }},
     columnHeaderFormat: {
       weekday: 'long'
     },
@@ -219,14 +220,14 @@ document.addEventListener('DOMContentLoaded', function() {
         weekday: 'long',
         hour: '2-digit',
         minute: '2-digit',
-        timeZone: 'CEST',
+        timeZone: 'Europe/Paris',
         locale: 'fr'
       });
       var dateFin = calendar.formatDate(info.event.end, {
         weekday: 'long',
         hour: '2-digit',
         minute: '2-digit',
-        timeZone: 'CEST',
+        timeZone: 'Europe/Paris',
         locale: 'fr'
       });
       var contenu = "Titre : " + info.event.title + "</br>Début : " + dateDeb + "</br>Fin : " + dateFin;
@@ -275,6 +276,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('formulaire_titulaire_echelleCalendrier').onchange = function() {
     calendar.setOption('slotDuration', document.getElementById('formulaire_titulaire_echelleCalendrier').value.minsToHHMMSS());
     calendar.setOption('slotLabelInterval', document.getElementById('formulaire_titulaire_echelleCalendrier').value.minsToHHMMSS());
+    calendar.render();
   };
 
   document.getElementById('horairestab').onclick = function() {
@@ -283,25 +285,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   document.getElementById('boutonajax').onclick = function() {
     events = calendar.getEvents();
-    events.forEach(event => ajax(calendar.formatDate(event.start,{
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    })+" "+calendar.formatDate(event.start,{
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    }) , calendar.formatDate(event.end,{
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    })+" "+calendar.formatDate(event.end,{
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    }) , event.title, "zoneGrisee"));
+    events.forEach(event => ajax( event.start.toISOString(), event.end.toISOString(), event.title,"zoneGrisee"));
   };
 
+
+  calendar.render();
+  calendar.rerenderEvents();
   calendar.render();
 
 });

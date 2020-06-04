@@ -33,7 +33,16 @@ class CreneauRepository extends ServiceEntityRepository
         ;
     }
 
-
+ public function selectStartEndTitleByType($value)
+ {
+   return $this->createQueryBuilder('c')
+   ->select('c.titre as title','c.dateDebut as start','c.dateFin as end')
+   ->where('c.type = :val')
+   ->setParameter('val', $value)
+   ->getQuery()
+   ->getResult()
+   ;
+ }
 
 
     // /**

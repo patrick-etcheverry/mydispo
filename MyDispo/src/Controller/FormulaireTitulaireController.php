@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use StdClass;
 
 /**
  * @Route("/formulaire/titulaire")
@@ -31,9 +32,22 @@ class FormulaireTitulaireController extends AbstractController
 
           return $this->redirectToRoute('formulaire_titulaire_edit');
       }
+$myarray = array();
+$events = $creneauRepository->selectStartEndTitleByType("zoneGrisee");
+foreach ($events as $event){
+  $object = new StdClass;
+  $object->title=$event["title"];
+  $object->daysOfWeek=date('w',$event["start"]->getTimestamp());
+  $object->startTime=$event["start"]->format("H:i:s");
+  $object->endTime=$event["end"]->format("H:i:s");
+  $myarray[] = $object;
+}
+
+$result=json_encode($myarray);
+
       return $this->render('formulaire_titulaire/parametrage.html.twig', [
           'formulaire_titulaire' => $formulaireTitulaire,
-          'events' => $creneauRepository->findByType("zoneGrisee"),
+          'events' => $result,
           'form' => $form->createView(),
       ]);
   }
