@@ -24,11 +24,8 @@ class CreneauController extends AbstractController
   {
 
     $creneau = new Creneau();
-    if (isset($_POST["titleevt"])) {
-          $titre = $_POST["titleevt"];
-    }
 
-
+    $titre = $_POST["titleevt"];
     $debut = $_POST["startevt"];
     $fin = $_POST["endevt"];
     $type = $_POST["typeevt"];
@@ -47,7 +44,7 @@ class CreneauController extends AbstractController
     $entityManager->persist($creneau);
     $entityManager->flush();
 
-    return new Response("Les créneaux ont bien été enregistrées");
+    return new Response("");
 
   }
 

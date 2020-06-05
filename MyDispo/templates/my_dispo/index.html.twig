@@ -109,7 +109,7 @@
     }
 
     var events;
-    function ajax(start, end, title, prio, type) {
+    function ajax(start, end, title, type) {
 
       $.ajax({
         url: "{{path("creneau_ajouter")}}",
@@ -117,7 +117,6 @@
           startevt: start,
           endevt: end,
           titleevt: title,
-					prioevt: prio,
 					typeevt: type,
         }, //données envoyées au serveur pour chaque événement
         type: "POST"
@@ -230,12 +229,14 @@
 
       document.getElementById('submit').onclick = function() {
         events = calendar.getEvents(); //on récupère tous les événements du calendrier sous forme d'un tableau
-        events.forEach(event => ajax(event.start, event.end, event.title, event.prio, event.type)); //pour chaque élément du tableau, c'est à dire pour chaque événement, on envoie sa date de début, sa date de fin et son titre au serveur
+        events.forEach(event => ajax(event.start.toISOString(), event.end.toISOString(), event.title,"zoneGrisee")); //pour chaque élément du tableau, c'est à dire pour chaque événement, on envoie sa date de début, sa date de fin et son titre au serveur
       };
 
       calendar.render();
 
     });
   </script>
+
+  
 
 {% endblock %}
