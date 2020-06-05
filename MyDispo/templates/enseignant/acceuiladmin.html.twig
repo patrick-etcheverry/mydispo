@@ -20,6 +20,7 @@
                 <th>Statut</th>
                 <th>Formations</th>
                 <th>Saisie effectuée ?</th>
+                <th>Date de la saisie</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -49,35 +50,44 @@
                     {% if enseignant.saisieFaite == true %}
                       Oui
                       <font color="green"><i class="far fa-check-circle" ></i></font>
-                      - Le
-                      {{enseignant.dateSaisie|date("d/m/Y à h:s")}}
                     {% else %}
                       Non
                       <font color="orange"><i class="far fa-times-circle"></i></font>
                     {% endif %}
                   </td>
                   <td>
+                    {{enseignant.dateSaisie|date("d/m/Y à h:s")}}
+                  </td>
+                  <td>
                     <center>
                       <a href="{{ path('enseignant_show', {'id': enseignant.id}) }}" style="text-decoration: none">
                         <i class="far fa-eye" title="Voir l'enseignant"></i>
                       </a>
+                      &nbsp;
                       <a href="{{ path('enseignant_edit', {'id': enseignant.id}) }}" style="text-decoration: none">
                         <i class="fas fa-pencil-alt" title="Modifier l'enseignant"></i>
                       </a>
+                      &nbsp;
                       <a href="{{ path('enseignant_delete', {'id': enseignant.id}) }}" style="text-decoration: none">
                         <i class="far fa-trash-alt" title="Supprimer l'enseignant"></i>
                       </a>
-
+                      &nbsp;
+                      {% if enseignant.premierMailRecu == true %}
                       <a href="{{ path('notifierUnEnseignant', {'id': enseignant.id , 'compteur': 1}) }}" style="text-decoration: none">
                         <img src="{{ asset('icones/PremierMail.png') }}" title="Envoyer le premier mail"/>
                       </a>
+                      {% else %}
+                      <a>
+                        <img src="{{ asset('icones/PremierMailDisable.png') }}" title="Le premier mail n'a pas été envoyé à {{enseignant.nom}} {{enseignant.prenom}}"/>
+                      </a>
+                      {% endif %}
                       {% if enseignant.premierMailRecu == true %}
                       <a href="{{ path('notifierUnEnseignant', {'id': enseignant.id , 'compteur': 2}) }}" style="text-decoration: none">
                         <img src="{{ asset('icones/MailRelance.png') }}" title="Envoyer le mail de relance"/>
                       </a>
                       {% else %}
                       <a>
-                        <img src="{{ asset('icones/MailRelanceDisable.png') }}" />
+                        <img src="{{ asset('icones/MailRelanceDisable.png') }}" title="Le premier mail n'a pas été envoyé à {{enseignant.nom}} {{enseignant.prenom}}" />
                       </a>
                       {% endif %}
 
@@ -111,7 +121,7 @@
 <div class="card">
 <h5 class="card-header">
 <center>
-  <h2>Les dernières modifications</h2>
+  <h2>Journal de connexions</h2>
 </center>
 
 </h5>
@@ -121,46 +131,19 @@
     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
       <thead>
         <tr>
-          <th>Date de modification</th>
+          <th>Date de connexion</th>
           <th>Enseignant</th>
-          <th>Statut</th>
-          <th>Formations</th>
-          <th>Actions</th>
+          <th>Opérations réalisées sur les contraintes hebdomadaires</th>
+          <th>Opérations réalisées sur les contraintes ponctuelles</th>
         </tr>
       </thead>
       <tbody>
-        {% for enseignant in enseignants %}
           <tr>
-            <td>{{ random(+'now'|date('U'))|date('H:i - d/m/Y') }}</td>
-            <td>{{ enseignant.prenom }}
-              {{ enseignant.nom }}</td>
-            <td>{{ enseignant.statut }}</td>
-            <td>
-              {% for formation in enseignant.formations %}
-
-                {% if loop.length > 1 %}
-                  {% if loop.last %}{{formation}}
-                  {% else %}
-                    {{formation}}
-                    -
-                  {% endif %}
-
-                {% else %}
-                  {{formation}}
-                {% endif %}
-
-              {% endfor %}
-            </td>
-            <td>
-              <center>
-                <a href="{{ path('enseignant_show', {'id': enseignant.id}) }}">
-                  <i class="far fa-eye"></i>
-                </a>
-                <a href="{{ path('enseignant_edit', {'id': enseignant.id}) }}">
-                  <i class="fas fa-pencil-alt"></i>
-                </a>
-              </center>
-            </td>
+        {% for enseignant in enseignants %}
+            <td><center>{{ random(+'now'|date('U'))|date('H:i - d/m/Y') }}</center></td>
+            <td><center>{{ enseignant.prenom }} {{ enseignant.nom }}</center></td>
+            <td><center>{{ random(['Consultation', 'Modification']) }}</center></td>
+            <td><center>{{ random(['Consultation', 'Modification']) }}</center></td>
           </tr>
         {% else %}
           <tr>

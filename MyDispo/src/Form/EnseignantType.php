@@ -39,6 +39,18 @@ class EnseignantType extends AbstractType
                   ))
                   ->add('token',TextType::class,array(
                       'label' => 'Lien personnalisé',))
+                      ->add('premierMailRecu',ChoiceType::class,array(
+                        'choices'  => array(
+                             'Oui' => true,
+                            'Non' => false,),
+                          'label' => 'Premier mail envoyé ?'
+                        ))
+                      ->add('mailRelanceRecu',ChoiceType::class,array(
+                        'choices'  => array(
+                             'Oui' => true,
+                            'Non' => false,),
+                          'label' => 'Mail de relance envoyé ?'
+                        ))
             ->add('formations', EntityType::class, array(
               'class' => Formation::class,
               'multiple' => true,

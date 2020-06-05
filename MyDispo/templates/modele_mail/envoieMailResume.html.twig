@@ -19,7 +19,7 @@
               <div class="card">
                 <h5 class="card-header">
                   <center>
-                    <i class="fas fa-users-cog"></i>
+                    <i class="fas fa-bullseye"></i>
                     Cible du mail
                   </center>
                 </h5>
@@ -73,7 +73,7 @@
                       </tr>
 
                       <tr>
-                      <th>Mail de relance reçu :</th>
+                      <th>Mail de relance envoyé :</th>
                       {% if tabMailRelanceRecu == "Toutes les relances" %}
                         <td>Toutes les relances</td>
                       {% else %}
@@ -135,7 +135,7 @@
             <th>Formations</th>
             <th>Saisie</th>
             <th>Date de la saisie</th>
-            <th>Mail de relance</th>
+            <th>Mail de relance envoyé ?</th>
             <th>Date de la dernière relance</th>
             <th>Nombre de relances</th>
           </tr>
@@ -184,9 +184,9 @@
               </td>
               <td>
                 {% if enseignantCourant.mailRelanceRecu == true %}
-                  Reçu <font color="green"><i class="far fa-check-circle" ></i></font>
+                  Oui <font color="green"><i class="far fa-check-circle" ></i></font>
                 {% else %}
-                  Non reçu <font color="orange"><i class="far fa-times-circle"></i></font>
+                  Non <font color="orange"><i class="far fa-times-circle"></i></font>
                 {% endif %}
 
               </td>
