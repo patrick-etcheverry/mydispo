@@ -6,9 +6,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 use StdClass;
+use App\Entity\Enseignant;
+use App\Entity\Creneau;
+use App\Entity\LogEnseignant;
+use App\Entity\Remarque;
 use App\Repository\CreneauRepository;
 use App\Repository\FormulaireTitulaireRepository;
 use App\Repository\FormulaireVacataireRepository;
+use App\Repository\RemarqueRepository;
+use App\Repository\LogEnseignantRepository;
 use App\Repository\EnseignantRepository;
 
 class MyDispoController extends AbstractController
@@ -121,4 +127,62 @@ class MyDispoController extends AbstractController
       'echelle' => $echelle,
     ]);
   }
+
+  /**
+  * @Route("/ChangementAnnee", name="changement_annee")
+  */
+  public function ChangementAnnee()
+  {
+    $entityManager = $this->getDoctrine()->getManager();
+
+    $repositoryEnseignant = $this->getDoctrine()->getRepository(Enseignant::class);
+    $enseignants = $repositoryEnseignant->findAll();
+
+    $repositoryCreneau = $this->getDoctrine()->getRepository(Creneau::class);
+    $creneaux = $repositoryCreneau->findAll();
+
+    $repositoryRemarque = $this->getDoctrine()->getRepository(Remarque::class);
+    $remarques = $repositoryRemarque->findAll();
+
+    $repositoryLogEnseignant = $this->getDoctrine()->getRepository(LogEnseignant::class);
+    $logsEnseignants = $repositoryLogEnseignant->findAll();
+
+    foreach ($enseignants as $enseignantCourant) {
+      $enseignantCourant->setSaisieFaite(false);
+      $enseignantCourant->setDateSaisie(null);
+      $enseignantCourant->setPremierMailRecu(false);
+      $enseignantCourant->setDatePremierMail(null);
+      $enseignantCourant->setMailRelanceRecu(false);
+      $enseignantCourant->setDateDerniereRelance(null);
+      $enseignantCourant->setDateDerniereModif(null);
+      $enseignantCourant->setNbRelance(0);
+      $entityManager->persist($enseignantCourant);
+
+      $tabRemarques = $enseignantCourant->getRemarques();
+      foreach ($tabRemarques as $remarque) {
+        if($remarque->getType() == "Ponctuelle"){
+          $entityManager->remove($remarque);
+        }
+      }
+      $entityManager->flush();
+
+      $tabCreneaux = $enseignantCourant->getCreneaux();
+      foreach ($tabCreneaux as $creneau) {
+        if($creneau->getType() == "Evenement"){
+        $entityManager->remove($creneau);
+      }
+      }
+      $entityManager->flush();
+
+      $tabLogsEnseignants = $enseignantCourant->getLogsEnseignant();
+      foreach ($tabLogsEnseignants as $logEnseignant) {
+        $entityManager->remove($logEnseignant);
+      }
+      $entityManager->flush();
+    }
+
+
+    return $this->render('my_dispo/confirmationChangementAnnee.html.twig');
+  }
+
 }

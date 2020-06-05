@@ -56,7 +56,11 @@
                     {% endif %}
                   </td>
                   <td>
+                    {% if enseignant.dateSaisie == null %}
+                    Aucune saisie
+                    {% else %}
                     {{enseignant.dateSaisie|date("d/m/Y à h:s")}}
+                    {% endif %}
                   </td>
                   <td>
                     <center>

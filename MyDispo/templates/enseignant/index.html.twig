@@ -49,7 +49,15 @@
                   </center>
                   </td>
                   <td>
-                    <center>{{enseignant.datePremierMail|date("d/m/Y à H:i", "Europe/Paris")}}</center>
+                    {% if enseignant.dateSaisie == null %}
+                    <center>
+                      Aucune saisie
+                    </center>
+                    {% else %}
+                    <center>
+                      {{enseignant.dateSaisie|date("d/m/Y à h:s", "Europe/Paris")}}
+                    </center>
+                    {% endif %}
                   </td>
                   <td>
                     <center>
@@ -60,7 +68,17 @@
                     {% endif %}
                   </center>
                   </td>
-                  <td><center>{{enseignant.dateDerniereRelance|date("d/m/Y à H:i", "Europe/Paris")}}</center></td>
+                  <td>
+                  {% if enseignant.dateDerniereRelance == null %}
+                  <center>
+                    Aucune saisie
+                  </center>
+                  {% else %}
+                  <center>
+                    {{enseignant.dateDerniereRelance|date("d/m/Y à h:s", "Europe/Paris")}}
+                  </center>
+                  {% endif %}
+                </td>
                   <td><center>{{enseignant.nbRelance}}</center></td>
                   <td>
                     <center>

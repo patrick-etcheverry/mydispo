@@ -5,6 +5,8 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Remarque;
+use App\Entity\LogEnseignant;
+use App\Entity\Creneau;
 use App\Entity\Enseignant;
 use App\Entity\Formation;
 use App\Entity\ModeleMail;
@@ -196,19 +198,110 @@ class AppFixtures extends Fixture
 
         $manager->persist($formationLP);
 
-/*
-                //Création de remarques
-                $Nbremarques = 4;
-                new $listeEnseignants = array('1' => $enseignant1,'2' => $enseignant2,'3' => $enseignant3,'4' => $enseignant4);
-                for($i = 1; $i <= $Nbremarques ; $i++){
-                  $remarque =  new Remarque ();
-                  $remarque->setContenu($faker->text($maxNbChars = 200));
-                  $remarque->setType($faker->randomElement($array = array ('Ponctuelle','Hebdomadaire')));
-                  $remarque->setEnseignant($listeEnseignants[$i]);
 
-                  $manager->persist($remarque);
-                }
-*/
+        //Création de remarques
+
+        $remarque1 =  new Remarque ();
+        $remarque1->setContenu($faker->text($maxNbChars = 200));
+        $remarque1->setType($faker->randomElement($array = array ('Ponctuelle','Hebdomadaire')));
+        $remarque1->setEnseignant($enseignant1);
+
+        $manager->persist($remarque1);
+
+        $remarque2 =  new Remarque ();
+        $remarque2->setContenu($faker->text($maxNbChars = 200));
+        $remarque2->setType($faker->randomElement($array = array ('Ponctuelle','Hebdomadaire')));
+        $remarque2->setEnseignant($enseignant2);
+
+        $manager->persist($remarque2);
+
+        $remarque3 =  new Remarque ();
+        $remarque3->setContenu($faker->text($maxNbChars = 200));
+        $remarque3->setType($faker->randomElement($array = array ('Ponctuelle','Hebdomadaire')));
+        $remarque3->setEnseignant($enseignant3);
+
+        $manager->persist($remarque3);
+
+        $remarque4 =  new Remarque ();
+        $remarque4->setContenu($faker->text($maxNbChars = 200));
+        $remarque4->setType($faker->randomElement($array = array ('Ponctuelle','Hebdomadaire')));
+        $remarque4->setEnseignant($enseignant3);
+
+        $manager->persist($remarque4);
+
+        //Création des créneaux
+
+        $creneau1 = new Creneau();
+        $creneau1->setEnseignant($enseignant1);
+        $creneau1->setTitre($faker->text($maxNbChars = 20));
+        $creneau1->setPrioOuPref($faker->randomElement($array = array ('Forte','Moyenne','Faible')));
+        $creneau1->setDateDebut(new DateTime('06/06/2020'));
+        $creneau1->setDateFin(new DateTime('06/07/2020'));
+        $creneau1->setType($faker->randomElement($array = array ('ContraintePerso','ContraintePro','ZoneGrisee','Evenement','Disponibilite')));
+
+        $manager->persist($creneau1);
+
+        $creneau2 = new Creneau();
+        $creneau2->setEnseignant($enseignant1);
+        $creneau2->setTitre($faker->text($maxNbChars = 20));
+        $creneau2->setPrioOuPref($faker->randomElement($array = array ('Forte','Moyenne','Faible')));
+        $creneau2->setDateDebut(new DateTime('06/06/2020'));
+        $creneau2->setDateFin(new DateTime('06/07/2020'));
+        $creneau2->setType($faker->randomElement($array = array ('ContraintePerso','ContraintePro','ZoneGrisee','Evenement','Disponibilite')));
+
+        $manager->persist($creneau2);
+
+        $creneau3 = new Creneau();
+        $creneau3->setEnseignant($enseignant2);
+        $creneau3->setTitre($faker->text($maxNbChars = 20));
+        $creneau3->setPrioOuPref($faker->randomElement($array = array ('Forte','Moyenne','Faible')));
+        $creneau3->setDateDebut(new DateTime('06/06/2020'));
+        $creneau3->setDateFin(new DateTime('06/07/2020'));
+        $creneau3->setType($faker->randomElement($array = array ('ContraintePerso','ContraintePro','ZoneGrisee','Evenement','Disponibilite')));
+
+        $manager->persist($creneau3);
+
+        $creneau4 = new Creneau();
+        $creneau4->setEnseignant($enseignant3);
+        $creneau4->setTitre($faker->text($maxNbChars = 20));
+        $creneau4->setPrioOuPref($faker->randomElement($array = array ('Forte','Moyenne','Faible')));
+        $creneau4->setDateDebut(new DateTime('06/06/2020'));
+        $creneau4->setDateFin(new DateTime('06/07/2020'));
+        $creneau4->setType($faker->randomElement($array = array ('ContraintePerso','ContraintePro','ZoneGrisee','Evenement','Disponibilite')));
+
+        $manager->persist($creneau4);
+
+        $creneau5 = new Creneau();
+        $creneau5->setEnseignant($enseignant4);
+        $creneau5->setTitre($faker->text($maxNbChars = 20));
+        $creneau5->setPrioOuPref($faker->randomElement($array = array ('Forte','Moyenne','Faible')));
+        $creneau5->setDateDebut(new DateTime('06/06/2020'));
+        $creneau5->setDateFin(new DateTime('06/07/2020'));
+        $creneau5->setType($faker->randomElement($array = array ('ContraintePerso','ContraintePro','ZoneGrisee','Evenement','Disponibilite')));
+
+        $manager->persist($creneau5);
+
+        $creneau6 = new Creneau();
+        $creneau6->setEnseignant($enseignant5);
+        $creneau6->setTitre($faker->text($maxNbChars = 20));
+        $creneau6->setPrioOuPref($faker->randomElement($array = array ('Forte','Moyenne','Faible')));
+        $creneau6->setDateDebut(new DateTime('06/06/2020'));
+        $creneau6->setDateFin(new DateTime('06/07/2020'));
+        $creneau6->setType($faker->randomElement($array = array ('ContraintePerso','ContraintePro','ZoneGrisee','Evenement','Disponibilite')));
+
+        $manager->persist($creneau6);
+
+        // Création des logs $enseignants
+
+        $logEnseignant1 = new LogEnseignant();
+        $logEnseignant1->setDateLog(new DateTime('06/06/2020'));
+        $logEnseignant1->setTypeAction($faker->randomElement($array = array ('Consultation','Ajout','Suppression','Modification')));
+        $logEnseignant1->setZone($faker->randomElement($array = array ('Contrainte professionnelle et personnelle hebdomadaire','Contrainte professionnelle ponctuelle','Remarque contrainte professionnelle et personnelle hebdomaire','Remarque contrainte professionnelle ponctuelle')));
+        $logEnseignant1->setDescription($faker->text($maxNbChars = 200));
+        $logEnseignant1->setEnseignant($enseignant1);
+
+        $manager->persist($logEnseignant1);
+
 
         // Création des modèles de mails
         $modeleMailPremier = new ModeleMail();
