@@ -371,8 +371,8 @@ class AppFixtures extends Fixture
 
         $formulaireTitulaire= new FormulaireTitulaire();
         $formulaireTitulaire->setEchelleCalendrier(60);
-        $formulaireTitulaire->setTexteHebdomadaire("");
-        $formulaireTitulaire->setTextePonctuel("");
+        $formulaireTitulaire->setTexteHebdomadaire("Saisir texte ici");
+        $formulaireTitulaire->setTextePonctuel("Saisir texte ici");
         $formulaireTitulaire->setRemarquesHebdoActives(true);
         $formulaireTitulaire->setRemarquesPonctuelActives(true);
         $formulaireTitulaire->setEstOuvert(true);
@@ -390,17 +390,22 @@ class AppFixtures extends Fixture
         $formulaireTitulaire->setDureePersMoy(60);
         $formulaireTitulaire->setQuantitePersFaible(1);
         $formulaireTitulaire->setDureePersFaible(60);
+        $formulaireTitulaire->setHeureDebutCalendrier(new DateTime('08:00:00'));
+        $formulaireTitulaire->setHeureFinCalendrier(new DateTime('18:00:00'));
 
 
         $manager->persist($formulaireTitulaire);
 
         $formulaireVacataire= new FormulaireVacataire();
         $formulaireVacataire->setEchelleCalendrier(60);
-        $formulaireVacataire->setTexteHebdomadaire("");
-        $formulaireVacataire->setTextePonctuel("");
+        $formulaireVacataire->setTexteHebdomadaire("Saisir texte ici");
+        $formulaireVacataire->setTextePonctuel("Saisir texte ici");
         $formulaireVacataire->setRemarquesHebdoActives(true);
         $formulaireVacataire->setRemarquesPonctuelActives(true);
         $formulaireVacataire->setEstOuvert(true);
+        $formulaireVacataire->setHeureDebutCalendrier(new DateTime('08:00:00'));
+        $formulaireVacataire->setHeureFinCalendrier(new DateTime('18:00:00'));
+
 
 
         $manager->persist($formulaireVacataire);

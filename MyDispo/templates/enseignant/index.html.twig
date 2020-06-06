@@ -130,3 +130,8 @@
 </div>
 
 {% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+  <script src="{{ asset('monJs/datatable.js')}}"></script>
+{% endblock %}

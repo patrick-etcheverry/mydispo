@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 
 class FormulaireVacataireType extends AbstractType
 {
@@ -16,6 +17,8 @@ class FormulaireVacataireType extends AbstractType
     {
         $builder
             ->add('echelleCalendrier',IntegerType::class,['label' => 'Nombre de minutes entre chaque case du calendrier',])
+            ->add('heureDebutCalendrier',TimeType::class,['label' => 'Heure de début du calendrier',])
+            ->add('heureFinCalendrier',TimeType::class,['label' => 'Heure de fin du calendrier',])
             ->add('texteHebdomadaire',TextareaType::class,array(
                 'label' => 'Texte affiché pour la saisie des contraintes hebdomadaires',))
             ->add('textePonctuel',TextareaType::class,['label' => 'Texte affiché pour la saisie des contraintes ponctuelles',])

@@ -2,50 +2,24 @@
 
 {% block title %}Paramètres du formulaire titulaire{% endblock %}
 
-{% block stylesheets %}
-
-<link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"/>
-<link href="{{ asset('css/fullcalendarstyle.css') }}" rel="stylesheet"/>
-
-<link href="{{ asset('fullcalendar/packages/core/main.css') }}" rel='stylesheet'/>
-<link href="{{ asset('fullcalendar/packages/timegrid/main.css') }}" rel='stylesheet'/>
-<link href="{{ asset('fullcalendar/packages/daygrid/main.css') }}" rel='stylesheet'/>
-<link href="{{ asset('fullcalendar/packages/bootstrap/main.css') }}" rel='stylesheet'/>
-
-<link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/shift-toward.css"/>
-<link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
-
-{% endblock %}
-
 {% block body %}
-<div class="container-fluid">
-  <div class="row">
-
-    <div id="mySidenav" class="sidenav">
-
-      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" id="close">&times;</a>
-      <p id="nomcreneau">Nom du creneau</p>
-      <input type="text" name="titre" id="titrevt">
-      <button id="apply">Appliquer le titre</button>
-      <button id="remove">Supprimer ce créneau</button>
-    </div>
-
-    <div id='main'>
-
+  <div class="card">
+    <div class="card-header">
       {{ form_start(form) }}
+
 
       <ul class="nav nav-tabs">
         <li class="nav-item" role="presentation">
           <a class="nav-link active" id="echelle-tab" data-toggle="tab" href="#echelle" role="tab" aria-controls="echelle" aria-selected="true">Echelle du calendrier</a>
         </li>
         <li class="nav-item" role="presentation">
+          <a class="nav-link " id="heures-tab" data-toggle="tab" href="#heures" role="tab" aria-controls="heures" aria-selected="true">Heures de début et de fin du calendrier</a>
+        </li>
+        <li class="nav-item" role="presentation">
           <a class="nav-link" id="contraintesperso-tab" data-toggle="tab" href="#contraintesperso" role="tab" aria-controls="contraintesperso" aria-selected="false">Préférences personelles</a>
         </li>
         <li class="nav-item" role="presentation">
           <a class="nav-link" id="contraintespro-tab" data-toggle="tab" href="#contraintespro" role="tab" aria-controls="contraintespro" aria-selected="false">Contraintes professionnelles</a>
-        </li>
-        <li class="nav-item" role="presentation">
-          <a class="nav-link" id="horaires-tab" data-toggle="tab" href="#horaires" role="tab" aria-controls="horaires" aria-selected="false">Horaires non saisisables</a>
         </li>
         <li class="nav-item" role="presentation">
           <a class="nav-link" id="explications-tab" data-toggle="tab" href="#explications" role="tab" aria-controls="explications" aria-selected="false">Paragraphes explicatifs</a>
@@ -57,10 +31,16 @@
           <a class="nav-link" id="etat-tab" data-toggle="tab" href="#etat" role="tab" aria-controls="etat" aria-selected="false">Ouverture/Fermeture formulaire</a>
         </li>
       </ul>
-
+    </div>
+    <div class="card-body">
       <div class="tab-content">
         <div id="echelle" class="tab-pane fade show active" role="tabpanel" aria-labelledby="echelle-tab">
           {{ form_row (form.echelleCalendrier) }}
+        </div>
+        <div id="heures" class="tab-pane fade" role="tabpanel" aria-labelledby="heures-tab">
+          {{ form_row (form.heureDebutCalendrier) }}
+          {{ form_row (form.heureFinCalendrier) }}
+
         </div>
         <div id="contraintesperso" class="tab-pane fade" role="tabpanel" aria-labelledby="contraintesperso-tab">
           {{ form_row (form.quantitePersFaible) }}
@@ -78,9 +58,6 @@
           {{ form_row (form.quantiteProForte) }}
           {{ form_row (form.dureeProForte) }}
         </div>
-        <div id="horaires" class="tab-pane fade" role="tabpanel" aria-labelledby="horaires-tab">
-          <div id='calendar'></div>
-        </div>
         <div id="explications" class="tab-pane fade" role="tabpanel" aria-labelledby="explications-tab">
           {{ form_row (form.texteHebdomadaire) }}
           {{ form_row (form.textePonctuel) }}
@@ -91,205 +68,16 @@
         </div>
         <div id="etat" class="tab-pane fade" role="tabpanel" aria-labelledby="etat-tab">
           {{ form_row (form.estOuvert) }}
-
         </div>
-
-        <button class="btn btn-primary" id="submit">{{ button_label|default('Enregistrer toutes les modifications') }}</button>
-
       </div>
     </div>
+    <div class="card-footer">
+      <center>
+        <button class="btn btn-primary" id="submit">{{ button_label|default('Enregistrer toutes les modifications') }}</button>
+      </center>
+    </div>
   </div>
+
+  {{ form_end(form) }}
 </div>
-
-{{ form_end(form) }}
-<button class="btn btn-primary" id="boutonajax">Déclencher ajax</button>
-
-{% endblock %}
-
-{% block javascripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
-<script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
-
-<script src="{{ asset('fullcalendar/packages/core/main.js')}}"></script>
-<script src="{{ asset('fullcalendar/packages/daygrid/main.js')}}"></script>
-<script src="{{ asset('fullcalendar/packages/timegrid/main.js')}}"></script>
-<script src="{{ asset('fullcalendar/packages/core/main.js')}}"></script>
-<script src="{{ asset('fullcalendar/packages/core/locales/fr.js')}}"></script>
-<script src="{{ asset('fullcalendar/packages/interaction/main.js')}}"></script>
-<script src="{{ asset('fullcalendar/packages/bootstrap/main.js')}}"></script>
-
-
-<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
-<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
-
-
-<script>
-
-String.prototype.minsToHHMMSS = function() {
-  var mins_num = parseFloat(this, 10); // don't forget the second param
-  var hours = Math.floor(mins_num / 60);
-  var minutes = Math.floor((mins_num - ((hours * 3600)) / 60));
-  var seconds = Math.floor((mins_num * 60) - (hours * 3600) - (minutes * 60));
-
-  // Appends 0 when unit is less than 10
-  if (hours < 10) {
-    hours = "0" + hours;
-  }
-  if (minutes < 10) {
-    minutes = "0" + minutes;
-  }
-  if (seconds < 10) {
-    seconds = "0" + seconds;
-  }
-  return hours + ':' + minutes + ':' + seconds;
-}
-
-function openNav() {
-  document.getElementById("mySidenav").style.width = "250px";
-  document.getElementById("main").style.marginRight = "250px";
-
-}
-
-/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
-function closeNav() {
-  document.getElementById("mySidenav").style.width = "0";
-  document.getElementById("main").style.marginRight = "0";
-}
-
-var events;
-function ajax(start, end, title, type) {
-
-  $.ajax({
-    url: "{{ url('creneau_ajouter') }}",
-    data: {
-      startevt: start,
-      endevt: end,
-      titleevt: title,
-      typeevt: type,
-    }, //données envoyées au serveur pour chaque événement
-    type: "POST",
-  });
-}
-document.addEventListener('DOMContentLoaded', function() {
-
-  var calendarEl = document.getElementById('calendar');
-  var calendar = new FullCalendar.Calendar(calendarEl, {
-
-    plugins: [
-      'timeGrid', 'interaction', 'bootstrap'
-    ],
-    defaultView: 'timeGridWeek',
-    themeSystem: 'bootstrap',
-    contentHeight: "auto",
-    allDaySlot: false,
-    slotDuration: document.getElementById('formulaire_titulaire_echelleCalendrier').value.minsToHHMMSS(),
-    slotLabelInterval: document.getElementById('formulaire_titulaire_echelleCalendrier').value.minsToHHMMSS(),
-    minTime: "08:00",
-    maxTime: "18:00:00",
-    weekNumberCalculation: "ISO",
-    weekends: false,
-    selectable: true,
-    events: {{ events|raw  }},
-    columnHeaderFormat: {
-      weekday: 'long'
-    },
-    editable: true,
-    locale: 'fr',
-    header: {
-      left: '',
-      center: '',
-      right: ''
-    },
-
-    select: function(arg) {
-
-      closeNav();
-      var title = prompt('Titre de la contrainte:');
-      if (title) { // si un titre d'événement a été saisi et que la limite d'événement autorisés n'a pas été dépassée
-        calendar.addEvent({title: title, start: arg.start, end: arg.end, classNames: ['plusBord']})
-      }
-
-      calendar.unselect();
-      calendar.getEvents().forEach(event => {
-        event.setProp("borderColor", "white");
-      });
-    },
-    eventRender: function(info) {
-      var dateDeb = calendar.formatDate(info.event.start, {
-        weekday: 'long',
-        hour: '2-digit',
-        minute: '2-digit',
-        locale: 'fr'
-      });
-      var dateFin = calendar.formatDate(info.event.end, {
-        weekday: 'long',
-        hour: '2-digit',
-        minute: '2-digit',
-        locale: 'fr'
-      });
-      var contenu = "Titre : " + info.event.title + "</br>Début : " + dateDeb + "</br>Fin : " + dateFin;
-
-      var tooltip = new tippy(info.el, {
-        allowHTML: true,
-        content: contenu,
-        trigger: 'mouseenter',
-        sticky: true,
-        animation: 'shift-toward',
-        maxWidth: 200
-      });
-
-    },
-    eventClick: function(info) {
-      calendar.getEvents().forEach(event => {
-        event.setProp("borderColor", "white");
-      });
-      document.getElementById('nomcreneau').innerHTML = "Contrainte " + info.event.title;
-      document.getElementById('titrevt').value = info.event.title;
-      info.event.setProp("borderColor", "red");
-
-      document.getElementById('apply').onclick = function() {
-        if (document.getElementById('titrevt').value != '') {
-          info.event.setProp("title", document.getElementById('titrevt').value);
-          document.getElementById("nomcreneau").innerHTML = "Contrainte " + info.event.title;
-          calendar.rerenderEvents();
-        }
-
-      };
-      document.getElementById('remove').onclick = function() {
-        if (confirm("Voulez vous vraiment supprimer ce créneau ?")) {
-          info.event.remove();
-        }
-        closeNav();
-      };
-      document.getElementById('close').onclick = function() {
-        closeNav();
-        info.event.setProp("borderColor", "white");
-      };
-      openNav();
-    }
-
-  });
-
-  document.getElementById('formulaire_titulaire_echelleCalendrier').onchange = function() {
-    calendar.setOption('slotDuration', document.getElementById('formulaire_titulaire_echelleCalendrier').value.minsToHHMMSS());
-    calendar.setOption('slotLabelInterval', document.getElementById('formulaire_titulaire_echelleCalendrier').value.minsToHHMMSS());
-    calendar.render();
-  };
-
-  document.getElementById('horaires-tab').onclick = function() {
-    calendar.render();
-  }; //Rafraîchissement du calendrier
-
-  document.getElementById('boutonajax').onclick = function() {
-    events = calendar.getEvents();
-    events.forEach(event => ajax( event.start.toISOString(), event.end.toISOString(), event.title,"zoneGrisee"));
-  };
-
-
-  calendar.render();
-
-});
-</script>
-
 {% endblock %}
