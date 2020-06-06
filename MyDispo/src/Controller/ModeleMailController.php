@@ -131,7 +131,6 @@ public function formEnvoieMail(Request $request)
 
       $enseignants = $repositoryEnseignant->findByGeneral($tab = array('saisieFaite' => $saisieFaite ,'statut' => $statut, 'formations' => $formations, 'mailRelanceRecu' => $mailRelanceRecu ));
 
-
 $session = new Session();
 $session->set('enseignants',$enseignants);
 $session->set('modeleMail',$modeleMail);
