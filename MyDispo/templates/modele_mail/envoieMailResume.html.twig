@@ -142,6 +142,7 @@
         </thead>
         <tbody>
           {% for enseignantCourant in enseignants %}
+
             <tr>
               <td>
                 {{ enseignantCourant.nom }}</td>
@@ -201,10 +202,11 @@
                 {{enseignantCourant.nbRelance}}
               </td>
             </tr>
-          {% else %}
-            <tr>
-              <td colspan="10">Aucun enseignant ciblé par ce mail</td>
-            </tr>
+            {% else %}
+              <tr>
+                <td colspan="10">Aucun enseignant ciblé par ce mail</td>
+              </tr>
+
           {% endfor %}
         </tbody>
       </table>

@@ -131,16 +131,23 @@ public function formEnvoieMail(Request $request)
 
       $enseignants = $repositoryEnseignant->findByGeneral($tab = array('saisieFaite' => $saisieFaite ,'statut' => $statut, 'formations' => $formations, 'mailRelanceRecu' => $mailRelanceRecu ));
 
+$enseignantsActif = array();
+foreach ($enseignants as $enseignantCourant) {
+  if($enseignantCourant->getEnSommeil() != true){
+    array_push($enseignantsActif,$enseignantCourant);
+  }
+}
 
 $session = new Session();
-$session->set('enseignants',$enseignants);
+$session->set('enseignants',$enseignantsActif);
 $session->set('modeleMail',$modeleMail);
+
 
 
         return $this->render('modele_mail/envoieMailResume.html.twig', [
             'data' => $data,
             'modeleMail' => $modeleMail,
-            'enseignants' => $enseignants,
+            'enseignants' => $enseignantsActif,
             'nomModeleMail' => $data['nom'],
             'tabMailRelanceRecu' => $form->get('mailRelanceRecu')->getData(),
             'tabFormation' => $form->get('nomCourt')->getData(),

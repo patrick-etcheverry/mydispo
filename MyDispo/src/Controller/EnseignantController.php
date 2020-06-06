@@ -64,9 +64,31 @@ class EnseignantController extends AbstractController
       // Créer un fichier pour chaque enseignant qu'on ajoute à l'archive
 
                 foreach ( $enseignants as $enseignantCourant) {
+                  $compteur = 1;
                   $nomEnseignant = $enseignantCourant->getNom();
                   $nomFichierCourant = $nomEnseignant.'.csv';
-                  file_put_contents( $nomFichierCourant, 'Ecriture dans un fichier');
+                  $texte = 'Nom, Prenom, Mail, Statut';
+                  file_put_contents( $nomFichierCourant, $texte);
+                  $creneaux = $enseignantCourant->getCreneaux();
+                  foreach ( $creneaux as $creneauCourant ) {
+                    $texte = file_get_contents($nomFichierCourant);
+                    $texte .= ', Titre'.$compteur.', Priorite'.$compteur.', DateDebut'.$compteur.', DateFin'.$compteur.', Type'.$compteur;
+                    file_put_contents( $nomFichierCourant, $texte);
+                    $compteur++;
+                  }
+                  $texte .= "\r".$nomEnseignant.', '.$enseignantCourant->getPrenom().', '.$enseignantCourant->getMail().', '.$enseignantCourant->getStatut();
+                  file_put_contents( $nomFichierCourant, $texte);
+                  foreach ( $creneaux as $creneauCourant ) {
+                    $dateDebutDate = $creneauCourant->getDateDebut();
+                    $dateDebutString = $dateDebutDate->format('H-i d-m-Y');
+                    $dateFinDate = $creneauCourant->getDateFin();
+                    $dateFinString = $dateFinDate->format('H-i d-m-Y');
+
+                    $texte = file_get_contents($nomFichierCourant);
+                    $texte .= ', '.$creneauCourant->getTitre().', '.$creneauCourant->getPrioOuPref().', '.$dateDebutString.', '.$dateFinString.', '.$creneauCourant->getType();
+                    file_put_contents( $nomFichierCourant, $texte);
+                    $compteur++;
+                  }
                   if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
                       exit("cannot open <$filename><br/>");//création de l'archive+code d'erreur
                   }
