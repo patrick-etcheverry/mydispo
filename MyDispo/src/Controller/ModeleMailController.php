@@ -71,11 +71,13 @@ public function formEnvoieMail(Request $request)
                 'expanded' => false,
                 'required' => true
             ))
-            ->add('nomCourt', EntityType::class, array(
-                    'class' => Formation::class,
+            ->add('nomCourt', ChoiceType::class, array(
                     'help' => 'Exemple : Pour cibler un enseignant intervenant dans n\'importe quelle formation : - Cocher la case DUT Info et LP Info',
-                    'choice_label' => 'nomCourt',
                     'label' => 'Enseignant intervenant en :',
+                    'choices' => [
+                      'DUT Info' => 'DUT Info',
+                      'LP Info' => 'LP Info',
+                      ],
                     'multiple' => true,
                     'expanded' => true,
                     'required' => true
@@ -141,6 +143,10 @@ foreach ($enseignants as $enseignantCourant) {
 $session = new Session();
 $session->set('enseignants',$enseignantsActif);
 $session->set('modeleMail',$modeleMail);
+$session->set('formations',$formations);
+$session->set('saisieFaite',$saisieFaite);
+$session->set('mailRelanceRecu',$mailRelanceRecu);
+$session->set('statut',$statut);
 
 
 

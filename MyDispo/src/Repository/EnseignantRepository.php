@@ -65,7 +65,7 @@ class EnseignantRepository extends ServiceEntityRepository
         if($tab['saisieFaite'] == "Toutes les saisies" && $tab['mailRelanceRecu'] == "Toutes les relances" && $tab['statut'] == "Tous les statuts" && sizeof($tab['formations']) < 2){
           $requete->leftJoin('e.formations','f')
           ->andWhere('f.nomCourt = :val')
-          ->setParameter('val', $tab['formations'][0]->getNomCourt());
+          ->setParameter('val', $tab['formations']);
         }
         // Recherche seulement sur le statut et le mail de relance
         if($tab['saisieFaite'] == "Toutes les saisies" && sizeof($tab['formations']) > 1 && $tab['statut'] != "Tous les statuts" && $tab['mailRelanceRecu'] != "Toutes les relances"){
@@ -101,7 +101,7 @@ class EnseignantRepository extends ServiceEntityRepository
           $requete->leftJoin('e.formations','f')
           ->andWhere('f.nomCourt = :val')
           ->andWhere('e.mailRelanceRecu = :val2')
-          ->setParameter('val', $tab['formations'][0]->getNomCourt());
+          ->setParameter('val', $tab['formations']);
           if($tab['mailRelanceRecu'] == true){
             $requete->setParameter('val2', true);
           }
@@ -114,7 +114,7 @@ class EnseignantRepository extends ServiceEntityRepository
           $requete->leftJoin('e.formations','f')
           ->andWhere('f.nomCourt = :val')
           ->andWhere('e.statut = :val2')
-          ->setParameter('val', $tab['formations'][0]->getNomCourt())
+          ->setParameter('val', $tab['formations'])
           ->setParameter('val2', $tab['statut']);
         }
         // Recherche seulement sur les formations et la saisie faite
@@ -122,7 +122,7 @@ class EnseignantRepository extends ServiceEntityRepository
           $requete->leftJoin('e.formations','f')
           ->andWhere('f.nomCourt = :val')
           ->andWhere('e.saisieFaite = :val2')
-          ->setParameter('val', $tab['formations'][0]->getNomCourt());
+          ->setParameter('val', $tab['formations']);
           if($tab['saisieFaite'] == true){
             $requete->setParameter('val2', true);
           }
@@ -148,7 +148,7 @@ class EnseignantRepository extends ServiceEntityRepository
           ->andWhere('f.nomCourt = :val')
           ->andWhere('e.saisieFaite = :val2')
           ->andWhere('e.statut = :val3')
-          ->setParameter('val', $tab['formations'][0]->getNomCourt())
+          ->setParameter('val', $tab['formations'])
           ->setParameter('val3', $tab['statut']);
           if($tab['saisieFaite'] == true){
             $requete->setParameter('val2', true);
@@ -163,7 +163,7 @@ class EnseignantRepository extends ServiceEntityRepository
           ->andWhere('f.nomCourt = :val')
           ->andWhere('e.mailRelanceRecu = :val2')
           ->andWhere('e.statut = :val3')
-          ->setParameter('val', $tab['formations'][0]->getNomCourt())
+          ->setParameter('val', $tab['formations'])
           ->setParameter('val3', $tab['statut']);
           if($tab['mailRelanceRecu'] == true){
             $requete->setParameter('val2', true);
@@ -178,7 +178,7 @@ class EnseignantRepository extends ServiceEntityRepository
           ->andWhere('f.nomCourt = :val')
           ->andWhere('e.mailRelanceRecu = :val2')
           ->andWhere('e.saisieFaite = :val3')
-          ->setParameter('val', $tab['formations'][0]->getNomCourt());
+          ->setParameter('val', $tab['formations']);
           if($tab['saisieFaite'] == true){
             $requete->setParameter('val3', true);
           }
@@ -219,7 +219,7 @@ class EnseignantRepository extends ServiceEntityRepository
           ->andWhere('e.saisieFaite = :val3')
           ->andWhere('e.statut = :val1')
           ->setParameter('val1', $tab['statut'])
-          ->setParameter('val4', $tab['formations'][0]->getNomCourt());
+          ->setParameter('val4', $tab['formations']);
           if($tab['saisieFaite'] == true){
             $requete->setParameter('val3', true);
           }
