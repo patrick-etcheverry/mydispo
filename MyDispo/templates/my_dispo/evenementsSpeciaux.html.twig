@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paramètres généraux des formulaires{% endblock %}
+
+{% block stylesheets %}
+
+  <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"/>
+  <link href="{{ asset('css/fullcalendarstyle.css') }}" rel="stylesheet"/>
+
+  <link href="{{ asset('fullcalendar/packages/core/main.css') }}" rel='stylesheet'/>
+  <link href="{{ asset('fullcalendar/packages/daygrid/main.css') }}" rel='stylesheet'/>
+
+  <link href="{{ asset('fullcalendar/packages/bootstrap/main.css') }}" rel='stylesheet'/>
+
+  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/shift-toward.css"/>
+  <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+
+{% endblock %}
+
+{% block body %}
+
+  <div id="mySidenav" class="sidenav">
+
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" id="close">&times;</a>
+    <p id="nomcreneau">Nom du creneau</p>
+    <input type="text" name="titre" id="titrevt">
+    <button id="apply">Appliquer le titre</button>
+    <button id="remove">Supprimer ce créneau</button>
+  </div>
+
+  <div id="main">
+    <div id='calendar'></div>
+  </br>
+  <center>
+    <button class="btn btn-primary" id="submit">Enregistrer les modifications</button>
+  </center>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+<script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+
+<script src="{{ asset('fullcalendar/packages/core/main.js')}}"></script>
+<script src="{{ asset('fullcalendar/packages/daygrid/main.js')}}"></script>
+<script src="{{ asset('fullcalendar/packages/core/locales/fr.js')}}"></script>
+<script src="{{ asset('fullcalendar/packages/interaction/main.js')}}"></script>
+<script src="{{ asset('fullcalendar/packages/bootstrap/main.js')}}"></script>
+
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+
+<script>
+
+  String.prototype.minsToHHMMSS = function() {
+    var mins_num = parseFloat(this, 10); // don't forget the second param
+    var hours = Math.floor(mins_num / 60);
+    var minutes = Math.floor((mins_num - ((hours * 3600)) / 60));
+    var seconds = Math.floor((mins_num * 60) - (hours * 3600) - (minutes * 60));
+
+    // Appends 0 when unit is less than 10
+    if (hours < 10) {
+      hours = "0" + hours;
+    }
+    if (minutes < 10) {
+      minutes = "0" + minutes;
+    }
+    if (seconds < 10) {
+      seconds = "0" + seconds;
+    }
+    return hours + ':' + minutes + ':' + seconds;
+  }
+
+  function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("main").style.marginRight = "250px";
+
+  }
+
+  /* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+  function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginRight = "0";
+  }
+
+  var events;
+  function ajax(start, end, title, type) {
+
+    $.ajax({
+      url: "{{path("creneau_ajouter")}}",
+      data: {
+        startevt: start,
+        endevt: end,
+        titleevt: title,
+        typeevt: type
+      }, //données envoyées au serveur pour chaque événement
+      type: "POST"
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      plugins: [
+        'interaction', 'dayGrid'
+      ],
+      defaultView: 'dayGridMonth',
+      selectable: true,
+        locale: 'fr',
+    });
+
+    calendar.render();
+
+  });
+</script>
+{% endblock %}
