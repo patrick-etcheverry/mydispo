@@ -107,6 +107,16 @@ class FormulaireTitulaire
      */
     private $dureePersFaible;
 
+    /**
+     * @ORM\Column(type="time")
+     */
+    private $heureDebutCalendrier;
+
+    /**
+     * @ORM\Column(type="time")
+     */
+    private $heureFinCalendrier;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -324,6 +334,30 @@ class FormulaireTitulaire
     public function setDureePersFaible(int $dureePersFaible): self
     {
         $this->dureePersFaible = $dureePersFaible;
+
+        return $this;
+    }
+
+    public function getHeureDebutCalendrier(): ?\DateTimeInterface
+    {
+        return $this->heureDebutCalendrier;
+    }
+
+    public function setHeureDebutCalendrier(\DateTimeInterface $heureDebutCalendrier): self
+    {
+        $this->heureDebutCalendrier = $heureDebutCalendrier;
+
+        return $this;
+    }
+
+    public function getHeureFinCalendrier(): ?\DateTimeInterface
+    {
+        return $this->heureFinCalendrier;
+    }
+
+    public function setHeureFinCalendrier(\DateTimeInterface $heureFinCalendrier): self
+    {
+        $this->heureFinCalendrier = $heureFinCalendrier;
 
         return $this;
     }

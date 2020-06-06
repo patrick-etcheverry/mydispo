@@ -47,6 +47,16 @@ class FormulaireVacataire
      */
     private $estOuvert;
 
+    /**
+     * @ORM\Column(type="time")
+     */
+    private $heureDebutCalendrier;
+
+    /**
+     * @ORM\Column(type="time")
+     */
+    private $heureFinCalendrier;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +130,30 @@ class FormulaireVacataire
     public function setEstOuvert(bool $estOuvert): self
     {
         $this->estOuvert = $estOuvert;
+
+        return $this;
+    }
+
+    public function getHeureDebutCalendrier(): ?\DateTimeInterface
+    {
+        return $this->heureDebutCalendrier;
+    }
+
+    public function setHeureDebutCalendrier(\DateTimeInterface $heureDebutCalendrier): self
+    {
+        $this->heureDebutCalendrier = $heureDebutCalendrier;
+
+        return $this;
+    }
+
+    public function getHeureFinCalendrier(): ?\DateTimeInterface
+    {
+        return $this->heureFinCalendrier;
+    }
+
+    public function setHeureFinCalendrier(\DateTimeInterface $heureFinCalendrier): self
+    {
+        $this->heureFinCalendrier = $heureFinCalendrier;
 
         return $this;
     }

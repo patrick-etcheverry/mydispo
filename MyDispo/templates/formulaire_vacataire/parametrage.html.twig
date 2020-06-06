@@ -3,46 +3,56 @@
 {% block title %}Paramètres du formulaire titulaire{% endblock %}
 
 {% block body %}
+  <div class="card">
+    <div class="card-header">
 
+      {{ form_start(form) }}
 
-        {{ form_start(form) }}
-
-        <ul class="nav nav-tabs">
-          <li class="nav-item" role="presentation">
-            <a class="nav-link active" id="echelle-tab" data-toggle="tab" href="#echelle" role="tab" aria-controls="echelle" aria-selected="true">Echelle du calendrier</a>
-          </li>
-          <li class="nav-item" role="presentation">
-            <a class="nav-link" id="explications-tab" data-toggle="tab" href="#explications" role="tab" aria-controls="explications" aria-selected="false">Paragraphes explicatifs</a>
-          </li>
-          <li class="nav-item" role="presentation">
-            <a class="nav-link" id="remarques-tab" data-toggle="tab" href="#remarques" role="tab" aria-controls="remarques" aria-selected="false">Remarques éventuelles</a>
-          </li>
-          <li class="nav-item" role="presentation">
-            <a class="nav-link" id="etat-tab" data-toggle="tab" href="#etat" role="tab" aria-controls="etat" aria-selected="false">Ouverture/Fermeture formulaire</a>
-          </li>
-        </ul>
-
-        <div class="tab-content">
-          <div id="echelle" class="tab-pane fade show active" role="tabpanel" aria-labelledby="echelle-tab">
-            {{ form_row (form.echelleCalendrier) }}
-          </div>
-          <div id="explications" class="tab-pane fade" role="tabpanel" aria-labelledby="explications-tab">
-            {{ form_row (form.texteHebdomadaire) }}
-            {{ form_row (form.textePonctuel) }}
-          </div>
-          <div id="remarques" class="tab-pane fade" role="tabpanel" aria-labelledby="remarques-tab">
-            {{ form_row (form.remarquesHebdoActives) }}
-            {{ form_row (form.remarquesPonctuelActives) }}
-          </div>
-          <div id="etat" class="tab-pane fade" role="tabpanel" aria-labelledby="etat-tab">
-            {{ form_row (form.estOuvert) }}
-
-          </div>
+      <ul class="nav nav-tabs">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active" id="echelle-tab" data-toggle="tab" href="#echelle" role="tab" aria-controls="echelle" aria-selected="true">Echelle du calendrier</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="heures-tab" data-toggle="tab" href="#heures" role="tab" aria-controls="heures" aria-selected="true">Heures de début et de fin du calendrier</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="explications-tab" data-toggle="tab" href="#explications" role="tab" aria-controls="explications" aria-selected="false">Paragraphes explicatifs</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="remarques-tab" data-toggle="tab" href="#remarques" role="tab" aria-controls="remarques" aria-selected="false">Remarques éventuelles</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="etat-tab" data-toggle="tab" href="#etat" role="tab" aria-controls="etat" aria-selected="false">Ouverture/Fermeture formulaire</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <div class="tab-content">
+        <div id="echelle" class="tab-pane fade show active" role="tabpanel" aria-labelledby="echelle-tab">
+          {{ form_row (form.echelleCalendrier) }}
         </div>
+        <div id="heures" class="tab-pane fade" role="tabpanel" aria-labelledby="heures-tab">
+          {{ form_row (form.heureDebutCalendrier) }}
+          {{ form_row (form.heureFinCalendrier) }}
+        </div>
+        <div id="explications" class="tab-pane fade" role="tabpanel" aria-labelledby="explications-tab">
+          {{ form_row (form.texteHebdomadaire) }}
+          {{ form_row (form.textePonctuel) }}
+        </div>
+        <div id="remarques" class="tab-pane fade" role="tabpanel" aria-labelledby="remarques-tab">
+          {{ form_row (form.remarquesHebdoActives) }}
+          {{ form_row (form.remarquesPonctuelActives) }}
+        </div>
+        <div id="etat" class="tab-pane fade" role="tabpanel" aria-labelledby="etat-tab">
+          {{ form_row (form.estOuvert) }}
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-primary" id="submit">{{ button_label|default('Enregistrer toutes les modifications') }}</button>
+    </div>
+      </div>
 
-          <button class="btn btn-primary" id="submit">{{ button_label|default('Enregistrer toutes les modifications') }}</button>
+    {{ form_end(form) }}
 
-
-  {{ form_end(form) }}
-
-{% endblock %}
+  {% endblock %}
