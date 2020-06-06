@@ -130,7 +130,6 @@ public function formEnvoieMail(Request $request)
       $modeleMail = $repositoryModeleMail->findOneByNomModeleMail($nom);
 
       $enseignants = $repositoryEnseignant->findByGeneral($tab = array('saisieFaite' => $saisieFaite ,'statut' => $statut, 'formations' => $formations, 'mailRelanceRecu' => $mailRelanceRecu ));
-
 $session = new Session();
 $session->set('enseignants',$enseignants);
 $session->set('modeleMail',$modeleMail);
