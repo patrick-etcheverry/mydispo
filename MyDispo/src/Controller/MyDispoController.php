@@ -6,16 +6,104 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 use StdClass;
+use App\Entity\Enseignant;
+use App\Entity\Creneau;
+use App\Entity\LogEnseignant;
+use App\Entity\Remarque;
 use App\Repository\CreneauRepository;
 use App\Repository\FormulaireTitulaireRepository;
 use App\Repository\FormulaireVacataireRepository;
+use App\Repository\RemarqueRepository;
+use App\Repository\LogEnseignantRepository;
+use App\Repository\EnseignantRepository;
 
 class MyDispoController extends AbstractController
 {
+
+  /**
+  * @Route("/saisie-contrainte/{token}", name="saisieContrainte")
+  */
+  /*public function index(EnseignantRepository $enseignantRepository, $token)
+  {
+
+    // Récupérer l'objet enseignant ayant le token $token
+    $enseignant = $enseignantRepository->findByToken($token);
+
+    // Récupérer les données déjà enregistrées
+    $remarquesSaisies = $enseignant->getRemarques();
+    $creneauxSaisis = $enseignant->getCreneaux();
+    $donneesFormulaire = array();
+
+    // Déterminer le statut de l'enseignant
+    if($enseignant->getStatut() == "Titulaire"){
+      $form = $this->createForm(FormulaireTitulaireType::class, $donneesFormulaire);
+
+    }
+    else {
+      $form = $this->createForm(FormulaireVacataireType::class, $donneesFormulaire);
+
+
+    }
+
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+
+      //Récupérer les créneaux des 2 calendriers (hebdomadaire et mensuel)
+
+
+      // Récupérer le gestionnaire d'entité
+      $entityManager = $this->getDoctrine()->getManager();
+
+      //Supprimer les remarques en BD (pour les remplacer par celles du formulaire)
+      $tabRemarques = $enseignant->getRemarques();
+      foreach ($tabRemarques as $remarque) {
+        $entityManager->remove($remarque);
+      }
+      $entityManager->flush();
+
+      //Enregistrer les remarques venant du formulaire
+      $remarquesHebdo = new Remarque();
+      $remarquesHebdo->setType('Hebdomadaire');
+      $remarquesHebdo->setContenu($donneesFormulaire['remarquesHebdo']);
+      $remarquesHebdo->setEnseignant($enseignant);
+      $entityManager->persist($remarquesHebdo);
+
+      $remarquesPonctuelles = new Remarque();
+      $remarquesPonctuelles->setType('Ponctuelle');
+      $remarquesPonctuelles->setContenu($donneesFormulaire['remarquesPonctu']);
+      $remarquesPonctuelles->setEnseignant($enseignant);
+      $entityManager->persist($remarquesPonctuelles);
+
+      $enseignant->addRemarque($remarquesHebdo);
+      $enseignant->addRemarque($remarquesPonctuelles);
+
+
+      $entityManager->flush();
+
+
+
+      $entityManager->persist($enseignant);
+
+      // Renvoie l'enseignant vers la page résumant sa saisie avant d'envoyer le mail
+      return $this->render('enseignant/new.html.twig', [
+          'enseignant' => $enseignant,
+          'form' => $form->createView(),
+      ]);
+
+    }
+    // Afficher la page du formulaire de saisie
+    return $this->render('enseignant/new.html.twig', [
+        'enseignant' => $enseignant,
+        'form' => $form->createView(),
+    ]);
+
+  }
+*/
   /**
   * @Route("/parametres/generaux", name="parametres_gen")
   */
-  public function index(CreneauRepository $creneauRepository,FormulaireTitulaireRepository $formTitulaireRepository, FormulaireVacataireRepository $formVacataireRepository)
+  public function index2(CreneauRepository $creneauRepository,FormulaireTitulaireRepository $formTitulaireRepository, FormulaireVacataireRepository $formVacataireRepository)
   {
     $myarray = array();
     $events = $creneauRepository->selectStartEndTitleByType("zoneGrisee");
@@ -39,4 +127,62 @@ class MyDispoController extends AbstractController
       'echelle' => $echelle,
     ]);
   }
+
+  /**
+  * @Route("/ChangementAnnee", name="changement_annee")
+  */
+  public function ChangementAnnee()
+  {
+    $entityManager = $this->getDoctrine()->getManager();
+
+    $repositoryEnseignant = $this->getDoctrine()->getRepository(Enseignant::class);
+    $enseignants = $repositoryEnseignant->findAll();
+
+    $repositoryCreneau = $this->getDoctrine()->getRepository(Creneau::class);
+    $creneaux = $repositoryCreneau->findAll();
+
+    $repositoryRemarque = $this->getDoctrine()->getRepository(Remarque::class);
+    $remarques = $repositoryRemarque->findAll();
+
+    $repositoryLogEnseignant = $this->getDoctrine()->getRepository(LogEnseignant::class);
+    $logsEnseignants = $repositoryLogEnseignant->findAll();
+
+    foreach ($enseignants as $enseignantCourant) {
+      $enseignantCourant->setSaisieFaite(false);
+      $enseignantCourant->setDateSaisie(null);
+      $enseignantCourant->setPremierMailRecu(false);
+      $enseignantCourant->setDatePremierMail(null);
+      $enseignantCourant->setMailRelanceRecu(false);
+      $enseignantCourant->setDateDerniereRelance(null);
+      $enseignantCourant->setDateDerniereModif(null);
+      $enseignantCourant->setNbRelance(0);
+      $entityManager->persist($enseignantCourant);
+
+      $tabRemarques = $enseignantCourant->getRemarques();
+      foreach ($tabRemarques as $remarque) {
+        if($remarque->getType() == "Ponctuelle"){
+          $entityManager->remove($remarque);
+        }
+      }
+      $entityManager->flush();
+
+      $tabCreneaux = $enseignantCourant->getCreneaux();
+      foreach ($tabCreneaux as $creneau) {
+        if($creneau->getType() == "Evenement"){
+        $entityManager->remove($creneau);
+      }
+      }
+      $entityManager->flush();
+
+      $tabLogsEnseignants = $enseignantCourant->getLogsEnseignant();
+      foreach ($tabLogsEnseignants as $logEnseignant) {
+        $entityManager->remove($logEnseignant);
+      }
+      $entityManager->flush();
+    }
+
+
+    return $this->render('my_dispo/confirmationChangementAnnee.html.twig');
+  }
+
 }

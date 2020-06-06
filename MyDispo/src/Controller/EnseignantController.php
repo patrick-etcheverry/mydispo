@@ -9,10 +9,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use \ZipArchive;
 use Symfony\Component\HttpFoundation\Session\Session;
 use \Swift_Mailer;
 use \Swift_SmtpTransport;
+use Symfony\Component\Validator\Constraints\DateTime;
+
 /**
  * @Route("/enseignant")
  */
@@ -27,23 +29,59 @@ class EnseignantController extends AbstractController
         $repositoryEnseignant = $this->getDoctrine()->getRepository(Enseignant::class);
         $enseignants = $repositoryEnseignant->findAll();
 
-        $listeCharacteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($listeCharacteres);
+        $listeCharacteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$_.+!*()';
+        $tokenLength = 90;
 
         foreach ($enseignants as $enseignantCourant) {
-          $randomString = $enseignantCourant->getId();
-            for ($i = 0; $i < $charactersLength; $i++) {
-                $randomString .= $listeCharacteres[rand(0, $charactersLength - 1)];
+          $randomString = "";
+            for ($i = 0; $i < $tokenLength; $i++) {
+                $randomString .= $listeCharacteres[rand(0, strlen($listeCharacteres) - 1)];
             }
+          $randomString .= $enseignantCourant->getId();
           $enseignantCourant->setToken($randomString);
           $entityManager->persist($enseignantCourant);
           $entityManager->flush();
         }
 
-
         return $this->render('enseignant/confirmationToken.html.twig');
 
       }
+
+      /**
+       * @Route("/telechargerContrainte", name="telechargerContrainte")
+       */
+      public function telechargerContrainte()
+      {
+
+        // Récupérer tous les enseignants
+              $repositoryEnseignant = $this->getDoctrine()->getRepository(Enseignant::class);
+              $enseignants = $repositoryEnseignant->findAll();
+
+       // Initialisation ZipArchive
+              $zip = new \ZipArchive();
+              $filename = 'Contraintes.zip';
+
+      // Créer un fichier pour chaque enseignant qu'on ajoute à l'archive
+
+                foreach ( $enseignants as $enseignantCourant) {
+                  $nomEnseignant = $enseignantCourant->getNom();
+                  $nomFichierCourant = $nomEnseignant.'.csv';
+                  file_put_contents( $nomFichierCourant, 'Ecriture dans un fichier');
+                  if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
+                      exit("cannot open <$filename><br/>");//création de l'archive+code d'erreur
+                  }
+                  else{
+                    $zip->addFile($nomFichierCourant);
+                  }
+                }
+                $zip->close();
+                foreach ( $enseignants as $enseignantCourant) {
+                  unlink($enseignantCourant.'.csv');
+                }
+
+            return $this->render('enseignant/confirmationTelechargement.html.twig');
+
+    }
 
       /**
        * @Route("/confirmationEnvoieMail/", name="envoie_mail", methods={"GET"})
@@ -57,16 +95,15 @@ class EnseignantController extends AbstractController
             $sujet =$modeleMail->getSujet();
               $contenu = $modeleMail->getContenu();
               foreach ( $enseignants  as  $enseignantCourant ){
-              $transport = (new \Swift_SmtpTransport('smtp.gmail.com', 465))
-                ->setHost('smtp.gmail.com')
-                ->setPort('465')
+                /*$urlEnseignant = $this->generateUrl('saisieContrainte',['token'=> $enseignantCourant->getToken()],false);*/
+              $transport = (new \Swift_SmtpTransport($_ENV['ADRESS_SERVER_SMTP'], 465))
                 ->setEncryption('ssl')
                 ->setAuthMode('login')
-                ->setUsername($_ENV['MAILER_USER'])
-                ->setPassword($_ENV['MAILER_PASSWORD']);
+                ->setUsername($_ENV['LOGIN_SMTP'])
+                ->setPassword($_ENV['PASSWORD_SMTP']);
             $mailer = new \Swift_Mailer($transport);
             $message = (new \Swift_Message($sujet))
-               ->setFrom('Patrick Etcheverry')
+               ->setFrom($_ENV['MAIL_SENDER'])
                ->setTo($enseignantCourant->getMail())
                ->setBody($contenu);
             $mailer->send($message);

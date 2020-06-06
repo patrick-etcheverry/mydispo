@@ -26,23 +26,13 @@
                     {{ form_start(form) }}
                     {{ form_row(form.nom) }}
                     <h6>Envoyer un mail à tous les enseignants respectant les critères suivants:</h6>
+                  <br />
 
-                    <div class="element">
-                      <i class="fas fa-info-circle"></i>
-                      <div class="infobulle">
-                        <p>
-                          <em>
-                            Exemple :</br>
-                          Pour cibler un enseignant intervenant dans n'importe quelle formation :
-                        </br>
-                        - Cocher la case "DUT Info" et "LP Info"
-                      </br>
-                </em>
-              </p>
-            </div>
-          </div>
+
           {{ form_label(form.nomCourt) }}
           {{ form_widget(form.nomCourt) }}
+          {{ form_help(form.nomCourt) }}
+        <br />
           {{ form_row(form.statut) }}
           {{ form_row(form.saisieFaite) }}
           {{ form_row(form.mailRelanceRecu) }}

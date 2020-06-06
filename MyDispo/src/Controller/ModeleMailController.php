@@ -73,6 +73,7 @@ public function formEnvoieMail(Request $request)
             ))
             ->add('nomCourt', EntityType::class, array(
                     'class' => Formation::class,
+                    'help' => 'Exemple : Pour cibler un enseignant intervenant dans n\'importe quelle formation : - Cocher la case DUT Info et LP Info',
                     'choice_label' => 'nomCourt',
                     'label' => 'Enseignant intervenant en :',
                     'multiple' => true,

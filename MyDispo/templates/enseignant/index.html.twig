@@ -20,16 +20,16 @@
                 <th>Prénom</th>
                 <th>Statut</th>
                 <th>Etat</th>
-                <th>
-                  Premier mail reçu ?
-                </th>
-                <th>
-                  Mail de relance reçu ?
-                </th>
+                <th>Premier mail envoyé ?</th>
+                <th>Date premier mail</th>
+                <th>Mail de relance envoyé ?</th>
+                <th>Date dernière relance</th>
+                <th>Nombre de relances</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
+
               {% for enseignant in enseignants %}
                 <tr>
                   <td>
@@ -40,27 +40,46 @@
                     {{ enseignant.statut }}</td>
                   <td>{{ enseignant.enSommeil ? 'Inactif <i class="far fa-moon"></i>' : 'Actif' }}</td>
                   <td>
+                    <center>
                     {% if enseignant.premierMailRecu == true %}
-                      Oui <font color="green"><i class="far fa-check-circle" ></i></font> - Le
-                      {{enseignant.datePremierMail|date("d/m/Y à H:i", "Europe/Paris")}}
+                      Oui <font color="green"><i class="far fa-check-circle" ></i></font>
                     {% else %}
-                      Non reçu <font color="orange"><i class="far fa-times-circle"></i></font>
+                      Non <font color="orange"><i class="far fa-times-circle"></i></font>
+                    {% endif %}
+                  </center>
+                  </td>
+                  <td>
+                    {% if enseignant.dateSaisie == null %}
+                    <center>
+                      Aucune saisie
+                    </center>
+                    {% else %}
+                    <center>
+                      {{enseignant.dateSaisie|date("d/m/Y à h:s", "Europe/Paris")}}
+                    </center>
                     {% endif %}
                   </td>
                   <td>
+                    <center>
                     {% if enseignant.mailRelanceRecu == true %}
-                      Oui <font color="green"><i class="far fa-check-circle" ></i></font>- Dernière relance : Le
-                      {{enseignant.dateDerniereRelance|date("d/m/Y à H:i", "Europe/Paris")}}
-                      ({{enseignant.nbRelance}}
-                      {% if enseignant.nbRelance > 1 %}
-                        relances au total)
-                      {% else %}
-                        relance au total)
-                      {% endif %}
+                      Oui <font color="green"><i class="far fa-check-circle" ></i></font>
                     {% else %}
-                      Non reçu <font color="orange"><i class="far fa-times-circle"></i></font>
+                      Non <font color="orange"><i class="far fa-times-circle"></i></font>
                     {% endif %}
+                  </center>
                   </td>
+                  <td>
+                  {% if enseignant.dateDerniereRelance == null %}
+                  <center>
+                    Aucune saisie
+                  </center>
+                  {% else %}
+                  <center>
+                    {{enseignant.dateDerniereRelance|date("d/m/Y à h:s", "Europe/Paris")}}
+                  </center>
+                  {% endif %}
+                </td>
+                  <td><center>{{enseignant.nbRelance}}</center></td>
                   <td>
                     <center>
                       <a href="{{ path('enseignant_show', {'id': enseignant.id}) }}" style="text-decoration: none">
@@ -99,10 +118,13 @@
           Regénérer tous les liens</button>
       </a>
 
+
+      <a href="{{ path('telechargerContrainte') }}">
       <button class="btn-primary">
         <i class="fas fa-download"></i>
         Télécharger toutes les contraintes
       </button>
+      </a>
     </center>
   </div>
 </div>

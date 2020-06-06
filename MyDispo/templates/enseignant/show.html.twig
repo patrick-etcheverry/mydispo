@@ -52,7 +52,7 @@
                             </tr>
                             <tr>
                               <th>Token</th>
-                              <td>{{ enseignant.token }}</td>
+                              <td>{{ enseignant.token|length > 50 ? enseignant.token|slice(0, 50) ~ '...' : enseignant.token }}</td>
                             </tr>
                             <th>Saisie effectuée ?
                             </th>
@@ -67,11 +67,11 @@
                             <td>{{ enseignant.saisieFaite ? enseignant.dateDerniereModif|date('d/m/Y') : 'Aucune saisie' }}</td>
                           </tr>
                           <tr>
-                            <th>Premier mail reçu ?</th>
+                            <th>Premier mail envoyé ?</th>
                             <td>{{ enseignant.premierMailRecu ? 'Oui' : 'Non' }}</td>
                           </tr>
                           <tr>
-                            <th>Mail de relance reçu ?</th>
+                            <th>Mail de relance envoyé ?</th>
                             <td>{{ enseignant.mailRelanceRecu ? 'Oui' : 'Non' }}</td>
                           </tr>
                           <tr>
