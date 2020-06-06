@@ -32,6 +32,24 @@ class FormulaireTitulaireRepository extends ServiceEntityRepository
       ;
     }
 
+    public function selectHeureDebutCalendrier()
+    {
+      return $this->createQueryBuilder('f')
+      ->select('f.heureDebutCalendrier')
+      ->getQuery()
+      ->getResult()
+      ;
+    }
+
+    public function selectHeureFinCalendrier()
+    {
+      return $this->createQueryBuilder('f')
+      ->select('f.heureFinCalendrier')
+      ->getQuery()
+      ->getResult()
+      ;
+    }
+
 
 
     // /**

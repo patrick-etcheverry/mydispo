@@ -101,9 +101,9 @@ class MyDispoController extends AbstractController
   }
 */
   /**
-  * @Route("/parametres/generaux", name="parametres_gen")
+  * @Route("/horaires", name="horaires_non_saisissables")
   */
-  public function index2(CreneauRepository $creneauRepository,FormulaireTitulaireRepository $formTitulaireRepository, FormulaireVacataireRepository $formVacataireRepository)
+  public function horaires(CreneauRepository $creneauRepository,FormulaireTitulaireRepository $formTitulaireRepository, FormulaireVacataireRepository $formVacataireRepository)
   {
     $myarray = array();
     $events = $creneauRepository->selectStartEndTitleByType("zoneGrisee");
@@ -117,16 +117,58 @@ class MyDispoController extends AbstractController
     }
     $result=json_encode($myarray);
 
+
     $echelle1=$formTitulaireRepository->selectEchelleCalendrier()[0]["echelleCalendrier"];
     $echelle2=$formVacataireRepository->selectEchelleCalendrier()[0]["echelleCalendrier"];
     if($echelle1>$echelle2){$echelle=$echelle2;}
     else{$echelle=$echelle1;}
 
-    return $this->render('my_dispo/index.html.twig', [
+    $heureDebut1=$formTitulaireRepository->selectHeureDebutCalendrier()[0]["heureDebutCalendrier"];
+    $heureDebut2=$formVacataireRepository->selectHeureDebutCalendrier()[0]["heureDebutCalendrier"];
+    if($heureDebut1>$heureDebut2){$heureDebut=$heureDebut2;}
+
+    else{$heureDebut=$heureDebut1;}
+
+    $heureFin1=$formTitulaireRepository->selectHeureFinCalendrier()[0]["heureFinCalendrier"];
+    $heureFin2=$formVacataireRepository->selectHeureFinCalendrier()[0]["heureFinCalendrier"];
+    if($heureFin1>$heureFin2){$heureFin=$heureFin1;}
+
+    else{$heureFin=$heureFin2;}
+
+
+
+    return $this->render('my_dispo/horairesNonSaisissables.html.twig', [
       'events' => $result,
       'echelle' => $echelle,
+      'heureDebut' => $heureDebut,
+      'heureFin' => $heureFin,
     ]);
   }
+
+  /**
+  * @Route("/evenements", name="evenements")
+  */
+  public function evenements(CreneauRepository $creneauRepository,FormulaireTitulaireRepository $formTitulaireRepository, FormulaireVacataireRepository $formVacataireRepository)
+  {
+    $myarray = array();
+    $events = $creneauRepository->selectStartEndTitleByType("evenements");
+    foreach ($events as $event){
+      $object = new StdClass;
+      $object->title=$event["title"];
+      $object->start=$event["start"]->format("Y-m-d H:i:s");
+      $object->end=$event["end"]->format("Y-m-d H:i:s");
+      $myarray[] = $object;
+    }
+    $result=json_encode($myarray);
+
+
+    return $this->render('my_dispo/evenementsSpeciaux.html.twig', [
+      'events' => $result,
+    ]);
+  }
+
+
+
 
   /**
   * @Route("/ChangementAnnee", name="changement_annee")

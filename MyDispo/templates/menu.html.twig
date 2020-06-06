@@ -7,21 +7,23 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Paramètres des formulaires
       </a>
-      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
         <a class="dropdown-item" href="{{path('formulaire_titulaire_edit')}}"> Paramètres formulaire titulaire</a>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="{{path('formulaire_vacataire_edit')}}">Paramètres formulaire vacataire</a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="{{path('parametres_gen')}}">Paramètres généraux</a>
+        <a class="dropdown-item" href="{{path('horaires_non_saisissables')}}">Horaires non saisissables</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="{{path('evenements')}}">Événements ponctuels</a>
       </div>
     </li>
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="{{path('enseignant_index')}}">Les enseignants <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="{{path('enseignant_indexadmin')}}">Les saisies <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item dropdown">
@@ -29,7 +31,7 @@
           Les mails
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="{{path('envoie_modele_mail')}}">Envoie des mails</a>
+          <a class="dropdown-item" href="{{path('envoie_modele_mail')}}">Envoi des mails</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{{path('modele_mail_index')}}">Paramètres des mails</a>
         </div>
