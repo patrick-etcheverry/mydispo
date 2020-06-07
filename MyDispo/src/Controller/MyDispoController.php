@@ -16,6 +16,10 @@ use App\Repository\FormulaireVacataireRepository;
 use App\Repository\RemarqueRepository;
 use App\Repository\LogEnseignantRepository;
 use App\Repository\EnseignantRepository;
+use App\Form\FormulaireTitulaireType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+
 
 class MyDispoController extends AbstractController
 {
@@ -23,25 +27,33 @@ class MyDispoController extends AbstractController
   /**
   * @Route("/saisie-contrainte/{token}", name="saisieContrainte")
   */
-  /*public function index(EnseignantRepository $enseignantRepository, $token)
+  public function index(EnseignantRepository $enseignantRepository, FormulaireTitulaireRepository $formulaireTitulaireRepository ,$token,Request $request)
   {
 
     // Récupérer l'objet enseignant ayant le token $token
     $enseignant = $enseignantRepository->findByToken($token);
+    $formulaireTitulaire = $formulaireTitulaireRepository->findAll();
 
     // Récupérer les données déjà enregistrées
-    $remarquesSaisies = $enseignant->getRemarques();
-    $creneauxSaisis = $enseignant->getCreneaux();
+    $remarquesSaisies = $enseignant[0]->getRemarques();
+    $creneauxSaisis = $enseignant[0]->getCreneaux();
     $donneesFormulaire = array();
 
     // Déterminer le statut de l'enseignant
-    if($enseignant->getStatut() == "Titulaire"){
-      $form = $this->createForm(FormulaireTitulaireType::class, $donneesFormulaire);
+    if($enseignant[0]->getStatut() == "Titulaire"){
+      $defaultData = ['message' => 'Type your message here'];
+      $form = $this->createFormBuilder($defaultData)
+          ->add('remarquesHebdo', TextareaType::class, array(
+                  'label' => 'Remarques éventuelles'
+              ))
+          ->add('remarquesPonctu', TextareaType::class, array(
+                      'label' => 'Remarques éventuelles'
+                  ))
+      ->getForm();
 
     }
     else {
       $form = $this->createForm(FormulaireVacataireType::class, $donneesFormulaire);
-
 
     }
 
@@ -86,20 +98,22 @@ class MyDispoController extends AbstractController
       $entityManager->persist($enseignant);
 
       // Renvoie l'enseignant vers la page résumant sa saisie avant d'envoyer le mail
-      return $this->render('enseignant/new.html.twig', [
+      return $this->render('my_dispo/resumeSaisie.html.twig',
+    /*  [
           'enseignant' => $enseignant,
           'form' => $form->createView(),
-      ]);
+      ]*/
+    );
 
     }
     // Afficher la page du formulaire de saisie
-    return $this->render('enseignant/new.html.twig', [
-        'enseignant' => $enseignant,
+    return $this->render('my_dispo/formulaireTitulaire.html.twig', [
+        'formulaireTitulaire' => $formulaireTitulaire[0],
         'form' => $form->createView(),
     ]);
 
   }
-*/
+
   /**
   * @Route("/horaires", name="horaires_non_saisissables")
   */

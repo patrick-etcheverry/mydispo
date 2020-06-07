@@ -122,7 +122,8 @@ class EnseignantController extends AbstractController
 
               foreach ( $enseignants  as  $enseignantCourant ){
 
-                /*$urlEnseignant = $this->generateUrl('saisieContrainte',['token'=> $enseignantCourant->getToken()],false);*/
+                //$urlEnseignant = $this->generateUrl('saisieContrainte',['token'=> $enseignantCourant->getToken()],false);
+                var_dump($this->generateUrl('saisieContrainte',['token'=> $enseignantCourant->getToken()],false));
               $transport = (new \Swift_SmtpTransport($_ENV['ADRESS_SERVER_SMTP'], 465))
                 ->setEncryption('ssl')
                 ->setAuthMode('login')
