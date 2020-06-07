@@ -114,9 +114,14 @@ class EnseignantController extends AbstractController
             $session = new Session();
             $modeleMail = $session->get('modeleMail');
             $enseignants = $session->get('enseignants');
-            $sujet =$modeleMail->getSujet();
+
+
+              $sujet =$modeleMail->getSujet();
               $contenu = $modeleMail->getContenu();
+              $entityManager = $this->getDoctrine()->getManager();
+
               foreach ( $enseignants  as  $enseignantCourant ){
+
                 /*$urlEnseignant = $this->generateUrl('saisieContrainte',['token'=> $enseignantCourant->getToken()],false);*/
               $transport = (new \Swift_SmtpTransport($_ENV['ADRESS_SERVER_SMTP'], 465))
                 ->setEncryption('ssl')
@@ -129,33 +134,46 @@ class EnseignantController extends AbstractController
                ->setTo($enseignantCourant->getMail())
                ->setBody($contenu);
             $mailer->send($message);
-/*
-            // Premier mail
-            if($sujet == 'Saisie de vos contraintes et disponibilités IUT Anglet'){
-              $enseignantCourant->setPremierMailRecu(true);
-              $date1 = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
-              $date1->setTimezone(new \DateTimeZone('UTC'));
-              $enseignantCourant->setDatePremierMail($date1);
-            }
-            else{
-              // Mail relance
-              if($sujet == 'Relance pour la saisie de vos contraintes et disponibilités IUT Anglet'){
-                $enseignantCourant->setMailRelanceRecu(true);
-                $date2 = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
-                $date2->setTimezone(new \DateTimeZone('UTC'));
-                $enseignantCourant->setDateDerniereRelance($date2);
-                $enseignantCourant->setNbRelance($enseignantCourant->getNbRelance() +1);
 
-              }
-            }
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($enseignantCourant);
-            $entityManager->flush();
-*/
           }
-            return $this->render('modele_mail/confirmationEnvoieMail.html.twig');
+          $formations = $session->get('formations');
+          $saisieFaite = $session->get('saisieFaite');
+          $mailRelanceRecu = $session->get('mailRelanceRecu');
+          $statut = $session->get('statut');
+
+          $repositoryEnseignant = $this->getDoctrine()->getRepository(Enseignant::class);
+          $enseignants = $repositoryEnseignant->findByGeneral($tab = array('saisieFaite' => $saisieFaite ,'statut' => $statut, 'formations' => $formations, 'mailRelanceRecu' => $mailRelanceRecu ));
+
+          foreach ( $enseignants  as  $enseignantCourant ){
+          // Premier mail
+          if($sujet == 'Saisie de vos contraintes et disponibilités IUT Anglet'){
+            $enseignantCourant->setPremierMailRecu(true);
+            $date1 = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+            $date1->setTimezone(new \DateTimeZone('UTC'));
+            $enseignantCourant->setDatePremierMail($date1);
+            $entityManager->persist($enseignantCourant);
+          }
+          else{
+            // Mail relance
+            if($sujet == 'Relance pour la saisie de vos contraintes et disponibilités IUT Anglet'){
+              $enseignantCourant->setMailRelanceRecu(true);
+              $date2 = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+              $date2->setTimezone(new \DateTimeZone('UTC'));
+              $enseignantCourant->setDateDerniereRelance($date2);
+              $enseignantCourant->setNbRelance($enseignantCourant->getNbRelance() +1);
+              $entityManager->persist($enseignantCourant);
+            }
+          }
         }
+        $entityManager->flush();
+
+
+
+
+
+          return $this->render('modele_mail/confirmationEnvoieMail.html.twig');
+    }
+
 
     /**
      * @Route("/", name="enseignant_index", methods={"GET"})
