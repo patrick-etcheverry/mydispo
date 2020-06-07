@@ -16,6 +16,7 @@ use App\Repository\FormulaireVacataireRepository;
 use App\Repository\RemarqueRepository;
 use App\Repository\LogEnseignantRepository;
 use App\Repository\EnseignantRepository;
+use Symfony\Component\HttpFoundation\Response;
 
 class MyDispoController extends AbstractController
 {
@@ -151,15 +152,16 @@ class MyDispoController extends AbstractController
   public function evenements(CreneauRepository $creneauRepository,FormulaireTitulaireRepository $formTitulaireRepository, FormulaireVacataireRepository $formVacataireRepository)
   {
     $myarray = array();
-    $events = $creneauRepository->selectStartEndTitleByType("evenements");
+    $events = $creneauRepository->selectStartEndTitleByType("evenement");
     foreach ($events as $event){
       $object = new StdClass;
       $object->title=$event["title"];
-      $object->start=$event["start"]->format("Y-m-d H:i:s");
-      $object->end=$event["end"]->format("Y-m-d H:i:s");
+      $object->start=$event["start"]->format("Y-m-d");
+      $object->end=$event["end"]->format("Y-m-d");
       $myarray[] = $object;
     }
     $result=json_encode($myarray);
+
 
 
     return $this->render('my_dispo/evenementsSpeciaux.html.twig', [
@@ -167,8 +169,21 @@ class MyDispoController extends AbstractController
     ]);
   }
 
+  /**
+  * @Route("/supprimerCreneaux/{typecreneau}", name="suppr_creneaux" , methods={"GET","POST"})
+  */
+  public function supprimerCreneaux($typecreneau, CreneauRepository $creneauRepository)
+  {
+    $entityManager = $this->getDoctrine()->getManager();
+    $aSupprimer = $creneauRepository->selectByType($typecreneau);
 
+    foreach($aSupprimer as $elementASupprimer){
+    $entityManager->remove($elementASupprimer);
+    }
+    $entityManager->flush();
 
+    return new Response("OK");
+  }
 
   /**
   * @Route("/ChangementAnnee", name="changement_annee")
