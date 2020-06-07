@@ -17,6 +17,11 @@ use App\Repository\RemarqueRepository;
 use App\Repository\LogEnseignantRepository;
 use App\Repository\EnseignantRepository;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+
+
+
 
 class MyDispoController extends AbstractController
 {
@@ -24,12 +29,40 @@ class MyDispoController extends AbstractController
   /**
   * @Route("/saisie-contrainte/{token}", name="saisieContrainte")
   */
-  public function index(EnseignantRepository $enseignantRepository, FormulaireTitulaireRepository $formulaireTitulaireRepository ,$token,Request $request)
+  public function index(CreneauRepository $creneauRepository, EnseignantRepository $enseignantRepository, FormulaireTitulaireRepository $formulaireTitulaireRepository ,$token, Request $request)
   {
 
     // Récupérer l'objet enseignant ayant le token $token
     $enseignant = $enseignantRepository->findByToken($token);
     $formulaireTitulaire = $formulaireTitulaireRepository->findAll();
+
+
+    $creneauxGrisee = array();
+    $events = $creneauRepository->selectStartEndTitleByType("zoneGrisee");
+    foreach ($events as $event){
+      $object = new StdClass;
+      $object->title=$event["title"];
+      $object->rendering="background";
+      $object->daysOfWeek=date('w',$event["start"]->getTimestamp());
+      $object->startTime=$event["start"]->format("H:i:s");
+      $object->endTime=$event["end"]->format("H:i:s");
+      $creneauxGrisee[] = $object;
+    }
+    $creneauxEnseignant = array();
+    $events = $enseignant[0]->getCreneaux();
+    foreach ($events as $event){
+      $object = new StdClass;
+      $object->title=$event["title"];
+      $object->daysOfWeek=date('w',$event["start"]->getTimestamp());
+      $object->startTime=$event["start"]->format("H:i:s");
+      $object->endTime=$event["end"]->format("H:i:s");
+      $creneauxEnseignant[] = $object;
+    }
+
+    foreach ($creneauxGrisee as $creneauxGriseeCourant) {
+      array_push($creneauxEnseignant,$creneauxGriseeCourant);
+    }
+    $result=json_encode($creneauxEnseignant);
 
     // Récupérer les données déjà enregistrées
     $remarquesSaisies = $enseignant[0]->getRemarques();
@@ -96,10 +129,10 @@ class MyDispoController extends AbstractController
 
       // Renvoie l'enseignant vers la page résumant sa saisie avant d'envoyer le mail
       return $this->render('my_dispo/resumeSaisie.html.twig',
-    /*  [
+      [
           'enseignant' => $enseignant,
           'form' => $form->createView(),
-      ]*/
+      ]
     );
 
     }
@@ -107,6 +140,7 @@ class MyDispoController extends AbstractController
     return $this->render('my_dispo/formulaireTitulaire.html.twig', [
         'formulaireTitulaire' => $formulaireTitulaire[0],
         'form' => $form->createView(),
+        'events' => $result,
     ]);
 
   }
@@ -192,7 +226,7 @@ class MyDispoController extends AbstractController
     }
     $entityManager->flush();
 
-    return new Response("OK");
+    return $this->redirectToRoute('evenements');
   }
 
   /**

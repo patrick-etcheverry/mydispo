@@ -2,157 +2,366 @@
 
 {% block navbar %}{% endblock %}
 
-{% block title %}Envoi Mail{% endblock %}
+{% block title %}Saisie{% endblock %}
+
+{% block stylesheets %}
+
+  <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"/>
+  <link href="{{ asset('css/fullcalendarstyle.css') }}" rel="stylesheet"/>
+
+  <link href="{{ asset('fullcalendar/packages/core/main.css') }}" rel='stylesheet'/>
+  <link href="{{ asset('fullcalendar/packages/timegrid/main.css') }}" rel='stylesheet'/>
+  <link href="{{ asset('fullcalendar/packages/daygrid/main.css') }}" rel='stylesheet'/>
+  <link href="{{ asset('fullcalendar/packages/bootstrap/main.css') }}" rel='stylesheet'/>
+
+  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/shift-toward.css"/>
+  <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+
+{% endblock %}
 
 {% block body %}
+<div id="mySidenav" class="sidenav">
 
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" id="close">&times;</a>
+  <p id="nomcreneau">Nom du creneau</p>
+  <input type="text" name="titre" id="titrevt">
+  <button id="apply">Appliquer le titre</button>
+  <button id="remove">Supprimer ce créneau</button>
+</div>
 
-  <div class="card">
-  <h5 class="card-header">
-    <center>
-      <td>
-        <h4>Enseignements au département informatique de l'IUT de Bayonne - 2020-2021</h4>
-      </td>
-    </center>
-  </h5>
+<div id="main">
 
-  <div class="card-body">
-    <p class="card-text">
-      <ul class="nav nav-tabs">
-        <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="saisie-Hebdo" data-toggle="tab" href="#hebdo" role="tab" aria-controls="echelle" aria-selected="true">Contraintes professionnelles et personnelles hebdomadaires</a>
-        </li>
-        <li class="nav-item" role="presentation">
-          <a class="nav-link " id="saisie-Ponctu" data-toggle="tab" href="#ponctu" role="tab" aria-controls="heures" aria-selected="true">Contraintes professionnelles ponctuelles</a>
-        </li>
-      </ul>
+    <div class="card">
+    <h5 class="card-header">
+      <center>
+        <td>
+          <h4>Enseignements au département informatique de l'IUT de Bayonne - 2020-2021</h4>
+        </td>
+      </center>
+    </h5>
 
-      <div class="tab-content"></br>
-      <div id="hebdo" class="tab-pane fade show active" role="tabpanel" aria-labelledby="saisie-Hebdo">
+    <div class="card-body">
+      <p class="card-text">
+        <ul class="nav nav-tabs">
+          <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="saisie-Hebdo" data-toggle="tab" href="#hebdo" role="tab" aria-controls="echelle" aria-selected="true">Contraintes professionnelles et personnelles hebdomadaires</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link " id="saisie-Ponctu" data-toggle="tab" href="#ponctu" role="tab" aria-controls="heures" aria-selected="true">Contraintes professionnelles ponctuelles</a>
+          </li>
+        </ul>
 
-        <div class="col-md-3">
-          <div class="card">
-            <h5 class="card-header">
-              <center>Contraintes professionnelles</center>
-            </h5>
-            <div class="card-body">
-              <p class="card-text">
-                <ul>
+        <div class="tab-content"></br>
+        <div id="hebdo" class="tab-pane fade show active" role="tabpanel" aria-labelledby="saisie-Hebdo">
+
+          <div class="col-md-3">
+            <div class="card">
+              <h5 class="card-header">
+                <center>Contraintes professionnelles</center>
+              </h5>
+              <div class="card-body">
+                <p class="card-text">
+                  <ul>
+                    <li>
+                      Priorité forte (Créneaux de
+                      {{formulaireTitulaire.dureeProForte}}
+                      minutes)
+                      <p style="color:red">
+                        (
+                        {{formulaireTitulaire.quantiteProForte}}
+                        {% if formulaireTitulaire.quantiteProForte > 1 %}
+                          restantes )</p>
+                      {% else %}
+                        restante )</p>
+                    {% endif %}
+                  </li>
                   <li>
-                    Priorité forte (Créneaux de
-                    {{formulaireTitulaire.dureeProForte}}
+                    Priorité moyenne (Créneaux de
+                    {{formulaireTitulaire.dureeProMoy}}
                     minutes)
-                    <p style="color:red">
+                    <p style="color:orange">
                       (
-                      {{formulaireTitulaire.quantiteProForte}}
-                      {% if formulaireTitulaire.quantiteProForte > 1 %}
+                      {{formulaireTitulaire.quantiteProMoy}}
+                      {% if formulaireTitulaire.quantiteProMoy > 1 %}
                         restantes )</p>
                     {% else %}
                       restante )</p>
                   {% endif %}
                 </li>
                 <li>
-                  Priorité moyenne (Créneaux de
-                  {{formulaireTitulaire.dureeProMoy}}
+                  Priorité faible (Créneaux de
+                  {{formulaireTitulaire.dureeProFaible}}
                   minutes)
-                  <p style="color:orange">
+                  <p style="color:green">
                     (
-                    {{formulaireTitulaire.quantiteProMoy}}
-                    {% if formulaireTitulaire.quantiteProMoy > 1 %}
+                    {{formulaireTitulaire.quantiteProFaible}}
+                    {% if formulaireTitulaire.quantiteProFaible > 1 %}
                       restantes )</p>
                   {% else %}
                     restante )</p>
                 {% endif %}
               </li>
-              <li>
-                Priorité faible (Créneaux de
-                {{formulaireTitulaire.dureeProFaible}}
-                minutes)
-                <p style="color:green">
-                  (
-                  {{formulaireTitulaire.quantiteProFaible}}
-                  {% if formulaireTitulaire.quantiteProFaible > 1 %}
-                    restantes )</p>
-                {% else %}
-                  restante )</p>
-              {% endif %}
-            </li>
-          </ul>
-        </p>
+            </ul>
+          </p>
+        </div>
       </div>
-    </div>
 
-  </br>
+    </br>
 
-  <div class="card">
-    <h5 class="card-header">
-      <center>Contraintes personnelles</center>
-    </h5>
-    <div class="card-body">
-      <p class="card-text">
-        <ul>
+    <div class="card">
+      <h5 class="card-header">
+        <center>Contraintes personnelles</center>
+      </h5>
+      <div class="card-body">
+        <p class="card-text">
+          <ul>
+            <li>
+              Priorité forte (Créneaux de
+              {{formulaireTitulaire.dureePersForte}}
+              minutes)
+              <p style="color:red">
+                (
+                {{formulaireTitulaire.quantitePersForte}}
+                {% if formulaireTitulaire.quantitePersForte > 1 %}
+                  restantes )</p>
+              {% else %}
+                restante )</p>
+            {% endif %}
+          </li>
           <li>
-            Priorité forte (Créneaux de
-            {{formulaireTitulaire.dureePersForte}}
+            Priorité moyenne (Créneaux de
+            {{formulaireTitulaire.dureePersMoy}}
             minutes)
-            <p style="color:red">
+            <p style="color:orange">
               (
-              {{formulaireTitulaire.quantitePersForte}}
-              {% if formulaireTitulaire.quantitePersForte > 1 %}
+              {{formulaireTitulaire.quantitePersMoy}}
+              {% if formulaireTitulaire.quantitePersMoy > 1 %}
                 restantes )</p>
             {% else %}
               restante )</p>
           {% endif %}
         </li>
         <li>
-          Priorité moyenne (Créneaux de
-          {{formulaireTitulaire.dureePersMoy}}
+          Priorité faible (Créneaux de
+          {{formulaireTitulaire.dureePersFaible}}
           minutes)
-          <p style="color:orange">
+          <p style="color:green">
             (
-            {{formulaireTitulaire.quantitePersMoy}}
-            {% if formulaireTitulaire.quantitePersMoy > 1 %}
+            {{formulaireTitulaire.quantitePersFaible}}
+            {% if formulaireTitulaire.quantitePersFaible > 1 %}
               restantes )</p>
           {% else %}
             restante )</p>
         {% endif %}
       </li>
-      <li>
-        Priorité faible (Créneaux de
-        {{formulaireTitulaire.dureePersFaible}}
-        minutes)
-        <p style="color:green">
-          (
-          {{formulaireTitulaire.quantitePersFaible}}
-          {% if formulaireTitulaire.quantitePersFaible > 1 %}
-            restantes )</p>
-        {% else %}
-          restante )</p>
-      {% endif %}
-    </li>
-  </ul>
-</div>
-</div>
-</div>
-<div class="col-md-9">
-{{ form_row(form.remarquesHebdo) }}
-</div>
+    </ul>
+  </div>
+  </div>
+  </div>
+
+
+
+  <div class="col-md-9">
+    <div id='calendar'>
+    </div>
+  {{ form_row(form.remarquesHebdo) }}
+  </div>
+  </div>
+
+  <div id="ponctu" class="tab-pane fade" role="tabpanel" aria-labelledby="saisie-Ponctu">
+    {{ form_row(form.remarquesPonctu) }}
+  </div>
+  </div>
+  </p>
+  </div>
+
+  <div class="card-footer">
+    <center>
+      <button class="btn-primary" id="submit">
+        <i class="fas fa-pencil-alt"></i>{{ button_label|default(' Envoyer ') }}</button>
+    </center>
+  </div>
+
+  </div>
+
+
+
+</br>
 </div>
 
-<div id="ponctu" class="tab-pane fade show active" role="tabpanel" aria-labelledby="saisie-Ponctu">
-  {{ form_row(form.remarquesPonctu) }}
-</div>
-</div>
-</p>
-</div>
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+<script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
 
-<div class="card-footer">
-  <center>
-    <button class="btn-primary">
-      <i class="fas fa-pencil-alt"></i>{{ button_label|default(' Envoyer ') }}</button>
-  </center>
-</div>
+<script src="{{ asset('fullcalendar/packages/core/main.js')}}"></script>
+<script src="{{ asset('fullcalendar/packages/daygrid/main.js')}}"></script>
+<script src="{{ asset('fullcalendar/packages/timegrid/main.js')}}"></script>
+<script src="{{ asset('fullcalendar/packages/core/main.js')}}"></script>
+<script src="{{ asset('fullcalendar/packages/core/locales/fr.js')}}"></script>
+<script src="{{ asset('fullcalendar/packages/interaction/main.js')}}"></script>
+<script src="{{ asset('fullcalendar/packages/bootstrap/main.js')}}"></script>
 
-</div>
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+
+<script>
+
+  String.prototype.minsToHHMMSS = function() {
+    var mins_num = parseFloat(this, 10); // don't forget the second param
+    var hours = Math.floor(mins_num / 60);
+    var minutes = Math.floor((mins_num - ((hours * 3600)) / 60));
+    var seconds = Math.floor((mins_num * 60) - (hours * 3600) - (minutes * 60));
+
+    // Appends 0 when unit is less than 10
+    if (hours < 10) {
+      hours = "0" + hours;
+    }
+    if (minutes < 10) {
+      minutes = "0" + minutes;
+    }
+    if (seconds < 10) {
+      seconds = "0" + seconds;
+    }
+    return hours + ':' + minutes + ':' + seconds;
+  }
+
+  function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("main").style.marginRight = "250px";
+
+  }
+
+  /* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+  function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginRight = "0";
+  }
+
+  var events;
+  function ajax(start, end, title, type) {
+
+    $.ajax({
+      url: "{{path("creneau_ajouter")}}",
+      data: {
+        startevt: start,
+        endevt: end,
+        titleevt: title,
+        typeevt: type
+      }, //données envoyées au serveur pour chaque événement
+      type: "POST"
+    });
+  }
+  document.addEventListener('DOMContentLoaded', function() {
+
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+
+      plugins: [
+        'timeGrid', 'interaction', 'bootstrap'
+      ],
+      defaultView: 'timeGridWeek',
+      themeSystem: 'bootstrap',
+      contentHeight: "auto",
+      allDaySlot: false,
+      slotDuration: '{{ formulaireTitulaire.echelleCalendrier }}'.minsToHHMMSS(),
+      slotLabelInterval: '{{ formulaireTitulaire.echelleCalendrier }}'.minsToHHMMSS(),
+      minTime: '{{ formulaireTitulaire.heureDebutCalendrier|date("H:i:s")}}',
+      maxTime: '{{ formulaireTitulaire.heureFinCalendrier|date("H:i:s")}}',
+      weekNumberCalculation: "ISO",
+      weekends: false,
+      selectable: true,
+      events: {{ events|raw  }},
+      columnHeaderFormat: {
+        weekday: 'long'
+      },
+      editable: true,
+      locale: 'fr',
+      header: {
+        left: '',
+        center: '',
+        right: ''
+      },
+
+      select: function(arg) {
+
+        closeNav();
+        var title = prompt('Titre de la contrainte:');
+        if (title) { // si un titre d'événement a été saisi et que la limite d'événement autorisés n'a pas été dépassée
+          calendar.addEvent({title: title, start: arg.start, end: arg.end, classNames: ['plusBord']})
+        }
+
+        calendar.unselect();
+        calendar.getEvents().forEach(event => {
+          event.setProp("borderColor", "white");
+        });
+      },
+      eventRender: function(info) {
+        var dateDeb = calendar.formatDate(info.event.start, {
+          weekday: 'long',
+          hour: '2-digit',
+          minute: '2-digit',
+          locale: 'fr'
+        });
+        var dateFin = calendar.formatDate(info.event.end, {
+          weekday: 'long',
+          hour: '2-digit',
+          minute: '2-digit',
+          locale: 'fr'
+        });
+        var contenu = "Titre : " + info.event.title + "</br>Début : " + dateDeb + "</br>Fin : " + dateFin;
+
+        var tooltip = new tippy(info.el, {
+          allowHTML: true,
+          content: contenu,
+          trigger: 'mouseenter',
+          sticky: true,
+          animation: 'shift-toward',
+          maxWidth: 200
+        });
+
+      },
+      eventClick: function(info) {
+        calendar.getEvents().forEach(event => {
+          event.setProp("borderColor", "white");
+        });
+        document.getElementById('nomcreneau').innerHTML = "Contrainte " + info.event.title;
+        document.getElementById('titrevt').value = info.event.title;
+        info.event.setProp("borderColor", "red");
+
+        document.getElementById('apply').onclick = function() {
+          if (document.getElementById('titrevt').value != '') {
+            info.event.setProp("title", document.getElementById('titrevt').value);
+            document.getElementById("nomcreneau").innerHTML = "Contrainte " + info.event.title;
+            calendar.rerenderEvents();
+          }
+
+        };
+        document.getElementById('remove').onclick = function() {
+          if (confirm("Voulez vous vraiment supprimer ce créneau ?")) {
+            info.event.remove();
+          }
+          closeNav();
+        };
+        document.getElementById('close').onclick = function() {
+          closeNav();
+          info.event.setProp("borderColor", "white");
+        };
+        openNav();
+      }
+
+    });
+
+    document.getElementById('submit').onclick = function() {
+      events = calendar.getEvents(); //on récupère tous les événements du calendrier sous forme d'un tableau
+      events.forEach(event => ajax(event.start.toISOString(), event.end.toISOString(), event.title, "zoneGrisee")); //pour chaque élément du tableau, c'est à dire pour chaque événement, on envoie sa date de début, sa date de fin et son titre au serveur
+    };
+
+    calendar.render();
+
+  });
+</script>
 
 {% endblock %}
