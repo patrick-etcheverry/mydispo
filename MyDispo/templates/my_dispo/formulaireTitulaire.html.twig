@@ -1,25 +1,7 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseEnseignant.html.twig' %}
 
-{% block navbar %}{% endblock %}
 
-{% block title %}Saisie{% endblock %}
-
-{% block stylesheets %}
-
-  <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"/>
-  <link href="{{ asset('css/fullcalendarstyle.css') }}" rel="stylesheet"/>
-
-  <link href="{{ asset('fullcalendar/packages/core/main.css') }}" rel='stylesheet'/>
-  <link href="{{ asset('fullcalendar/packages/timegrid/main.css') }}" rel='stylesheet'/>
-  <link href="{{ asset('fullcalendar/packages/daygrid/main.css') }}" rel='stylesheet'/>
-  <link href="{{ asset('fullcalendar/packages/bootstrap/main.css') }}" rel='stylesheet'/>
-
-  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/shift-toward.css"/>
-  <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
-
-{% endblock %}
-
-{% block body %}
+{% block sideNav %}
 <div id="mySidenav" class="sidenav">
 
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" id="close">&times;</a>
@@ -28,95 +10,80 @@
   <button id="apply">Appliquer le titre</button>
   <button id="remove">Supprimer ce créneau</button>
 </div>
+{% endblock %}
 
-<div id="main">
 
-    <div class="card">
-    <h5 class="card-header">
-      <center>
-        <td>
-          <h4>Enseignements au département informatique de l'IUT de Bayonne - 2020-2021</h4>
-        </td>
-      </center>
-    </h5>
 
-    <div class="card-body">
-      <p class="card-text">
-        <ul class="nav nav-tabs">
-          <li class="nav-item" role="presentation">
-            <a class="nav-link active" id="saisie-Hebdo" data-toggle="tab" href="#hebdo" role="tab" aria-controls="echelle" aria-selected="true">Contraintes professionnelles et personnelles hebdomadaires</a>
-          </li>
-          <li class="nav-item" role="presentation">
-            <a class="nav-link " id="saisie-Ponctu" data-toggle="tab" href="#ponctu" role="tab" aria-controls="heures" aria-selected="true">Contraintes professionnelles ponctuelles</a>
-          </li>
-        </ul>
 
-        <div class="tab-content"></br>
-        <div id="hebdo" class="tab-pane fade show active" role="tabpanel" aria-labelledby="saisie-Hebdo">
+{% block TitleMainCard %}
+<center>
+  <td>
+    <h4>Enseignements au département informatique de l'IUT de Bayonne - 2020-2021</h4>
+  </td>
+</center>
+{% endblock %}
 
-          <div class="col-md-3">
-            <div class="card">
-              <h5 class="card-header">
-                <center>Contraintes professionnelles</center>
-              </h5>
-              <div class="card-body">
-                <p class="card-text">
-                  <ul>
-                    <li>
-                      Priorité forte (Créneaux de
-                      {{formulaireTitulaire.dureeProForte}}
-                      minutes)
-                      <p style="color:red">
-                        (
-                        {{formulaireTitulaire.quantiteProForte}}
-                        {% if formulaireTitulaire.quantiteProForte > 1 %}
-                          restantes )</p>
-                      {% else %}
-                        restante )</p>
-                    {% endif %}
-                  </li>
-                  <li>
-                    Priorité moyenne (Créneaux de
-                    {{formulaireTitulaire.dureeProMoy}}
-                    minutes)
-                    <p style="color:orange">
-                      (
-                      {{formulaireTitulaire.quantiteProMoy}}
-                      {% if formulaireTitulaire.quantiteProMoy > 1 %}
-                        restantes )</p>
-                    {% else %}
-                      restante )</p>
-                  {% endif %}
-                </li>
-                <li>
-                  Priorité faible (Créneaux de
-                  {{formulaireTitulaire.dureeProFaible}}
-                  minutes)
-                  <p style="color:green">
-                    (
-                    {{formulaireTitulaire.quantiteProFaible}}
-                    {% if formulaireTitulaire.quantiteProFaible > 1 %}
-                      restantes )</p>
-                  {% else %}
-                    restante )</p>
-                {% endif %}
-              </li>
-            </ul>
-          </p>
-        </div>
-      </div>
 
-    </br>
+{% block TitleSecondCard %}
+<center>Contraintes professionnelles</center>
+{% endblock %}
 
-    <div class="card">
-      <h5 class="card-header">
-        <center>Contraintes personnelles</center>
-      </h5>
-      <div class="card-body">
-        <p class="card-text">
-          <ul>
-            <li>
-              Priorité forte (Créneaux de
+
+{% block ContentSecondCard %}
+<input type="radio" id="proForte" name="couleur"
+      value="proForte" checked> Priorité forte (Créneaux de
+    {{formulaireTitulaire.dureeProForte}}
+    minutes)
+    <p style="color:red">
+      (
+      {{formulaireTitulaire.quantiteProForte}}
+      {% if formulaireTitulaire.quantiteProForte > 1 %}
+        restantes )</p>
+    {% else %}
+      restante )</p>
+  {% endif %}
+
+  <input type="radio" id="proMoy" name="couleur"
+        value="proMoy"> Priorité moyenne (Créneaux de
+  {{formulaireTitulaire.dureeProMoy}}
+  minutes)
+  <p style="color:orange">
+    (
+    {{formulaireTitulaire.quantiteProMoy}}
+    {% if formulaireTitulaire.quantiteProMoy > 1 %}
+      restantes )</p>
+  {% else %}
+    restante )</p>
+{% endif %}
+
+<input type="radio" id="proFaible" name="couleur"
+      value="proFaible"> Priorité faible (Créneaux de
+{{formulaireTitulaire.dureeProFaible}}
+minutes)
+<p style="color:green">
+  (
+  {{formulaireTitulaire.quantiteProFaible}}
+  {% if formulaireTitulaire.quantiteProFaible > 1 %}
+    restantes )</p>
+{% else %}
+  restante )</p>
+{% endif %}
+{% endblock %}
+
+
+
+
+
+
+{% block TitleThirdCard %}
+<center>Contraintes personnelles</center>
+{% endblock %}
+
+
+{% block ContentThirdCard %}
+
+          <input type="radio" id="persForte" name="couleur"
+                value="persForte"> Priorité forte (Créneaux de
               {{formulaireTitulaire.dureePersForte}}
               minutes)
               <p style="color:red">
@@ -127,9 +94,9 @@
               {% else %}
                 restante )</p>
             {% endif %}
-          </li>
-          <li>
-            Priorité moyenne (Créneaux de
+
+            <input type="radio" id="persMoy" name="couleur"
+                  value="persMoy"> Priorité moyenne (Créneaux de
             {{formulaireTitulaire.dureePersMoy}}
             minutes)
             <p style="color:orange">
@@ -140,9 +107,9 @@
             {% else %}
               restante )</p>
           {% endif %}
-        </li>
-        <li>
-          Priorité faible (Créneaux de
+
+          <input type="radio" id="persFaible" name="couleur"
+              value="persFaible"> Priorité faible (Créneaux de
           {{formulaireTitulaire.dureePersFaible}}
           minutes)
           <p style="color:green">
@@ -153,61 +120,210 @@
           {% else %}
             restante )</p>
         {% endif %}
-      </li>
-    </ul>
-  </div>
-  </div>
-  </div>
-
-
-
-  <div class="col-md-9">
-    <div id='calendar'>
-    </div>
-  {{ form_row(form.remarquesHebdo) }}
-  </div>
-  </div>
-
-  <div id="ponctu" class="tab-pane fade" role="tabpanel" aria-labelledby="saisie-Ponctu">
-    {{ form_row(form.remarquesPonctu) }}
-  </div>
-  </div>
-  </p>
-  </div>
-
-  <div class="card-footer">
-    <center>
-      <button class="btn-primary" id="submit">
-        <i class="fas fa-pencil-alt"></i>{{ button_label|default(' Envoyer ') }}</button>
-    </center>
-  </div>
-
-  </div>
-
-
-
-</br>
-</div>
-
 {% endblock %}
+
+
+{% block ContentRightColonne %}
+<div id="main">
+<div id='calendar'>
+</div>
+<br/>
+
+</br/>
+{{ form_row(form.remarquesHebdo) }}
+{% endblock %}
+
+
+{% block FooterMainCard %}
+<center>
+  <button class="btn-primary" id="submit">
+    <i class="fas fa-pencil-alt"></i>{{ button_label|default(' Envoyer ') }}</button>
+</center>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
 {% block javascripts %}
+
 {{ parent() }}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
-<script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
-
-<script src="{{ asset('fullcalendar/packages/core/main.js')}}"></script>
-<script src="{{ asset('fullcalendar/packages/daygrid/main.js')}}"></script>
-<script src="{{ asset('fullcalendar/packages/timegrid/main.js')}}"></script>
-<script src="{{ asset('fullcalendar/packages/core/main.js')}}"></script>
-<script src="{{ asset('fullcalendar/packages/core/locales/fr.js')}}"></script>
-<script src="{{ asset('fullcalendar/packages/interaction/main.js')}}"></script>
-<script src="{{ asset('fullcalendar/packages/bootstrap/main.js')}}"></script>
-
-<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
-<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
-
 <script>
+//déterminer la couleur du fond de l'événement à utiliser en fonction du bouton radio coché
+function detFond() {
+                if(document.getElementById('proForte').checked) {
+                    fond = "#FF0000";
+                }
+                else if(document.getElementById('proMoy').checked) {
+                  fond = "#FE8700";
+
+                }
+                else if(document.getElementById('proFaible').checked) {
+                  fond = "#FAFE00";
+                  bordure = fond;
+                }
+                else if(document.getElementById('persForte').checked) {
+                  fond = "#FFFFFF";
+
+                }
+                else if(document.getElementById('persMoy').checked) {
+                  fond = "#FFFFFF";
+
+                }
+                else if(document.getElementById('persFaible').checked) {
+                  fond = "#FFFFFF";
+
+                }
+                return fond;
+            }
+
+//déterminer la couleur de la bordure de l'événement à utiliser en fonction du bouton radio coché
+function detBord(){
+
+  if(document.getElementById('proForte').checked) {
+      bordure = "#FF0000";
+  }
+  else if(document.getElementById('proMoy').checked) {
+    bordure = "#FE8700";
+  }
+  else if(document.getElementById('proFaible').checked) {
+    bordure = "#FAFE00";
+  }
+  else if(document.getElementById('persForte').checked) {
+    bordure = "#FF0000";
+  }
+  else if(document.getElementById('persMoy').checked) {
+    bordure = "#FE8700";
+  }
+  else if(document.getElementById('persFaible').checked) {
+    bordure = "#FAFE00";
+  }
+
+  return bordure;
+  }
+
+
+    function detPrio(){
+
+      if(document.getElementById('proForte').checked || document.getElementById('persForte').checked ) {
+          prio = 'Forte';
+      }
+      else if(document.getElementById('proMoy').checked || document.getElementById('persMoy').checked) {
+        prio = 'Moyenne';
+      }
+      else if(document.getElementById('proFaible').checked || document.getElementById('persFaible').checked) {
+        prio = 'Faible';
+      }
+      return prio;
+      }
+
+      function detType(){
+
+        if(document.getElementById('proForte').checked || document.getElementById('proMoy').checked || document.getElementById('proFaible').checked) {
+            type = 'ContraintePro';
+        }
+        else if(document.getElementById('persForte').checked || document.getElementById('persMoy').checked || document.getElementById('persFaible').checked) {
+            type = 'ContraintePerso';
+        }
+
+        return type;
+        }
+
+        /*function tempsParDefaut(){
+          var defaultTime;
+          if(document.getElementById('proForte').checked) {
+              defaultTime = 90;
+          }
+          else if(document.getElementById('proMoy').checked) {
+            defaultTime = 120;
+          }
+          else if(document.getElementById('proFaible').checked) {
+            defaultTime = {{formulaireTitulaire.dureeProFaible}};
+          }
+          else if(document.getElementById('persForte').checked) {
+            defaultTime = {{formulaireTitulaire.dureePersForte}};
+          }
+          else if(document.getElementById('persMoy').checked) {
+            defaultTime = {{formulaireTitulaire.dureePersMoy}};
+          }
+          else if(document.getElementById('persFaible').checked) {
+            defaultTime = {{formulaireTitulaire.dureePersFaible}};
+          }
+          var minute =defaultTime%60;
+          if(minute < 10){
+            minute="0"+minute;
+          }
+          var heure =(defaultTime-minute) / 60;
+          defaultTime = heure+":"+minute;
+          console.log(defaultTime);
+          return defaultTime;
+        }*/
+
+    //retourne true si la limite d'événements autorisés a été dépassée
+function evtLimiter(calendrier, type, prio) {
+
+            var compteurProForte=0;
+            var compteurProMoyenne=0;
+            var compteurProFaible=0;
+            var compteurPersoForte=0;
+            var compteurPersoMoyenne=0;
+            var compteurPersoFaible=0;
+            var res=false;
+            var evts=calendrier.getEvents();
+            evts.forEach(event =>{
+              if(!(event.extendedProps.type == null || event.extendedProps.prio == null)){
+              switch (event.extendedProps.type) {
+                case 'ContraintePro':
+                    if (event.extendedProps.prio=="Forte") {
+                      compteurProForte+=1;
+                      console.log("Compteur Pro Forte : " + compteurProForte);
+                    }
+                    else if (event.extendedProps.prio=="Moyenne") {
+                      compteurProMoyenne+=1;
+                    }
+                    else if (event.extendedProps.prio=="Faible") {
+                      compteurProFaible+=1;
+                    }
+                    if (event.extendedProps.prio=="Forte" && compteurProForte>={{formulaireTitulaire.quantiteProForte}}){
+                      res = true;
+                    }
+                    if (event.extendedProps.prio=="Moyenne" && compteurProForte>={{formulaireTitulaire.quantiteProMoy}}){
+                      res = true;
+                    }
+                    if (event.extendedProps.prio=="Faible" && compteurProForte>={{formulaireTitulaire.quantiteProFaible}}){
+                      res = true;
+                    }
+                  break;
+                case 'ContraintePerso':
+                  if (event.extendedProps.prio=="Forte") {
+                    compteurPersoForte+=1;
+                  }
+                  else if (event.extendedProps.prio=="Moyenne") {
+                  compteurPersoMoyenne+=1;
+                  }
+                  else if (event.extendedProps.prio=="Faible") {
+                  compteurPersoFaible+=1;
+                  }
+                  if (event.extendedProps.prio=="Forte" && compteurProForte>={{formulaireTitulaire.quantitePersForte}}){
+                    res = true;
+                  }
+                  if (event.extendedProps.prio=="Moyenne" && compteurProForte>={{formulaireTitulaire.quantitePersMoy}}){
+                    res = true;
+                  }
+                  if (event.extendedProps.prio=="Faible" && compteurProForte>={{formulaireTitulaire.quantitePersFaible}}){
+                    res = true;
+                  }
+                  break;
+              }
+            }});
+
+          return res;
+    }
 
   String.prototype.minsToHHMMSS = function() {
     var mins_num = parseFloat(this, 10); // don't forget the second param
@@ -289,16 +405,21 @@
 
         closeNav();
         var title = prompt('Titre de la contrainte:');
-        if (title) { // si un titre d'événement a été saisi et que la limite d'événement autorisés n'a pas été dépassée
-          calendar.addEvent({title: title, start: arg.start, end: arg.end, classNames: ['plusBord']})
+        if (title  && evtLimiter(calendar, detType(), detPrio())==false) { // si un titre d'événement a été saisi et que la limite d'événement autorisés n'a pas été dépassée
+          calendar.addEvent({title: title, start: arg.start, end: arg.end, classNames: ['plusBord'], allDay: arg.allDay, borderColor: detBord(), color: detFond(), prio: detPrio()  , type: detType() })
         }
-
+        else if (evtLimiter(calendar, detType(),detPrio())==true){alert("Trop de contraintes saisies");}
         calendar.unselect();
-        calendar.getEvents().forEach(event => {
-          event.setProp("borderColor", "white");
-        });
       },
       eventRender: function(info) {
+
+          if(info.event.extendedProps.type == "ContraintePro"){
+          info.el.querySelector('.fc-content').append(" [PRO] ");
+        }
+
+        else if(info.event.extendedProps.type == "ContraintePerso"){
+        info.el.querySelector('.fc-content').append(" [PERSO] ");
+      }
         var dateDeb = calendar.formatDate(info.event.start, {
           weekday: 'long',
           hour: '2-digit',
@@ -324,9 +445,7 @@
 
       },
       eventClick: function(info) {
-        calendar.getEvents().forEach(event => {
-          event.setProp("borderColor", "white");
-        });
+
         document.getElementById('nomcreneau').innerHTML = "Contrainte " + info.event.title;
         document.getElementById('titrevt').value = info.event.title;
         info.event.setProp("borderColor", "red");
@@ -347,7 +466,9 @@
         };
         document.getElementById('close').onclick = function() {
           closeNav();
-          info.event.setProp("borderColor", "white");
+          if(document.getElementById('persForte').checked || document.getElementById('persMoy').checked || document.getElementById('persFaible').checked){
+            info.event.setProp("borderColor", detBord());
+          }
         };
         openNav();
       }
@@ -363,5 +484,4 @@
 
   });
 </script>
-
 {% endblock %}
