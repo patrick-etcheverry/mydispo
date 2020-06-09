@@ -1,25 +1,123 @@
-{% extends 'base.html.twig' %}
+{% extends 'templateEnseignant.html.twig' %}
 
-{% block navbar %}{% endblock %}
+{% block titrePage %}Titre de la page{% endblock %}
 
-{% block title %}Saisie{% endblock %}
 
-{% block stylesheets %}
 
-  <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"/>
-  <link href="{{ asset('css/fullcalendarstyle.css') }}" rel="stylesheet"/>
 
-  <link href="{{ asset('fullcalendar/packages/core/main.css') }}" rel='stylesheet'/>
-  <link href="{{ asset('fullcalendar/packages/timegrid/main.css') }}" rel='stylesheet'/>
-  <link href="{{ asset('fullcalendar/packages/daygrid/main.css') }}" rel='stylesheet'/>
-  <link href="{{ asset('fullcalendar/packages/bootstrap/main.css') }}" rel='stylesheet'/>
+{% block colonneGauche %}
+<!-- Carte des contraintes professionnelles -->
+<div class="card">
+  <h5 class="card-header">
+    <center>Contraintes professionnelles</center>
+  </h5>
+  <div class="card-body">
+    <p class="card-text">
+      <ul>
+        <li>
+          Priorité forte (Créneaux de
+          {{formulaireTitulaire.dureeProForte}}
+          minutes)
+          <p style="color:red">
+            (
+            {{formulaireTitulaire.quantiteProForte}}
+            {% if formulaireTitulaire.quantiteProForte > 1 %}
+              restantes )</p>
+          {% else %}
+            restante )</p>
+        {% endif %}
+      </li>
+      <li>
+        Priorité moyenne (Créneaux de
+        {{formulaireTitulaire.dureeProMoy}}
+        minutes)
+        <p style="color:orange">
+          (
+          {{formulaireTitulaire.quantiteProMoy}}
+          {% if formulaireTitulaire.quantiteProMoy > 1 %}
+            restantes )</p>
+        {% else %}
+          restante )</p>
+      {% endif %}
+    </li>
+    <li>
+      Priorité faible (Créneaux de
+      {{formulaireTitulaire.dureeProFaible}}
+      minutes)
+      <p style="color:green">
+        (
+        {{formulaireTitulaire.quantiteProFaible}}
+        {% if formulaireTitulaire.quantiteProFaible > 1 %}
+          restantes )</p>
+      {% else %}
+        restante )</p>
+    {% endif %}
+  </li>
+</ul>
+</p>
+</div>
+</div>
 
-  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/shift-toward.css"/>
-  <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+
+<br/>
+
+
+
+<!-- Carte des contraintes personnelles -->
+<div class="card">
+  <h5 class="card-header">
+    <center>Contraintes personnelles</center>
+  </h5>
+  <div class="card-body">
+    <p class="card-text">
+      <ul>
+        <li>
+          Priorité forte (Créneaux de
+          {{formulaireTitulaire.dureePersForte}}
+          minutes)
+          <p style="color:red">
+            (
+            {{formulaireTitulaire.quantitePersForte}}
+            {% if formulaireTitulaire.quantitePersForte > 1 %}
+              restantes )</p>
+          {% else %}
+            restante )</p>
+        {% endif %}
+      </li>
+      <li>
+        Priorité moyenne (Créneaux de
+        {{formulaireTitulaire.dureePersMoy}}
+        minutes)
+        <p style="color:orange">
+          (
+          {{formulaireTitulaire.quantitePersMoy}}
+          {% if formulaireTitulaire.quantitePersMoy > 1 %}
+            restantes )</p>
+        {% else %}
+          restante )</p>
+      {% endif %}
+    </li>
+    <li>
+      Priorité faible (Créneaux de
+      {{formulaireTitulaire.dureePersFaible}}
+      minutes)
+      <p style="color:green">
+        (
+        {{formulaireTitulaire.quantitePersFaible}}
+        {% if formulaireTitulaire.quantitePersFaible > 1 %}
+          restantes )</p>
+      {% else %}
+        restante )</p>
+    {% endif %}
+  </li>
+</ul>
+</div>
+</div>
 
 {% endblock %}
 
-{% block body %}
+{% block colonneDroite %}
+
 <div id="mySidenav" class="sidenav">
 
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" id="close">&times;</a>
@@ -29,167 +127,32 @@
   <button id="remove">Supprimer ce créneau</button>
 </div>
 
-<div id="main">
 
-    <div class="card">
-    <h5 class="card-header">
-      <center>
-        <td>
-          <h4>Enseignements au département informatique de l'IUT de Bayonne - 2020-2021</h4>
-        </td>
-      </center>
-    </h5>
-
-    <div class="card-body">
-      <p class="card-text">
-        <ul class="nav nav-tabs">
-          <li class="nav-item" role="presentation">
-            <a class="nav-link active" id="saisie-Hebdo" data-toggle="tab" href="#hebdo" role="tab" aria-controls="echelle" aria-selected="true">Contraintes professionnelles et personnelles hebdomadaires</a>
-          </li>
-          <li class="nav-item" role="presentation">
-            <a class="nav-link " id="saisie-Ponctu" data-toggle="tab" href="#ponctu" role="tab" aria-controls="heures" aria-selected="true">Contraintes professionnelles ponctuelles</a>
-          </li>
-        </ul>
-
-        <div class="tab-content"></br>
-        <div id="hebdo" class="tab-pane fade show active" role="tabpanel" aria-labelledby="saisie-Hebdo">
-
-          <div class="col-md-3">
-            <div class="card">
-              <h5 class="card-header">
-                <center>Contraintes professionnelles</center>
-              </h5>
-              <div class="card-body">
-                <p class="card-text">
-                  <ul>
-                    <li>
-                      Priorité forte (Créneaux de
-                      {{formulaireTitulaire.dureeProForte}}
-                      minutes)
-                      <p style="color:red">
-                        (
-                        {{formulaireTitulaire.quantiteProForte}}
-                        {% if formulaireTitulaire.quantiteProForte > 1 %}
-                          restantes )</p>
-                      {% else %}
-                        restante )</p>
-                    {% endif %}
-                  </li>
-                  <li>
-                    Priorité moyenne (Créneaux de
-                    {{formulaireTitulaire.dureeProMoy}}
-                    minutes)
-                    <p style="color:orange">
-                      (
-                      {{formulaireTitulaire.quantiteProMoy}}
-                      {% if formulaireTitulaire.quantiteProMoy > 1 %}
-                        restantes )</p>
-                    {% else %}
-                      restante )</p>
-                  {% endif %}
-                </li>
-                <li>
-                  Priorité faible (Créneaux de
-                  {{formulaireTitulaire.dureeProFaible}}
-                  minutes)
-                  <p style="color:green">
-                    (
-                    {{formulaireTitulaire.quantiteProFaible}}
-                    {% if formulaireTitulaire.quantiteProFaible > 1 %}
-                      restantes )</p>
-                  {% else %}
-                    restante )</p>
-                {% endif %}
-              </li>
-            </ul>
-          </p>
-        </div>
-      </div>
-
-    </br>
-
-    <div class="card">
-      <h5 class="card-header">
-        <center>Contraintes personnelles</center>
-      </h5>
-      <div class="card-body">
-        <p class="card-text">
-          <ul>
-            <li>
-              Priorité forte (Créneaux de
-              {{formulaireTitulaire.dureePersForte}}
-              minutes)
-              <p style="color:red">
-                (
-                {{formulaireTitulaire.quantitePersForte}}
-                {% if formulaireTitulaire.quantitePersForte > 1 %}
-                  restantes )</p>
-              {% else %}
-                restante )</p>
-            {% endif %}
-          </li>
-          <li>
-            Priorité moyenne (Créneaux de
-            {{formulaireTitulaire.dureePersMoy}}
-            minutes)
-            <p style="color:orange">
-              (
-              {{formulaireTitulaire.quantitePersMoy}}
-              {% if formulaireTitulaire.quantitePersMoy > 1 %}
-                restantes )</p>
-            {% else %}
-              restante )</p>
-          {% endif %}
-        </li>
-        <li>
-          Priorité faible (Créneaux de
-          {{formulaireTitulaire.dureePersFaible}}
-          minutes)
-          <p style="color:green">
-            (
-            {{formulaireTitulaire.quantitePersFaible}}
-            {% if formulaireTitulaire.quantitePersFaible > 1 %}
-              restantes )</p>
-          {% else %}
-            restante )</p>
-        {% endif %}
-      </li>
-    </ul>
-  </div>
-  </div>
-  </div>
-
-
-
-  <div class="col-md-9">
-    <div id='calendar'>
-    </div>
-  {{ form_row(form.remarquesHebdo) }}
-  </div>
-  </div>
-
-  <div id="ponctu" class="tab-pane fade" role="tabpanel" aria-labelledby="saisie-Ponctu">
-    {{ form_row(form.remarquesPonctu) }}
-  </div>
-  </div>
-  </p>
-  </div>
-
-  <div class="card-footer">
-    <center>
-      <button class="btn-primary" id="submit">
-        <i class="fas fa-pencil-alt"></i>{{ button_label|default(' Envoyer ') }}</button>
-    </center>
-  </div>
-
-  </div>
-
-
-
-</br>
+<div id='calendar'>
+</div>
+{{ form_row(form.remarquesHebdo) }}
+<center>
+  <button class="btn-primary" id="submit">
+    <i class="fas fa-pencil-alt"></i>{{ button_label|default(' Envoyer ') }}</button>
+</center>
 </div>
 
 {% endblock %}
+
+{% block ponctuel %}
+  {{ form_row(form.remarquesPonctu) }}
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
 {% block javascripts %}
 {{ parent() }}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>

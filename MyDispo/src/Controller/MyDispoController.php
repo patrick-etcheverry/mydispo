@@ -191,7 +191,7 @@ class MyDispoController extends AbstractController
   }
 
   /**
-  * @Route("/evenements", name="evenements")
+  * @Route("/evenements", name="evenements", methods={"GET","POST"})
   */
   public function evenements(CreneauRepository $creneauRepository,FormulaireTitulaireRepository $formTitulaireRepository, FormulaireVacataireRepository $formVacataireRepository)
   {
@@ -213,21 +213,7 @@ class MyDispoController extends AbstractController
     ]);
   }
 
-  /**
-  * @Route("/supprimerCreneaux/{typecreneau}", name="suppr_creneaux" , methods={"GET","POST"})
-  */
-  public function supprimerCreneaux($typecreneau, CreneauRepository $creneauRepository)
-  {
-    $entityManager = $this->getDoctrine()->getManager();
-    $aSupprimer = $creneauRepository->selectByType($typecreneau);
 
-    foreach($aSupprimer as $elementASupprimer){
-    $entityManager->remove($elementASupprimer);
-    }
-    $entityManager->flush();
-
-    return $this->redirectToRoute('evenements');
-  }
 
   /**
   * @Route("/ChangementAnnee", name="changement_annee")
