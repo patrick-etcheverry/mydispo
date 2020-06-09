@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Titre onglet{% endblock %}</title>
+  {% block stylesheets %}
+  <link href= "{{ asset('css/styles.css') }}" rel="stylesheet" />
+  <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+
+
+  <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"/>
+
+  <link href="{{ asset('css/fullcalendarstyle.css') }}" rel="stylesheet"/>
+  <link href="{{ asset('fullcalendar/packages/core/main.css') }}" rel='stylesheet'/>
+  <link href="{{ asset('fullcalendar/packages/timegrid/main.css') }}" rel='stylesheet'/>
+  <link href="{{ asset('fullcalendar/packages/daygrid/main.css') }}" rel='stylesheet'/>
+  <link href="{{ asset('fullcalendar/packages/bootstrap/main.css') }}" rel='stylesheet'/>
+
+
+
+
+  {% endblock %}
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+
+        {% block titrePage %}
+        {% endblock %}
+          </br>
+
+        <ul class="nav nav-tabs">
+          <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="saisie-Hebdo" data-toggle="tab" href="#hebdo" role="tab" aria-controls="echelle" aria-selected="true">Contraintes professionnelles et personnelles hebdomadaires</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link " id="saisie-Ponctu" data-toggle="tab" href="#ponctu" role="tab" aria-controls="heures" aria-selected="true">Contraintes professionnelles ponctuelles</a>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+        <div id="hebdo" class="tab-pane fade show active" role="tabpanel" aria-labelledby="saisie-Hebdo">
+
+
+  <div class="row">
+    <div class="col-md-3">
+      {% block colonneGauche %}
+      {% endblock %}
+    </div>
+    <div class="col-md-9">
+      {% block colonneDroite %}
+      {% endblock %}
+    </div>
+  </div>
+
+</div>
+<div id="ponctu" class="tab-pane fade" role="tabpanel" aria-labelledby="saisie-Ponctu">
+  {% block ponctuel %}
+  {% endblock %}
+
+</div>
+</div>
+
+{% block javascripts %}
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+
+{% endblock %}
+</body>
+</html>

@@ -112,10 +112,10 @@ minutes)
               value="persFaible"> Priorité faible (Créneaux de
           {{formulaireTitulaire.dureePersFaible}}
           minutes)
-          <p style="color:green">
+          <p style="color:red">
             (
-            {{formulaireTitulaire.quantitePersFaible}}
-            {% if formulaireTitulaire.quantitePersFaible > 1 %}
+            {{formulaireTitulaire.quantitePersForte}}
+            {% if formulaireTitulaire.quantitePersForte > 1 %}
               restantes )</p>
           {% else %}
             restante )</p>
@@ -147,7 +147,16 @@ minutes)
 
 
 
+<div id='calendar'>
+</div>
+{{ form_row(form.remarquesHebdo) }}
+<center>
+  <button class="btn-primary" id="submit">
+    <i class="fas fa-pencil-alt"></i>{{ button_label|default(' Envoyer ') }}</button>
+</center>
+</div>
 
+{% endblock %}
 
 
 {% block javascripts %}

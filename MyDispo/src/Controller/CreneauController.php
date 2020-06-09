@@ -44,9 +44,37 @@ class CreneauController extends AbstractController
     $entityManager->persist($creneau);
     $entityManager->flush();
 
-    return new Response("");
+    return new Response();
 
   }
+
+  /**
+  * @Route("/supprimer/creneaux", name="suppr_creneaux" , methods={"POST"})
+  */
+  public function supprimerCreneauxAvantMAJ(CreneauRepository $creneauRepository)
+  {
+    $entityManager = $this->getDoctrine()->getManager();
+
+    $typeCreneau = $_POST["type"];
+
+    if($_POST["id"] != ""){
+      $idEns = $_POST["id"];
+      $aSupprimer = $creneauRepository->findByTypeEtEnseignant($typeCreneau,$idEns);
+    }
+
+    else{
+      $aSupprimer = $creneauRepository->findByTypeEtEnseignant($typeCreneau,NULL);
+    }
+
+    foreach($aSupprimer as $elementASupprimer){
+      $entityManager->remove($elementASupprimer);
+    }
+    $entityManager->flush();
+
+    return new Response();
+  }
+
+
 
   /**
   * @Route("/", name="creneau_index", methods={"GET"})
