@@ -1,111 +1,87 @@
 <!DOCTYPE html>
 <html lang="fr">
-<html>
+  <html>
     <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Titre onglet{% endblock %}</title>
+      <meta charset="UTF-8">
+      <title>
+        {% block title %}Titre onglet{% endblock %}
+      </title>
 
-        {% block stylesheets %}
-        <link href= "{{ asset('css/styles.css') }}" rel="stylesheet" />
-        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+      {% block stylesheets %}
+        <link href="{{ asset('css/styles.css') }}" rel="stylesheet"/>
+        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"/>
-        <link href="{{ asset('css/fullcalendarstyle.css') }}" rel="stylesheet"/>
-
-        <link href="{{ asset('fullcalendar/packages/core/main.css') }}" rel='stylesheet'/>
-        <link href="{{ asset('fullcalendar/packages/timegrid/main.css') }}" rel='stylesheet'/>
-        <link href="{{ asset('fullcalendar/packages/daygrid/main.css') }}" rel='stylesheet'/>
-        <link href="{{ asset('fullcalendar/packages/bootstrap/main.css') }}" rel='stylesheet'/>
-
-        <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/shift-toward.css"/>
-        <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
       {% endblock %}
+
     </head>
     <body>
-
-{% block sideNav %}{% endblock %}
-      <br/>
-      <div class="card">
-        <h5 class="card-header">
-          {% block TitleMainCard %}{% endblock %}
-        </h5>
-        <div class="card-body">
-          <p class="card-text">
-            <ul class="nav nav-tabs">
-              <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="saisie-Hebdo" data-toggle="tab" href="#hebdo" role="tab" aria-controls="echelle" aria-selected="true">Contraintes professionnelles et personnelles hebdomadaires</a>
-              </li>
-              <li class="nav-item" role="presentation">
-                <a class="nav-link " id="saisie-Ponctu" data-toggle="tab" href="#ponctu" role="tab" aria-controls="heures" aria-selected="true">Contraintes professionnelles ponctuelles</a>
-              </li>
-            </ul>
-            <div class="tab-content"></br>
-            <div id="hebdo" class="tab-pane fade show active" role="tabpanel" aria-labelledby="saisie-Hebdo">
       <div class="container-fluid">
-      	<div class="row">
-      		<div class="col-md-3">
-      			<div class="card">
-      				<h5 class="card-header">
-      					{% block TitleSecondCard %}{% endblock %}
-      				</h5>
-      				<div class="card-body">
-      					<p class="card-text">
-      						{% block ContentSecondCard %}{% endblock %}
-      					</p>
-      				</div>
-      			</div>
-          </br>
-      			<div class="card">
-      				<h5 class="card-header">
-      					{% block TitleThirdCard %}{% endblock %}
-      				</h5>
-      				<div class="card-body">
-      					<p class="card-text">
-      						{% block ContentThirdCard %}{% endblock %}
-      					</p>
-      				</div>
-      			</div>
-      		</div>
-      		<div class="col-md-9">
-            {% block ContentRightColonne %}{% endblock %}
-      		</div>
-      	</div>
-      </div>
-      </div>
-      <div id="ponctu" class="tab-pane fade" role="tabpanel" aria-labelledby="saisie-Ponctu">
 
-      </div>
-      </div>
-      </p>
+        <!-- Entête du formulaire  -->
+        <div class="row">
+          <div class="col-md-12">
+            {% block enTete %}
+              <div class="jumbotron">
+                <h1 class="display-4">Formulaire enseignant</h1>
+                <p class="lead">Saisissez vos contraintes</p>
+              </div>
 
-      <div class="card-footer">
-      {% block FooterMainCard %}{% endblock %}
+            {% endblock %}
+          </div>
+        </div>
+      </br>
+
+  <!-- Contenu du formulaire  -->
+  <ul class="nav nav-tabs">
+        <!-- add data-toggle attribute to the anchors -->
+        <li><a class="nav-link" data-toggle="tab" href="#contraintesHebdo">Contraintes hebdomadaires</a></li>
+        <li><a class="nav-link" data-toggle="tab" href="#contraintesPonct">Contraintes ponctuelles</a></li>
+  </ul>
+
+  <div class="tab-content">
+
+  <!--Saisie des contraintes hebdomadaires  -->
+  <div id="contraintesHebdo" class="tab-pane fade show active">
+    <div class="row">
+      <div class="col-md-3">
+        {% block ZoneGaucheSaisiesContraintesHebdos %}{% endblock %}
       </div>
+      <div class="col-md-9">
+        {% block ZoneDroiteSaisiesContraintesHebdos %}{% endblock %}
       </div>
+    </div>
+  </div>
 
 
+  <!--Saisie des contraintes ponctuelles  -->
+  <div id="contraintesPonct" class="tab-pane fade">
+    <div class="row">
+      <div class="col-md-3">
+        {% block ZoneGaucheSaisiesContraintesPonctuelles %}{% endblock %}
+      </div>
+      <div class="col-md-9">
+        {% block ZoneDroiteSaisiesContraintesPonctuelles %}{% endblock %}
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
 
 
-      {% block javascripts %}
+
+
+
+
+
+
+
+    {% block javascripts %}
       <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
-      <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+      <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+      <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
 
-      <script src="{{ asset('fullcalendar/packages/core/main.js')}}"></script>
-      <script src="{{ asset('fullcalendar/packages/daygrid/main.js')}}"></script>
-      <script src="{{ asset('fullcalendar/packages/timegrid/main.js')}}"></script>
-      <script src="{{ asset('fullcalendar/packages/core/main.js')}}"></script>
-      <script src="{{ asset('fullcalendar/packages/core/locales/fr.js')}}"></script>
-      <script src="{{ asset('fullcalendar/packages/interaction/main.js')}}"></script>
-      <script src="{{ asset('fullcalendar/packages/bootstrap/main.js')}}"></script>
-
-      <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
-      <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
-
-
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-
-      {% endblock %}
-    </body>
+    {% endblock %}
+  </body>
 </html>

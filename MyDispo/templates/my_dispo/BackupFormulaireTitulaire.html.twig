@@ -1,4 +1,4 @@
-{% extends 'baseEnseignant.html.twig' %}
+{% extends 'BackupBaseEnseignant.html.twig' %}
 
 
 {% block sideNav %}
@@ -234,13 +234,13 @@ function detBord(){
         return type;
         }
 
-        /*function tempsParDefaut(){
+  /*      function tempsParDefaut(){
           var defaultTime;
           if(document.getElementById('proForte').checked) {
-              defaultTime = 90;
+              defaultTime = {{formulaireTitulaire.dureeProForte}};
           }
           else if(document.getElementById('proMoy').checked) {
-            defaultTime = 120;
+            defaultTime = {{formulaireTitulaire.dureeProMoy}};
           }
           else if(document.getElementById('proFaible').checked) {
             defaultTime = {{formulaireTitulaire.dureeProFaible}};
@@ -254,20 +254,44 @@ function detBord(){
           else if(document.getElementById('persFaible').checked) {
             defaultTime = {{formulaireTitulaire.dureePersFaible}};
           }
-          var minute =defaultTime%60;
-          if(minute < 10){
-            minute="0"+minute;
-          }
-          var heure =(defaultTime-minute) / 60;
-          defaultTime = heure+":"+minute;
-          console.log(defaultTime);
-          return defaultTime;
+
+          var date = defaultTime.toString().minsToHHMMSS();
+          console.log(date);
+          return date;
+
         }*/
 
     //retourne true si la limite d'événements autorisés a été dépassée
+
+
 function evtLimiter(calendrier, type, prio) {
 
-            var compteurProForte=0;
+  var ContraitePro = {
+        Forte : 0,
+        Moyenne : 0,
+        Faible : 0,
+      };
+
+  var ContraitePerso = {
+        Forte : 0,
+        Moyenne : 0,
+        Faible : 0,
+      };
+
+  var compteur = {
+      ContraintePro : {
+        Forte : 0,
+        Moyenne : 0,
+        Faible : 0,
+      },
+      ContraintePerso : {
+        Forte : 0,
+        Moyenne : 0,
+        Faible : 0,
+      }
+  };
+
+          /*  var compteurProForte=0;
             var compteurProMoyenne=0;
             var compteurProFaible=0;
             var compteurPersoForte=0;
@@ -276,7 +300,7 @@ function evtLimiter(calendrier, type, prio) {
             var res=false;
             var evts=calendrier.getEvents();
             evts.forEach(event =>{
-              if(!(event.extendedProps.type == null || event.extendedProps.prio == null)){
+
               switch (event.extendedProps.type) {
                 case 'ContraintePro':
                     if (event.extendedProps.prio=="Forte") {
@@ -320,9 +344,9 @@ function evtLimiter(calendrier, type, prio) {
                   }
                   break;
               }
-            }});
+            });
 
-          return res;
+          return res;*/
     }
 
   String.prototype.minsToHHMMSS = function() {
@@ -372,6 +396,7 @@ function evtLimiter(calendrier, type, prio) {
   }
   document.addEventListener('DOMContentLoaded', function() {
 
+
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
 
@@ -406,8 +431,9 @@ function evtLimiter(calendrier, type, prio) {
         closeNav();
         var title = prompt('Titre de la contrainte:');
         if (title  && evtLimiter(calendar, detType(), detPrio())==false) { // si un titre d'événement a été saisi et que la limite d'événement autorisés n'a pas été dépassée
-          calendar.addEvent({title: title, start: arg.start, end: arg.end, classNames: ['plusBord'], allDay: arg.allDay, borderColor: detBord(), color: detFond(), prio: detPrio()  , type: detType() })
+          calendar.addEvent({title: title, start: arg.start, end: arg.end ,classNames: ['plusBord'], allDay: arg.allDay, borderColor: detBord(), color: detFond(), prio: detPrio()  , type: detType() })
         }
+
         else if (evtLimiter(calendar, detType(),detPrio())==true){alert("Trop de contraintes saisies");}
         calendar.unselect();
       },

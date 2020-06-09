@@ -1,0 +1,49 @@
+
+<div class="card">
+  <h5 class="card-header">
+    Contraintes professionnelles
+  </h5>
+  <div class="card-body">
+    <p class="card-text">
+      <br />
+      <input type="radio" id="proForte" name="couleur"
+            value="proForte" checked> Priorité forte (Créneaux de
+          {{formulaireTitulaire.dureeProForte}}
+          minutes)
+          <p style="color:red">
+            (
+            {{formulaireTitulaire.quantiteProForte}}
+            {% if formulaireTitulaire.quantiteProForte > 1 %}
+              restantes )</p>
+          {% else %}
+            restante )</p>
+        {% endif %}
+
+        <input type="radio" id="proMoy" name="couleur"
+              value="proMoy"> Priorité moyenne (Créneaux de
+        {{formulaireTitulaire.dureeProMoy}}
+        minutes)
+        <p style="color:orange">
+          (
+          {{formulaireTitulaire.quantiteProMoy}}
+          {% if formulaireTitulaire.quantiteProMoy > 1 %}
+            restantes )</p>
+        {% else %}
+          restante )</p>
+      {% endif %}
+
+      <input type="radio" id="proFaible" name="couleur"
+            value="proFaible"> Priorité faible (Créneaux de
+      {{formulaireTitulaire.dureeProFaible}}
+      minutes)
+      <p style="color:green">
+        (
+        {{formulaireTitulaire.quantiteProFaible}}
+        {% if formulaireTitulaire.quantiteProFaible > 1 %}
+          restantes )</p>
+      {% else %}
+        restante )</p>
+      {% endif %}
+    </p>
+  </div>
+</div>
