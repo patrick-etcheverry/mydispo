@@ -50,18 +50,52 @@ class MyDispoController extends AbstractController
     }
     $creneauxEnseignant = array();
     $events = $enseignant[0]->getCreneaux();
+
+
     foreach ($events as $event){
       $object = new StdClass;
-      $object->title=$event["title"];
-      $object->daysOfWeek=date('w',$event["start"]->getTimestamp());
-      $object->startTime=$event["start"]->format("H:i:s");
-      $object->endTime=$event["end"]->format("H:i:s");
+      $object->title=$event->getTitre();
+      $object->daysOfWeek=date('w',$event->getDateDebut()->getTimestamp());
+      $object->startTime=$event->getDateDebut()->format("H:i:s");
+      $object->endTime=$event->getDateFin()->format("H:i:s");
+      $object->prio=$event->getPrioOuPref();
+      $object->type=$event->getType();
+      switch ($event->getType()) {
+        case 'ContraintePro':
+          if($event->getPrioOuPref() == "Forte"){
+            $object->backgroundColor="red";
+            $object->borderColor="red";
+          }
+          if($event->getPrioOuPref() == "Moyenne"){
+            $object->backgroundColor="orange";
+            $object->borderColor="orange";
+          }
+          if($event->getPrioOuPref() == "Faible"){
+            $object->backgroundColor="yellow";
+            $object->borderColor="yellow";
+          }
+          break;
+        case 'ContraintePerso' :
+          $object->backgroundColor="white";
+          if($event->getPrioOuPref() == "Forte"){
+            $object->borderColor="red";
+          }
+          if($event->getPrioOuPref() == "Moyenne"){
+            $object->borderColor="orange";
+          }
+          if($event->getPrioOuPref() == "Faible"){
+            $object->borderColor="yellow";
+          }
+        break;
+      }
+
       $creneauxEnseignant[] = $object;
     }
 
     foreach ($creneauxGrisee as $creneauxGriseeCourant) {
       array_push($creneauxEnseignant,$creneauxGriseeCourant);
     }
+
     $result=json_encode($creneauxEnseignant);
 
     // Récupérer les données déjà enregistrées

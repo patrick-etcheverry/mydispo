@@ -291,6 +291,26 @@ class AppFixtures extends Fixture
 
         $manager->persist($creneau6);
 
+        $creneau7 = new Creneau();
+        $creneau7->setEnseignant($enseignant8);
+        $creneau7->setTitre($faker->text($maxNbChars = 20));
+        $creneau7->setPrioOuPref($faker->randomElement($array = array ('Forte','Moyenne','Faible')));
+        $creneau7->setDateDebut(new DateTime('2020-06-08 17:00:00'));
+        $creneau7->setDateFin(new DateTime('2020-06-08 18:00:00'));
+        $creneau7->setType($faker->randomElement($array = array ('ContraintePerso','ContraintePro')));
+
+        $manager->persist($creneau7);
+
+        $creneau8 = new Creneau();
+        $creneau8->setEnseignant($enseignant8);
+        $creneau8->setTitre($faker->text($maxNbChars = 20));
+        $creneau8->setPrioOuPref($faker->randomElement($array = array ('Forte','Moyenne','Faible')));
+        $creneau8->setDateDebut(new DateTime('2020-06-08 14:00:00'));
+        $creneau8->setDateFin(new DateTime('2020-06-08 15:00:00'));
+        $creneau8->setType($faker->randomElement($array = array ('ContraintePerso','ContraintePro')));
+
+        $manager->persist($creneau8);
+
         // Création des logs $enseignants
 
         $logEnseignant1 = new LogEnseignant();
@@ -377,18 +397,18 @@ class AppFixtures extends Fixture
         $formulaireTitulaire->setRemarquesPonctuelActives(true);
         $formulaireTitulaire->setEstOuvert(true);
 
-        $formulaireTitulaire->setQuantiteProForte(1);
+        $formulaireTitulaire->setQuantiteProForte(2);
         $formulaireTitulaire->setDureeProForte(60);
-        $formulaireTitulaire->setQuantiteProMoy(1);
+        $formulaireTitulaire->setQuantiteProMoy(2);
         $formulaireTitulaire->setDureeProMoy(60);
-        $formulaireTitulaire->setQuantiteProFaible(1);
+        $formulaireTitulaire->setQuantiteProFaible(2);
         $formulaireTitulaire->setDureeProFaible(60);
 
-        $formulaireTitulaire->setQuantitePersForte(1);
+        $formulaireTitulaire->setQuantitePersForte(2);
         $formulaireTitulaire->setDureePersForte(60);
-        $formulaireTitulaire->setQuantitePersMoy(1);
+        $formulaireTitulaire->setQuantitePersMoy(2);
         $formulaireTitulaire->setDureePersMoy(60);
-        $formulaireTitulaire->setQuantitePersFaible(1);
+        $formulaireTitulaire->setQuantitePersFaible(2);
         $formulaireTitulaire->setDureePersFaible(60);
         $formulaireTitulaire->setHeureDebutCalendrier(new DateTime('08:00:00'));
         $formulaireTitulaire->setHeureFinCalendrier(new DateTime('18:00:00'));
