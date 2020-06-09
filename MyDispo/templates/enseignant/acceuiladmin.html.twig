@@ -2,6 +2,11 @@
 
 {% block title %}Saisies des enseignants{% endblock %}
 
+{% block stylesheets %}
+  {{ parent() }}
+  <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous"/>
+{% endblock %}
+
 {% block body %}
 
   <div class="card">
@@ -49,17 +54,21 @@
                   <td>
                     {% if enseignant.saisieFaite == true %}
                       Oui
-                      <font color="green"><i class="far fa-check-circle" ></i></font>
+                      <font color="green">
+                        <i class="far fa-check-circle"></i>
+                      </font>
                     {% else %}
                       Non
-                      <font color="orange"><i class="far fa-times-circle"></i></font>
+                      <font color="orange">
+                        <i class="far fa-times-circle"></i>
+                      </font>
                     {% endif %}
                   </td>
                   <td>
                     {% if enseignant.dateSaisie == null %}
-                    Aucune saisie
+                      Aucune saisie
                     {% else %}
-                    {{enseignant.dateSaisie|date("d/m/Y à h:s")}}
+                      {{enseignant.dateSaisie|date("d/m/Y à h:s")}}
                     {% endif %}
                   </td>
                   <td>
@@ -77,22 +86,22 @@
                       </a>
                       &nbsp;
                       {% if enseignant.premierMailRecu == true %}
-                      <a href="{{ path('notifierUnEnseignant', {'id': enseignant.id , 'compteur': 1}) }}" style="text-decoration: none">
-                        <img src="{{ asset('icones/PremierMail.png') }}" title="Envoyer le premier mail"/>
-                      </a>
+                        <a href="{{ path('notifierUnEnseignant', {'id': enseignant.id , 'compteur': 1}) }}" style="text-decoration: none">
+                          <img src="{{ asset('icones/PremierMail.png') }}" title="Envoyer le premier mail"/>
+                        </a>
                       {% else %}
-                      <a>
-                        <img src="{{ asset('icones/PremierMailDisable.png') }}" title="Le premier mail n'a pas été envoyé à {{enseignant.nom}} {{enseignant.prenom}}"/>
-                      </a>
+                        <a>
+                          <img src="{{ asset('icones/PremierMailDisable.png') }}" title="Le premier mail n'a pas été envoyé à {{enseignant.nom}} {{enseignant.prenom}}"/>
+                        </a>
                       {% endif %}
                       {% if enseignant.premierMailRecu == true %}
-                      <a href="{{ path('notifierUnEnseignant', {'id': enseignant.id , 'compteur': 2}) }}" style="text-decoration: none">
-                        <img src="{{ asset('icones/MailRelance.png') }}" title="Envoyer le mail de relance"/>
-                      </a>
+                        <a href="{{ path('notifierUnEnseignant', {'id': enseignant.id , 'compteur': 2}) }}" style="text-decoration: none">
+                          <img src="{{ asset('icones/MailRelance.png') }}" title="Envoyer le mail de relance"/>
+                        </a>
                       {% else %}
-                      <a>
-                        <img src="{{ asset('icones/MailRelanceDisable.png') }}" title="Le premier mail n'a pas été envoyé à {{enseignant.nom}} {{enseignant.prenom}}" />
-                      </a>
+                        <a>
+                          <img src="{{ asset('icones/MailRelanceDisable.png') }}" title="Le premier mail n'a pas été envoyé à {{enseignant.nom}} {{enseignant.prenom}}"/>
+                        </a>
                       {% endif %}
 
                       <a href="{{ path('notifierUnEnseignant', {'id': enseignant.id , 'compteur': 3}) }}" style="text-decoration: none">
@@ -142,12 +151,21 @@
         </tr>
       </thead>
       <tbody>
-          <tr>
-        {% for enseignant in enseignants %}
-            <td><center>{{ random(+'now'|date('U'))|date('H:i - d/m/Y') }}</center></td>
-            <td><center>{{ enseignant.prenom }} {{ enseignant.nom }}</center></td>
-            <td><center>{{ random(['Consultation', 'Modification']) }}</center></td>
-            <td><center>{{ random(['Consultation', 'Modification']) }}</center></td>
+        <tr>
+          {% for enseignant in enseignants %}
+            <td>
+              <center>{{ random(+'now'|date('U'))|date('H:i - d/m/Y') }}</center>
+            </td>
+            <td>
+              <center>{{ enseignant.prenom }}
+                {{ enseignant.nom }}</center>
+            </td>
+            <td>
+              <center>{{ random(['Consultation', 'Modification']) }}</center>
+            </td>
+            <td>
+              <center>{{ random(['Consultation', 'Modification']) }}</center>
+            </td>
           </tr>
         {% else %}
           <tr>
@@ -163,4 +181,11 @@
 </div>
 </div>
 
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+<script src="{{asset('monJs/datatable.js')}}"></script>
 {% endblock %}

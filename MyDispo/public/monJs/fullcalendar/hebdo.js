@@ -1,41 +1,63 @@
 document.addEventListener('DOMContentLoaded', function() {
-  var mensuelEl = document.getElementById('mensuel');
-  var mensuel = new FullCalendar.Calendar(mensuelEl, {
+
+  var hebdoEl = document.getElementById('hebdo');
+  var hebdo = new FullCalendar.Calendar(hebdoEl, {
+
     plugins: [
-      'interaction', 'dayGrid'
+      'timeGrid', 'interaction', 'bootstrap'
     ],
+    defaultView: 'timeGridWeek',
+    themeSystem: 'bootstrap',
+    contentHeight: "auto",
+    allDaySlot: false,
+    slotDuration: echelle,
+    slotLabelInterval: echelle,
+    minTime: heureDebut,
+    maxTime: heureFin,
+    weekNumberCalculation: "ISO",
+    weekends: false,
     selectable: true,
-    editable: true,
-    height: 700,
     events: events,
-    contentHeight: 'auto',
+    columnHeaderFormat: {
+      weekday: 'long'
+    },
+    editable: true,
     locale: 'fr',
+    header: {
+      left: '',
+      center: '',
+      right: ''
+    },
+
     select: function(arg) {
 
       closeNav();
-      var title = prompt('Titre du créneau:');
+      var title = prompt('Titre de la contrainte:');
       if (title) { // si un titre d'événement a été saisi et que la limite d'événement autorisés n'a pas été dépassée
-        mensuel.addEvent({title: title, start: arg.start, end: arg.end, allDay: true, classNames: ['plusBord']})
+        hebdo.addEvent({
+          title: title,
+          start: arg.start,
+          end: arg.end,
+          classNames: ['plusBord']
+        })
       }
 
-      mensuel.unselect();
-      mensuel.getEvents().forEach(event => {
+      hebdo.unselect();
+      hebdo.getEvents().forEach(event => {
         event.setProp("borderColor", "white");
       });
     },
     eventRender: function(info) {
-      var dateDeb = mensuel.formatDate(info.event.start, {
+      var dateDeb = hebdo.formatDate(info.event.start, {
         weekday: 'long',
-        day: 'numeric',
-        year: 'numeric',
-        month: 'long',
+        hour: '2-digit',
+        minute: '2-digit',
         locale: 'fr'
       });
-      var dateFin = mensuel.formatDate(info.event.end, {
+      var dateFin = hebdo.formatDate(info.event.end, {
         weekday: 'long',
-        day: 'numeric',
-        year: 'numeric',
-        month: 'long',
+        hour: '2-digit',
+        minute: '2-digit',
         locale: 'fr'
       });
       var contenu = "Titre : " + info.event.title + "</br>Début : " + dateDeb + "</br>Fin : " + dateFin;
@@ -51,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     },
     eventClick: function(info) {
-      mensuel.getEvents().forEach(event => {
+      hebdo.getEvents().forEach(event => {
         event.setProp("borderColor", "white");
       });
       document.getElementById('nomcreneau').innerHTML = "Contrainte " + info.event.title;
@@ -62,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (document.getElementById('titrevt').value != '') {
           info.event.setProp("title", document.getElementById('titrevt').value);
           document.getElementById("nomcreneau").innerHTML = "Contrainte " + info.event.title;
-          mensuel.rerenderEvents();
+          hebdo.rerenderEvents();
         }
 
       };
@@ -82,11 +104,10 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   document.getElementById('submit').onclick = function() {
-    supprimerDesCreneaux("evenement","");
-    creneaux = mensuel.getEvents(); //on récupère tous les événements du calendrier sous forme d'un tableau
-    creneaux.forEach(creneau => enregistrerUnCreneau(creneau.start.toISOString(), creneau.end.toISOString(), creneau.title, "evenement")); //pour chaque élément du tableau, c'est à dire pour chaque événement, on envoie sa date de début, sa date de fin et son titre au serveur
+    supprimerDesCreneaux("zoneGrisee", "");
+    creneaux = hebdo.getEvents(); //on récupère tous les événements du calendrier sous forme d'un tableau
+    creneaux.forEach(creneau => enregistrerUnCreneau(creneau.start.toISOString(), creneau.end.toISOString(), creneau.title, "zoneGrisee"));
   };
 
-  mensuel.render();
-
+  hebdo.render();
 });

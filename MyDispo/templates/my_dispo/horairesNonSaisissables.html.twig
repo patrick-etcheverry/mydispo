@@ -3,17 +3,15 @@
 {% block title %}Paramètres généraux des formulaires{% endblock %}
 
 {% block stylesheets %}
-
-  <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"/>
+{{parent()}}
   <link href="{{ asset('css/fullcalendarstyle.css') }}" rel="stylesheet"/>
-
   <link href="{{ asset('fullcalendar/packages/core/main.css') }}" rel='stylesheet'/>
   <link href="{{ asset('fullcalendar/packages/timegrid/main.css') }}" rel='stylesheet'/>
   <link href="{{ asset('fullcalendar/packages/daygrid/main.css') }}" rel='stylesheet'/>
   <link href="{{ asset('fullcalendar/packages/bootstrap/main.css') }}" rel='stylesheet'/>
 
   <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/shift-toward.css"/>
-  <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+
 
 {% endblock %}
 
@@ -29,7 +27,7 @@
   </div>
 
   <div id="main">
-    <div id='calendar'></div>
+    <div id='hebdo'></div>
   </br>
   <center>
     <button class="btn btn-primary" id="submit">Enregistrer les modifications</button>
@@ -41,9 +39,6 @@
 
 {% block javascripts %}
 {{ parent() }}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
-<script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
 
 <script src="{{ asset('fullcalendar/packages/core/main.js')}}"></script>
 <script src="{{ asset('fullcalendar/packages/daygrid/main.js')}}"></script>
@@ -51,9 +46,8 @@
 <script src="{{ asset('fullcalendar/packages/core/main.js')}}"></script>
 <script src="{{ asset('fullcalendar/packages/core/locales/fr.js')}}"></script>
 <script src="{{ asset('fullcalendar/packages/interaction/main.js')}}"></script>
-<script src="{{ asset('fullcalendar/packages/bootstrap/main.js')}}"></script>
-
-<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+<script src="{{ asset('fullcalendar/packages/bootstrap/main.js')}}"></script>*
+<script src="{{asset('monJs/fullcalendar/hebdo.js')}}"></script>
 <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
 
 <script>
@@ -89,7 +83,7 @@
     document.getElementById("main").style.marginRight = "0";
   }
 
-  var events;
+
   function enregistrerUnCreneau(start, end, title, type) {
 
     $.ajax({
@@ -115,115 +109,13 @@
       type: "POST"
     });
   }
-  document.addEventListener('DOMContentLoaded', function() {
 
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
+ var echelle = "{{ echelle }}".minsToHHMMSS();
+ var heureDebut = "{{ heureDebut|date("H:i:s")}}";
+ var heureFin = "{{heureFin|date("H:i:s")}}";
+ var events = {{events|raw}};
 
-      plugins: [
-        'timeGrid', 'interaction', 'bootstrap'
-      ],
-      defaultView: 'timeGridWeek',
-      themeSystem: 'bootstrap',
-      contentHeight: "auto",
-      allDaySlot: false,
-      slotDuration: '{{ echelle }}'.minsToHHMMSS(),
-      slotLabelInterval: '{{ echelle }}'.minsToHHMMSS(),
-      minTime: '{{ heureDebut|date("H:i:s")}}',
-      maxTime: '{{ heureFin|date("H:i:s")}}',
-      weekNumberCalculation: "ISO",
-      weekends: false,
-      selectable: true,
-      events: {{ events|raw  }},
-      columnHeaderFormat: {
-        weekday: 'long'
-      },
-      editable: true,
-      locale: 'fr',
-      header: {
-        left: '',
-        center: '',
-        right: ''
-      },
-
-      select: function(arg) {
-
-        closeNav();
-        var title = prompt('Titre de la contrainte:');
-        if (title) { // si un titre d'événement a été saisi et que la limite d'événement autorisés n'a pas été dépassée
-          calendar.addEvent({title: title, start: arg.start, end: arg.end, classNames: ['plusBord']})
-        }
-
-        calendar.unselect();
-        calendar.getEvents().forEach(event => {
-          event.setProp("borderColor", "white");
-        });
-      },
-      eventRender: function(info) {
-        var dateDeb = calendar.formatDate(info.event.start, {
-          weekday: 'long',
-          hour: '2-digit',
-          minute: '2-digit',
-          locale: 'fr'
-        });
-        var dateFin = calendar.formatDate(info.event.end, {
-          weekday: 'long',
-          hour: '2-digit',
-          minute: '2-digit',
-          locale: 'fr'
-        });
-        var contenu = "Titre : " + info.event.title + "</br>Début : " + dateDeb + "</br>Fin : " + dateFin;
-
-        var tooltip = new tippy(info.el, {
-          allowHTML: true,
-          content: contenu,
-          trigger: 'mouseenter',
-          sticky: true,
-          animation: 'shift-toward',
-          maxWidth: 200
-        });
-
-      },
-      eventClick: function(info) {
-        calendar.getEvents().forEach(event => {
-          event.setProp("borderColor", "white");
-        });
-        document.getElementById('nomcreneau').innerHTML = "Contrainte " + info.event.title;
-        document.getElementById('titrevt').value = info.event.title;
-        info.event.setProp("borderColor", "red");
-
-        document.getElementById('apply').onclick = function() {
-          if (document.getElementById('titrevt').value != '') {
-            info.event.setProp("title", document.getElementById('titrevt').value);
-            document.getElementById("nomcreneau").innerHTML = "Contrainte " + info.event.title;
-            calendar.rerenderEvents();
-          }
-
-        };
-        document.getElementById('remove').onclick = function() {
-          if (confirm("Voulez vous vraiment supprimer ce créneau ?")) {
-            info.event.remove();
-          }
-          closeNav();
-        };
-        document.getElementById('close').onclick = function() {
-          closeNav();
-          info.event.setProp("borderColor", "white");
-        };
-        openNav();
-      }
-
-    });
-
-    document.getElementById('submit').onclick = function() {
-      supprimerDesCreneaux("zoneGrisee","");
-      creneaux = calendar.getEvents(); //on récupère tous les événements du calendrier sous forme d'un tableau
-      creneaux.forEach(creneau => enregistrerUnCreneau(creneau.start.toISOString(), creneau.end.toISOString(), creneau.title, "zoneGrisee"));
-    };
-
-    calendar.render();
-
-  });
 </script>
+
 
 {% endblock %}

@@ -3,17 +3,15 @@
 {% block title %}Paramètres généraux des formulaires{% endblock %}
 
 {% block stylesheets %}
+{{parent()}}
 
-<link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"/>
 <link href="{{ asset('css/fullcalendarstyle.css') }}" rel="stylesheet"/>
-
-<link href="https://unpkg.com/@fullcalendar/core@4.4.2/main.min.css" rel='stylesheet'/>
-<link href="https://unpkg.com/@fullcalendar/daygrid@4.4.2/main.min.css" rel='stylesheet'/>
-
+<link href="{{ asset('fullcalendar/packages/core/main.css') }}" rel='stylesheet'/>
+<link href="{{ asset('fullcalendar/packages/daygrid/main.css') }}" rel='stylesheet'/>
 <link href="{{ asset('fullcalendar/packages/bootstrap/main.css') }}" rel='stylesheet'/>
 
 <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/shift-toward.css"/>
-<link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+
 
 {% endblock %}
 
@@ -29,8 +27,7 @@
 </div>
 
 <div id="main">
-  <div id='calendar'></div>
-  <div id='calendar2'></div>
+  <div id='mensuel'></div>
 </br>
 <center>
   <button class="btn btn-primary" id="submit" >Enregistrer les modifications</button>
@@ -41,18 +38,16 @@
 
 {% block javascripts %}
 {{ parent() }}
-
-<script src="https://unpkg.com/@fullcalendar/core@4.4.2/main.min.js"></script>
-<script src="https://unpkg.com/@fullcalendar/interaction@4.4.2/main.min.js"></script>
-<script src="https://unpkg.com/@fullcalendar/daygrid@4.4.2/main.min.js"></script>
-
-
-<script src="{{ asset('fullcalendar/packages/timegrid/main.js')}}"></script>
+<script src="{{asset('fullcalendar/packages/core/main.js')}}"></script>
 <script src="{{ asset('fullcalendar/packages/core/locales/fr.js')}}"></script>
+<script src="{{asset('fullcalendar/packages/interaction/main.js')}}"></script>
+<script src="{{asset('fullcalendar/packages/daygrid/main.js')}}"></script>
 <script src="{{ asset('fullcalendar/packages/bootstrap/main.js')}}"></script>
 
-<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+
 <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+
+<script src="{{ asset('monJs/fullcalendar/mensuel.js')}}"></script>
 
 <script>
 
@@ -87,7 +82,6 @@ function closeNav() {
   document.getElementById("main").style.marginRight = "0";
 }
 
-var events;
 function enregistrerUnCreneau(start, end, title, type) {
 
   $.ajax({
@@ -114,182 +108,6 @@ function supprimerDesCreneaux(typeCreneau,idEnseignant) {
   });
 }
 
-
-
-document.addEventListener('DOMContentLoaded', function() {
-  var calendarEl = document.getElementById('calendar');
-  var calendar2El = document.getElementById('calendar2');
-  var calendar = new FullCalendar.Calendar(calendarEl, {
-    plugins: [
-      'interaction', 'dayGrid'
-    ],
-    selectable: true,
-    editable: true,
-    height: 700,
-    events: {{ events|raw  }},
-    contentHeight: 'auto',
-    locale: 'fr',
-    select: function(arg) {
-
-      closeNav();
-      var title = prompt('Titre du créneau:');
-      if (title) { // si un titre d'événement a été saisi et que la limite d'événement autorisés n'a pas été dépassée
-        calendar.addEvent({title: title, start: arg.start, end: arg.end, allDay: true, classNames: ['plusBord']})
-      }
-
-      calendar.unselect();
-      calendar.getEvents().forEach(event => {
-        event.setProp("borderColor", "white");
-      });
-    },
-    eventRender: function(info) {
-      var dateDeb = calendar.formatDate(info.event.start, {
-        weekday: 'long',
-        day: 'numeric',
-        year: 'numeric',
-        month: 'long',
-        locale: 'fr'
-      });
-      var dateFin = calendar.formatDate(info.event.end, {
-        weekday: 'long',
-        day: 'numeric',
-        year: 'numeric',
-        month: 'long',
-        locale: 'fr'
-      });
-      var contenu = "Titre : " + info.event.title + "</br>Début : " + dateDeb + "</br>Fin : " + dateFin;
-
-      var tooltip = new tippy(info.el, {
-        allowHTML: true,
-        content: contenu,
-        trigger: 'mouseenter',
-        sticky: true,
-        animation: 'shift-toward',
-        maxWidth: 200
-      });
-
-    },
-    eventClick: function(info) {
-      calendar.getEvents().forEach(event => {
-        event.setProp("borderColor", "white");
-      });
-      document.getElementById('nomcreneau').innerHTML = "Contrainte " + info.event.title;
-      document.getElementById('titrevt').value = info.event.title;
-      info.event.setProp("borderColor", "red");
-
-      document.getElementById('apply').onclick = function() {
-        if (document.getElementById('titrevt').value != '') {
-          info.event.setProp("title", document.getElementById('titrevt').value);
-          document.getElementById("nomcreneau").innerHTML = "Contrainte " + info.event.title;
-          calendar.rerenderEvents();
-        }
-
-      };
-      document.getElementById('remove').onclick = function() {
-        if (confirm("Voulez vous vraiment supprimer ce créneau ?")) {
-          info.event.remove();
-        }
-        closeNav();
-      };
-      document.getElementById('close').onclick = function() {
-        closeNav();
-        info.event.setProp("borderColor", "white");
-      };
-      openNav();
-    }
-
-  });
-
-  var calendar2 = new FullCalendar.Calendar(calendar2El, {
-    plugins: [
-      'interaction', 'timeGrid'
-    ],
-    selectable: true,
-    editable: true,
-    height: 700,
-    events: {{ events|raw  }},
-    contentHeight: 'auto',
-    locale: 'fr',
-    select: function(arg) {
-
-      closeNav();
-      var title = prompt('Titre du créneau:');
-      if (title) { // si un titre d'événement a été saisi et que la limite d'événement autorisés n'a pas été dépassée
-        calendar2.addEvent({title: title, start: arg.start, end: arg.end, allDay: true, classNames: ['plusBord']})
-      }
-
-      calendar2.unselect();
-      calendar2.getEvents().forEach(event => {
-        event.setProp("borderColor", "white");
-      });
-    },
-    eventRender: function(info) {
-      var dateDeb = calendar2.formatDate(info.event.start, {
-        weekday: 'long',
-        day: 'numeric',
-        year: 'numeric',
-        month: 'long',
-        locale: 'fr'
-      });
-      var dateFin = calendar2.formatDate(info.event.end, {
-        weekday: 'long',
-        day: 'numeric',
-        year: 'numeric',
-        month: 'long',
-        locale: 'fr'
-      });
-      var contenu = "Titre : " + info.event.title + "</br>Début : " + dateDeb + "</br>Fin : " + dateFin;
-
-      var tooltip = new tippy(info.el, {
-        allowHTML: true,
-        content: contenu,
-        trigger: 'mouseenter',
-        sticky: true,
-        animation: 'shift-toward',
-        maxWidth: 200
-      });
-
-    },
-    eventClick: function(info) {
-      calendar2.getEvents().forEach(event => {
-        event.setProp("borderColor", "white");
-      });
-      document.getElementById('nomcreneau').innerHTML = "Contrainte " + info.event.title;
-      document.getElementById('titrevt').value = info.event.title;
-      info.event.setProp("borderColor", "red");
-
-      document.getElementById('apply').onclick = function() {
-        if (document.getElementById('titrevt').value != '') {
-          info.event.setProp("title", document.getElementById('titrevt').value);
-          document.getElementById("nomcreneau").innerHTML = "Contrainte " + info.event.title;
-          calendar2.rerenderEvents();
-        }
-
-      };
-      document.getElementById('remove').onclick = function() {
-        if (confirm("Voulez vous vraiment supprimer ce créneau ?")) {
-          info.event.remove();
-        }
-        closeNav();
-      };
-      document.getElementById('close').onclick = function() {
-        closeNav();
-        info.event.setProp("borderColor", "white");
-      };
-      openNav();
-    }
-
-  });
-
-  document.getElementById('submit').onclick = function() {
-    supprimerDesCreneaux("evenement","");
-    creneaux = calendar.getEvents(); //on récupère tous les événements du calendrier sous forme d'un tableau
-    creneaux.forEach(creneau => enregistrerUnCreneau(creneau.start.toISOString(), creneau.end.toISOString(), creneau.title, "evenement")); //pour chaque élément du tableau, c'est à dire pour chaque événement, on envoie sa date de début, sa date de fin et son titre au serveur
-  };
-
-  calendar.render();
-  calendar2.render();
-
-});
+var events = {{ events|raw  }};
 </script>
 {% endblock %}
