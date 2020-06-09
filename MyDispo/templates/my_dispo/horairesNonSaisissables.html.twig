@@ -90,7 +90,7 @@
   }
 
   var events;
-  function ajax(start, end, title, type) {
+  function enregistrerUnCreneau(start, end, title, type) {
 
     $.ajax({
       url: "{{path("creneau_ajouter")}}",
@@ -100,6 +100,18 @@
         titleevt: title,
         typeevt: type
       }, //données envoyées au serveur pour chaque événement
+      type: "POST"
+    });
+  }
+
+  function supprimerDesCreneaux(typeCreneau,idEnseignant) {
+
+    $.ajax({
+      url: "{{path("suppr_creneaux")}}",
+      data: {
+        type: typeCreneau,
+        id: idEnseignant,
+      },
       type: "POST"
     });
   }
@@ -204,8 +216,9 @@
     });
 
     document.getElementById('submit').onclick = function() {
-      events = calendar.getEvents(); //on récupère tous les événements du calendrier sous forme d'un tableau
-      events.forEach(event => ajax(event.start.toISOString(), event.end.toISOString(), event.title, "zoneGrisee")); //pour chaque élément du tableau, c'est à dire pour chaque événement, on envoie sa date de début, sa date de fin et son titre au serveur
+      supprimerDesCreneaux("zoneGrisee","");
+      creneaux = calendar.getEvents(); //on récupère tous les événements du calendrier sous forme d'un tableau
+      creneaux.forEach(creneau => enregistrerUnCreneau(creneau.start.toISOString(), creneau.end.toISOString(), creneau.title, "zoneGrisee"));
     };
 
     calendar.render();

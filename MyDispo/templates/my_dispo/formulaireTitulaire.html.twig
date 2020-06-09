@@ -1,81 +1,3 @@
-<<<<<<< HEAD
-{% extends 'templateEnseignant.html.twig' %}
-
-{% block titrePage %}Titre de la page{% endblock %}
-
-
-
-
-{% block colonneGauche %}
-<!-- Carte des contraintes professionnelles -->
-<div class="card">
-  <h5 class="card-header">
-    <center>Contraintes professionnelles</center>
-  </h5>
-  <div class="card-body">
-    <p class="card-text">
-      <ul>
-        <li>
-          Priorité forte (Créneaux de
-          {{formulaireTitulaire.dureeProForte}}
-          minutes)
-          <p style="color:red">
-            (
-            {{formulaireTitulaire.quantiteProForte}}
-            {% if formulaireTitulaire.quantiteProForte > 1 %}
-              restantes )</p>
-          {% else %}
-            restante )</p>
-        {% endif %}
-      </li>
-      <li>
-        Priorité moyenne (Créneaux de
-        {{formulaireTitulaire.dureeProMoy}}
-        minutes)
-        <p style="color:orange">
-          (
-          {{formulaireTitulaire.quantiteProMoy}}
-          {% if formulaireTitulaire.quantiteProMoy > 1 %}
-            restantes )</p>
-        {% else %}
-          restante )</p>
-      {% endif %}
-    </li>
-    <li>
-      Priorité faible (Créneaux de
-      {{formulaireTitulaire.dureeProFaible}}
-      minutes)
-      <p style="color:green">
-        (
-        {{formulaireTitulaire.quantiteProFaible}}
-        {% if formulaireTitulaire.quantiteProFaible > 1 %}
-          restantes )</p>
-      {% else %}
-        restante )</p>
-    {% endif %}
-  </li>
-</ul>
-</p>
-</div>
-</div>
-
-
-<br/>
-
-
-
-<!-- Carte des contraintes personnelles -->
-<div class="card">
-  <h5 class="card-header">
-    <center>Contraintes personnelles</center>
-  </h5>
-  <div class="card-body">
-    <p class="card-text">
-      <ul>
-        <li>
-          Priorité forte (Créneaux de
-          {{formulaireTitulaire.dureePersForte}}
-=======
 {% extends 'baseEnseignant.html.twig' %}
 
 
@@ -189,7 +111,6 @@ minutes)
           <input type="radio" id="persFaible" name="couleur"
               value="persFaible"> Priorité faible (Créneaux de
           {{formulaireTitulaire.dureePersFaible}}
->>>>>>> ff5be6907ca6832d4f52d0502bac74cacef58e32
           minutes)
           <p style="color:red">
             (
@@ -199,51 +120,6 @@ minutes)
           {% else %}
             restante )</p>
         {% endif %}
-<<<<<<< HEAD
-      </li>
-      <li>
-        Priorité moyenne (Créneaux de
-        {{formulaireTitulaire.dureePersMoy}}
-        minutes)
-        <p style="color:orange">
-          (
-          {{formulaireTitulaire.quantitePersMoy}}
-          {% if formulaireTitulaire.quantitePersMoy > 1 %}
-            restantes )</p>
-        {% else %}
-          restante )</p>
-      {% endif %}
-    </li>
-    <li>
-      Priorité faible (Créneaux de
-      {{formulaireTitulaire.dureePersFaible}}
-      minutes)
-      <p style="color:green">
-        (
-        {{formulaireTitulaire.quantitePersFaible}}
-        {% if formulaireTitulaire.quantitePersFaible > 1 %}
-          restantes )</p>
-      {% else %}
-        restante )</p>
-    {% endif %}
-  </li>
-</ul>
-</div>
-</div>
-
-{% endblock %}
-
-{% block colonneDroite %}
-
-<div id="mySidenav" class="sidenav">
-
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" id="close">&times;</a>
-  <p id="nomcreneau">Nom du creneau</p>
-  <input type="text" name="titre" id="titrevt">
-  <button id="apply">Appliquer le titre</button>
-  <button id="remove">Supprimer ce créneau</button>
-</div>
-=======
 {% endblock %}
 
 
@@ -269,7 +145,6 @@ minutes)
 
 
 
->>>>>>> ff5be6907ca6832d4f52d0502bac74cacef58e32
 
 
 <div id='calendar'>
@@ -283,24 +158,7 @@ minutes)
 
 {% endblock %}
 
-<<<<<<< HEAD
-{% block ponctuel %}
-  {{ form_row(form.remarquesPonctu) }}
 
-{% endblock %}
-
-
-
-
-
-
-
-
-
-
-=======
-
->>>>>>> ff5be6907ca6832d4f52d0502bac74cacef58e32
 {% block javascripts %}
 
 {{ parent() }}
