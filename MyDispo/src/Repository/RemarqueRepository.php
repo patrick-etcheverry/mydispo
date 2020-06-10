@@ -19,6 +19,7 @@ class RemarqueRepository extends ServiceEntityRepository
         parent::__construct($registry, Remarque::class);
     }
 
+
     // /**
     //  * @return Remarque[] Returns an array of Remarque objects
     //  */

@@ -1,5 +1,17 @@
 {% extends 'baseEnseignant.html.twig' %}
 
+
+{% block sideNav %}
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" id="close">&times;</a>
+  <p id="nomcreneau">Nom du creneau</p>
+  <input type="text" name="titre" id="titrevt">
+  <button id="apply">Appliquer le titre</button>
+  <button id="remove">Supprimer ce créneau</button>
+</div>
+{% endblock %}
+
+
 {% block ZoneGaucheSaisiesContraintesHebdos %}
 {% include 'formulaireTit-contraintesHebdo-CarteHautGauche.html.twig'%}
 </br>
@@ -12,7 +24,16 @@
 
 
 {% block ZoneDroiteSaisiesContraintesHebdos %}
-2
+<div id="main">
+  <div id='calendar'></div>
+</div>
+</br>
+{{ form_row(form.remarquesHebdo) }}
+
+<center>
+  <button class="btn-primary" id="submit">
+    <i class="fas fa-pencil-alt"></i>{{ button_label|default(' Envoyer ') }}</button>
+</center>
 {% endblock %}
 
 
@@ -33,4 +54,367 @@
 
 {% block ZoneDroiteSaisiesContraintesPonctuelles %}
 4
+{% endblock %}
+
+
+{% block javascripts %}
+
+{{ parent() }}
+<script>
+//déterminer la couleur du fond de l'événement à utiliser en fonction du bouton radio coché
+function detFond() {
+                if(document.getElementById('proForte').checked) {
+                    fond = "#FF0000";
+                }
+                else if(document.getElementById('proMoy').checked) {
+                  fond = "#FE8700";
+
+                }
+                else if(document.getElementById('proFaible').checked) {
+                  fond = "#FAFE00";
+                  bordure = fond;
+                }
+                else if(document.getElementById('persForte').checked) {
+                  fond = "#FFFFFF";
+
+                }
+                else if(document.getElementById('persMoy').checked) {
+                  fond = "#FFFFFF";
+
+                }
+                else if(document.getElementById('persFaible').checked) {
+                  fond = "#FFFFFF";
+
+                }
+                return fond;
+            }
+
+//déterminer la couleur de la bordure de l'événement à utiliser en fonction du bouton radio coché
+function detBord(){
+
+  if(document.getElementById('proForte').checked) {
+      bordure = "#FF0000";
+  }
+  else if(document.getElementById('proMoy').checked) {
+    bordure = "#FE8700";
+  }
+  else if(document.getElementById('proFaible').checked) {
+    bordure = "#FAFE00";
+  }
+  else if(document.getElementById('persForte').checked) {
+    bordure = "#FF0000";
+  }
+  else if(document.getElementById('persMoy').checked) {
+    bordure = "#FE8700";
+  }
+  else if(document.getElementById('persFaible').checked) {
+    bordure = "#FAFE00";
+  }
+
+  return bordure;
+  }
+
+
+    function detPrio(){
+
+      if(document.getElementById('proForte').checked || document.getElementById('persForte').checked ) {
+          prio = 'Forte';
+      }
+      else if(document.getElementById('proMoy').checked || document.getElementById('persMoy').checked) {
+        prio = 'Moyenne';
+      }
+      else if(document.getElementById('proFaible').checked || document.getElementById('persFaible').checked) {
+        prio = 'Faible';
+      }
+      return prio;
+      }
+
+      function detType(){
+
+        if(document.getElementById('proForte').checked || document.getElementById('proMoy').checked || document.getElementById('proFaible').checked) {
+            type = 'ContraintePro';
+        }
+        else if(document.getElementById('persForte').checked || document.getElementById('persMoy').checked || document.getElementById('persFaible').checked) {
+            type = 'ContraintePerso';
+        }
+
+        return type;
+        }
+
+  /*      function tempsParDefaut(){
+          var defaultTime;
+          if(document.getElementById('proForte').checked) {
+              defaultTime = {{formulaireTitulaire.dureeProForte}};
+          }
+          else if(document.getElementById('proMoy').checked) {
+            defaultTime = {{formulaireTitulaire.dureeProMoy}};
+          }
+          else if(document.getElementById('proFaible').checked) {
+            defaultTime = {{formulaireTitulaire.dureeProFaible}};
+          }
+          else if(document.getElementById('persForte').checked) {
+            defaultTime = {{formulaireTitulaire.dureePersForte}};
+          }
+          else if(document.getElementById('persMoy').checked) {
+            defaultTime = {{formulaireTitulaire.dureePersMoy}};
+          }
+          else if(document.getElementById('persFaible').checked) {
+            defaultTime = {{formulaireTitulaire.dureePersFaible}};
+          }
+
+          var date = defaultTime.toString().minsToHHMMSS();
+          console.log(date);
+          return date;
+
+        }*/
+
+    //retourne true si la limite d'événements autorisés a été dépassée
+
+
+function evtLimiter(calendrier, type, prio) {
+
+  var ContraitePro = {
+        Forte : 0,
+        Moyenne : 0,
+        Faible : 0,
+      };
+
+  var ContraitePerso = {
+        Forte : 0,
+        Moyenne : 0,
+        Faible : 0,
+      };
+
+  var compteur = {
+      ContraintePro : {
+        Forte : 0,
+        Moyenne : 0,
+        Faible : 0,
+      },
+      ContraintePerso : {
+        Forte : 0,
+        Moyenne : 0,
+        Faible : 0,
+      }
+  };
+
+          /*  var compteurProForte=0;
+            var compteurProMoyenne=0;
+            var compteurProFaible=0;
+            var compteurPersoForte=0;
+            var compteurPersoMoyenne=0;
+            var compteurPersoFaible=0;
+            var res=false;
+            var evts=calendrier.getEvents();
+            evts.forEach(event =>{
+
+              switch (event.extendedProps.type) {
+                case 'ContraintePro':
+                    if (event.extendedProps.prio=="Forte") {
+                      compteurProForte+=1;
+                      console.log("Compteur Pro Forte : " + compteurProForte);
+                    }
+                    else if (event.extendedProps.prio=="Moyenne") {
+                      compteurProMoyenne+=1;
+                    }
+                    else if (event.extendedProps.prio=="Faible") {
+                      compteurProFaible+=1;
+                    }
+                    if (event.extendedProps.prio=="Forte" && compteurProForte>={{formulaireTitulaire.quantiteProForte}}){
+                      res = true;
+                    }
+                    if (event.extendedProps.prio=="Moyenne" && compteurProForte>={{formulaireTitulaire.quantiteProMoy}}){
+                      res = true;
+                    }
+                    if (event.extendedProps.prio=="Faible" && compteurProForte>={{formulaireTitulaire.quantiteProFaible}}){
+                      res = true;
+                    }
+                  break;
+                case 'ContraintePerso':
+                  if (event.extendedProps.prio=="Forte") {
+                    compteurPersoForte+=1;
+                  }
+                  else if (event.extendedProps.prio=="Moyenne") {
+                  compteurPersoMoyenne+=1;
+                  }
+                  else if (event.extendedProps.prio=="Faible") {
+                  compteurPersoFaible+=1;
+                  }
+                  if (event.extendedProps.prio=="Forte" && compteurProForte>={{formulaireTitulaire.quantitePersForte}}){
+                    res = true;
+                  }
+                  if (event.extendedProps.prio=="Moyenne" && compteurProForte>={{formulaireTitulaire.quantitePersMoy}}){
+                    res = true;
+                  }
+                  if (event.extendedProps.prio=="Faible" && compteurProForte>={{formulaireTitulaire.quantitePersFaible}}){
+                    res = true;
+                  }
+                  break;
+              }
+            });
+
+          return res;*/
+    }
+
+  String.prototype.minsToHHMMSS = function() {
+    var mins_num = parseFloat(this, 10); // don't forget the second param
+    var hours = Math.floor(mins_num / 60);
+    var minutes = Math.floor((mins_num - ((hours * 3600)) / 60));
+    var seconds = Math.floor((mins_num * 60) - (hours * 3600) - (minutes * 60));
+
+    // Appends 0 when unit is less than 10
+    if (hours < 10) {
+      hours = "0" + hours;
+    }
+    if (minutes < 10) {
+      minutes = "0" + minutes;
+    }
+    if (seconds < 10) {
+      seconds = "0" + seconds;
+    }
+    return hours + ':' + minutes + ':' + seconds;
+  }
+
+  function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("main").style.marginRight = "250px";
+
+  }
+
+  /* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+  function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginRight = "0";
+  }
+
+  var events;
+  function ajax(start, end, title, type) {
+
+    $.ajax({
+      url: "{{path("creneau_ajouter")}}",
+      data: {
+        startevt: start,
+        endevt: end,
+        titleevt: title,
+        typeevt: type
+      }, //données envoyées au serveur pour chaque événement
+      type: "POST"
+    });
+  }
+  document.addEventListener('DOMContentLoaded', function() {
+
+
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+
+      plugins: [
+        'timeGrid', 'interaction', 'bootstrap'
+      ],
+      defaultView: 'timeGridWeek',
+      themeSystem: 'bootstrap',
+      contentHeight: "auto",
+      allDaySlot: false,
+      slotDuration: '{{ formulaireTitulaire.echelleCalendrier }}'.minsToHHMMSS(),
+      slotLabelInterval: '{{ formulaireTitulaire.echelleCalendrier }}'.minsToHHMMSS(),
+      minTime: '{{ formulaireTitulaire.heureDebutCalendrier|date("H:i:s")}}',
+      maxTime: '{{ formulaireTitulaire.heureFinCalendrier|date("H:i:s")}}',
+      weekNumberCalculation: "ISO",
+      weekends: false,
+      selectable: true,
+      events: {{ events|raw  }},
+      columnHeaderFormat: {
+        weekday: 'long'
+      },
+      editable: true,
+      locale: 'fr',
+      header: {
+        left: '',
+        center: '',
+        right: ''
+      },
+
+      select: function(arg) {
+
+        closeNav();
+        var title = prompt('Titre de la contrainte:');
+        if (title  && evtLimiter(calendar, detType(), detPrio())==false) { // si un titre d'événement a été saisi et que la limite d'événement autorisés n'a pas été dépassée
+          calendar.addEvent({title: title, start: arg.start, end: arg.end ,classNames: ['plusBord'], allDay: arg.allDay, borderColor: detBord(), color: detFond(), prio: detPrio()  , type: detType() })
+        }
+
+        else if (evtLimiter(calendar, detType(),detPrio())==true){alert("Trop de contraintes saisies");}
+        calendar.unselect();
+      },
+      eventRender: function(info) {
+
+          if(info.event.extendedProps.type == "ContraintePro"){
+          info.el.querySelector('.fc-content').append(" [PRO] ");
+        }
+
+        else if(info.event.extendedProps.type == "ContraintePerso"){
+        info.el.querySelector('.fc-content').append(" [PERSO] ");
+      }
+        var dateDeb = calendar.formatDate(info.event.start, {
+          weekday: 'long',
+          hour: '2-digit',
+          minute: '2-digit',
+          locale: 'fr'
+        });
+        var dateFin = calendar.formatDate(info.event.end, {
+          weekday: 'long',
+          hour: '2-digit',
+          minute: '2-digit',
+          locale: 'fr'
+        });
+        var contenu = "Titre : " + info.event.title + "</br>Début : " + dateDeb + "</br>Fin : " + dateFin;
+
+        var tooltip = new tippy(info.el, {
+          allowHTML: true,
+          content: contenu,
+          trigger: 'mouseenter',
+          sticky: true,
+          animation: 'shift-toward',
+          maxWidth: 200
+        });
+
+      },
+      eventClick: function(info) {
+
+        document.getElementById('nomcreneau').innerHTML = "Contrainte " + info.event.title;
+        document.getElementById('titrevt').value = info.event.title;
+        info.event.setProp("borderColor", "red");
+
+        document.getElementById('apply').onclick = function() {
+          if (document.getElementById('titrevt').value != '') {
+            info.event.setProp("title", document.getElementById('titrevt').value);
+            document.getElementById("nomcreneau").innerHTML = "Contrainte " + info.event.title;
+            calendar.rerenderEvents();
+          }
+
+        };
+        document.getElementById('remove').onclick = function() {
+          if (confirm("Voulez vous vraiment supprimer ce créneau ?")) {
+            info.event.remove();
+          }
+          closeNav();
+        };
+        document.getElementById('close').onclick = function() {
+          closeNav();
+          if(document.getElementById('persForte').checked || document.getElementById('persMoy').checked || document.getElementById('persFaible').checked){
+            info.event.setProp("borderColor", detBord());
+          }
+        };
+        openNav();
+      }
+
+    });
+
+    document.getElementById('submit').onclick = function() {
+      events = calendar.getEvents(); //on récupère tous les événements du calendrier sous forme d'un tableau
+      events.forEach(event => ajax(event.start.toISOString(), event.end.toISOString(), event.title, "zoneGrisee")); //pour chaque élément du tableau, c'est à dire pour chaque événement, on envoie sa date de début, sa date de fin et son titre au serveur
+    };
+
+    calendar.render();
+
+  });
+</script>
 {% endblock %}
