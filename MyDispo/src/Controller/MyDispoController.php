@@ -171,7 +171,7 @@ class MyDispoController extends AbstractController
 
     }
     // Afficher la page du formulaire de saisie
-    return $this->render('my_dispo/BackupFormulaireTitulaire.html.twig', [
+    return $this->render('my_dispo/formulaireTit.html.twig', [
         'formulaireTitulaire' => $formulaireTitulaire[0],
         'form' => $form->createView(),
         'events' => $result,

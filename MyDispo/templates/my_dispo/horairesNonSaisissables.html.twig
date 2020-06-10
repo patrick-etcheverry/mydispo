@@ -43,7 +43,6 @@
 <script src="{{ asset('fullcalendar/packages/core/main.js')}}"></script>
 <script src="{{ asset('fullcalendar/packages/daygrid/main.js')}}"></script>
 <script src="{{ asset('fullcalendar/packages/timegrid/main.js')}}"></script>
-<script src="{{ asset('fullcalendar/packages/core/main.js')}}"></script>
 <script src="{{ asset('fullcalendar/packages/core/locales/fr.js')}}"></script>
 <script src="{{ asset('fullcalendar/packages/interaction/main.js')}}"></script>
 <script src="{{ asset('fullcalendar/packages/bootstrap/main.js')}}"></script>*
@@ -52,13 +51,13 @@
 
 <script>
 
+// Fonction qui transforme un nombre de minutes (de type string) représentant un entier (par exemple 15) en une cha)ine de la forme HH:MM:SS
   String.prototype.minsToHHMMSS = function() {
-    var mins_num = parseFloat(this, 10); // don't forget the second param
+    var mins_num = parseFloat(this, 10);
     var hours = Math.floor(mins_num / 60);
     var minutes = Math.floor((mins_num - ((hours * 3600)) / 60));
     var seconds = Math.floor((mins_num * 60) - (hours * 3600) - (minutes * 60));
 
-    // Appends 0 when unit is less than 10
     if (hours < 10) {
       hours = "0" + hours;
     }
@@ -70,6 +69,7 @@
     }
     return hours + ':' + minutes + ':' + seconds;
   }
+
 
   function openNav() {
     document.getElementById("mySidenav").style.width = "250px";
