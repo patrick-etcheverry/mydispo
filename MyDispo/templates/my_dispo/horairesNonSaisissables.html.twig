@@ -84,7 +84,7 @@
   }
 
 
-  function enregistrerUnCreneau(start, end, title, type) {
+  function enregistrerUnCreneau(start, end, title, type="zoneGrisee", prio="sansPrio", enseignant="") {
 
     $.ajax({
       url: "{{path("creneau_ajouter")}}",
@@ -92,24 +92,28 @@
         startevt: start,
         endevt: end,
         titleevt: title,
-        typeevt: type
-      }, //données envoyées au serveur pour chaque événement
-      type: "POST"
-    });
-  }
-
-  function supprimerDesCreneaux(typeCreneau,idEnseignant) {
-
-    $.ajax({
-      url: "{{path("suppr_creneaux")}}",
-      data: {
-        type: typeCreneau,
-        id: idEnseignant,
+        typeevt: type,
+        prioevt: prio,
+        enseignantevt: enseignant,
       },
       type: "POST"
     });
   }
 
+  function supprimerDesCreneaux(type, enseignant="") {
+
+    $.ajax({
+      url: "{{path("suppr_creneaux")}}",
+      data: {
+        typeCreneau: type,
+        idEnseignant: enseignant,
+      },
+      type: "POST"
+    });
+  }
+
+
+var saisieEnseignant=false;
  var echelle = "{{ echelle }}".minsToHHMMSS();
  var heureDebut = "{{ heureDebut|date("H:i:s")}}";
  var heureFin = "{{heureFin|date("H:i:s")}}";

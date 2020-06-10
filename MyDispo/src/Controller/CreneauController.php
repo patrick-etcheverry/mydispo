@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Creneau;
 use App\Form\CreneauType;
 use App\Repository\CreneauRepository;
+use App\Repository\EnseignantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +21,7 @@ class CreneauController extends AbstractController
   /**
   * @Route("/ajout", name="creneau_ajouter", methods={"POST"})
   */
-  public function ajouterCreneau(): Response
+  public function ajouterCreneau(EnseignantRepository $enseignantRepository ): Response
   {
 
     $creneau = new Creneau();
@@ -29,8 +30,8 @@ class CreneauController extends AbstractController
     $debut = $_POST["startevt"];
     $fin = $_POST["endevt"];
     $type = $_POST["typeevt"];
-
-
+    $prio = $_POST["prioevt"];
+    $idEnseignant = $_POST["enseignantevt"];
 
     $creneau->setTitre($titre);
     $creneau->setDateDebut(new DateTime($debut));
@@ -38,7 +39,11 @@ class CreneauController extends AbstractController
     $creneau->setDateFin(new DateTime($fin));
     $creneau->getDateFin()->setTimeZone(new DateTimeZone('Europe/Paris'));
     $creneau->setType($type);
-    $creneau->setPrioOuPref("");
+    $creneau->setPrioOuPref($prio);
+
+    if($idEnseignant != ""){
+    $creneau->setEnseignant($enseignantRepository->findById($idEnseignant)[0]);
+    }
 
     $entityManager = $this->getDoctrine()->getManager();
     $entityManager->persist($creneau);
@@ -55,11 +60,11 @@ class CreneauController extends AbstractController
   {
     $entityManager = $this->getDoctrine()->getManager();
 
-    $typeCreneau = $_POST["type"];
+    $typeCreneau = $_POST["typeCreneau"];
+      $enseignant = $_POST["idEnseignant"];
 
-    if($_POST["id"] != ""){
-      $idEns = $_POST["id"];
-      $aSupprimer = $creneauRepository->findByTypeEtEnseignant($typeCreneau,$idEns);
+    if($enseignant != ""){
+      $aSupprimer = $creneauRepository->findByTypeEtEnseignant($typeCreneau,$enseignant);
     }
 
     else{

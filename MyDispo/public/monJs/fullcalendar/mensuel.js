@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   });
 
-  document.getElementById('submit').onclick = function() {
+  document.getElementById('submit2').onclick = function() {
     supprimerDesCreneaux("evenement","");
     creneaux = mensuel.getEvents(); //on récupère tous les événements du calendrier sous forme d'un tableau
     creneaux.forEach(creneau => enregistrerUnCreneau(creneau.start.toISOString(), creneau.end.toISOString(), creneau.title, "evenement")); //pour chaque élément du tableau, c'est à dire pour chaque événement, on envoie sa date de début, sa date de fin et son titre au serveur

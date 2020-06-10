@@ -63,28 +63,37 @@ class MyDispoController extends AbstractController
       switch ($event->getType()) {
         case 'ContraintePro':
           if($event->getPrioOuPref() == "Forte"){
-            $object->backgroundColor="red";
-            $object->borderColor="red";
+            $object->backgroundColor="#B84331";
+            $object->borderColor="#B84331";
+            $object->textColor="black";
           }
           if($event->getPrioOuPref() == "Moyenne"){
             $object->backgroundColor="orange";
             $object->borderColor="orange";
+            $object->textColor="black";
           }
           if($event->getPrioOuPref() == "Faible"){
-            $object->backgroundColor="yellow";
-            $object->borderColor="yellow";
+            $object->backgroundColor="#FFD433";
+            $object->borderColor="#FFD433";
+            $object->textColor="black";
           }
           break;
         case 'ContraintePerso' :
-          $object->backgroundColor="white";
+
           if($event->getPrioOuPref() == "Forte"){
-            $object->borderColor="red";
+            $object->borderColor="#8A47A9";
+            $object->textColor="black";
+            $object->backgroundColor="#8A47A9";
           }
           if($event->getPrioOuPref() == "Moyenne"){
-            $object->borderColor="orange";
+            $object->borderColor="#314AB8";
+            $object->textColor="black";
+            $object->backgroundColor="#314AB8";
           }
           if($event->getPrioOuPref() == "Faible"){
-            $object->borderColor="yellow";
+            $object->borderColor="#2EAED3";
+            $object->textColor="black";
+            $object->backgroundColor="#2EAED3";
           }
         break;
       }
@@ -175,6 +184,7 @@ class MyDispoController extends AbstractController
         'formulaireTitulaire' => $formulaireTitulaire[0],
         'form' => $form->createView(),
         'events' => $result,
+        'enseignant' => $enseignant[0],
     ]);
 
   }
