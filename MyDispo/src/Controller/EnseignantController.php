@@ -52,6 +52,27 @@ class EnseignantController extends AbstractController
        */
       public function telechargerContrainte()
       {
+        // Fonction pour le formatage des noms des enseignants
+        function enleverCaracteresSpeciaux($text) {
+            $utf8 = array(
+              '/[áàâãªä]/u' => 'a',
+              '/[ÁÀÂÃÄ]/u' => 'A',
+              '/[ÍÌÎÏ]/u' => 'I',
+              '/[íìîï]/u' => 'i',
+              '/[éèêë]/u' => 'e',
+              '/[ÉÈÊË]/u' => 'E',
+              '/[óòôõºö]/u' => 'o',
+              '/[ÓÒÔÕÖ]/u' => 'O',
+              '/[úùûü]/u' => 'u',
+              '/[ÚÙÛÜ]/u' => 'U',
+              '/ç/' => 'c',
+              '/Ç/' => 'C',
+              '/ñ/' => 'n',
+              '/Ñ/' => 'N',
+
+            );
+            return preg_replace(array_keys($utf8), array_values($utf8), $text);
+          }
 
         // Récupérer tous les enseignants
               $repositoryEnseignant = $this->getDoctrine()->getRepository(Enseignant::class);
@@ -64,41 +85,50 @@ class EnseignantController extends AbstractController
       // Créer un fichier pour chaque enseignant qu'on ajoute à l'archive
 
                 foreach ( $enseignants as $enseignantCourant) {
-                  $compteur = 1;
-                  $nomEnseignant = $enseignantCourant->getNom();
-                  $nomFichierCourant = $nomEnseignant.'.csv';
-                  $texte = 'Nom, Prenom, Mail, Statut';
-                  file_put_contents( $nomFichierCourant, $texte);
+
+                  // Initialisation  des variables
+                  $nomEnseignant = enleverCaracteresSpeciaux($enseignantCourant->getNom());
+                  $idEnseignant = $enseignantCourant->getId();
                   $creneaux = $enseignantCourant->getCreneaux();
-                  foreach ( $creneaux as $creneauCourant ) {
-                    $texte = file_get_contents($nomFichierCourant);
-                    $texte .= ', Titre'.$compteur.', Priorite'.$compteur.', DateDebut'.$compteur.', DateFin'.$compteur.', Type'.$compteur;
-                    file_put_contents( $nomFichierCourant, $texte);
-                    $compteur++;
-                  }
-                  $texte .= "\r".$nomEnseignant.', '.$enseignantCourant->getPrenom().', '.$enseignantCourant->getMail().', '.$enseignantCourant->getStatut();
+
+                  // Initialisation du nom du fichier
+                  $nomFichierCourant = $nomEnseignant.$idEnseignant.'.csv';
+
+                  // Ajout au fichier les infos de l'enseignant
+                  $texte = $nomEnseignant.', '.$enseignantCourant->getPrenom().', '.$enseignantCourant->getMail().', '.$enseignantCourant->getStatut()."\r";
                   file_put_contents( $nomFichierCourant, $texte);
+
+                  // Ajout au fichier les créneaux de l'enseignant
                   foreach ( $creneaux as $creneauCourant ) {
+                    // Formatage des dates
                     $dateDebutDate = $creneauCourant->getDateDebut();
                     $dateDebutString = $dateDebutDate->format('H-i d-m-Y');
                     $dateFinDate = $creneauCourant->getDateFin();
                     $dateFinString = $dateFinDate->format('H-i d-m-Y');
 
                     $texte = file_get_contents($nomFichierCourant);
-                    $texte .= ', '.$creneauCourant->getTitre().', '.$creneauCourant->getPrioOuPref().', '.$dateDebutString.', '.$dateFinString.', '.$creneauCourant->getType();
+                    $texte .= $creneauCourant->getTitre().', '.$creneauCourant->getPrioOuPref().', '.$dateDebutString.', '.$dateFinString.', '.$creneauCourant->getType()."\r";
                     file_put_contents( $nomFichierCourant, $texte);
-                    $compteur++;
                   }
+
+                  // Vérifier si l'archive peut être ouverte + création de l'archive
                   if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
-                      exit("cannot open <$filename><br/>");//création de l'archive+code d'erreur
+                      exit("cannot open <$filename><br/>");
                   }
                   else{
+                    // Ajouter le fichier courant à l'archive
                     $zip->addFile($nomFichierCourant);
                   }
+
                 }
+                // Ajouter le fichier explicatif "Lisez-moi.txt"
+                $zip->addFile('Lisez-moi.txt');
+                // Fermer l'archive
                 $zip->close();
+
+                // Supprimer tous les fichiers à l'extérieur de l'archive
                 foreach ( $enseignants as $enseignantCourant) {
-                  unlink($enseignantCourant.'.csv');
+                  unlink(enleverCaracteresSpeciaux($enseignantCourant->getNom()).$enseignantCourant->getId().'.csv');
                 }
 
             return $this->render('enseignant/confirmationTelechargement.html.twig');
@@ -122,7 +152,9 @@ class EnseignantController extends AbstractController
 
               foreach ( $enseignants  as  $enseignantCourant ){
 
-                //$urlEnseignant = $this->generateUrl('saisieContrainte',['token'=> $enseignantCourant->getToken()],false);
+                $urlEnseignant = $this->generateUrl('saisieContrainte',['token'=> $enseignantCourant->getToken()],false);
+                $contenu .= "\r"."\r"."Votre lien personnalisé : ".$urlEnseignant."\r"."\r"."Cordialement,"."\r"."\r".$_ENV['ADMIN_NAME'];
+
                 var_dump($this->generateUrl('saisieContrainte',['token'=> $enseignantCourant->getToken()],false));
               $transport = (new \Swift_SmtpTransport($_ENV['ADRESS_SERVER_SMTP'], 465))
                 ->setEncryption('ssl')
