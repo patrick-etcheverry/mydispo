@@ -252,23 +252,14 @@ class MyDispoController extends AbstractController
   /**
   * @Route("/ChangementAnnee", name="changement_annee")
   */
-  public function ChangementAnnee()
+  public function ChangementAnnee(EnseignantRepository $repoEnseignant, LogEnseignantRepository $repoLogs, CreneauRepository $repoCreneau)
   {
     $entityManager = $this->getDoctrine()->getManager();
 
-    $repositoryEnseignant = $this->getDoctrine()->getRepository(Enseignant::class);
-    $enseignants = $repositoryEnseignant->findAll();
-
-    $repositoryCreneau = $this->getDoctrine()->getRepository(Creneau::class);
-    $creneaux = $repositoryCreneau->findAll();
-
-    $repositoryRemarque = $this->getDoctrine()->getRepository(Remarque::class);
-    $remarques = $repositoryRemarque->findAll();
-
-    $repositoryLogEnseignant = $this->getDoctrine()->getRepository(LogEnseignant::class);
-    $logsEnseignants = $repositoryLogEnseignant->findAll();
-
+    $enseignants = $repoEnseignant->findAll();
     foreach ($enseignants as $enseignantCourant) {
+      /* Réinitialiser les informations relatives aux mails envoyés à chaque enseignant
+      et enregistrer le fait qu'aucune saisie n'a été réalisée */
       $enseignantCourant->setSaisieFaite(false);
       $enseignantCourant->setDateSaisie(null);
       $enseignantCourant->setPremierMailRecu(false);
@@ -279,6 +270,7 @@ class MyDispoController extends AbstractController
       $enseignantCourant->setNbRelance(0);
       $entityManager->persist($enseignantCourant);
 
+     /* Supprimer les remarques ponctuelles (on conserver les remarques hebdomadaires)*/
       $tabRemarques = $enseignantCourant->getRemarques();
       foreach ($tabRemarques as $remarque) {
         if($remarque->getType() == "Ponctuelle"){
@@ -286,22 +278,21 @@ class MyDispoController extends AbstractController
         }
       }
       $entityManager->flush();
+  }
 
-      $tabCreneaux = $enseignantCourant->getCreneaux();
-      foreach ($tabCreneaux as $creneau) {
-        if($creneau->getType() == "Evenement"){
-        $entityManager->remove($creneau);
-      }
-      }
-      $entityManager->flush();
+   /* Supprimer les événements créés par l'admin */
+   $tabEvenementsAdmin = $repoCreneau->findByType("Evenement");
+   foreach ($tabEvenementsAdmin as $EvenementCourant) {
+     $entityManager->remove($EvenementCourant);
+   }
+   $entityManager->flush();
 
-      $tabLogsEnseignants = $enseignantCourant->getLogsEnseignant();
-      foreach ($tabLogsEnseignants as $logEnseignant) {
-        $entityManager->remove($logEnseignant);
-      }
-      $entityManager->flush();
-    }
-
+   /* Supprimer tous les logs des enseignants */
+   $tabLogsEnseignants = $repoLogs->findAll();
+   foreach ($tabLogsEnseignants as $logEnseignant) {
+     $entityManager->remove($logEnseignant);
+   }
+   $entityManager->flush();
 
     return $this->render('my_dispo/confirmationChangementAnnee.html.twig');
   }

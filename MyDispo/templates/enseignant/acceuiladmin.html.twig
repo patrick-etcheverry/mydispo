@@ -85,7 +85,7 @@
                         <i class="far fa-trash-alt" title="Supprimer l'enseignant"></i>
                       </a>
                       &nbsp;
-                      {% if enseignant.premierMailRecu == true %}
+                      {% if enseignant.saisieFaite == false %}
                         <a href="{{ path('notifierUnEnseignant', {'id': enseignant.id , 'compteur': 1}) }}" style="text-decoration: none">
                           <img src="{{ asset('icones/PremierMail.png') }}" title="Envoyer le premier mail"/>
                         </a>
@@ -94,7 +94,7 @@
                           <img src="{{ asset('icones/PremierMailDisable.png') }}" title="Le premier mail n'a pas été envoyé à {{enseignant.nom}} {{enseignant.prenom}}"/>
                         </a>
                       {% endif %}
-                      {% if enseignant.premierMailRecu == true %}
+                      {% if enseignant.saisieFaite == false %}
                         <a href="{{ path('notifierUnEnseignant', {'id': enseignant.id , 'compteur': 2}) }}" style="text-decoration: none">
                           <img src="{{ asset('icones/MailRelance.png') }}" title="Envoyer le mail de relance"/>
                         </a>
