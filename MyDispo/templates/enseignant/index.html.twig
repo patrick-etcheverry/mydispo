@@ -54,9 +54,9 @@
                   </center>
                   </td>
                   <td>
-                    {% if enseignant.dateSaisie == null %}
+                    {% if enseignant.premierMailRecu == false %}
                     <center>
-                      Aucune saisie
+                      Premier mail non envoyé
                     </center>
                     {% else %}
                     <center>
@@ -76,7 +76,7 @@
                   <td>
                   {% if enseignant.dateDerniereRelance == null %}
                   <center>
-                    Aucune saisie
+                    Relance non envoyé
                   </center>
                   {% else %}
                   <center>

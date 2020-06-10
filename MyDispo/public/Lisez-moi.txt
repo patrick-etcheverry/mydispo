@@ -1,0 +1,69 @@
+
+[Guide utilisation du fichier généré .csv]
+
+
+==============================================
+Explication sur la structure du fichier .csv :
+==============================================
+
+1ère ligne contient :
+	- Nom de l'enseignant (Colonne 1)
+	- Prénom de l'enseignant (Colonne 2)
+	- Adresse mail de l'enseignant (Colonne 3)
+	- Statut de l'enseignant (Colonne 4)
+
+2ème ligne contient (si existant) :
+	- Titre du créneau n°1 (Colonne 1) 
+	- Priorité du créneau n°1 (Colonne 2) 
+	- Date de début du créneau n°1 (Colonne 3) 
+	- Date de fin du créneau n°1 (Colonne 4) 
+	- Type du créneau n°1 (Colonne 5) 
+	
+3ème ligne contient (si existant) :
+	- Titre du créneau n°2 (Colonne 1) 
+	- Priorité du créneau n°2 (Colonne 2) 
+	- Date de début du créneau n°2 (Colonne 3) 
+	- Date de fin du créneau n°2 (Colonne 4) 
+	- Type du créneau n°2 (Colonne 5) 
+
+etc ...
+
+n-ème ligne contient (si existant) :
+	- Titre du créneau n°(n-1) (Colonne 1) 
+	- Priorité du créneau n°(n-1) (Colonne 2) 
+	- Date de début du créneau n°(n-1) (Colonne 3) 
+	- Date de fin du créneau n°(n-1) (Colonne 4) 
+	- Type du créneau n°(n-1) (Colonne 5) 
+
+
+
+=====================================================
+Explication sur le format des dates du fichier .csv :
+=====================================================
+
+Type de format utilisé : 'H-i d-m-Y'. 
+Exemple possible : '14-54 06/05/2020'  traduit en -> 14h54 le 06 Mai 2020
+		   '00-01 30/12/2021'  traduit en -> 00h01 le 30 décembre 2021
+
+
+===============================================================================================
+Explication sur les valeurs possibles pour les attributs "type" et "prioOuPref" du fichier .csv :
+===============================================================================================
+
+Valeurs possibles pour l'attribut "type" :
+	- ContrainteProHebdo
+	- ContraintePersoHebdo
+	- ContrainteProPonctu
+	- Evenement
+	- Disponibilite
+
+
+Valeurs possibles pour l'attribut "prioOuPref" :
+	- Forte
+	- Moyenne 
+	- Faible
+	- SansPrio (Pour les créneaux de type "ContrainteProPonctu")
+
+ 
+
+

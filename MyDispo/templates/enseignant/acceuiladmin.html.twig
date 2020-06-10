@@ -91,7 +91,7 @@
                         </a>
                       {% else %}
                         <a>
-                          <img src="{{ asset('icones/PremierMailDisable.png') }}" title="Le premier mail n'a pas été envoyé à {{enseignant.nom}} {{enseignant.prenom}}"/>
+                          <img src="{{ asset('icones/PremierMailDisable.png') }}" title="{{enseignant.nom}} {{enseignant.prenom}} a déjà fait sa saisie"/>
                         </a>
                       {% endif %}
                       {% if enseignant.saisieFaite == false %}
@@ -100,7 +100,7 @@
                         </a>
                       {% else %}
                         <a>
-                          <img src="{{ asset('icones/MailRelanceDisable.png') }}" title="Le premier mail n'a pas été envoyé à {{enseignant.nom}} {{enseignant.prenom}}"/>
+                          <img src="{{ asset('icones/MailRelanceDisable.png') }}" title="{{enseignant.nom}} {{enseignant.prenom}} a déjà fait sa saisie"/>
                         </a>
                       {% endif %}
 
