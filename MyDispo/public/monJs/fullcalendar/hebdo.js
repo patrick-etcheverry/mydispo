@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //Initialisation des compteurs
 
 
-    console.log(compteur["ContraintePro"]["proForte"]);
+
     // compteur["ContraintePro"]["proMoy"]
     // compteur["ContraintePro"]["proFaible"]
     // compteur["ContraintePerso"]["persForte"]
@@ -59,7 +59,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 color: detFond(),
                 textColor: "black",
               });
-              compteur[detType()][detPrio()] += 1;
+              if( document.getElementById('proForte').checked) {
+                compteur.ContraintePro.proForte+=1;
+              }
+              else if(document.getElementById('proMoy').checked) {
+                compteur.ContraintePro.proMoy+=1;
+              }
+              else if(document.getElementById('proFaible').checked) {
+                compteur.ContraintePro.proFaible+=1;
+              }
+              else if(document.getElementById('persForte').checked) {
+                compteur.ContraintePerso.persoForte+=1;
+              }
+              else if(document.getElementById('persMoy').checked) {
+                compteur.ContraintePerso.persoMoy+=1;
+                }
+              else if(document.getElementById('persFaible').checked) {
+                compteur.ContraintePerso.persoFaible+=1;
+              }
             }
             else {
               hebdo.addEvent({
@@ -126,9 +143,36 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
       };
+
+
       document.getElementById('remove').onclick = function() {
         if (confirm("Voulez vous vraiment supprimer ce créneau ?")) {
           info.event.remove();
+          switch(info.event.extendedProps.type){
+            case "ContraintePro":
+                if(info.event.extendedProps.prio == "Forte"){
+                  compteur.ContraintePro.proForte-=1;
+                }
+                else if(info.event.extendedProps.prio == "Moyenne"){
+                  compteur.ContraintePro.proMoy-=1;
+                }
+                else if(info.event.extendedProps.prio == "Faible"){
+                  compteur.ContraintePro.proFaible-=1;
+                }
+              break;
+
+              case "ContraintePerso":
+              if(info.event.extendedProps.prio == "Forte"){
+                compteur.ContraintePerso.persoForte-=1;
+              }
+              else if(info.event.extendedProps.prio == "Moyenne"){
+                compteur.ContraintePerso.persoMoy-=1;
+              }
+              else if(info.event.extendedProps.prio == "Faible"){
+                compteur.ContraintePerso.persoFaible-=1;
+              }
+                break;
+          }
         }
         closeNav();
       };
@@ -158,8 +202,37 @@ document.getElementById('submit').onclick = function() {
 hebdo.render();
 
 if (saisieEnseignant) {
+
   //On compte tous les créneaux déjà présents sur le calendrier et on incrémente les compteurs en fonction
   creneaux = hebdo.getEvents();
-  creneaux.forEach(creneau => console.log(compteur[creneau.extendedProps.type.toString()][creneau.extendedProps.prio.toString()] += 1));
+  creneaux.forEach(creneau => {
+    switch(creneau.extendedProps.type){
+      case "ContraintePro":
+          if(creneau.extendedProps.prio == "Forte"){
+            compteur.ContraintePro.proForte+=1;
+          }
+          else if(creneau.extendedProps.prio == "Moyenne"){
+            compteur.ContraintePro.proMoy+=1;
+          }
+          else if(creneau.extendedProps.prio == "Faible"){
+            compteur.ContraintePro.proFaible+=1;
+          }
+        break;
+
+        case "ContraintePerso":
+        if(creneau.extendedProps.prio == "Forte"){
+          compteur.ContraintePerso.persoForte+=1;
+        }
+        else if(creneau.extendedProps.prio == "Moyenne"){
+          compteur.ContraintePerso.persoMoy+=1;
+        }
+        else if(creneau.extendedProps.prio == "Faible"){
+          compteur.ContraintePerso.persoFaible+=1;
+        }
+          break;
+    }
+
+  });
 }
+
 });
