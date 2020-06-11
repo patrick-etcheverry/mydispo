@@ -203,11 +203,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.getElementById('submit').onclick = function() {
 
-  if (saisieEnseignant) {
+if(saisieEnseignant && estFormulaireTitulaire == false){
+  supprimerDesCreneaux("Disponibilite", enseignant);
+
+}
+
+  if (saisieEnseignant && estFormulaireTitulaire) {
     supprimerDesCreneaux("ContraintePro", enseignant);
     supprimerDesCreneaux("ContraintePerso", enseignant);
   }
-  else {
+
+
+  if(saisieEnseignant == false){
     supprimerDesCreneaux("zoneGrisee");
   }
   creneaux = hebdo.getEvents(); //on récupère tous les événements du calendrier sous forme d'un tableau
