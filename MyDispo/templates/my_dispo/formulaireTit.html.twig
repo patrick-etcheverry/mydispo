@@ -4,6 +4,8 @@
   <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" id="close">&times;</a>
     <p id="nomcreneau">Nom du creneau</p>
+    <p id="dateDebut">Date de début du créneau</p>
+    <p id="dateFin">Date de fin du créneau</p>
     <input type="text" name="titre" id="titrevt">
     <button id="apply">Appliquer le titre</button>
     <button id="remove">Supprimer ce créneau</button>
@@ -49,11 +51,7 @@
 
 {{ parent() }}
 <script>
-
-
-
 function enregistrerUnCreneau(start, end, title, type="zoneGrisee", prio="sansPrio", enseignant="") {
-
   $.ajax({
     url: "{{path("creneau_ajouter")}}",
     data: {
@@ -67,9 +65,7 @@ function enregistrerUnCreneau(start, end, title, type="zoneGrisee", prio="sansPr
     type: "POST"
   });
 }
-
 function supprimerDesCreneaux(type, enseignant="") {
-
   $.ajax({
     url: "{{path("suppr_creneaux")}}",
     data: {
@@ -78,36 +74,27 @@ function supprimerDesCreneaux(type, enseignant="") {
     },
     type: "POST"
   });
-
-
 }
-
 //déterminer la couleur du fond de l'événement à utiliser en fonction du bouton radio coché
 function detFond() {
   if (document.getElementById('proForte').checked) {
     fond = "#B84331";
   } else if (document.getElementById('proMoy').checked) {
     fond = "#FE8700";
-
   } else if (document.getElementById('proFaible').checked) {
     fond = "#FFD433";
     bordure = fond;
   } else if (document.getElementById('persForte').checked) {
     fond = "#8A47A9";
-
   } else if (document.getElementById('persMoy').checked) {
     fond = "#314AB8";
-
   } else if (document.getElementById('persFaible').checked) {
     fond = "#2EAED3";
-
   }
   return fond;
 }
-
 //Déterminer la couleur de la bordure de l'événement à utiliser en fonction du bouton radio coché
 function detBord() {
-
   if (document.getElementById('proForte').checked) {
     bordure = "#B84331";
   } else if (document.getElementById('proMoy').checked) {
@@ -121,12 +108,9 @@ function detBord() {
   } else if (document.getElementById('persFaible').checked) {
     bordure = "#2EAED3";
   }
-
   return bordure;
 }
-
 function detPrio() {
-
   if (document.getElementById('proForte').checked || document.getElementById('persForte').checked) {
     prio = 'Forte';
   } else if (document.getElementById('proMoy').checked || document.getElementById('persMoy').checked) {
@@ -136,20 +120,17 @@ function detPrio() {
   }
   return prio;
 }
-
 function detType() {
-
   if (document.getElementById('proForte').checked || document.getElementById('proMoy').checked || document.getElementById('proFaible').checked) {
     type = 'ContraintePro';
   } else if (document.getElementById('persForte').checked || document.getElementById('persMoy').checked || document.getElementById('persFaible').checked) {
     type = 'ContraintePerso';
   }
-
   return type;
 }
-
 function tempsParDefaut(){
           var defaultTime;
+          var date;
           if(document.getElementById('proForte').checked) {
               defaultTime = {{formulaireTitulaire.dureeProForte}};
           }
@@ -168,19 +149,14 @@ function tempsParDefaut(){
           else if(document.getElementById('persFaible').checked) {
             defaultTime = {{formulaireTitulaire.dureePersFaible}};
           }
-
-          var date = defaultTime.toString().minsToHHMMSS();
-
+          date = defaultTime.toString().minsToHHMMSS();
           return date;
-
       }
-
 String.prototype.minsToHHMMSS = function() {
   var mins_num = parseFloat(this, 10); // don't forget the second param
   var hours = Math.floor(mins_num / 60);
   var minutes = Math.floor((mins_num - ((hours * 3600)) / 60));
   var seconds = Math.floor((mins_num * 60) - (hours * 3600) - (minutes * 60));
-
   // Appends 0 when unit is less than 10
   if (hours < 10) {
     hours = "0" + hours;
@@ -194,20 +170,21 @@ String.prototype.minsToHHMMSS = function() {
   return hours + ':' + minutes + ':' + seconds;
 }
 
+Date.prototype.addMinutes = function(m) {
+  this.setTime(this.getTime() + (m*60*1000));
+  return this;
+}
+
+
 function openNav() {
   document.getElementById("mySidenav").style.width = "250px";
   document.getElementById("main").style.marginRight = "250px";
-
 }
-
 /* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
 function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
   document.getElementById("main").style.marginRight = "0";
 }
-
-
-
 var compteur = {
   ContraintePro : {
     proForte: 0,
@@ -220,20 +197,14 @@ var compteur = {
     persoFaible: 0
   }
 };
-
 var limiteProForte = {{formulaireTitulaire.quantiteProForte}};
 var limiteProMoy = {{formulaireTitulaire.quantiteProMoy}};
 var limiteProFaible = {{formulaireTitulaire.quantiteProFaible}};
 var limitePersForte = {{formulaireTitulaire.quantitePersForte}};
 var limitePersMoy = {{formulaireTitulaire.quantitePersMoy}};
 var limitePersFaible = {{formulaireTitulaire.quantitePersFaible}};
-
-
-
 function limiteDepassee(){
-
 var res = false;
-
   if( document.getElementById('proForte').checked) {
     if(compteur.ContraintePro.proForte >= limiteProForte )
     {
@@ -270,17 +241,10 @@ var res = false;
       res = true;
     }
   }
-
 return res;
 }
-
-
-
-
-
-
 var saisieEnseignant= true; //Active le code permettant d'enregistrer et de supprimer les créneaux pour un enseignant donné
-
+var modifications = false; //Active le drag and drop des événements, à désactiver pour les vues de saisie puisque la durée d'un événement ne doit pas être modifiable
 var echelle = "{{formulaireTitulaire.echelleCalendrier}}".minsToHHMMSS();
 var heureDebut = "{{ formulaireTitulaire.heureDebutCalendrier|date("H:i:s")}}";
 var heureFin = "{{formulaireTitulaire.heureFinCalendrier|date("H:i:s")}}";
