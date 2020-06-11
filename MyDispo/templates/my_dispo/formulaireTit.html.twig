@@ -45,6 +45,8 @@
 {{ parent() }}
 <script>
 
+
+
 function enregistrerUnCreneau(start, end, title, type="zoneGrisee", prio="sansPrio", enseignant="") {
 
   $.ajax({
@@ -71,6 +73,8 @@ function supprimerDesCreneaux(type, enseignant="") {
     },
     type: "POST"
   });
+
+
 }
 
 //déterminer la couleur du fond de l'événement à utiliser en fonction du bouton radio coché
@@ -161,7 +165,7 @@ function tempsParDefaut(){
           }
 
           var date = defaultTime.toString().minsToHHMMSS();
-          console.log(date);
+
           return date;
 
       }
@@ -197,6 +201,7 @@ function closeNav() {
   document.getElementById("main").style.marginRight = "0";
 }
 
+<<<<<<< HEAD
 function limiteDepassee(arg){
 
   var limite;
@@ -226,6 +231,73 @@ if(compteur[arg.extendedProps.type][arg.extendedProps.prio] > limite)
   res = true;
 }
 
+=======
+
+
+var compteur = {
+  ContraintePro : {
+    proForte: 0,
+    proMoy: 0,
+    proFaible: 0
+  },
+  ContraintePerso : {
+    persoForte: 0,
+    persoMoy: 0,
+    persoFaible: 0
+  }
+};
+
+var limiteProForte = {{formulaireTitulaire.quantiteProForte}};
+var limiteProMoy = {{formulaireTitulaire.quantiteProMoy}};
+var limiteProFaible = {{formulaireTitulaire.quantiteProFaible}};
+var limitePersForte = {{formulaireTitulaire.quantitePersForte}};
+var limitePersMoy = {{formulaireTitulaire.quantitePersMoy}};
+var limitePersFaible = {{formulaireTitulaire.quantitePersFaible}};
+
+
+
+function limiteDepassee(){
+
+var res = false;
+
+  if( document.getElementById('proForte').checked) {
+    if(compteur.ContraintePro.proForte >= limiteProForte )
+    {
+      res = true;
+    }
+  }
+  else if(document.getElementById('proMoy').checked) {
+    if(compteur.ContraintePro.proMoy >= limiteProMoy )
+    {
+      res = true;
+    }
+  }
+  else if(document.getElementById('proFaible').checked) {
+    if(compteur.ContraintePro.proFaible >= limiteProFaible )
+    {
+      res = true;
+    }
+  }
+  else if(document.getElementById('persForte').checked) {
+    if(compteur.ContraintePerso.persoForte >= limitePersForte )
+    {
+      res = true;
+    }
+  }
+  else if(document.getElementById('persMoy').checked) {
+    if(compteur.ContraintePerso.persoMoy >= limitePersMoy )
+    {
+      res = true;
+    }
+  }
+  else if(document.getElementById('persFaible').checked) {
+    if(compteur.ContraintePerso.persoFaible >= limitePersFaible )
+    {
+      res = true;
+    }
+  }
+
+>>>>>>> 114ca96c412d717dbf9dd92f4f1323189893c4e9
 return res;
 }
 
@@ -241,28 +313,12 @@ var heureDebut = "{{ formulaireTitulaire.heureDebutCalendrier|date("H:i:s")}}";
 var heureFin = "{{formulaireTitulaire.heureFinCalendrier|date("H:i:s")}}";
 var events = {{events|raw}};
 var enseignant = {{enseignant.id}}
-var limiteProForte = {{formulaireTitulaire.quantiteProForte}};
-var limiteProMoy = {{formulaireTitulaire.quantiteProMoy}};
-var limiteProFaible = {{formulaireTitulaire.quantiteProFaible}};
-var limitePersForte = {{formulaireTitulaire.quantitePersForte}};
-var limitePersMoy = {{formulaireTitulaire.quantitePersMoy}};
-var limitePersFaible = {{formulaireTitulaire.quantitePersFaible}};
 
 
-var compteur = {
-  ContraintePro: {
-    proForte: 0,
-    proMoy: 0,
-    proFaible: 0
-  },
-  ContraintePerso: {
-    proForte: 0,
-    proMoy: 0,
-    proFaible: 0
-  }
-};
 
-console.log(enseignant);
+
+
+
 
 </script>
 {% endblock %}
