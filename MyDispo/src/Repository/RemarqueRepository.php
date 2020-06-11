@@ -20,6 +20,19 @@ class RemarqueRepository extends ServiceEntityRepository
     }
 
 
+
+
+    public function findByEnseignant($value)
+    {
+      return $this->createQueryBuilder('r')
+      ->where('r.enseignant = :val')
+      ->setParameter('val', $value)
+      ->getQuery()
+      ->getResult()
+      ;
+    }
+
+
     // /**
     //  * @return Remarque[] Returns an array of Remarque objects
     //  */

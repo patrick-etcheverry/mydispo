@@ -86,6 +86,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
       if (saisieEnseignant) {
         supprimerDesCreneaux("ContrainteProPonctu", enseignant);
+        supprimerDesRemarques(enseignant);
+        enregistrerDesRemarques(document.getElementById('form_remarquesHebdo').innerHTML,"hebdo",document.getElementById('form_remarquesPonctu').innerHTML,"ponctu",enseignant);
       }
       else {
         supprimerDesCreneaux("zoneGrisee");

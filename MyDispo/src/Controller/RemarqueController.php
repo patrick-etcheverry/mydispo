@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Remarque;
 use App\Form\RemarqueType;
 use App\Repository\RemarqueRepository;
+use App\Repository\EnseignantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,62 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class RemarqueController extends AbstractController
 {
+  /**
+  * @Route("/remarque/ajout", name="remarque_ajouter", methods={"POST"})
+  */
+  public function ajouterRemarque(EnseignantRepository $enseignantRepository ): Response
+  {
+
+    $remarque1 = new Remarque();
+    $remarque2 = new Remarque();
+
+    $contenu1 = $_POST["contenu1"];
+    $type1 = $_POST["type1"];
+    $contenu2 = $_POST["contenu2"];
+    $type2 = $_POST["type2"];
+    $idEnseignant = $_POST["idEnseignant"];
+
+    $remarque1->setContenu($contenu1);
+    $remarque1->setType($type1);
+
+    $remarque2->setContenu($contenu2);
+    $remarque2->setType($type2);
+
+    if($idEnseignant != ""){
+    $remarque1->setEnseignant($enseignantRepository->findById($idEnseignant)[0]);
+    $remarque2->setEnseignant($enseignantRepository->findById($idEnseignant)[0]);
+    }
+
+    $entityManager = $this->getDoctrine()->getManager();
+    $entityManager->persist($remarque1);
+    $entityManager->persist($remarque2);
+    $entityManager->flush();
+
+    return new Response();
+
+  }
+
+  /**
+  * @Route("/supprimer/remarques", name="suppr_remarque" , methods={"POST"})
+  */
+  public function supprimerRemarquesAvantMAJ(RemarqueRepository $remarqueRepository)
+  {
+    $entityManager = $this->getDoctrine()->getManager();
+
+    $enseignant = $_POST["idEnseignant"];
+    $aSupprimer = $remarqueRepository->findByEnseignant($enseignant);
+
+    foreach($aSupprimer as $elementASupprimer){
+      $entityManager->remove($elementASupprimer);
+    }
+    $entityManager->flush();
+
+    return new Response();
+  }
+
+
+
+
     /**
      * @Route("/", name="remarque_index", methods={"GET"})
      */

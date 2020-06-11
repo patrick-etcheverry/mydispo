@@ -22,6 +22,7 @@
 {% block ZoneDroiteSaisiesContraintesHebdos %}
 
 <div id="main">
+  {{ formulaireTitulaire.texteHebdomadaire }}
   <div id='hebdo'></div>
 </div>
 </br>
@@ -38,12 +39,15 @@
 
 {% block ZoneCentreSaisiesContraintesPonctuelles %}
 <div id="main">
+  {{ formulaireTitulaire.textePonctuel }}
   <div id='mensuel'></div>
   </br>
   <center>
+    {{ form_row(form.remarquesPonctu) }}
   <button class="btn-primary" id="submit2">
     <i class="fas fa-pencil-alt"></i>{{ button_label|default(' Envoyer ') }}</button>
   </center>
+
 </div>
 {% endblock %}
 
@@ -65,6 +69,32 @@ function enregistrerUnCreneau(start, end, title, type="zoneGrisee", prio="sansPr
     type: "POST"
   });
 }
+
+function enregistrerDesRemarques(contenuRemarque1 , typeRemarque1 , contenuRemarque2, typeRemarque2, enseignant) {
+  $.ajax({
+    url: "{{path("remarque_ajouter")}}",
+    data: {
+      contenu1: contenuRemarque1,
+      type1: typeRemarque1,
+      contenu2: contenuRemarque2,
+      type2: typeRemarque2,
+      idEnseignant: enseignant,
+    },
+    type: "POST"
+  });
+}
+
+function supprimerDesRemarques(enseignant) {
+  $.ajax({
+    url: "{{path("suppr_remarque")}}",
+    data: {
+      idEnseignant: enseignant,
+    },
+    type: "POST"
+  });
+}
+
+
 function supprimerDesCreneaux(type, enseignant="") {
   $.ajax({
     url: "{{path("suppr_creneaux")}}",
@@ -243,6 +273,7 @@ var res = false;
   }
 return res;
 }
+
 var saisieEnseignant= true; //Active le code permettant d'enregistrer et de supprimer les créneaux pour un enseignant donné
 var modifications = false; //Active le drag and drop des événements, à désactiver pour les vues de saisie puisque la durée d'un événement ne doit pas être modifiable
 var echelle = "{{formulaireTitulaire.echelleCalendrier}}".minsToHHMMSS();
@@ -252,7 +283,9 @@ var events = {{events|raw}};
 var enseignant = {{enseignant.id}};
 var eventsMensuel = {{eventsMensuel|raw}};
 
-
+// 
+// document.getElementById('form_remarquesHebdo').innerHTML = {{remarqueH}};
+// document.getElementById('form_remarquesPonctu').innerHTML = {{remarqueP}};
 
 
 

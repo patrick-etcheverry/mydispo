@@ -176,6 +176,8 @@ document.getElementById('submit').onclick = function() {
   if (saisieEnseignant) {
     supprimerDesCreneaux("ContraintePro", enseignant);
     supprimerDesCreneaux("ContraintePerso", enseignant);
+    supprimerDesRemarques(enseignant);
+    enregistrerDesRemarques(document.getElementById('form_remarquesHebdo').innerHTML,"hebdo",document.getElementById('form_remarquesPonctu').innerHTML,"ponctu",enseignant);
   }
   else {
     supprimerDesCreneaux("zoneGrisee");

@@ -11,9 +11,10 @@ use App\Entity\Creneau;
 use App\Entity\LogEnseignant;
 use App\Entity\Remarque;
 use App\Repository\CreneauRepository;
+use App\Repository\RemarqueRepository;
 use App\Repository\FormulaireTitulaireRepository;
 use App\Repository\FormulaireVacataireRepository;
-use App\Repository\RemarqueRepository;
+
 use App\Repository\LogEnseignantRepository;
 use App\Repository\EnseignantRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,7 +30,7 @@ class MyDispoController extends AbstractController
   /**
   * @Route("/saisie-contrainte/{token}", name="saisieContrainte")
   */
-  public function index(CreneauRepository $creneauRepository, EnseignantRepository $enseignantRepository, FormulaireTitulaireRepository $formulaireTitulaireRepository ,$token, Request $request)
+  public function index(CreneauRepository $creneauRepository, EnseignantRepository $enseignantRepository,  RemarqueRepository $remarqueRepository, FormulaireTitulaireRepository $formulaireTitulaireRepository, $token, Request $request)
   {
 
     // Récupérer l'objet enseignant ayant le token $token
@@ -139,6 +140,8 @@ class MyDispoController extends AbstractController
 
     // Récupérer les données déjà enregistrées
     $remarquesSaisies = $enseignant[0]->getRemarques();
+    $remarqueHebdo=  $remarquesSaisies[0]->getContenu();
+    $remarquePonctu=  $remarquesSaisies[1]->getContenu();
     $creneauxSaisis = $enseignant[0]->getCreneaux();
     $donneesFormulaire = array();
 
@@ -216,6 +219,8 @@ class MyDispoController extends AbstractController
         'events' => $result,
         'enseignant' => $enseignant[0],
         'eventsMensuel' => $resultPonctu,
+        'remarqueH' => $remarqueHebdo,
+        'remarqueP' => $remarquePonctu,
     ]);
 
   }
