@@ -197,31 +197,31 @@ function closeNav() {
   document.getElementById("main").style.marginRight = "0";
 }
 
-function limiteDepassee(){
+function limiteDepassee(arg){
 
   var limite;
   var res = false;
-  if( document.getElementById('proForte').checked) {
+  if(arg.extendedProps.type=="ContraintePro" && arg.extendedProps.prio=="Forte") {
     limite = {{formulaireTitulaire.quantiteProForte}};
   }
-  else if(document.getElementById('proMoy').checked) {
+  else if(arg.extendedProps.type=="ContraintePro" && arg.extendedProps.prio=="Moyenne") {
     limite = {{formulaireTitulaire.quantiteProMoy}};
   }
-  else if(document.getElementById('proFaible').checked) {
+  else if(arg.extendedProps.type=="ContraintePro" && arg.extendedProps.prio=="Faible") {
     limite = {{formulaireTitulaire.quantiteProFaible}};
   }
-  else if(document.getElementById('persForte').checked) {
+  else if(arg.extendedProps.type=="ContraintePerso" && arg.extendedProps.prio=="Forte") {
     limite = {{formulaireTitulaire.quantitePersForte}};
   }
-  else if(document.getElementById('persMoy').checked) {
+  else if(arg.extendedProps.type=="ContraintePerso" && arg.extendedProps.prio=="Moyenne") {
     limite = {{formulaireTitulaire.quantitePersMoy}};
   }
-  else if(document.getElementById('persFaible').checked) {
+  else if(arg.extendedProps.type=="ContraintePerso" && arg.extendedProps.prio=="Faible") {
     limite = {{formulaireTitulaire.quantitePersFaible}};
   }
 
 
-if(compteur[detType()][detPrio()]> limite )
+if(compteur[arg.extendedProps.type][arg.extendedProps.prio] > limite)
 {
   res = true;
 }

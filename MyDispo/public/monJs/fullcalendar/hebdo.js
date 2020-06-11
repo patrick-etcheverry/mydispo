@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
           closeNav();
           var title = prompt('Titre de la contrainte:');
-          if(limiteDepassee()==false){
-          if (title ) {
+
+          if (title) {
             if (saisieEnseignant) { // si un titre d'événement a été saisi et que la limite d'événement autorisés n'a pas été dépassée
               hebdo.addEvent({
                 title: title,
@@ -59,7 +59,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 color: detFond(),
                 textColor: "black",
               });
-              compteur[detType()][detPrio()] += 1;
+              console.log(arg.extendedProps.type);
+              console.log(arg.extendedProps.prio);
+              compteur[arg.extendedProps.type][arg.extendedProps.prio] += 1;
+              if(limiteDepassee(arg)==true){arg.remove();alert("Trop de contraintes de ce type saisies");hebdo.unselect();}
             }
             else {
               hebdo.addEvent({
@@ -72,9 +75,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
           }
           hebdo.unselect();
-        }
-        else{alert("Trop de contraintes de ce type saisies");hebdo.unselect();}
-
        hebdo.getEvents().forEach(event => {
         event.setProp("borderColor", "white");
       });
