@@ -200,6 +200,8 @@ document.getElementById('submit').onclick = function() {
 
 if(saisieEnseignant && estFormulaireTitulaire == false){
   supprimerDesCreneaux("Disponibilite", enseignant);
+  supprimerDesRemarques(enseignant);
+  enregistrerDesRemarques(document.getElementById('form_remarquesHebdo').value,"Hebdomadaire",document.getElementById('form_remarquesPonctu').value,"Ponctuelle",enseignant);
 
 }
 
@@ -207,7 +209,7 @@ if(saisieEnseignant && estFormulaireTitulaire == false){
     supprimerDesCreneaux("ContraintePro", enseignant);
     supprimerDesCreneaux("ContraintePerso", enseignant);
     supprimerDesRemarques(enseignant);
-    enregistrerDesRemarques(document.getElementById('form_remarquesHebdo').innerHTML,"hebdo",document.getElementById('form_remarquesPonctu').innerHTML,"ponctu",enseignant);
+    enregistrerDesRemarques(document.getElementById('form_remarquesHebdo').value,"Hebdomadaire",document.getElementById('form_remarquesPonctu').value,"Ponctuelle",enseignant);
   }
 
 

@@ -147,8 +147,15 @@ class MyDispoController extends AbstractController
 
     // Récupérer les données déjà enregistrées
     $remarquesSaisies = $enseignant[0]->getRemarques();
-    //$remarqueHebdo=  $remarquesSaisies[0]->getContenu();
-    //$remarquePonctu=  $remarquesSaisies[1]->getContenu();
+
+    if(empty($remarquesSaisies[0]) == false){
+    $remarqueHebdo=  $remarquesSaisies[0]->getContenu();
+    $remarquePonctu=  $remarquesSaisies[1]->getContenu();
+  }
+  else{
+    $remarqueHebdo = "";
+    $remarquePonctu = "";
+  }
     $creneauxSaisis = $enseignant[0]->getCreneaux();
     $donneesFormulaire = array();
 
@@ -221,8 +228,8 @@ class MyDispoController extends AbstractController
         'events' => $result,
         'enseignant' => $enseignant[0],
         'eventsMensuel' => $resultPonctu,
-        //'remarqueH' => $remarqueHebdo,
-        //'remarqueP' => $remarquePonctu,
+        'remarqueH' => $remarqueHebdo,
+        'remarqueP' => $remarquePonctu,
     ]);
   }
 
@@ -324,6 +331,17 @@ class MyDispoController extends AbstractController
     $creneauxSaisis = $enseignant[0]->getCreneaux();
     $donneesFormulaire = array();
 
+    // Récupérer les données déjà enregistrées
+    $remarquesSaisies = $enseignant[0]->getRemarques();
+
+    if(empty($remarquesSaisies[0]) == false){
+    $remarqueHebdo=  $remarquesSaisies[0]->getContenu();
+    $remarquePonctu=  $remarquesSaisies[1]->getContenu();
+    }
+    else{
+    $remarqueHebdo = "";
+    $remarquePonctu = "";
+    }
 
       $defaultData = ['message' => 'Type your message here'];
       $form = $this->createFormBuilder($defaultData)
@@ -394,6 +412,8 @@ class MyDispoController extends AbstractController
     'events' => $result,
     'enseignant' => $enseignant[0],
     'eventsMensuel' => $resultPonctu,
+    'remarqueH' => $remarqueHebdo,
+    'remarqueP' => $remarquePonctu,
 
   ]);
 }
