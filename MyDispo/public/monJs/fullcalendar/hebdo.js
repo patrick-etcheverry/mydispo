@@ -1,14 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    //Initialisation des compteurs
-
-
-
-    // compteur["ContraintePro"]["proMoy"]
-    // compteur["ContraintePro"]["proFaible"]
-    // compteur["ContraintePerso"]["persForte"]
-    // compteur["ContraintePerso"]["persMoy"]
-    // compteur["ContraintePerso"]["persFaible"]
 
 
   var hebdoEl = document.getElementById('hebdo');
