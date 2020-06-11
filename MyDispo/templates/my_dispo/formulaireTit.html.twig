@@ -201,37 +201,6 @@ function closeNav() {
   document.getElementById("main").style.marginRight = "0";
 }
 
-<<<<<<< HEAD
-function limiteDepassee(arg){
-
-  var limite;
-  var res = false;
-  if(arg.extendedProps.type=="ContraintePro" && arg.extendedProps.prio=="Forte") {
-    limite = {{formulaireTitulaire.quantiteProForte}};
-  }
-  else if(arg.extendedProps.type=="ContraintePro" && arg.extendedProps.prio=="Moyenne") {
-    limite = {{formulaireTitulaire.quantiteProMoy}};
-  }
-  else if(arg.extendedProps.type=="ContraintePro" && arg.extendedProps.prio=="Faible") {
-    limite = {{formulaireTitulaire.quantiteProFaible}};
-  }
-  else if(arg.extendedProps.type=="ContraintePerso" && arg.extendedProps.prio=="Forte") {
-    limite = {{formulaireTitulaire.quantitePersForte}};
-  }
-  else if(arg.extendedProps.type=="ContraintePerso" && arg.extendedProps.prio=="Moyenne") {
-    limite = {{formulaireTitulaire.quantitePersMoy}};
-  }
-  else if(arg.extendedProps.type=="ContraintePerso" && arg.extendedProps.prio=="Faible") {
-    limite = {{formulaireTitulaire.quantitePersFaible}};
-  }
-
-
-if(compteur[arg.extendedProps.type][arg.extendedProps.prio] > limite)
-{
-  res = true;
-}
-
-=======
 
 
 var compteur = {
@@ -297,7 +266,6 @@ var res = false;
     }
   }
 
->>>>>>> 114ca96c412d717dbf9dd92f4f1323189893c4e9
 return res;
 }
 

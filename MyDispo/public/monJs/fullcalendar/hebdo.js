@@ -59,12 +59,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 color: detFond(),
                 textColor: "black",
               });
-<<<<<<< HEAD
-              console.log(arg.extendedProps.type);
-              console.log(arg.extendedProps.prio);
-              compteur[arg.extendedProps.type][arg.extendedProps.prio] += 1;
-              if(limiteDepassee(arg)==true){arg.remove();alert("Trop de contraintes de ce type saisies");hebdo.unselect();}
-=======
               if( document.getElementById('proForte').checked) {
                 compteur.ContraintePro.proForte+=1;
               }
@@ -83,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function() {
               else if(document.getElementById('persFaible').checked) {
                 compteur.ContraintePerso.persoFaible+=1;
               }
->>>>>>> 114ca96c412d717dbf9dd92f4f1323189893c4e9
             }
             else {
               hebdo.addEvent({
