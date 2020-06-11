@@ -1,16 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    //Initialisation des compteurs
-
-
-
-    // compteur["ContraintePro"]["proMoy"]
-    // compteur["ContraintePro"]["proFaible"]
-    // compteur["ContraintePerso"]["persForte"]
-    // compteur["ContraintePerso"]["persMoy"]
-    // compteur["ContraintePerso"]["persFaible"]
-
-
   var hebdoEl = document.getElementById('hebdo');
   var hebdo = new FullCalendar.Calendar(hebdoEl, {
 
@@ -19,6 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
         ],
         now: "2013-12-01T00:00:00",
         defaultView: 'timeGridWeek',
+        defaultTimedEventDuration: '01:00',
+        forceEventDuration: true,
         themeSystem: 'bootstrap',
         contentHeight: "auto",
         allDaySlot: false,
@@ -33,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
         columnHeaderFormat: {
           weekday: 'long'
         },
-        editable: true,
+        editable: modifications,
         locale: 'fr',
         header: {
           left: '',
@@ -44,14 +35,14 @@ document.addEventListener('DOMContentLoaded', function() {
         select: function(arg) {
 
           closeNav();
+          hebdo.setOption('defaultTimedEventDuration',tempsParDefaut());
           var title = prompt('Titre de la contrainte:');
-
+          if(limiteDepassee()==false){
           if (title) {
             if (saisieEnseignant) { // si un titre d'événement a été saisi et que la limite d'événement autorisés n'a pas été dépassée
               hebdo.addEvent({
                 title: title,
                 start: arg.start,
-                end: arg.end,
                 classNames: ['plusBord'],
                 type: detType(),
                 prio: detPrio(),
@@ -89,6 +80,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
           }
           hebdo.unselect();
+        }
+        else{alert("Trop de contraintes de ce type saisies");hebdo.unselect();}
+
        hebdo.getEvents().forEach(event => {
         event.setProp("borderColor", "white");
       });
@@ -96,10 +90,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     eventRender: function(info) {
       if (info.event.extendedProps.type == "ContraintePro") {
-        info.el.querySelector('.fc-content').append(" [PRO] ");
+        info.el.querySelector('.fc-title').append(" [PRO] ");
       } else if (info.event.extendedProps.type == "ContraintePerso") {
-        info.el.querySelector('.fc-content').append(" [PERSO] ");
+        info.el.querySelector('.fc-title').append(" [PERSO] ");
       }
+
+    },
+    eventClick: function(info) {
+      hebdo.getEvents().forEach(event => {
+        event.setProp("borderColor", "white");
+      });
+
       var dateDeb = hebdo.formatDate(info.event.start, {
         weekday: 'long',
         hour: '2-digit',
@@ -112,22 +113,8 @@ document.addEventListener('DOMContentLoaded', function() {
         minute: '2-digit',
         locale: 'fr'
       });
-      var contenu = "Titre : " + info.event.title + "</br>Début : " + dateDeb + "</br>Fin : " + dateFin;
-
-      var tooltip = new tippy(info.el, {
-        allowHTML: true,
-        content: contenu,
-        trigger: 'mouseenter',
-        sticky: true,
-        animation: 'shift-toward',
-        maxWidth: 200
-      });
-
-    },
-    eventClick: function(info) {
-      hebdo.getEvents().forEach(event => {
-        event.setProp("borderColor", "white");
-      });
+      document.getElementById('dateDebut').innerHTML = "Début : " + dateDeb;
+      document.getElementById('dateFin').innerHTML = "Fin : " + dateFin;
       document.getElementById('nomcreneau').innerHTML = "Contrainte " + info.event.title;
       document.getElementById('titrevt').value = info.event.title;
       info.event.setProp("borderColor", "red");
@@ -231,5 +218,7 @@ if (saisieEnseignant) {
 
   });
 }
+
+
 
 });
