@@ -314,12 +314,32 @@ class AppFixtures extends Fixture
         $creneau9 = new Creneau();
         $creneau9->setEnseignant($enseignant8);
         $creneau9->setTitre($faker->text($maxNbChars = 20));
-        $creneau9->setPrioOuPref($faker->randomElement($array = array ('Forte','Moyenne','Faible')));
+        $creneau9->setPrioOuPref($faker->randomElement($array = array ('SansPrio')));
         $creneau9->setDateDebut(new DateTime('2020-06-08 14:00:00'));
         $creneau9->setDateFin(new DateTime('2020-06-08 15:00:00'));
         $creneau9->setType($faker->randomElement($array = array ('ContrainteProPonctu')));
 
         $manager->persist($creneau9);
+
+        $creneau10 = new Creneau();
+        $creneau10->setEnseignant($enseignant3);
+        $creneau10->setTitre($faker->text($maxNbChars = 20));
+        $creneau10->setPrioOuPref($faker->randomElement($array = array ('Forte','Moyenne','Faible')));
+        $creneau10->setDateDebut(new DateTime('2020-06-08 14:00:00'));
+        $creneau10->setDateFin(new DateTime('2020-06-08 15:00:00'));
+        $creneau10->setType($faker->randomElement($array = array ('Disponibilite')));
+
+        $manager->persist($creneau10);
+
+        $creneau11 = new Creneau();
+        $creneau11->setEnseignant($enseignant3);
+        $creneau11->setTitre($faker->text($maxNbChars = 20));
+        $creneau11->setPrioOuPref($faker->randomElement($array = array ('SansPrio')));
+        $creneau11->setDateDebut(new DateTime('06/06/2020'));
+        $creneau11->setDateFin(new DateTime('06/07/2020'));
+        $creneau11->setType($faker->randomElement($array = array ('ContrainteProPonctu')));
+
+        $manager->persist($creneau11);
 
         // Création des logs $enseignants
 
@@ -331,6 +351,7 @@ class AppFixtures extends Fixture
         $logEnseignant1->setEnseignant($enseignant1);
 
         $manager->persist($logEnseignant1);
+
 
 
         // Création des modèles de mails
@@ -401,8 +422,13 @@ class AppFixtures extends Fixture
 
         $formulaireTitulaire= new FormulaireTitulaire();
         $formulaireTitulaire->setEchelleCalendrier(60);
-        $formulaireTitulaire->setTexteHebdomadaire("Saisir texte ici");
-        $formulaireTitulaire->setTextePonctuel("Saisir texte ici");
+        $formulaireTitulaire->setTexteHebdomadaire("Si vous avez des contraintes professionnelles ainsi que des préferences personnelles hebdomadaires (bureau de direction le
+mardi après-midi, créneau réservé à la recherche le jeudi après-midi, enseignement dans un autre département, etc.) merci de
+les préciser :"
+);
+        $formulaireTitulaire->setTextePonctuel("Si vous avez des contraintes professionnelles spécifques déjà identifées pour les semaines de la rentrée (conférence,
+déplacement ACDI, etc.) merci de les préciser :"
+);
         $formulaireTitulaire->setRemarquesHebdoActives(true);
         $formulaireTitulaire->setRemarquesPonctuelActives(true);
         $formulaireTitulaire->setEstOuvert(true);
@@ -428,8 +454,21 @@ class AppFixtures extends Fixture
 
         $formulaireVacataire= new FormulaireVacataire();
         $formulaireVacataire->setEchelleCalendrier(60);
-        $formulaireVacataire->setTexteHebdomadaire("Saisir texte ici");
-        $formulaireVacataire->setTextePonctuel("Saisir texte ici");
+        $formulaireVacataire->setTexteHebdomadaire("
+
+La durée des enseignements à l'IUT est câlée sur le modèle suivant :
+Cours : 01h00 travaux dirigés / travaux pratiques : 01h30
+A noter : il n'est pas possible de placer des enseignements le jeudi après-midi en DUT informatique (cette demi-journée est
+réservée au sport universitaire) ; il est par contre possible de placer des enseignements le jeudi après-midi en Licence
+professionnelle Métiers du numérique et Licence professionnelle Programmation avancée.
+Nous vous remercions de prévoir sufsamment de créneaux libres pour placer vos enseignements hebdomadaires. Plus
+vous nous proposerez de créneaux, plus nous aurons de possibilités pour essayer de satisfaire les contraintes des uns et
+des autres.
+Indiquez dans le tableau ci-dessous les créneaux sur lesquels vous êtes disponible pour venir enseigner à l'IUT :
+");
+        $formulaireVacataire->setTextePonctuel("Si vous avez des contraintes professionnelles spécifques déjà identifées pour les semaines de la rentrée ou futures (conférence,
+déplacement ACDI, etc.) merci de les préciser :
+");
         $formulaireVacataire->setRemarquesHebdoActives(true);
         $formulaireVacataire->setRemarquesPonctuelActives(true);
         $formulaireVacataire->setEstOuvert(true);
