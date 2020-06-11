@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
       'interaction', 'dayGrid'
     ],
     selectable: true,
+    displayEventTime : false,
     editable: true,
     height: 700,
     events: eventsMensuel,
@@ -82,9 +83,16 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   document.getElementById('submit2').onclick = function() {
-    supprimerDesCreneaux("evenement","");
+
+      if (saisieEnseignant) {
+        supprimerDesCreneaux("ContrainteProPonctu", enseignant);
+      }
+      else {
+        supprimerDesCreneaux("zoneGrisee");
+        supprimerDesCreneaux("evenement","");
+      }
     creneaux = mensuel.getEvents(); //on récupère tous les événements du calendrier sous forme d'un tableau
-    creneaux.forEach(creneau => enregistrerUnCreneau(creneau.start.toISOString(), creneau.end.toISOString(), creneau.title, "evenement")); //pour chaque élément du tableau, c'est à dire pour chaque événement, on envoie sa date de début, sa date de fin et son titre au serveur
+    creneaux.forEach(creneau => enregistrerUnCreneau(creneau.start.toISOString(), creneau.end.toISOString(), creneau.title, "ContrainteProPonctu", "SansPrio", enseignant));
   };
 
   mensuel.render();
