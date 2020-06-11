@@ -33,12 +33,15 @@
 {% endblock %}
 
 {% block ZoneGaucheSaisiesContraintesPonctuelles %}
-3
 {% endblock %}
 
-{% block ZoneDroiteSaisiesContraintesPonctuelles %}
+{% block ZoneCentreSaisiesContraintesPonctuelles %}
 <div id="main">
   <div id='mensuel'></div>
+  <center>
+  <button class="btn-primary" id="submit2">
+    <i class="fas fa-pencil-alt"></i>{{ button_label|default(' Envoyer ') }}</button>
+  </center>
 </div>
 {% endblock %}
 
@@ -244,7 +247,13 @@ var echelle = "{{formulaireTitulaire.echelleCalendrier}}".minsToHHMMSS();
 var heureDebut = "{{ formulaireTitulaire.heureDebutCalendrier|date("H:i:s")}}";
 var heureFin = "{{formulaireTitulaire.heureFinCalendrier|date("H:i:s")}}";
 var events = {{events|raw}};
-var enseignant = {{enseignant.id}}
+var enseignant = {{enseignant.id}};
+var eventsMensuel = {{eventsMensuel|raw}};
+
+
+
+
+
 
 </script>
 {% endblock %}

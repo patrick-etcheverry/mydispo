@@ -36,6 +36,33 @@ class MyDispoController extends AbstractController
     $enseignant = $enseignantRepository->findByToken($token);
     $formulaireTitulaire = $formulaireTitulaireRepository->findAll();
 
+    $creneauxEvenement = array();
+    $events = $creneauRepository->selectStartEndTitleByType("evenement");
+    foreach ($events as $event){
+      $object = new StdClass;
+      $object->title=$event["title"];
+      $object->rendering="background";
+      $object->start=$event["start"]->format("Y-m-d H:i:s");
+      $object->end=$event["end"]->format("Y-m-d H:i:s");
+      $creneauxEvenement[] = $object;
+    }
+
+    $eventsEnseignantPonctu = array();
+    $events = $creneauRepository->findByTypeEtEnseignant("ContrainteProPonctu",$enseignant[0]->getId());
+    foreach ($events as $event){
+      $object = new StdClass;
+      $object->title=$event->getTitre();
+      $object->start=$event->getDateDebut()->format("Y-m-d H:i:s");
+      $object->end=$event->getDateFin()->format("Y-m-d H:i:s");
+      $eventsEnseignantPonctu[] = $object;
+    }
+
+    foreach ($creneauxEvenement as $creneauxEvenementCourant) {
+      array_push($eventsEnseignantPonctu,$creneauxEvenementCourant);
+    }
+
+
+    $resultPonctu=json_encode($eventsEnseignantPonctu);
 
     $creneauxGrisee = array();
     $events = $creneauRepository->selectStartEndTitleByType("zoneGrisee");
@@ -52,7 +79,10 @@ class MyDispoController extends AbstractController
     $events = $enseignant[0]->getCreneaux();
 
 
+
+
     foreach ($events as $event){
+      if($event->getType() == "ContraintePerso" || $event->getType() == "ContraintePro" ){
       $object = new StdClass;
       $object->title=$event->getTitre();
       $object->daysOfWeek=date('w',$event->getDateDebut()->getTimestamp());
@@ -99,7 +129,7 @@ class MyDispoController extends AbstractController
       }
 
       $creneauxEnseignant[] = $object;
-    }
+    }}
 
     foreach ($creneauxGrisee as $creneauxGriseeCourant) {
       array_push($creneauxEnseignant,$creneauxGriseeCourant);
@@ -185,6 +215,7 @@ class MyDispoController extends AbstractController
         'form' => $form->createView(),
         'events' => $result,
         'enseignant' => $enseignant[0],
+        'eventsMensuel' => $resultPonctu,
     ]);
 
   }

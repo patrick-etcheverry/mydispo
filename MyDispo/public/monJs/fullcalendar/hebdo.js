@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+
+
   var hebdoEl = document.getElementById('hebdo');
   var hebdo = new FullCalendar.Calendar(hebdoEl, {
 

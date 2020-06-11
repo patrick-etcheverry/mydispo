@@ -311,6 +311,16 @@ class AppFixtures extends Fixture
 
         $manager->persist($creneau8);
 
+        $creneau9 = new Creneau();
+        $creneau9->setEnseignant($enseignant8);
+        $creneau9->setTitre($faker->text($maxNbChars = 20));
+        $creneau9->setPrioOuPref($faker->randomElement($array = array ('Forte','Moyenne','Faible')));
+        $creneau9->setDateDebut(new DateTime('2020-06-08 14:00:00'));
+        $creneau9->setDateFin(new DateTime('2020-06-08 15:00:00'));
+        $creneau9->setType($faker->randomElement($array = array ('ContrainteProPonctu')));
+
+        $manager->persist($creneau9);
+
         // Création des logs $enseignants
 
         $logEnseignant1 = new LogEnseignant();
