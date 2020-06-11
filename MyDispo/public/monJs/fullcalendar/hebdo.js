@@ -37,8 +37,11 @@ document.addEventListener('DOMContentLoaded', function() {
         select: function(arg) {
 
           closeNav();
+          if(estFormulaireTitulaire == true){
           hebdo.setOption('defaultTimedEventDuration',tempsParDefaut());
+        }
           var title = prompt('Titre de la contrainte:');
+          if(estFormulaireTitulaire == true){
           if(limiteDepassee()==false){
           if (title) {
             if (saisieEnseignant) { // si un titre d'événement a été saisi et que la limite d'événement autorisés n'a pas été dépassée
@@ -84,6 +87,33 @@ document.addEventListener('DOMContentLoaded', function() {
           hebdo.unselect();
         }
         else{alert("Trop de contraintes de ce type saisies");hebdo.unselect();}
+      }
+      else{
+        // Création d'un event dans un formulaire vacataire
+        if (title) {
+          if (saisieEnseignant) { // si un titre d'événement a été saisi et que la limite d'événement autorisés n'a pas été dépassée
+            hebdo.addEvent({
+              title: title,
+              start: arg.start,
+              end : arg.end,
+              classNames: ['plusBord'],
+              type: "Disponibilite",
+              prio: detPrio(),
+              color: detFond(),
+              textColor: "black",
+            });
+          }
+          else {
+            hebdo.addEvent({
+              title: title,
+              start: arg.start,
+              end: arg.end,
+              classNames: ['plusBord'],
+            });
+
+          }
+        }
+      }
 
        hebdo.getEvents().forEach(event => {
         event.setProp("borderColor", "white");
