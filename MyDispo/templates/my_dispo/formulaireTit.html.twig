@@ -1,5 +1,15 @@
 {% extends 'baseEnseignant.html.twig' %}
 
+
+{% block enTete %}
+
+  <div class="jumbotron">
+    <h1 class="display-4">Formulaire Titulaire</h1>
+  </div>
+
+{% endblock %}
+
+
 {% block sideNav %}
   <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" id="close">&times;</a>
@@ -283,9 +293,10 @@ var events = {{events|raw}};
 var enseignant = {{enseignant.id}};
 var eventsMensuel = {{eventsMensuel|raw}};
 
-// 
+//
 // document.getElementById('form_remarquesHebdo').innerHTML = {{remarqueH}};
 // document.getElementById('form_remarquesPonctu').innerHTML = {{remarqueP}};
+var estFormulaireTitulaire = true;
 
 
 

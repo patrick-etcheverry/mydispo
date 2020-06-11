@@ -1,0 +1,175 @@
+{% extends 'baseEnseignant.html.twig' %}
+
+{% block enTete %}
+
+  <div class="jumbotron">
+    <h1 class="display-4">Formulaire Vacataire</h1>
+  </div>
+
+{% endblock %}
+
+{% block sideNav %}
+  <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" id="close">&times;</a>
+    <p id="nomcreneau">Nom du creneau</p>
+    <p id="dateDebut">Date de début du créneau</p>
+    <p id="dateFin">Date de fin du créneau</p>
+    <input type="text" name="titre" id="titrevt">
+    <button id="apply">Appliquer le titre</button>
+    <button id="remove">Supprimer ce créneau</button>
+  </div>
+{% endblock %}
+
+{% block ZoneGaucheSaisiesContraintesHebdos %}
+</br>
+  {% include 'formulaireVac-contraintesHebdo-CarteHautGauche.html.twig'%}
+
+{% endblock %}
+
+{% block ZoneDroiteSaisiesContraintesHebdos %}
+
+<div id="main">
+  {{ formulaireVacataire.texteHebdomadaire }}
+  </br>
+  <div id='hebdo'></div>
+</div>
+</br>
+{{ form_row(form.remarquesHebdo) }}
+
+<center>
+<button class="btn-primary" id="submit">
+  <i class="fas fa-pencil-alt"></i>{{ button_label|default(' Envoyer ') }}</button>
+</center>
+{% endblock %}
+
+{% block ZoneGaucheSaisiesContraintesPonctuelles %}
+{% endblock %}
+
+{% block ZoneCentreSaisiesContraintesPonctuelles %}
+<div id="main">
+  {{ formulaireVacataire.textePonctuel }}
+</br>
+  <div id='mensuel'></div>
+  </br>
+  <center>
+  <button class="btn-primary" id="submit2">
+    <i class="fas fa-pencil-alt"></i>{{ button_label|default(' Envoyer ') }}</button>
+  </center>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+
+{{ parent() }}
+<script>
+function enregistrerUnCreneau(start, end, title, type="zoneGrisee", prio="sansPrio", enseignant="") {
+  $.ajax({
+    url: "{{path("creneau_ajouter")}}",
+    data: {
+      startevt: start,
+      endevt: end,
+      titleevt: title,
+      typeevt: type,
+      prioevt: prio,
+      enseignantevt: enseignant,
+    },
+    type: "POST"
+  });
+}
+function supprimerDesCreneaux(type, enseignant="") {
+  $.ajax({
+    url: "{{path("suppr_creneaux")}}",
+    data: {
+      typeCreneau: type,
+      idEnseignant: enseignant,
+    },
+    type: "POST"
+  });
+}
+//déterminer la couleur du fond de l'événement à utiliser en fonction du bouton radio coché
+function detFond() {
+  if (document.getElementById('Forte').checked) {
+    fond = "#B84331";
+  } else if (document.getElementById('Moyenne').checked) {
+    fond = "#FE8700";
+  } else if (document.getElementById('Faible').checked) {
+    fond = "#FFD433";
+  }
+  return fond;
+}
+
+function detPrio() {
+  if (document.getElementById('Forte').checked) {
+    prio = 'Forte';
+  } else if (document.getElementById('Moyenne').checked) {
+    prio = 'Moyenne';
+  } else if (document.getElementById('Faible').checked) {
+    prio = 'Faible';
+  }
+  return prio;
+}
+
+
+String.prototype.minsToHHMMSS = function() {
+  var mins_num = parseFloat(this, 10); // don't forget the second param
+  var hours = Math.floor(mins_num / 60);
+  var minutes = Math.floor((mins_num - ((hours * 3600)) / 60));
+  var seconds = Math.floor((mins_num * 60) - (hours * 3600) - (minutes * 60));
+  // Appends 0 when unit is less than 10
+  if (hours < 10) {
+    hours = "0" + hours;
+  }
+  if (minutes < 10) {
+    minutes = "0" + minutes;
+  }
+  if (seconds < 10) {
+    seconds = "0" + seconds;
+  }
+  return hours + ':' + minutes + ':' + seconds;
+}
+
+Date.prototype.addMinutes = function(m) {
+  this.setTime(this.getTime() + (m*60*1000));
+  return this;
+}
+
+
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+  document.getElementById("main").style.marginRight = "250px";
+}
+/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+  document.getElementById("main").style.marginRight = "0";
+}
+var compteur = {
+  ContraintePro : {
+    proForte: 0,
+    proMoy: 0,
+    proFaible: 0
+  },
+  ContraintePerso : {
+    persoForte: 0,
+    persoMoy: 0,
+    persoFaible: 0
+  }
+};
+
+
+var saisieEnseignant= true; //Active le code permettant d'enregistrer et de supprimer les créneaux pour un enseignant donné
+var modifications = false; //Active le drag and drop des événements, à désactiver pour les vues de saisie puisque la durée d'un événement ne doit pas être modifiable
+var echelle = "{{formulaireVacataire.echelleCalendrier}}".minsToHHMMSS();
+var heureDebut = "{{ formulaireVacataire.heureDebutCalendrier|date("H:i:s")}}";
+var heureFin = "{{formulaireVacataire.heureFinCalendrier|date("H:i:s")}}";
+var events = {{events|raw}};
+var enseignant = {{enseignant.id}};
+var eventsMensuel = {{eventsMensuel|raw}};
+
+var estFormulaireTitulaire = false;
+
+
+
+
+</script>
+{% endblock %}

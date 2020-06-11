@@ -35,10 +35,16 @@ class MyDispoController extends AbstractController
 
     // Récupérer l'objet enseignant ayant le token $token
     $enseignant = $enseignantRepository->findByToken($token);
+
+
+
+    // FORMULAIRE ENSEIGNANT
+    // Déterminer le statut de l'enseignant
+    if($enseignant[0]->getStatut() == "Titulaire"){
     $formulaireTitulaire = $formulaireTitulaireRepository->findAll();
 
     $creneauxEvenement = array();
-    $events = $creneauRepository->selectStartEndTitleByType("evenement");
+    $events = $creneauRepository->selectStartEndTitleByType("Evenement");
     foreach ($events as $event){
       $object = new StdClass;
       $object->title=$event["title"];
@@ -145,8 +151,7 @@ class MyDispoController extends AbstractController
     $creneauxSaisis = $enseignant[0]->getCreneaux();
     $donneesFormulaire = array();
 
-    // Déterminer le statut de l'enseignant
-    if($enseignant[0]->getStatut() == "Titulaire"){
+
       $defaultData = ['message' => 'Type your message here'];
       $form = $this->createFormBuilder($defaultData)
           ->add('remarquesHebdo', TextareaType::class, array(
@@ -157,11 +162,6 @@ class MyDispoController extends AbstractController
                   ))
       ->getForm();
 
-    }
-    else {
-      $form = $this->createForm(FormulaireVacataireType::class, $donneesFormulaire);
-
-    }
 
     $form->handleRequest($request);
 
@@ -212,6 +212,7 @@ class MyDispoController extends AbstractController
     );
 
     }
+
     // Afficher la page du formulaire de saisie
     return $this->render('my_dispo/formulaireTit.html.twig', [
         'formulaireTitulaire' => $formulaireTitulaire[0],
@@ -222,8 +223,187 @@ class MyDispoController extends AbstractController
         'remarqueH' => $remarqueHebdo,
         'remarqueP' => $remarquePonctu,
     ]);
+  }
+
+
+
+
+
+
+
+
+
+
+// FORMULAIRE VACATAIRE
+  if($enseignant[0]->getStatut() == "Vacataire"){
+
+    $formulaireVacataire = $formulaireVacataireRepository->findAll();
+
+    $creneauxEvenement = array();
+    $events = $creneauRepository->selectStartEndTitleByType("Evenement");
+    foreach ($events as $event){
+      $object = new StdClass;
+      $object->title=$event["title"];
+      $object->rendering="background";
+      $object->start=$event["start"]->format("Y-m-d H:i:s");
+      $object->end=$event["end"]->format("Y-m-d H:i:s");
+      $creneauxEvenement[] = $object;
+    }
+
+    $eventsEnseignantPonctu = array();
+    $events = $creneauRepository->findByTypeEtEnseignant("ContrainteProPonctu",$enseignant[0]->getId());
+    foreach ($events as $event){
+      $object = new StdClass;
+      $object->title=$event->getTitre();
+      $object->start=$event->getDateDebut()->format("Y-m-d H:i:s");
+      $object->end=$event->getDateFin()->format("Y-m-d H:i:s");
+      $eventsEnseignantPonctu[] = $object;
+    }
+
+    foreach ($creneauxEvenement as $creneauxEvenementCourant) {
+      array_push($eventsEnseignantPonctu,$creneauxEvenementCourant);
+    }
+
+
+    $resultPonctu=json_encode($eventsEnseignantPonctu);
+
+    $creneauxGrisee = array();
+    $events = $creneauRepository->selectStartEndTitleByType("zoneGrisee");
+    foreach ($events as $event){
+      $object = new StdClass;
+      $object->title=$event["title"];
+      $object->rendering="background";
+      $object->daysOfWeek=date('w',$event["start"]->getTimestamp());
+      $object->startTime=$event["start"]->format("H:i:s");
+      $object->endTime=$event["end"]->format("H:i:s");
+      $creneauxGrisee[] = $object;
+    }
+    $creneauxEnseignant = array();
+    $events = $enseignant[0]->getCreneaux();
+
+
+
+
+    foreach ($events as $event){
+      if($event->getType() == "Disponibilite"){
+      $object = new StdClass;
+      $object->title=$event->getTitre();
+      $object->daysOfWeek=date('w',$event->getDateDebut()->getTimestamp());
+      $object->startTime=$event->getDateDebut()->format("H:i:s");
+      $object->endTime=$event->getDateFin()->format("H:i:s");
+      $object->prio=$event->getPrioOuPref();
+      $object->type=$event->getType();
+          if($event->getPrioOuPref() == "Forte"){
+            $object->backgroundColor="#B84331";
+            $object->borderColor="#B84331";
+            $object->textColor="black";
+          }
+          if($event->getPrioOuPref() == "Moyenne"){
+            $object->backgroundColor="orange";
+            $object->borderColor="orange";
+            $object->textColor="black";
+          }
+          if($event->getPrioOuPref() == "Faible"){
+            $object->backgroundColor="#FFD433";
+            $object->borderColor="#FFD433";
+            $object->textColor="black";
+          }
+
+      $creneauxEnseignant[] = $object;
+    }}
+
+    foreach ($creneauxGrisee as $creneauxGriseeCourant) {
+      array_push($creneauxEnseignant,$creneauxGriseeCourant);
+    }
+
+    $result=json_encode($creneauxEnseignant);
+
+    // Récupérer les données déjà enregistrées
+    $remarquesSaisies = $enseignant[0]->getRemarques();
+    $creneauxSaisis = $enseignant[0]->getCreneaux();
+    $donneesFormulaire = array();
+
+
+      $defaultData = ['message' => 'Type your message here'];
+      $form = $this->createFormBuilder($defaultData)
+          ->add('remarquesHebdo', TextareaType::class, array(
+                  'label' => 'Remarques éventuelles'
+              ))
+          ->add('remarquesPonctu', TextareaType::class, array(
+                      'label' => 'Remarques éventuelles'
+                  ))
+      ->getForm();
+
+
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+
+      //Récupérer les créneaux des 2 calendriers (hebdomadaire et mensuel)
+
+
+      // Récupérer le gestionnaire d'entité
+      $entityManager = $this->getDoctrine()->getManager();
+
+      //Supprimer les remarques en BD (pour les remplacer par celles du formulaire)
+      $tabRemarques = $enseignant->getRemarques();
+      foreach ($tabRemarques as $remarque) {
+        $entityManager->remove($remarque);
+      }
+      $entityManager->flush();
+
+      //Enregistrer les remarques venant du formulaire
+      $remarquesHebdo = new Remarque();
+      $remarquesHebdo->setType('Hebdomadaire');
+      $remarquesHebdo->setContenu($donneesFormulaire['remarquesHebdo']);
+      $remarquesHebdo->setEnseignant($enseignant);
+      $entityManager->persist($remarquesHebdo);
+
+      $remarquesPonctuelles = new Remarque();
+      $remarquesPonctuelles->setType('Ponctuelle');
+      $remarquesPonctuelles->setContenu($donneesFormulaire['remarquesPonctu']);
+      $remarquesPonctuelles->setEnseignant($enseignant);
+      $entityManager->persist($remarquesPonctuelles);
+
+      $enseignant->addRemarque($remarquesHebdo);
+      $enseignant->addRemarque($remarquesPonctuelles);
+
+
+      $entityManager->flush();
+
+
+
+      $entityManager->persist($enseignant);
+
+      // Renvoie l'enseignant vers la page résumant sa saisie avant d'envoyer le mail
+      return $this->render('my_dispo/resumeSaisie.html.twig',
+      [
+          'enseignant' => $enseignant,
+          'form' => $form->createView(),
+      ]
+    );
+
+
 
   }
+  // Afficher la page du formulaire de saisie
+  return $this->render('my_dispo/formulaireVac.html.twig',[
+    'formulaireVacataire' => $formulaireVacataire[0],
+    'form' => $form->createView(),
+    'events' => $result,
+    'enseignant' => $enseignant[0],
+    'eventsMensuel' => $resultPonctu,
+
+  ]);
+}
+}
+
+
+
+
+
+
+
 
   /**
   * @Route("/horaires", name="horaires_non_saisissables")
