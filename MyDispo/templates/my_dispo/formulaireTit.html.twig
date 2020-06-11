@@ -31,10 +31,9 @@
 {% endblock %}
 
 {% block ZoneGaucheSaisiesContraintesPonctuelles %}
-3
 {% endblock %}
 
-{% block ZoneDroiteSaisiesContraintesPonctuelles %}
+{% block ZoneCentreSaisiesContraintesPonctuelles %}
 <div id="main">
   <div id='mensuel'></div>
   <center>
@@ -284,8 +283,8 @@ var echelle = "{{formulaireTitulaire.echelleCalendrier}}".minsToHHMMSS();
 var heureDebut = "{{ formulaireTitulaire.heureDebutCalendrier|date("H:i:s")}}";
 var heureFin = "{{formulaireTitulaire.heureFinCalendrier|date("H:i:s")}}";
 var events = {{events|raw}};
-var enseignant = {{enseignant.id}}
-
+var enseignant = {{enseignant.id}};
+var eventsMensuel = {{eventsMensuel|raw}};
 
 
 

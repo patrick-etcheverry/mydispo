@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     selectable: true,
     editable: true,
     height: 700,
-    events: events,
+    events: eventsMensuel,
     contentHeight: 'auto',
     locale: 'fr',
     select: function(arg) {
