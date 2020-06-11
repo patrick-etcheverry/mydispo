@@ -37,11 +37,9 @@ document.addEventListener('DOMContentLoaded', function() {
         select: function(arg) {
 
           closeNav();
-          if(estFormulaireTitulaire == true){
+          if(estFormulaireTitulaire){
           hebdo.setOption('defaultTimedEventDuration',tempsParDefaut());
-        }
           var title = prompt('Titre de la contrainte:');
-          if(estFormulaireTitulaire == true){
           if(limiteDepassee()==false){
           if (title) {
             if (saisieEnseignant) { // si un titre d'événement a été saisi et que la limite d'événement autorisés n'a pas été dépassée
@@ -90,7 +88,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       else{
         // Création d'un event dans un formulaire vacataire
-        if (title) {
           if (saisieEnseignant) { // si un titre d'événement a été saisi et que la limite d'événement autorisés n'a pas été dépassée
             hebdo.addEvent({
               title: title,
@@ -110,9 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
               end: arg.end,
               classNames: ['plusBord'],
             });
-
           }
-        }
       }
 
        hebdo.getEvents().forEach(event => {
