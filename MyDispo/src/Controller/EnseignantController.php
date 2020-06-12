@@ -52,6 +52,14 @@ class EnseignantController extends AbstractController
        */
       public function telechargerContrainte()
       {
+        $zip = new \ZipArchive();
+
+        //Supprime l'archive précédente si existante
+        if (file_exists ('Contraintes.zip')) {
+            unlink('Contraintes.zip');
+        }
+
+
         // Fonction pour le formatage des noms des enseignants
         function enleverCaracteresSpeciaux($text) {
             $utf8 = array(
