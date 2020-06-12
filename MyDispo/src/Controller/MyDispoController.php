@@ -145,9 +145,9 @@ class MyDispoController extends AbstractController
     $result=json_encode($creneauxEnseignant);
 
     // Récupérer les données déjà enregistrées
-    $remarquesSaisies = $enseignant[0]->getRemarques();
-    $remarqueHebdo=  $remarquesSaisies[0]->getContenu();
-    $remarquePonctu=  $remarquesSaisies[1]->getContenu();
+    // $remarquesSaisies = $enseignant[0]->getRemarques();
+    // $remarqueHebdo=  $remarquesSaisies[0]->getContenu();
+    // $remarquePonctu=  $remarquesSaisies[1]->getContenu();
     $creneauxSaisis = $enseignant[0]->getCreneaux();
     $donneesFormulaire = array();
 
@@ -220,8 +220,8 @@ class MyDispoController extends AbstractController
         'events' => $result,
         'enseignant' => $enseignant[0],
         'eventsMensuel' => $resultPonctu,
-        'remarqueH' => $remarqueHebdo,
-        'remarqueP' => $remarquePonctu,
+        // 'remarqueH' => $remarqueHebdo,
+        // 'remarqueP' => $remarquePonctu,
     ]);
   }
 
