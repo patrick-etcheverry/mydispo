@@ -55,7 +55,9 @@ document.addEventListener('DOMContentLoaded', function() {
       mensuel.getEvents().forEach(event => {
         event.setProp("borderColor", "white");
       });
-      document.getElementById('nomcreneau').innerHTML = "Contrainte " + info.event.title;
+      document.getElementById('dateDebut').innerHTML = "";
+      document.getElementById('dateFin').innerHTML =  "";
+      document.getElementById('nomcreneau').innerHTML = info.event.title;
       document.getElementById('titrevt').value = info.event.title;
       info.event.setProp("borderColor", "red");
 
@@ -87,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (saisieEnseignant) {
         supprimerDesCreneaux("ContrainteProPonctu", enseignant);
         supprimerDesRemarques(enseignant);
-        enregistrerDesRemarques(document.getElementById('form_remarquesHebdo').innerHTML,"hebdo",document.getElementById('form_remarquesPonctu').innerHTML,"ponctu",enseignant);
+        enregistrerDesRemarques(document.getElementById('form_remarquesHebdo').value,"Hebdomadaire",document.getElementById('form_remarquesPonctu').innerHTML,"Ponctuelle",enseignant);
       }
       else {
         supprimerDesCreneaux("zoneGrisee");

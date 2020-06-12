@@ -30,7 +30,8 @@ class MyDispoController extends AbstractController
   /**
   * @Route("/saisie-contrainte/{token}", name="saisieContrainte")
   */
-  public function index(CreneauRepository $creneauRepository, EnseignantRepository $enseignantRepository,  RemarqueRepository $remarqueRepository, FormulaireTitulaireRepository $formulaireTitulaireRepository, $token, Request $request)
+  public function index(CreneauRepository $creneauRepository, EnseignantRepository $enseignantRepository,  RemarqueRepository $remarqueRepository,
+  FormulaireTitulaireRepository $formulaireTitulaireRepository,FormulaireVacataireRepository $formulaireVacataireRepository, $token, Request $request)
   {
 
     // Récupérer l'objet enseignant ayant le token $token
@@ -145,9 +146,16 @@ class MyDispoController extends AbstractController
     $result=json_encode($creneauxEnseignant);
 
     // Récupérer les données déjà enregistrées
-    // $remarquesSaisies = $enseignant[0]->getRemarques();
-    // $remarqueHebdo=  $remarquesSaisies[0]->getContenu();
-    // $remarquePonctu=  $remarquesSaisies[1]->getContenu();
+    $remarquesSaisies = $enseignant[0]->getRemarques();
+
+    if(empty($remarquesSaisies[0]) == false){
+    $remarqueHebdo=  $remarquesSaisies[0]->getContenu();
+    $remarquePonctu=  $remarquesSaisies[1]->getContenu();
+  }
+  else{
+    $remarqueHebdo = "";
+    $remarquePonctu = "";
+  }
     $creneauxSaisis = $enseignant[0]->getCreneaux();
     $donneesFormulaire = array();
 
@@ -323,6 +331,17 @@ class MyDispoController extends AbstractController
     $creneauxSaisis = $enseignant[0]->getCreneaux();
     $donneesFormulaire = array();
 
+    // Récupérer les données déjà enregistrées
+    $remarquesSaisies = $enseignant[0]->getRemarques();
+
+    if(empty($remarquesSaisies[0]) == false){
+    $remarqueHebdo=  $remarquesSaisies[0]->getContenu();
+    $remarquePonctu=  $remarquesSaisies[1]->getContenu();
+    }
+    else{
+    $remarqueHebdo = "";
+    $remarquePonctu = "";
+    }
 
       $defaultData = ['message' => 'Type your message here'];
       $form = $this->createFormBuilder($defaultData)
@@ -393,6 +412,8 @@ class MyDispoController extends AbstractController
     'events' => $result,
     'enseignant' => $enseignant[0],
     'eventsMensuel' => $resultPonctu,
+    'remarqueH' => $remarqueHebdo,
+    'remarqueP' => $remarquePonctu,
 
   ]);
 }

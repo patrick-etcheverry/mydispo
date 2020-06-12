@@ -37,11 +37,9 @@ document.addEventListener('DOMContentLoaded', function() {
         select: function(arg) {
 
           closeNav();
-          if(estFormulaireTitulaire == true){
+          if(estFormulaireTitulaire){
           hebdo.setOption('defaultTimedEventDuration',tempsParDefaut());
-        }
           var title = prompt('Titre de la contrainte:');
-          if(estFormulaireTitulaire == true){
           if(limiteDepassee()==false){
           if (title) {
             if (saisieEnseignant) { // si un titre d'événement a été saisi et que la limite d'événement autorisés n'a pas été dépassée
@@ -90,7 +88,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       else{
         // Création d'un event dans un formulaire vacataire
-        if (title) {
           if (saisieEnseignant) { // si un titre d'événement a été saisi et que la limite d'événement autorisés n'a pas été dépassée
             hebdo.addEvent({
               title: title,
@@ -110,9 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
               end: arg.end,
               classNames: ['plusBord'],
             });
-
           }
-        }
       }
 
        hebdo.getEvents().forEach(event => {
@@ -145,9 +140,10 @@ document.addEventListener('DOMContentLoaded', function() {
         minute: '2-digit',
         locale: 'fr'
       });
+
       document.getElementById('dateDebut').innerHTML = "Début : " + dateDeb;
-      document.getElementById('dateFin').innerHTML = "Fin : " + dateFin;
-      document.getElementById('nomcreneau').innerHTML = "Contrainte " + info.event.title;
+      document.getElementById('dateFin').innerHTML =  "Fin : " + dateFin ;
+      document.getElementById('nomcreneau').innerHTML = info.event.title;
       document.getElementById('titrevt').value = info.event.title;
       info.event.setProp("borderColor", "red");
 
@@ -205,6 +201,8 @@ document.getElementById('submit').onclick = function() {
 
 if(saisieEnseignant && estFormulaireTitulaire == false){
   supprimerDesCreneaux("Disponibilite", enseignant);
+  supprimerDesRemarques(enseignant);
+  enregistrerDesRemarques(document.getElementById('form_remarquesHebdo').value,"Hebdomadaire",document.getElementById('form_remarquesPonctu').value,"Ponctuelle",enseignant);
 
 }
 
@@ -212,7 +210,7 @@ if(saisieEnseignant && estFormulaireTitulaire == false){
     supprimerDesCreneaux("ContraintePro", enseignant);
     supprimerDesCreneaux("ContraintePerso", enseignant);
     supprimerDesRemarques(enseignant);
-    enregistrerDesRemarques(document.getElementById('form_remarquesHebdo').innerHTML,"hebdo",document.getElementById('form_remarquesPonctu').innerHTML,"ponctu",enseignant);
+    enregistrerDesRemarques(document.getElementById('form_remarquesHebdo').value,"Hebdomadaire",document.getElementById('form_remarquesPonctu').value,"Ponctuelle",enseignant);
   }
 
 

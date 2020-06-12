@@ -14,8 +14,8 @@
   <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" id="close">&times;</a>
     <p id="nomcreneau">Nom du creneau</p>
-    <p id="dateDebut">Date de début du créneau</p>
-    <p id="dateFin">Date de fin du créneau</p>
+    <p id="dateDebut"></p>
+    <p id="dateFin"></p>
     <input type="text" name="titre" id="titrevt">
     <button id="apply">Appliquer le titre</button>
     <button id="remove">Supprimer ce créneau</button>
@@ -36,7 +36,10 @@
   <div id='hebdo'></div>
 </div>
 </br>
+
 {{ form_row(form.remarquesHebdo) }}
+
+
 
 <center>
 <button class="btn-primary" id="submit">
@@ -48,12 +51,22 @@
 {% endblock %}
 
 {% block ZoneCentreSaisiesContraintesPonctuelles %}
+
+
+
 <div id="main">
   {{ formulaireTitulaire.textePonctuel }}
   <div id='mensuel'></div>
   </br>
   <center>
-    {{ form_row(form.remarquesPonctu) }}
+<script>  document.getElementById("form_remarquesHebdo").innerHTML = "{{remarqueH}}" ;</script>
+
+
+
+{{ form_row(form.remarquesPonctu) }}
+
+<script> document.getElementById("form_remarquesPonctu").innerHTML = "{{remarqueP}}" ;</script>
+
   <button class="btn-primary" id="submit2">
     <i class="fas fa-pencil-alt"></i>{{ button_label|default(' Envoyer ') }}</button>
   </center>
@@ -65,6 +78,10 @@
 
 {{ parent() }}
 <script>
+
+
+
+
 function enregistrerUnCreneau(start, end, title, type="zoneGrisee", prio="sansPrio", enseignant="") {
   $.ajax({
     url: "{{path("creneau_ajouter")}}",
@@ -284,6 +301,8 @@ var res = false;
 return res;
 }
 
+
+
 var saisieEnseignant= true; //Active le code permettant d'enregistrer et de supprimer les créneaux pour un enseignant donné
 var modifications = false; //Active le drag and drop des événements, à désactiver pour les vues de saisie puisque la durée d'un événement ne doit pas être modifiable
 var echelle = "{{formulaireTitulaire.echelleCalendrier}}".minsToHHMMSS();
@@ -294,8 +313,7 @@ var enseignant = {{enseignant.id}};
 var eventsMensuel = {{eventsMensuel|raw}};
 
 
-// document.getElementById('form_remarquesHebdo').innerHTML = ;
-// document.getElementById('form_remarquesPonctu').innerHTML = ;
+
 var estFormulaireTitulaire = true;
 
 

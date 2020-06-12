@@ -12,8 +12,8 @@
   <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" id="close">&times;</a>
     <p id="nomcreneau">Nom du creneau</p>
-    <p id="dateDebut">Date de début du créneau</p>
-    <p id="dateFin">Date de fin du créneau</p>
+    <p id="dateDebut"></p>
+    <p id="dateFin"></p>
     <input type="text" name="titre" id="titrevt">
     <button id="apply">Appliquer le titre</button>
     <button id="remove">Supprimer ce créneau</button>
@@ -34,7 +34,9 @@
   <div id='hebdo'></div>
 </div>
 </br>
+
 {{ form_row(form.remarquesHebdo) }}
+<script>  document.getElementById("form_remarquesHebdo").innerHTML = "{{remarqueH}}" ;</script>
 
 <center>
 <button class="btn-primary" id="submit">
@@ -48,8 +50,13 @@
 {% block ZoneCentreSaisiesContraintesPonctuelles %}
 <div id="main">
   {{ formulaireVacataire.textePonctuel }}
+
+
+
 </br>
   <div id='mensuel'></div>
+  {{ form_row(form.remarquesPonctu) }}
+  <script> document.getElementById("form_remarquesPonctu").innerHTML = "{{remarqueP}}" ;</script>
   </br>
   <center>
   <button class="btn-primary" id="submit2">
@@ -76,6 +83,31 @@ function enregistrerUnCreneau(start, end, title, type="zoneGrisee", prio="sansPr
     type: "POST"
   });
 }
+
+function enregistrerDesRemarques(contenuRemarque1 , typeRemarque1 , contenuRemarque2, typeRemarque2, enseignant) {
+  $.ajax({
+    url: "{{path("remarque_ajouter")}}",
+    data: {
+      contenu1: contenuRemarque1,
+      type1: typeRemarque1,
+      contenu2: contenuRemarque2,
+      type2: typeRemarque2,
+      idEnseignant: enseignant,
+    },
+    type: "POST"
+  });
+}
+
+function supprimerDesRemarques(enseignant) {
+  $.ajax({
+    url: "{{path("suppr_remarque")}}",
+    data: {
+      idEnseignant: enseignant,
+    },
+    type: "POST"
+  });
+}
+
 function supprimerDesCreneaux(type, enseignant="") {
   $.ajax({
     url: "{{path("suppr_creneaux")}}",
