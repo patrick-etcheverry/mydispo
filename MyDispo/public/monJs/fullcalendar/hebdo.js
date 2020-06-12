@@ -140,9 +140,10 @@ document.addEventListener('DOMContentLoaded', function() {
         minute: '2-digit',
         locale: 'fr'
       });
+
       document.getElementById('dateDebut').innerHTML = "Début : " + dateDeb;
-      document.getElementById('dateFin').innerHTML = "Fin : " + dateFin;
-      document.getElementById('nomcreneau').innerHTML = "Contrainte " + info.event.title;
+      document.getElementById('dateFin').innerHTML =  "Fin : " + dateFin ;
+      document.getElementById('nomcreneau').innerHTML = info.event.title;
       document.getElementById('titrevt').value = info.event.title;
       info.event.setProp("borderColor", "red");
 
