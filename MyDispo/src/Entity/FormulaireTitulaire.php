@@ -117,6 +117,11 @@ class FormulaireTitulaire
      */
     private $heureFinCalendrier;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $autoriserTitreVideContraintePerso;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -358,6 +363,18 @@ class FormulaireTitulaire
     public function setHeureFinCalendrier(\DateTimeInterface $heureFinCalendrier): self
     {
         $this->heureFinCalendrier = $heureFinCalendrier;
+
+        return $this;
+    }
+
+    public function getAutoriserTitreVideContraintePerso(): ?bool
+    {
+        return $this->autoriserTitreVideContraintePerso;
+    }
+
+    public function setAutoriserTitreVideContraintePerso(bool $autoriserTitreVideContraintePerso): self
+    {
+        $this->autoriserTitreVideContraintePerso = $autoriserTitreVideContraintePerso;
 
         return $this;
     }

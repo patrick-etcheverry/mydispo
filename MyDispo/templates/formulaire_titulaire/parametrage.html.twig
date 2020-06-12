@@ -30,6 +30,9 @@
         <li class="nav-item" role="presentation">
           <a class="nav-link" id="etat-tab" data-toggle="tab" href="#etat" role="tab" aria-controls="etat" aria-selected="false">Ouverture/Fermeture formulaire</a>
         </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="titres-tab" data-toggle="tab" href="#titres" role="tab" aria-controls="titres" aria-selected="false">Titres contraintes personnelles</a>
+        </li>
       </ul>
     </div>
     <div class="card-body">
@@ -68,6 +71,9 @@
         </div>
         <div id="etat" class="tab-pane fade" role="tabpanel" aria-labelledby="etat-tab">
           {{ form_row (form.estOuvert) }}
+        </div>
+        <div id="titres" class="tab-pane fade" role="tabpanel" aria-labelledby="titres-tab">
+          {{ form_row (form.autoriserTitreVideContraintePerso) }}
         </div>
       </div>
     </div>

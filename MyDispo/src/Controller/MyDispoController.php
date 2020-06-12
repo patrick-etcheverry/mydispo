@@ -228,8 +228,8 @@ class MyDispoController extends AbstractController
         'events' => $result,
         'enseignant' => $enseignant[0],
         'eventsMensuel' => $resultPonctu,
-        // 'remarqueH' => $remarqueHebdo,
-        // 'remarqueP' => $remarquePonctu,
+        'remarqueH' => $remarqueHebdo,
+        'remarqueP' => $remarquePonctu,
     ]);
   }
 

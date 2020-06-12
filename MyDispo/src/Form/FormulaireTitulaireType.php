@@ -30,6 +30,9 @@ class FormulaireTitulaireType extends AbstractType
       ->add('remarquesPonctuelActives',CheckboxType::class, [
         'label_attr' => ['class' => 'switch-custom'], 'label' => 'Activer les remarques éventuelles pour les contraintes ponctuelles'
       ])
+      ->add('autoriserTitreVideContraintePerso',CheckboxType::class, [
+        'label_attr' => ['class' => 'switch-custom'], 'label' => 'Autoriser les utilisateurs à avoir des contraintes personnelles sans description'
+      ])
 
       ->add('estOuvert',CheckboxType::class, [
         'label_attr' => ['class' => 'switch-custom'], 'label' => 'Ouvrir les saisies'
