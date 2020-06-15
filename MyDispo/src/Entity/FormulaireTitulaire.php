@@ -122,6 +122,11 @@ class FormulaireTitulaire
      */
     private $autoriserTitreVideContraintePerso;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $anneeUniversitaire;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -375,6 +380,18 @@ class FormulaireTitulaire
     public function setAutoriserTitreVideContraintePerso(bool $autoriserTitreVideContraintePerso): self
     {
         $this->autoriserTitreVideContraintePerso = $autoriserTitreVideContraintePerso;
+
+        return $this;
+    }
+
+    public function getAnneeUniversitaire(): ?string
+    {
+        return $this->anneeUniversitaire;
+    }
+
+    public function setAnneeUniversitaire(string $anneeUniversitaire): self
+    {
+        $this->anneeUniversitaire = $anneeUniversitaire;
 
         return $this;
     }

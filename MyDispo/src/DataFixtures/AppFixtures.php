@@ -449,6 +449,7 @@ déplacement ACDI, etc.) merci de les préciser :"
         $formulaireTitulaire->setHeureDebutCalendrier(new DateTime('08:00:00'));
         $formulaireTitulaire->setHeureFinCalendrier(new DateTime('18:00:00'));
         $formulaireTitulaire->setAutoriserTitreVideContraintePerso(true);
+        $formulaireTitulaire->setAnneeUniversitaire("2020-2021");
 
 
         $manager->persist($formulaireTitulaire);
@@ -475,6 +476,7 @@ déplacement ACDI, etc.) merci de les préciser :
         $formulaireVacataire->setEstOuvert(true);
         $formulaireVacataire->setHeureDebutCalendrier(new DateTime('08:00:00'));
         $formulaireVacataire->setHeureFinCalendrier(new DateTime('18:00:00'));
+        $formulaireVacataire->setAnneeUniversitaire("2020-2021");
 
 
 

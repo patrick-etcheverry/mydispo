@@ -5,43 +5,28 @@
   <div class="card-body">
     <p class="card-text">
       <input type="radio" id="persForte" name="couleur"
-            value="persForte"> Priorité forte (Créneaux de
-          {{formulaireTitulaire.dureePersForte}}
-          minutes)
-          <p style="color:red">
-            (
-            {{formulaireTitulaire.quantitePersForte}}
-            {% if formulaireTitulaire.quantitePersForte > 1 %}
-              restantes )</p>
-          {% else %}
-            restante )</p>
-        {% endif %}
+            value="persForte"> Priorité forte
+            <span class="badge badge-persForte">0/{{formulaireTitulaire.quantitePersForte}}</span>
+            </br>
+                (Créneaux de {{formulaireTitulaire.dureePersForte}} minutes)
+            </br>
+          </br>
 
         <input type="radio" id="persMoy" name="couleur"
-              value="persMoy"> Priorité moyenne (Créneaux de
-        {{formulaireTitulaire.dureePersMoy}}
-        minutes)
-        <p style="color:orange">
-          (
-          {{formulaireTitulaire.quantitePersMoy}}
-          {% if formulaireTitulaire.quantitePersMoy > 1 %}
-            restantes )</p>
-        {% else %}
-          restante )</p>
-      {% endif %}
+              value="persMoy"> Priorité moyenne
+              <span class="badge badge-persMoy">0/{{formulaireTitulaire.quantitePersMoy}}</span>
+              </br>
+                  (Créneaux de {{formulaireTitulaire.dureePersMoy}} minutes)
+              </br>
+            </br>
 
       <input type="radio" id="persFaible" name="couleur"
-          value="persFaible"> Priorité faible (Créneaux de
-      {{formulaireTitulaire.dureePersFaible}}
-      minutes)
-      <p style="color:green">
-        (
-        {{formulaireTitulaire.quantitePersFaible}}
-        {% if formulaireTitulaire.quantitePersFaible > 1 %}
-          restantes )</p>
-      {% else %}
-        restante )</p>
-    {% endif %}
+          value="persFaible"> Priorité faible
+          <span class="badge badge-persFaible">0/{{formulaireTitulaire.quantitePersFaible}}</span>
+          </br>
+              (Créneaux de {{formulaireTitulaire.dureePersFaible}} minutes)
+          </br>
+        </br>
     </p>
   </div>
 </div>

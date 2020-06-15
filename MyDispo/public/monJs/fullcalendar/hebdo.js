@@ -69,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function() {
             classNames: ['plusBord'],
             type: detType(),
             prio: detPrio(),
-            borderColor: detBord(),
             color: detFond(),
             textColor: "black",
           });
@@ -83,7 +82,6 @@ document.addEventListener('DOMContentLoaded', function() {
             classNames: ['plusBord'],
             type: detType(),
             prio: detPrio(),
-            borderColor: detBord(),
             color: detFond(),
             textColor: "black",
           });
@@ -165,7 +163,7 @@ eventClick: function(info) {
   document.getElementById('apply').onclick = function() {
     if (document.getElementById('titrevt').value != '') {
       info.event.setProp("title", document.getElementById('titrevt').value);
-      document.getElementById("nomcreneau").innerHTML = "Contrainte " + info.event.title;
+      document.getElementById("nomcreneau").innerHTML = info.event.title;
       hebdo.rerenderEvents();
     }
   openNav();

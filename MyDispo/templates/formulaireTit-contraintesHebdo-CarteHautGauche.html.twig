@@ -7,43 +7,30 @@
     <p class="card-text">
       <br />
       <input type="radio" id="proForte" name="couleur"
-            value="proForte" checked> Priorité forte (Créneaux de
-          {{formulaireTitulaire.dureeProForte}}
-          minutes)
-          <p style="color:red">
-            (
-            {{formulaireTitulaire.quantiteProForte}}
-            {% if formulaireTitulaire.quantiteProForte > 1 %}
-              restantes )</p>
-          {% else %}
-            restante )</p>
-        {% endif %}
+            value="proForte" checked>
+            Priorité forte
+            <span class="badge badge-proForte">0/{{formulaireTitulaire.quantiteProForte}}</span>
+            </br>
+                (Créneaux de {{formulaireTitulaire.dureeProForte}} minutes)
+            </br>
+          </br>
+
 
         <input type="radio" id="proMoy" name="couleur"
-              value="proMoy"> Priorité moyenne (Créneaux de
-        {{formulaireTitulaire.dureeProMoy}}
-        minutes)
-        <p style="color:orange">
-          (
-          {{formulaireTitulaire.quantiteProMoy}}
-          {% if formulaireTitulaire.quantiteProMoy > 1 %}
-            restantes )</p>
-        {% else %}
-          restante )</p>
-      {% endif %}
+              value="proMoy"> Priorité moyenne
+            <span class="badge badge-proMoy">0/{{formulaireTitulaire.quantiteProMoy}} </span>
+              </br>
+                  (Créneaux de {{formulaireTitulaire.dureeProMoy}} minutes)
+              </br>
+            </br>
 
       <input type="radio" id="proFaible" name="couleur"
-            value="proFaible"> Priorité faible (Créneaux de
-      {{formulaireTitulaire.dureeProFaible}}
-      minutes)
-      <p style="color:green">
-        (
-        {{formulaireTitulaire.quantiteProFaible}}
-        {% if formulaireTitulaire.quantiteProFaible > 1 %}
-          restantes )</p>
-      {% else %}
-        restante )</p>
-      {% endif %}
+            value="proFaible"> Priorité faible
+           <span class="badge badge-proFaible">0/{{formulaireTitulaire.quantiteProFaible}}</span>
+            </br>
+                (Créneaux de {{formulaireTitulaire.dureeProFaible}} minutes)
+            </br>
+          </br>
     </p>
   </div>
 </div>

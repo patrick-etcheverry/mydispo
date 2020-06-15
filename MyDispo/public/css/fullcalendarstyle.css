@@ -23,7 +23,7 @@
 .sidenav button {
   margin: 8px 8px 8px 32px;
   font-size: 14px;
-  color: #818181;
+  color: #f1f1f1;
   background-color: #111;
   border: none;
   display: block;
@@ -36,8 +36,7 @@
 
   color: #f1f1f1;
   margin: 8px 8px 8px 32px;
-  font-weight: bold;
-  font-size: 22px;
+  font-size: 18px;
   display: block;
   overflow: hidden;
   white-space: nowrap;
@@ -46,26 +45,28 @@
 
 .sidenav input {
   display: block;
-  margin-left: 32px;
+  margin-top: 32px;
+  margin-left: 20px;
+  margin-right: 20px;
   background-color: #111;
   border: 1px solid #f1f1f1;
-  color: #818181;
+  color: #f1f1f1;
 }
 
 /* When you mouse over the navigation links, change their color */
 .sidenav a:hover {
-  color: #f1f1f1;
+  color: #818181;
 }
 
 .sidenav button:hover {
-  color: #f1f1f1;
+  color: #818181;
 }
 
 
 
 .sidenav input:focus {
   caret-color: white;
-  color: white;
+  color: #818181;
   border: 1px solid lightblue;
 }
 
@@ -73,7 +74,7 @@
 .sidenav .closebtn {
   position: absolute;
   top: 0;
-  left: 125px;
+  left: 220px;
   font-size: 36px;
   margin-left: 50px;
 }

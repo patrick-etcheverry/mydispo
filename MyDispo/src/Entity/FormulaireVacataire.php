@@ -57,6 +57,11 @@ class FormulaireVacataire
      */
     private $heureFinCalendrier;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $anneeUniversitaire;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -154,6 +159,18 @@ class FormulaireVacataire
     public function setHeureFinCalendrier(\DateTimeInterface $heureFinCalendrier): self
     {
         $this->heureFinCalendrier = $heureFinCalendrier;
+
+        return $this;
+    }
+
+    public function getAnneeUniversitaire(): ?string
+    {
+        return $this->anneeUniversitaire;
+    }
+
+    public function setAnneeUniversitaire(string $anneeUniversitaire): self
+    {
+        $this->anneeUniversitaire = $anneeUniversitaire;
 
         return $this;
     }

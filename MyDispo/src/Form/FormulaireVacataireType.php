@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
@@ -22,6 +23,7 @@ class FormulaireVacataireType extends AbstractType
             ->add('texteHebdomadaire',TextareaType::class,array(
                 'label' => 'Texte affiché pour la saisie des contraintes hebdomadaires',))
             ->add('textePonctuel',TextareaType::class,['label' => 'Texte affiché pour la saisie des contraintes ponctuelles',])
+            ->add('anneeUniversitaire',TextType::class,['label' => 'Année universitaire du formulaire',])
             ->add('remarquesHebdoActives',CheckboxType::class, [
                 'label_attr' => ['class' => 'switch-custom'], 'label' => 'Activer les remarques éventuelles pour les contraintes hebdomadaires'
             ])
