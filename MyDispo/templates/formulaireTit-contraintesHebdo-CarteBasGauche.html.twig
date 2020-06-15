@@ -6,7 +6,7 @@
     <p class="card-text">
       <input type="radio" id="persForte" name="couleur"
             value="persForte"> Priorité forte
-            <span class="badge badge-persForte">0/{{formulaireTitulaire.quantitePersForte}}</span>
+            <span class="badge badge-persForte" id="quantitePersForte">{{formulaireTitulaire.quantitePersForte}}/{{formulaireTitulaire.quantitePersForte}}</span>
             </br>
                 (Créneaux de {{formulaireTitulaire.dureePersForte}} minutes)
             </br>
@@ -14,7 +14,7 @@
 
         <input type="radio" id="persMoy" name="couleur"
               value="persMoy"> Priorité moyenne
-              <span class="badge badge-persMoy">0/{{formulaireTitulaire.quantitePersMoy}}</span>
+              <span class="badge badge-persMoy" id="quantitePersMoy">{{formulaireTitulaire.quantitePersMoy}}/{{formulaireTitulaire.quantitePersMoy}}</span>
               </br>
                   (Créneaux de {{formulaireTitulaire.dureePersMoy}} minutes)
               </br>
@@ -22,7 +22,7 @@
 
       <input type="radio" id="persFaible" name="couleur"
           value="persFaible"> Priorité faible
-          <span class="badge badge-persFaible">0/{{formulaireTitulaire.quantitePersFaible}}</span>
+          <span class="badge badge-persFaible" id="quantitePersFaible">{{formulaireTitulaire.quantitePersFaible}}/{{formulaireTitulaire.quantitePersFaible}}</span>
           </br>
               (Créneaux de {{formulaireTitulaire.dureePersFaible}} minutes)
           </br>

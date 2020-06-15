@@ -1,3 +1,6 @@
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
 
 
@@ -90,21 +93,32 @@ document.addEventListener('DOMContentLoaded', function() {
         //Incrémentation des compteurs lorsque la limite n'a pas été dépassée dans une vue de saisie pour les enseignants
         if( document.getElementById('proForte').checked) {
           compteur.ContraintePro.proForte+=1;
+          document.getElementById("quantiteProForte").innerHTML = (limiteProForte - compteur.ContraintePro.proForte).toString() + "/" + limiteProForte  ;
         }
         else if(document.getElementById('proMoy').checked) {
           compteur.ContraintePro.proMoy+=1;
+          document.getElementById("quantiteProMoy").innerHTML = (limiteProMoy - compteur.ContraintePro.proMoy).toString() + "/" + limiteProMoy  ;
+
         }
         else if(document.getElementById('proFaible').checked) {
           compteur.ContraintePro.proFaible+=1;
+          document.getElementById("quantiteProFaible").innerHTML = (limiteProFaible - compteur.ContraintePro.proFaible).toString() + "/" + limiteProFaible  ;
+
         }
         else if(document.getElementById('persForte').checked) {
           compteur.ContraintePerso.persoForte+=1;
+          document.getElementById("quantitePersForte").innerHTML = (limitePersForte - compteur.ContraintePerso.persoForte).toString() + "/" + limitePersForte  ;
+
         }
         else if(document.getElementById('persMoy').checked) {
           compteur.ContraintePerso.persoMoy+=1;
+          document.getElementById("quantitePersMoy").innerHTML = (limitePersMoy - compteur.ContraintePerso.persoMoy).toString() + "/" + limitePersMoy  ;
+
         }
         else if(document.getElementById('persFaible').checked) {
           compteur.ContraintePerso.persoFaible+=1;
+          document.getElementById("quantitePersFaible").innerHTML = (limitePersFaible - compteur.ContraintePerso.persoFaible).toString() + "/" + limitePersFaible  ;
+
         }
       }
 else if(limiteDepassee()==true){alert("Trop de contraintes de ce type saisies");}
