@@ -5241,6 +5241,30 @@ a.badge-danger:focus, a.badge-danger.focus {
   color: #212529;
   background-color: #f8f9fa;
 }
+.badge-proForte {
+  color: #212529;
+  background-color: #D35400;
+}
+.badge-proMoy {
+  color: #212529;
+  background-color: #F39C12;
+}
+.badge-proFaible {
+  color: #212529;
+  background-color: #F1C40F;
+}
+.badge-persForte {
+  color: #212529;
+  background-color: #2471A3;
+}
+.badge-persMoy {
+  color: #212529;
+  background-color: #3498DB;
+}
+.badge-persFaible {
+  color: #212529;
+  background-color: #AED6F1;
+}
 
 a.badge-light:hover, a.badge-light:focus {
   color: #212529;

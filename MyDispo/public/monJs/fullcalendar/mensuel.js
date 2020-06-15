@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('apply').onclick = function() {
         if (document.getElementById('titrevt').value != '') {
           info.event.setProp("title", document.getElementById('titrevt').value);
-          document.getElementById("nomcreneau").innerHTML = "Contrainte " + info.event.title;
+          document.getElementById("nomcreneau").innerHTML = info.event.title;
           mensuel.rerenderEvents();
         }
 
