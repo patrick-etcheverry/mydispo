@@ -34,7 +34,7 @@
             {% endblock %}
           </div>
         </div>
-      </br>
+
 
   <!-- Contenu du formulaire  -->
   <div id="main">
@@ -42,14 +42,14 @@
 
   <ul class="nav nav-tabs">
         <!-- add data-toggle attribute to the anchors -->
-        <li><a class="nav-link" data-toggle="tab" href="#contraintesHebdo">Contraintes hebdomadaires</a></li>
-        <li><a class="nav-link" data-toggle="tab" href="#contraintesPonct">Contraintes ponctuelles</a></li>
+        <li role="presentation"><a class="nav-link" data-toggle="tab" href="#contraintesHebdo" role="tab" aria-controls="contraintesHebdo" aria-selected="true" >Contraintes hebdomadaires</a></li>
+        <li role="presentation"><a class="nav-link" data-toggle="tab" href="#contraintesPonct" role="tab" aria-controls="contraintesPonct" aria-selected="false" >Contraintes ponctuelles</a></li>
   </ul>
 
   <div class="tab-content">
 
   <!--Saisie des contraintes hebdomadaires  -->
-  <div id="contraintesHebdo" class="tab-pane fade show active">
+  <div id="contraintesHebdo" class="tab-pane fade show active" aria-labelledby="contraintesHebdo-tab">
     <div class="row">
       <div class="col-md-3">
         {% block ZoneGaucheSaisiesContraintesHebdos %}{% endblock %}
@@ -62,7 +62,7 @@
 
 
   <!--Saisie des contraintes ponctuelles  -->
-  <div id="contraintesPonct" class="tab-pane fade">
+  <div id="contraintesPonct" class="tab-pane fade" aria-labelledby="contraintesPonct-tab">
     <div class="row">
       <div class="col-md-2">
         {% block ZoneGaucheSaisiesContraintesPonctuelles %}{% endblock %}

@@ -2,9 +2,11 @@
 
 {% block enTete %}
 
-  <div class="jumbotron">
-    <h1 class="display-4">Formulaire Vacataire</h1>
-  </div>
+<div class="jumbotron" style="height:200px;">
+  <h1 class="display-4">Nom professeur</h1>
+  <p class="lead">Contraintes emploi du temps pour l'année universitaire 2020-2021</p>
+
+</div>
 
 {% endblock %}
 
@@ -141,6 +143,12 @@ function detPrio() {
   return prio;
 }
 
+function detType() {
+
+  return "Disponibilite";
+}
+
+
 
 String.prototype.minsToHHMMSS = function() {
   var mins_num = parseFloat(this, 10); // don't forget the second param
@@ -197,6 +205,7 @@ var heureFin = "{{formulaireVacataire.heureFinCalendrier|date("H:i:s")}}";
 var events = {{events|raw}};
 var enseignant = {{enseignant.id}};
 var eventsMensuel = {{eventsMensuel|raw}};
+var titrevide = true;
 
 var estFormulaireTitulaire = false;
 

@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       }
 
-      if(saisieEnseignant && limiteDepassee()==false){
+    else if(saisieEnseignant && limiteDepassee()==false){
         //Créneau contrainte perso
         if(detType()=="ContraintePerso"){
           hebdo.addEvent({

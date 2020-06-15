@@ -13,7 +13,7 @@
           <a class="nav-link active" id="echelle-tab" data-toggle="tab" href="#echelle" role="tab" aria-controls="echelle" aria-selected="true">Echelle du calendrier</a>
         </li>
         <li class="nav-item" role="presentation">
-          <a class="nav-link " id="heures-tab" data-toggle="tab" href="#heures" role="tab" aria-controls="heures" aria-selected="true">Heures de début et de fin du calendrier</a>
+          <a class="nav-link " id="heures-tab" data-toggle="tab" href="#heures" role="tab" aria-controls="heures" aria-selected="false">Heures de début et de fin du calendrier</a>
         </li>
         <li class="nav-item" role="presentation">
           <a class="nav-link" id="contraintesperso-tab" data-toggle="tab" href="#contraintesperso" role="tab" aria-controls="contraintesperso" aria-selected="false">Préférences personelles</a>
@@ -54,12 +54,50 @@
           {{ form_row (form.dureePersForte) }}
         </div>
         <div id="contraintespro" class="tab-pane fade" role="tabpanel" aria-labelledby="contraintespro-tab">
-          {{ form_row (form.quantiteProFaible) }}
-          {{ form_row (form.dureeProFaible) }}
-          {{ form_row (form.quantiteProMoy) }}
-          {{ form_row (form.dureeProMoy) }}
-          {{ form_row (form.quantiteProForte) }}
-          {{ form_row (form.dureeProForte) }}
+
+
+          <table class="table">
+            <thead class="thead">
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Nombres de créneaux autorisés</th>
+                <th scope="col">Durée</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+
+                <th scope="row" >Priorité forte</th>
+
+
+                <td>{{ form_row (form.quantiteProFaible) }}</td>
+                <td>  {{ form_row (form.dureeProFaible) }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Priorité moyenne</th>
+                <td>    {{ form_row (form.quantiteProMoy) }}</td>
+                <td>  {{ form_row (form.dureeProMoy) }}</td>
+
+              </tr>
+              <tr>
+                <th scope="row">Priorité faible</th>
+                <td>  {{ form_row (form.quantiteProForte) }}</td>
+                <td>  {{ form_row (form.dureeProForte) }}</td>
+
+              </tr>
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
         </div>
         <div id="explications" class="tab-pane fade" role="tabpanel" aria-labelledby="explications-tab">
           {{ form_row (form.texteHebdomadaire) }}
