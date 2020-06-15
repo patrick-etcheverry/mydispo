@@ -112,6 +112,7 @@ function supprimerDesRemarques(enseignant) {
     },
     type: "POST"
   });
+  
 }
 
 function supprimerDesCreneaux(type, enseignant="") {
@@ -127,11 +128,11 @@ function supprimerDesCreneaux(type, enseignant="") {
 //déterminer la couleur du fond de l'événement à utiliser en fonction du bouton radio coché
 function detFond() {
   if (document.getElementById('Forte').checked) {
-    fond = "#B84331";
+    fond = "#D35400";
   } else if (document.getElementById('Moyenne').checked) {
-    fond = "#FE8700";
+    fond = "#F39C12";
   } else if (document.getElementById('Faible').checked) {
-    fond = "#FFD433";
+    fond = "#F1C40F";
   }
   return fond;
 }
