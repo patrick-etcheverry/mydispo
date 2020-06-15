@@ -192,27 +192,34 @@ eventClick: function(info) {
         case "ContraintePro":
         if(info.event.extendedProps.prio == "Forte"){
           compteur.ContraintePro.proForte-=1;
+          document.getElementById("quantiteProForte").innerHTML = (limiteProForte - compteur.ContraintePro.proForte).toString() + "/" + limiteProForte  ;
         }
         else if(info.event.extendedProps.prio == "Moyenne"){
           compteur.ContraintePro.proMoy-=1;
+          document.getElementById("quantiteProMoy").innerHTML = (limiteProMoy - compteur.ContraintePro.proMoy).toString() + "/" + limiteProMoy  ;
         }
         else if(info.event.extendedProps.prio == "Faible"){
           compteur.ContraintePro.proFaible-=1;
+          document.getElementById("quantiteProFaible").innerHTML = (limiteProFaible - compteur.ContraintePro.proFaible).toString() + "/" + limiteProFaible  ;
         }
         break;
 
         case "ContraintePerso":
         if(info.event.extendedProps.prio == "Forte"){
           compteur.ContraintePerso.persoForte-=1;
+          document.getElementById("quantitePersForte").innerHTML = (limitePersForte - compteur.ContraintePerso.persoForte).toString() + "/" + limitePersForte  ;
         }
         else if(info.event.extendedProps.prio == "Moyenne"){
           compteur.ContraintePerso.persoMoy-=1;
+          document.getElementById("quantitePersMoy").innerHTML = (limitePersMoy - compteur.ContraintePerso.persoMoy).toString() + "/" + limitePersMoy  ;
         }
         else if(info.event.extendedProps.prio == "Faible"){
           compteur.ContraintePerso.persoFaible-=1;
+          document.getElementById("quantitePersFaible").innerHTML = (limitePersFaible - compteur.ContraintePerso.persoFaible).toString() + "/" + limitePersFaible  ;
         }
         break;
       }
+
     }
     closeNav();
   };
