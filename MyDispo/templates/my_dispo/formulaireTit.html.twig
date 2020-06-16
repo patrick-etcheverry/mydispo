@@ -86,6 +86,7 @@
 
 
 
+
 function enregistrerUnCreneau(start, end, title, type="zoneGrisee", prio="sansPrio", enseignant="") {
   $.ajax({
     url: "{{path("creneau_ajouter")}}",
@@ -136,6 +137,34 @@ function supprimerDesCreneaux(type, enseignant="") {
     type: "POST"
   });
 }
+
+
+function envoyerLogHebdo(deltaRemarqueHebdo, deltaCreneauxHebdo,enseignant) {
+  $.ajax({
+    url: "{{path("set_log_enseignant_hebdo")}}",
+    data: {
+      tabDeltaRemarqueHebdo: deltaRemarqueHebdo,
+      tabDeltaCreneauxHebdo: deltaCreneauxHebdo,
+      idEnseignant: enseignant,
+
+    },
+    type: "POST"
+  });
+}
+
+function envoyerLogPonctu(deltaRemarquePonctu, deltaCreneauxPonctu,enseignant) {
+  $.ajax({
+    url: "{{path("set_log_enseignant_ponctu")}}",
+    data: {
+      tabDeltaRemarquePonctu: deltaRemarquePonctu,
+      tabDeltaCreneauxPonctu: deltaCreneauxPonctu,
+      idEnseignant: enseignant,
+
+    },
+    type: "POST"
+  });
+}
+
 //déterminer la couleur du fond de l'événement à utiliser en fonction du bouton radio coché
 function detFond() {
   if (document.getElementById('proForte').checked) {
@@ -301,8 +330,8 @@ var heureFin = "{{formulaireTitulaire.heureFinCalendrier|date("H:i:s")}}";
 var events = {{events|raw}};
 var enseignant = {{enseignant.id}};
 var eventsMensuel = {{eventsMensuel|raw}};
-
-
+var remarquePonctu = "{{remarqueP}}";
+var remarqueHebdo = "{{remarqueH}}";
 
 var estFormulaireTitulaire = true;
 

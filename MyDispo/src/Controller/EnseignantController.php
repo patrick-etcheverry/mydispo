@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Enseignant;
 use App\Form\EnseignantType;
 use App\Repository\EnseignantRepository;
+use App\Repository\LogEnseignantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -229,10 +230,13 @@ class EnseignantController extends AbstractController
     /**
      * @Route("/index", name="enseignant_indexadmin", methods={"GET"})
      */
-    public function indexAdmin(EnseignantRepository $enseignantRepository): Response
+    public function indexAdmin(EnseignantRepository $enseignantRepository, LogEnseignantRepository $logEnseignantRepository): Response
     {
+
         return $this->render('enseignant/acceuiladmin.html.twig', [
             'enseignants' => $enseignantRepository->findAll(),
+            'logsEnseignants' => $logEnseignantRepository->findAll(),
+
         ]);
     }
 

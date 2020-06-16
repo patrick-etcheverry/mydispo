@@ -112,7 +112,7 @@ function supprimerDesRemarques(enseignant) {
     },
     type: "POST"
   });
-  
+
 }
 
 function supprimerDesCreneaux(type, enseignant="") {
@@ -125,6 +125,34 @@ function supprimerDesCreneaux(type, enseignant="") {
     type: "POST"
   });
 }
+
+
+function envoyerLogHebdo(deltaRemarqueHebdo, deltaCreneauxHebdo,enseignant) {
+  $.ajax({
+    url: "{{path("set_log_enseignant_hebdo")}}",
+    data: {
+      tabDeltaRemarqueHebdo: deltaRemarqueHebdo,
+      tabDeltaCreneauxHebdo: deltaCreneauxHebdo,
+      idEnseignant: enseignant,
+
+    },
+    type: "POST"
+  });
+}
+
+function envoyerLogPonctu(deltaRemarquePonctu, deltaCreneauxPonctu,enseignant) {
+  $.ajax({
+    url: "{{path("set_log_enseignant_ponctu")}}",
+    data: {
+      tabDeltaRemarquePonctu: deltaRemarquePonctu,
+      tabDeltaCreneauxPonctu: deltaCreneauxPonctu,
+      idEnseignant: enseignant,
+
+    },
+    type: "POST"
+  });
+}
+
 //déterminer la couleur du fond de l'événement à utiliser en fonction du bouton radio coché
 function detFond() {
   if (document.getElementById('Forte').checked) {
@@ -212,7 +240,8 @@ var events = {{events|raw}};
 var enseignant = {{enseignant.id}};
 var eventsMensuel = {{eventsMensuel|raw}};
 var titrevide = true;
-
+var remarquePonctu = "{{remarqueP}}";
+var remarqueHebdo = "{{remarqueH}}";
 var estFormulaireTitulaire = false;
 
 

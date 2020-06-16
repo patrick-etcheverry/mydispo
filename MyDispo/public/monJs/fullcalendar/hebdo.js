@@ -232,7 +232,79 @@ eventClick: function(info) {
 
 });
 
+
+
 document.getElementById('submit').onclick = function() {
+
+
+if(saisieEnseignant){
+  var deltaRemarqueHebdo = [];
+  var deltaCreneauxHebdo = [];
+  var compteurEventsHebdo = 0;
+      // récup toutes les infos de l’enseignant saisies dans le formulaire
+
+      creneauxHebdoSaisie = hebdo.getEvents();   // Les créneaux
+      remarqueHebdoSaisie = document.getElementById('form_remarquesHebdo').value; // Remarque ponctu
+
+      // récup toutes les infos de l’enseignant en BD
+
+      // Events mensuels -> events
+      // Remarque ponctu -> remarqueHebdo
+
+
+      // Calculer le delta pour enregistrer dans le log
+
+      // Delta sur les remarques
+      if(!(remarqueHebdoSaisie == remarqueHebdo)){
+
+        if(remarqueHebdoSaisie == "" && remarqueHebdo != ""){
+          deltaRemarqueHebdo.push("Suppression de la remarque sur les contraintes hebdomadaires");
+        }
+        else if (remarqueHebdoSaisie != "" && remarqueHebdo == ""){
+          deltaRemarqueHebdo.push("Ajout de la remarque sur les contraintes hebdomadaires");
+        }
+        else {
+          deltaRemarqueHebdo.push("Modification de la remarque sur les contraintes hebdomadaires");
+        }
+      }
+
+
+      //Delta sur les créneaux
+      if(events.length > creneauxHebdoSaisie.length){
+        deltaCreneauxHebdo.push("Suppression de créneaux hebdomadaires");
+      }
+      if(events.length < creneauxHebdoSaisie.length){
+        deltaCreneauxHebdo.push("Ajout de créneaux hebdomadaires");
+      }
+
+
+
+      creneauxHebdoSaisie.forEach(creneauxCourant => {
+        if(events[compteurEventsHebdo] != null){
+        if(creneauxCourant.title != events[compteurEventsHebdo].title ){
+          deltaCreneauxHebdo.push("Modification du titre d'un ou plusieurs créneaux hebdomadaires");
+        }
+
+        compteurEventsHebdo +=1;
+      }});
+
+      //Envoie des logs à LogEnseignantController
+      if(deltaRemarqueHebdo.length == 0 && deltaCreneauxHebdo.length == 0){
+        envoyerLogHebdo("Aucune modif remarque", "Aucune modif créneau", enseignant);
+      }
+      else if(deltaRemarqueHebdo.length == 0){
+        envoyerLogHebdo("Aucune modif remarque", deltaCreneauxHebdo, enseignant);
+      }
+      else if (deltaCreneauxHebdo.length == 0){
+        envoyerLogHebdo(deltaRemarqueHebdo, "Aucune modif créneau", enseignant);
+      }
+      else{
+        envoyerLogHebdo(deltaRemarqueHebdo, deltaCreneauxHebdo, enseignant);
+      }
+
+}
+
+
 
   if(saisieEnseignant && estFormulaireTitulaire == false){
     supprimerDesCreneaux("Disponibilite", enseignant);
