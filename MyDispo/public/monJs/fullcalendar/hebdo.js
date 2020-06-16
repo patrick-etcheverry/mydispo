@@ -143,7 +143,7 @@ else if(limiteDepassee()==true){alert("Trop de contraintes de ce type saisies");
 },
 
 eventRender: function(info) {
-  if (info.event.extendedProps.type == "ContraintePro") {
+ if (info.event.extendedProps.type == "ContraintePro") {
     info.el.querySelector('.fc-title').append(" [PRO] ");
   } else if (info.event.extendedProps.type == "ContraintePerso") {
     info.el.querySelector('.fc-title').append(" [PERSO] ");
@@ -269,31 +269,42 @@ if (saisieEnseignant) {
       case "ContraintePro":
       if(creneau.extendedProps.prio == "Forte"){
         compteur.ContraintePro.proForte+=1;
+        document.getElementById("quantiteProForte").innerHTML = (limiteProForte - compteur.ContraintePro.proForte).toString() + "/" + limiteProForte  ;
+
       }
       else if(creneau.extendedProps.prio == "Moyenne"){
         compteur.ContraintePro.proMoy+=1;
+        document.getElementById("quantiteProMoy").innerHTML = (limiteProMoy - compteur.ContraintePro.proMoy).toString() + "/" + limiteProMoy  ;
+
       }
       else if(creneau.extendedProps.prio == "Faible"){
         compteur.ContraintePro.proFaible+=1;
+        document.getElementById("quantiteProFaible").innerHTML = (limiteProFaible - compteur.ContraintePro.proFaible).toString() + "/" + limiteProFaible  ;
+
       }
       break;
 
       case "ContraintePerso":
       if(creneau.extendedProps.prio == "Forte"){
         compteur.ContraintePerso.persoForte+=1;
+        document.getElementById("quantitePersForte").innerHTML = (limitePersForte - compteur.ContraintePerso.persoForte).toString() + "/" + limitePersForte  ;
+
       }
       else if(creneau.extendedProps.prio == "Moyenne"){
         compteur.ContraintePerso.persoMoy+=1;
+        document.getElementById("quantitePersMoy").innerHTML = (limitePersMoy - compteur.ContraintePerso.persoMoy).toString() + "/" + limitePersMoy  ;
+
       }
       else if(creneau.extendedProps.prio == "Faible"){
         compteur.ContraintePerso.persoFaible+=1;
+        document.getElementById("quantitePersFaible").innerHTML = (limitePersFaible - compteur.ContraintePerso.persoFaible).toString() + "/" + limitePersFaible  ;
+
       }
       break;
     }
 
   });
 }
-
 
 
 });
