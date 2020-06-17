@@ -29,7 +29,7 @@ class AppFixtures extends Fixture
         $titulaireTest->setNom('TitulaireTest');
         $titulaireTest->setPrenom('TestTitulaire');
         $titulaireTest->setStatut('Titulaire');
-        $titulaireTest->setMail($_ENV['MAIL_SENDER']);
+        $titulaireTest->setMail($_ENV['ADMIN_MAIL']);
         $titulaireTest->setToken('https://iutbayonne/formulaire/gtauzfeduigazaddaz.fr');
         $titulaireTest->setEnSommeil(false);
         $titulaireTest->setSaisieFaite(true);
@@ -47,7 +47,7 @@ class AppFixtures extends Fixture
         $vacataireTest->setNom('VacataireTest');
         $vacataireTest->setPrenom('TestVacataire');
         $vacataireTest->setStatut('Vacataire');
-        $vacataireTest->setMail($_ENV['MAIL_SENDER']);
+        $vacataireTest->setMail($_ENV['ADMIN_MAIL']);
         $vacataireTest->setToken('https://iutbayonne/formulaire/gtauzfeduigazaddazklkpkoo.fr');
         $vacataireTest->setEnSommeil(false);
         $vacataireTest->setSaisieFaite(true);

@@ -4,6 +4,14 @@
 document.addEventListener('DOMContentLoaded', function() {
 
 
+  const creneauObjet = {
+    start: "",
+    end: "",
+    title: "",
+    type: "",
+    prio: "",
+    enseignant: "",
+  }
 
   var hebdoEl = document.getElementById('hebdo');
   var hebdo = new FullCalendar.Calendar(hebdoEl, {
@@ -252,11 +260,23 @@ document.getElementById('submit').onclick = function() {
   if(saisieEnseignant == false){
     supprimerDesCreneaux("zoneGrisee");
   }
+  var tableauCreneaux = [];
   creneaux = hebdo.getEvents(); //on récupère tous les événements du calendrier sous forme d'un tableau
-  creneaux.forEach(creneau => enregistrerUnCreneau(creneau.start.toISOString(), creneau.end.toISOString(), creneau.title, creneau.extendedProps.type, creneau.extendedProps.prio, enseignant));
+  creneaux.forEach(function(creneau){
+    var aAjouterAuTableau = Object.create(creneauObjet);
+    aAjouterAuTableau.start = creneau.start.toISOString();
+    aAjouterAuTableau.end = creneau.end.toISOString();
+    aAjouterAuTableau.title = creneau.title;
+    aAjouterAuTableau.type = creneau.extendedProps.type;
+    aAjouterAuTableau.prio = creneau.extendedProps.prio;
+    aAjouterAuTableau.enseignant = enseignant;
+    tableauCreneaux.push(aAjouterAuTableau);
+  });
+ enregistrerDesCreneaux(tableauCreneaux);
 };
 
 hebdo.render();
+
 
 if (saisieEnseignant) {
 
