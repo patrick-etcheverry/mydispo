@@ -14,24 +14,24 @@
 
 
 {% block sideNav %}
-  <div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" id="close">&times;</a>
-    <center><h5 id="nomcreneau">Description</h5><textarea type="text" name="titre" id="titrevt" style="width: 280px; rows: 50"></textarea>
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" id="close">&times;</a>
+  <center><h5 id="nomcreneau">Description</h5><textarea type="text" name="titre" id="titrevt" style="width: 280px; rows: 50"></textarea>
   </br>
   <p id="type"></p>
   <p id="prio"></p>
 </br>
-    <p id="dateDebut"></p>
-    <p id="dateFin"></p>
+<p id="dateDebut"></p>
+<p id="dateFin"></p>
 </br>
-    <button id="apply"><i class="far fa-save"></i> Enregistrer </button>
-    <button id="remove" style="color:#C22F2F"><i class="fas fa-trash-alt"></i> Supprimer </button></center>
-  </div>
+<button id="apply"><i class="far fa-save"></i> Enregistrer </button>
+<button id="remove" style="color:#C22F2F"><i class="fas fa-trash-alt"></i> Supprimer </button></center>
+</div>
 {% endblock %}
 
 {% block ZoneGaucheSaisiesContraintesHebdos %}
 </br>
-  {% include 'formulaireTit-contraintesHebdo-CarteHautGauche.html.twig' %}
+{% include 'formulaireTit-contraintesHebdo-CarteHautGauche.html.twig' %}
 </br>
 {% include 'formulaireTit-contraintesHebdo-CarteBasGauche.html.twig'%}
 {% endblock %}
@@ -40,21 +40,24 @@
 
 <div id="main">
   {{ formulaireTitulaire.texteHebdomadaire }}
-  <div id='hebdo'></div>
-</div>
 </br>
+<div id='hebdo'></div>
+</br>
+<form>
+  <div class="form-group">
+    <label for="remarquesHebdo">Remarques :</label>
+    <textarea class="form-control" id="remarquesHebdo" rows="3">{{remarqueH}}</textarea>
+  </div>
+</form>
 
-{{ form_row(form.remarquesHebdo, { 'attr': {
-  'style' : 'width:1350px',
-  'rows' : '6',
-  'cols' : '30' }} ) }}
-
+</br>
 
 
 <center>
-<button class="btn-primary" id="submit">
-  <i class="far fa-save"></i>{{ button_label|default(' Enregistrer toute ma saisie ') }}</button>
-</center>
+  <button class="btn-primary" id="submit">
+    <i class="far fa-save"></i>{{ button_label|default(' Enregistrer toute ma saisie ') }}</button>
+  </center>
+  </div>
 {% endblock %}
 
 {% block ZoneGaucheSaisiesContraintesPonctuelles %}
@@ -66,21 +69,18 @@
 
 <div id="main">
   {{ formulaireTitulaire.textePonctuel }}
-  </br>
-  </br>
-  <div id='mensuel'></div>
-  </br>
-  <center>
-<script>  document.getElementById("form_remarquesHebdo").innerHTML = "{{remarqueH}}" ;</script>
+</br>
+<div id='mensuel'></div>
+</br>
+<form>
+  <div class="form-group">
+    <label for="remarquesPonctu">Remarques :</label>
+    <textarea class="form-control" id="remarquesPonctu" rows="3">{{remarqueP}}</textarea>
+  </div>
+</form>
 
+<center>
 
-
-{{ form_row(form.remarquesPonctu, { 'attr': {
-  'style' : 'width:1170px',
-  'rows' : '6',
-  'cols' : '30' }} ) }}
-
-<script> document.getElementById("form_remarquesPonctu").innerHTML = "{{remarqueP}}" ;</script>
 
   <button class="btn-primary" id="submit2" style="display: none;">
     <i class="far fa-save"></i>{{ button_label|default(' Enregistrer ') }}</button>
@@ -92,25 +92,30 @@
 {% block GroupementEnseignement %}
 </br>
 <div class="card">
-<h5 class="card-header">
-  <center>
-    Groupement de vos enseignements
-  </center>
-</h5>
-<div class="card-body">
-  <p class="card-text">
-    {{form_start(form2)}}
-    {{form_row(form2.regroupementEnseignement)}}
-  </p>
-</div>
-<div class="card-footer">
-  <center>
-    <button class="btn-primary" id="submit3" style="display: none;">
-      <i class="far fa-save"></i>{{ button_label|default(' Enregistrer ') }}</button>
-  </center>
-  {{form_end(form2)}}
-</div>
-</div>
+  <h5 class="card-header">
+    <center>
+      Groupement de vos enseignements
+    </center>
+  </h5>
+  <div class="card-body">
+    <form>
+    <div class="form-group">
+     <label for="exampleFormControlSelect1"> Groupement des enseignements </label>
+     <select class="form-control" id="exampleFormControlSelect1">
+       <option>1</option>
+       <option>2</option>
+       <option>3</option>
+     </select>
+   </div>
+     </form>
+  </div>
+  <div class="card-footer">
+    <center>
+      <button class="btn-primary" id="submit3" style="display: none;">
+        <i class="far fa-save"></i>{{ button_label|default(' Enregistrer ') }}</button>
+      </center>
+    </div>
+  </div>
 {% endblock %}
 
 
@@ -223,7 +228,7 @@ function detTexteCouleur() {
   if (document.getElementById('proForte').checked || document.getElementById('persForte').checked) {
     couleurTexte = "white";
   } else {
-  couleurTexte = "black";
+    couleurTexte = "black";
   }
   return couleurTexte;
 }
@@ -237,29 +242,29 @@ function detType() {
   return type;
 }
 function tempsParDefaut(){
-          var defaultTime;
-          var date;
-          if(document.getElementById('proForte').checked) {
-              defaultTime = {{formulaireTitulaire.dureeProForte}};
-          }
-          else if(document.getElementById('proMoy').checked) {
-            defaultTime = {{formulaireTitulaire.dureeProMoy}};
-          }
-          else if(document.getElementById('proFaible').checked) {
-            defaultTime = {{formulaireTitulaire.dureeProFaible}};
-          }
-          else if(document.getElementById('persForte').checked) {
-            defaultTime = {{formulaireTitulaire.dureePersForte}};
-          }
-          else if(document.getElementById('persMoy').checked) {
-            defaultTime = {{formulaireTitulaire.dureePersMoy}};
-          }
-          else if(document.getElementById('persFaible').checked) {
-            defaultTime = {{formulaireTitulaire.dureePersFaible}};
-          }
-          date = defaultTime.toString().minsToHHMMSS();
-          return date;
-      }
+  var defaultTime;
+  var date;
+  if(document.getElementById('proForte').checked) {
+    defaultTime = {{formulaireTitulaire.dureeProForte}};
+  }
+  else if(document.getElementById('proMoy').checked) {
+    defaultTime = {{formulaireTitulaire.dureeProMoy}};
+  }
+  else if(document.getElementById('proFaible').checked) {
+    defaultTime = {{formulaireTitulaire.dureeProFaible}};
+  }
+  else if(document.getElementById('persForte').checked) {
+    defaultTime = {{formulaireTitulaire.dureePersForte}};
+  }
+  else if(document.getElementById('persMoy').checked) {
+    defaultTime = {{formulaireTitulaire.dureePersMoy}};
+  }
+  else if(document.getElementById('persFaible').checked) {
+    defaultTime = {{formulaireTitulaire.dureePersFaible}};
+  }
+  date = defaultTime.toString().minsToHHMMSS();
+  return date;
+}
 String.prototype.minsToHHMMSS = function() {
   var mins_num = parseFloat(this, 10); // don't forget the second param
   var hours = Math.floor(mins_num / 60);
@@ -316,7 +321,7 @@ var limitePersFaible = {{formulaireTitulaire.quantitePersFaible}};
 
 
 function limiteDepassee(){
-var res = false;
+  var res = false;
   if( document.getElementById('proForte').checked) {
     if(compteur.ContraintePro.proForte >= limiteProForte )
     {
@@ -353,7 +358,7 @@ var res = false;
       res = true;
     }
   }
-return res;
+  return res;
 }
 
 
@@ -369,7 +374,7 @@ var eventsMensuel = {{eventsMensuel|raw}};
 var lien = "{{lien}}";
 var remarquePonctu = "{{remarqueP}}";
 var remarqueHebdo = "{{remarqueH}}";
-var creneauxEnseignantSansGrisee = {{eventsSansGrisee|raw}};
+//var creneauxEnseignantSansGrisee = {eventsSansGrisee|raw}};
 var estFormulaireTitulaire = true;
 
 function enregistrerDesCreneaux(tab) {
