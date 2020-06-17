@@ -44,6 +44,8 @@ class MyDispoController extends AbstractController
     // Déterminer le statut de l'enseignant
     if($enseignant[0]->getStatut() == "Titulaire"){
     $formulaireTitulaire = $formulaireTitulaireRepository->findAll();
+    $lien = $this->generateUrl('saisieContrainte',['token'=> $enseignant[0]->getToken()],false);
+
 
     $creneauxEvenement = array();
     $events = $creneauRepository->selectStartEndTitleByType("Evenement");
@@ -196,57 +198,7 @@ class MyDispoController extends AbstractController
 
     $form->handleRequest($request);
 
-if ($form2->isSubmitted()) {
-    $choix = $form2['regroupementEnseignement']->getData();
-    $enseignant[0]->setGrouperEnseignements($choix);
-    $entityManager = $this->getDoctrine()->getManager();
-    $entityManager->persist($enseignant[0]);
-    $entityManager->flush();
 
-}
-
-    if ($form->isSubmitted() && $form->isValid()) {
-
-      //Récupérer les créneaux des 2 calendriers (hebdomadaire et mensuel)
-
-
-      // Récupérer le gestionnaire d'entité
-      $entityManager = $this->getDoctrine()->getManager();
-
-      //Supprimer les remarques en BD (pour les remplacer par celles du formulaire)
-      $tabRemarques = $enseignant->getRemarques();
-      foreach ($tabRemarques as $remarque) {
-        $entityManager->remove($remarque);
-      }
-      $entityManager->flush();
-
-      //Enregistrer les remarques venant du formulaire
-      $remarquesHebdo = new Remarque();
-      $remarquesHebdo->setType('Hebdomadaire');
-      $remarquesHebdo->setContenu($donneesFormulaire['remarquesHebdo']);
-      $remarquesHebdo->setEnseignant($enseignant);
-      $entityManager->persist($remarquesHebdo);
-
-      $remarquesPonctuelles = new Remarque();
-      $remarquesPonctuelles->setType('Ponctuelle');
-      $remarquesPonctuelles->setContenu($donneesFormulaire['remarquesPonctu']);
-      $remarquesPonctuelles->setEnseignant($enseignant);
-      $entityManager->persist($remarquesPonctuelles);
-
-      $enseignant->addRemarque($remarquesHebdo);
-      $enseignant->addRemarque($remarquesPonctuelles);
-
-
-      $entityManager->flush();
-
-
-
-      $entityManager->persist($enseignant);
-
-
-
-
-    }
 
     // Afficher la page du formulaire de saisie
     return $this->render('my_dispo/formulaireTit.html.twig', [
@@ -260,6 +212,8 @@ if ($form2->isSubmitted()) {
         'eventsSansGrisee' => $result2,
         'remarqueH' => $remarqueHebdo,
         'remarqueP' => $remarquePonctu,
+        'lien' => $lien,
+
     ]);
   }
 
@@ -276,6 +230,8 @@ if ($form2->isSubmitted()) {
   if($enseignant[0]->getStatut() == "Vacataire"){
 
     $formulaireVacataire = $formulaireVacataireRepository->findAll();
+    $lien = $this->generateUrl('saisieContrainte',['token'=> $enseignant[0]->getToken()],false);
+
 
     $creneauxEvenement = array();
     $events = $creneauRepository->selectStartEndTitleByType("Evenement");
@@ -408,65 +364,7 @@ if ($form2->isSubmitted()) {
 
     $form->handleRequest($request);
 
-if ($form2->isSubmitted()) {
-    $choix = $form2['regroupementEnseignement']->getData();
 
-
-    $enseignant[0]->setGrouperEnseignements($choix);
-    $entityManager = $this->getDoctrine()->getManager();
-    $entityManager->persist($enseignant[0]);
-    $entityManager->flush();
-
-}
-    if ($form->isSubmitted() && $form->isValid()) {
-
-      //Récupérer les créneaux des 2 calendriers (hebdomadaire et mensuel)
-
-
-      // Récupérer le gestionnaire d'entité
-      $entityManager = $this->getDoctrine()->getManager();
-
-      //Supprimer les remarques en BD (pour les remplacer par celles du formulaire)
-      $tabRemarques = $enseignant->getRemarques();
-      foreach ($tabRemarques as $remarque) {
-        $entityManager->remove($remarque);
-      }
-      $entityManager->flush();
-
-      //Enregistrer les remarques venant du formulaire
-      $remarquesHebdo = new Remarque();
-      $remarquesHebdo->setType('Hebdomadaire');
-      $remarquesHebdo->setContenu($donneesFormulaire['remarquesHebdo']);
-      $remarquesHebdo->setEnseignant($enseignant);
-      $entityManager->persist($remarquesHebdo);
-
-      $remarquesPonctuelles = new Remarque();
-      $remarquesPonctuelles->setType('Ponctuelle');
-      $remarquesPonctuelles->setContenu($donneesFormulaire['remarquesPonctu']);
-      $remarquesPonctuelles->setEnseignant($enseignant);
-      $entityManager->persist($remarquesPonctuelles);
-
-      $enseignant->addRemarque($remarquesHebdo);
-      $enseignant->addRemarque($remarquesPonctuelles);
-
-
-      $entityManager->flush();
-
-
-
-      $entityManager->persist($enseignant);
-
-      // Renvoie l'enseignant vers la page résumant sa saisie avant d'envoyer le mail
-      return $this->render('my_dispo/resumeSaisie.html.twig',
-      [
-          'enseignant' => $enseignant,
-          'form' => $form->createView(),
-      ]
-    );
-
-
-
-  }
   // Afficher la page du formulaire de saisie
   return $this->render('my_dispo/formulaireVac.html.twig',[
     'formulaireVacataire' => $formulaireVacataire[0],
@@ -478,6 +376,8 @@ if ($form2->isSubmitted()) {
     'eventsMensuel' => $resultPonctu,
     'remarqueH' => $remarqueHebdo,
     'remarqueP' => $remarquePonctu,
+    'lien' => $lien,
+
 
   ]);
 }

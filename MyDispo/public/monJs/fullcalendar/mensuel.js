@@ -1,6 +1,16 @@
 
 
 document.addEventListener('DOMContentLoaded', function() {
+
+  const creneauObjet = {
+    start: "",
+    end: "",
+    title: "",
+    type: "",
+    prio: "",
+    enseignant: "",
+  }
+
   var mensuelEl = document.getElementById('mensuel');
   var mensuel = new FullCalendar.Calendar(mensuelEl, {
     plugins: [
@@ -88,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   document.getElementById('submit2').onclick = function() {
 
-  console.log(saisieEnseignant);
+
   if(saisieEnseignant){
   var deltaRemarquePonctu = [];
   var deltaCreneauxPonctu = [];
@@ -172,8 +182,23 @@ document.addEventListener('DOMContentLoaded', function() {
           enregistrerDesRemarques(document.getElementById('form_remarquesHebdo').value,"Hebdomadaire",document.getElementById('form_remarquesPonctu').value,"Ponctuelle",enseignant);
         }
 
-      creneaux = mensuel.getEvents(); //on récupère tous les événements du calendrier sous forme d'un tableau
-      creneaux.forEach(creneau => enregistrerUnCreneau(creneau.start.toISOString(), creneau.end.toISOString(), creneau.title, "ContrainteProPonctu", "SansPrio", enseignant));
+        if(saisieEnseignant == false){
+          supprimerDesCreneaux("zoneGrisee");
+        }
+
+        var tableauCreneaux = [];
+        creneaux = mensuel.getEvents(); //on récupère tous les événements du calendrier sous forme d'un tableau
+        creneaux.forEach(function(creneau){
+          var aAjouterAuTableau = Object.create(creneauObjet);
+          aAjouterAuTableau.start = creneau.start.toISOString();
+          aAjouterAuTableau.end = creneau.end.toISOString();
+          aAjouterAuTableau.title = creneau.title;
+          aAjouterAuTableau.type = creneau.extendedProps.type;
+          aAjouterAuTableau.prio = creneau.extendedProps.prio;
+          aAjouterAuTableau.enseignant = enseignant;
+          tableauCreneaux.push(aAjouterAuTableau);
+        });
+       enregistrerDesCreneaux(tableauCreneaux);
     };
 
     mensuel.render();
