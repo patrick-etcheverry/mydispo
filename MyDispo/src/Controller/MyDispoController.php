@@ -36,6 +36,7 @@ class MyDispoController extends AbstractController
 
     // Récupérer l'objet enseignant ayant le token $token
     $enseignant = $enseignantRepository->findByToken($token);
+    $lien = $this->generateUrl('resume_saisie',['token'=> $enseignant[0]->getToken()],false);
 
 
 
@@ -261,6 +262,7 @@ if ($form2->isSubmitted()) {
         'form2' => $form2->createView(),
         'events' => $result,
         'enseignant' => $enseignant[0],
+        'lien' => $lien,
         'eventsMensuel' => $resultPonctu,
         'eventsSansGrisee' => $result2,
         'remarqueH' => $remarqueHebdo,
