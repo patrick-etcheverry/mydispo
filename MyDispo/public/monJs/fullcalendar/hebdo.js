@@ -323,8 +323,6 @@ if(saisieEnseignant){
       // Remarque ponctu -> remarqueHebdo
 
 
-console.log(creneauxEnseignantSansGrisee);
-console.log(creneauxHebdoSaisie);
 
       // Calculer le delta pour enregistrer dans le log
 
@@ -351,7 +349,7 @@ console.log(creneauxHebdoSaisie);
       if(creneauxEnseignantSansGrisee.length < creneauxHebdoSaisie.length){
         var texte = "Ajout de créneaux hebdomadaires";
         var indice = (creneauxHebdoSaisie.length - (creneauxHebdoSaisie.length - creneauxEnseignantSansGrisee.length)) + 1;
-        console.log(indice);
+
         for (var i = indice; i < creneauxHebdoSaisie.length-1; i++) {
           texte += " (Nouveau créneau : " + creneauxEnseignantSansGrisee[i].title + ")";
         }
@@ -407,6 +405,13 @@ console.log(creneauxHebdoSaisie);
   }
   var tableauCreneaux = [];
   creneaux = hebdo.getEvents(); //on récupère tous les événements du calendrier sous forme d'un tableau
+<<<<<<< HEAD
+  creneaux.forEach(creneau => enregistrerUnCreneau(creneau.start.toISOString(), creneau.end.toISOString(), creneau.title, creneau.extendedProps.type, creneau.extendedProps.prio, enseignant));
+
+document.getElementById("submit2").click();
+document.getElementById("submit3").click();
+
+=======
   creneaux.forEach(function(creneau){
     var aAjouterAuTableau = Object.create(creneauObjet);
     aAjouterAuTableau.start = creneau.start.toISOString();
@@ -418,6 +423,7 @@ console.log(creneauxHebdoSaisie);
     tableauCreneaux.push(aAjouterAuTableau);
   });
  enregistrerDesCreneaux(tableauCreneaux);
+>>>>>>> 1d447483c9777fa9c50fa17d4de67df2a466b721
 };
 
 hebdo.render();

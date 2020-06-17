@@ -53,7 +53,7 @@
 
 <center>
 <button class="btn-primary" id="submit">
-  <i class="far fa-save"></i>{{ button_label|default(' Enregistrer ') }}</button>
+  <i class="far fa-save"></i>{{ button_label|default(' Enregistrer toute ma saisie ') }}</button>
 </center>
 {% endblock %}
 
@@ -82,7 +82,7 @@
 
 <script> document.getElementById("form_remarquesPonctu").innerHTML = "{{remarqueP}}" ;</script>
 
-  <button class="btn-primary" id="submit2">
+  <button class="btn-primary" id="submit2" style="display: none;">
     <i class="far fa-save"></i>{{ button_label|default(' Enregistrer ') }}</button>
   </center>
 
@@ -105,7 +105,7 @@
 </div>
 <div class="card-footer">
   <center>
-    <button class="btn-primary" id="submit3">
+    <button class="btn-primary" id="submit3" style="display: none;">
       <i class="far fa-save"></i>{{ button_label|default(' Enregistrer ') }}</button>
   </center>
   {{form_end(form2)}}
