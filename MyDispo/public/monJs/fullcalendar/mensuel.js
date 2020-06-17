@@ -57,9 +57,13 @@ document.addEventListener('DOMContentLoaded', function() {
       mensuel.getEvents().forEach(event => {
         event.setProp("borderColor", "white");
       });
+      document.getElementById('type').style.display="none";
+      document.getElementById('prio').style.display="none";
+      document.getElementById('titrevt').style.display="block";
+      document.getElementById('nomcreneau').style.display="block";
+      
       document.getElementById('dateDebut').innerHTML = "";
       document.getElementById('dateFin').innerHTML =  "";
-      document.getElementById('nomcreneau').innerHTML = info.event.title;
       document.getElementById('titrevt').value = info.event.title;
       info.event.setProp("borderColor", "red");
 

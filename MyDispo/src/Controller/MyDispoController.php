@@ -14,13 +14,13 @@ use App\Repository\CreneauRepository;
 use App\Repository\RemarqueRepository;
 use App\Repository\FormulaireTitulaireRepository;
 use App\Repository\FormulaireVacataireRepository;
-
+use Symfony\Component\HttpFoundation\Session\Session;
 use App\Repository\LogEnseignantRepository;
 use App\Repository\EnseignantRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
 
@@ -170,8 +170,34 @@ class MyDispoController extends AbstractController
                   ))
       ->getForm();
 
+      $defaultData2 = ['message' => 'Type your message here'];
+      $form2 = $this->createFormBuilder($defaultData2)
+          ->add('regroupementEnseignement', ChoiceType::class, array(
+            'choices' => [
+              'Indifférent' => "Indifferent",
+              'Regroupés' => "Oui",
+              'Non regroupés' => "Non",
+
+              ],
+                  'label' => 'Je souhaite que mes enseignements soient : '
+              ))
+      ->getForm();
+
+    $form2->handleRequest($request);
+
 
     $form->handleRequest($request);
+
+if ($form2->isSubmitted()) {
+    $choix = $form2['regroupementEnseignement']->getData();
+
+
+    $enseignant[0]->setGrouperEnseignements($choix);
+    $entityManager = $this->getDoctrine()->getManager();
+    $entityManager->persist($enseignant[0]);
+    $entityManager->flush();
+
+}
 
     if ($form->isSubmitted() && $form->isValid()) {
 
@@ -225,6 +251,7 @@ class MyDispoController extends AbstractController
     return $this->render('my_dispo/formulaireTit.html.twig', [
         'formulaireTitulaire' => $formulaireTitulaire[0],
         'form' => $form->createView(),
+        'form2' => $form2->createView(),
         'events' => $result,
         'enseignant' => $enseignant[0],
         'eventsMensuel' => $resultPonctu,
@@ -353,9 +380,34 @@ class MyDispoController extends AbstractController
                   ))
       ->getForm();
 
+      $defaultData2 = ['message' => 'Type your message here'];
+      $form2 = $this->createFormBuilder($defaultData2)
+          ->add('regroupementEnseignement', ChoiceType::class, array(
+            'choices' => [
+              'Indifférent' => "Indifferent",
+              'Regroupés' => "Oui",
+              'Non regroupés' => "Non",
+
+              ],
+                  'label' => 'Je souhaite que mes enseignements soient : '
+              ))
+      ->getForm();
+
+    $form2->handleRequest($request);
+
 
     $form->handleRequest($request);
 
+if ($form2->isSubmitted()) {
+    $choix = $form2['regroupementEnseignement']->getData();
+
+
+    $enseignant[0]->setGrouperEnseignements($choix);
+    $entityManager = $this->getDoctrine()->getManager();
+    $entityManager->persist($enseignant[0]);
+    $entityManager->flush();
+
+}
     if ($form->isSubmitted() && $form->isValid()) {
 
       //Récupérer les créneaux des 2 calendriers (hebdomadaire et mensuel)
@@ -409,6 +461,7 @@ class MyDispoController extends AbstractController
   return $this->render('my_dispo/formulaireVac.html.twig',[
     'formulaireVacataire' => $formulaireVacataire[0],
     'form' => $form->createView(),
+    'form2' => $form2->createView(),
     'events' => $result,
     'enseignant' => $enseignant[0],
     'eventsMensuel' => $resultPonctu,

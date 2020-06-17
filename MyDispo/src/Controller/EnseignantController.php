@@ -97,15 +97,27 @@ class EnseignantController extends AbstractController
 
                   // Initialisation  des variables
                   $nomEnseignant = enleverCaracteresSpeciaux($enseignantCourant->getNom());
+                  $prenomEnseignant = enleverCaracteresSpeciaux($enseignantCourant->getPrenom());
                   $idEnseignant = $enseignantCourant->getId();
                   $creneaux = $enseignantCourant->getCreneaux();
+                  $remarques = $enseignantCourant->getRemarques();
 
                   // Initialisation du nom du fichier
-                  $nomFichierCourant = $nomEnseignant.$idEnseignant.'.csv';
+                  $nomFichierCourant = $nomEnseignant.$prenomEnseignant.$idEnseignant.'.csv';
 
                   // Ajout au fichier les infos de l'enseignant
                   $texte = $nomEnseignant.', '.$enseignantCourant->getPrenom().', '.$enseignantCourant->getMail().', '.$enseignantCourant->getStatut()."\r";
                   file_put_contents( $nomFichierCourant, $texte);
+
+                  // Ajout au fichier les remarques de l'enseignant
+                  foreach ( $remarques as $remarqueCourant ) {
+                    $type = $remarqueCourant->getType();
+                    $contenu = $remarqueCourant->getContenu();
+                    $texte = file_get_contents($nomFichierCourant);
+                    $texte .= $type.', '.$contenu."\r";
+                    file_put_contents( $nomFichierCourant, $texte);
+                  }
+
 
                   // Ajout au fichier les créneaux de l'enseignant
                   foreach ( $creneaux as $creneauCourant ) {
@@ -137,7 +149,7 @@ class EnseignantController extends AbstractController
 
                 // Supprimer tous les fichiers à l'extérieur de l'archive
                 foreach ( $enseignants as $enseignantCourant) {
-                  unlink(enleverCaracteresSpeciaux($enseignantCourant->getNom()).$enseignantCourant->getId().'.csv');
+                  unlink(enleverCaracteresSpeciaux($enseignantCourant->getNom()).enleverCaracteresSpeciaux($enseignantCourant->getPrenom()).$enseignantCourant->getId().'.csv');
                 }
 
             return $this->render('enseignant/confirmationTelechargement.html.twig');
@@ -182,7 +194,7 @@ class EnseignantController extends AbstractController
           $saisieFaite = $session->get('saisieFaite');
           $mailRelanceRecu = $session->get('mailRelanceRecu');
           $statut = $session->get('statut');
-
+          session_destroy();
           $repositoryEnseignant = $this->getDoctrine()->getRepository(Enseignant::class);
           $enseignants = $repositoryEnseignant->findByGeneral($tab = array('saisieFaite' => $saisieFaite ,'statut' => $statut, 'formations' => $formations, 'mailRelanceRecu' => $mailRelanceRecu ));
 

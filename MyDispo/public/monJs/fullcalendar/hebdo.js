@@ -142,11 +142,34 @@ else if(limiteDepassee()==true){alert("Trop de contraintes de ce type saisies");
 },
 
 eventRender: function(info) {
- if (info.event.extendedProps.type == "ContraintePro") {
-    info.el.querySelector('.fc-title').append(" [PRO] ");
-  } else if (info.event.extendedProps.type == "ContraintePerso") {
-    info.el.querySelector('.fc-title').append(" [PERSO] ");
+ if (info.event.extendedProps.type == "ContraintePro" && info.event.extendedProps.prio == "Forte") {
+    info.el.querySelector('.fc-title').append(" [PRO] [FORTE] ");
   }
+ else if (info.event.extendedProps.type == "ContraintePro" && info.event.extendedProps.prio == "Moyenne") {
+     info.el.querySelector('.fc-title').append(" [PRO] [MOY] ");
+   }
+  else if (info.event.extendedProps.type == "ContraintePro" && info.event.extendedProps.prio == "Faible") {
+      info.el.querySelector('.fc-title').append(" [PRO] [FAIBLE] ");
+    }
+ else if (info.event.extendedProps.type == "ContraintePerso" && info.event.extendedProps.prio == "Forte") {
+    info.el.querySelector('.fc-title').append(" [PERSO] [FORTE] ");
+  }
+  else if (info.event.extendedProps.type == "ContraintePerso" && info.event.extendedProps.prio == "Moyenne") {
+     info.el.querySelector('.fc-title').append(" [PERSO] [MOY] ");
+   }
+   else if (info.event.extendedProps.type == "ContraintePerso" && info.event.extendedProps.prio == "Faible") {
+      info.el.querySelector('.fc-title').append(" [PERSO] [FAIBLE] ");
+    }
+    else if (info.event.extendedProps.type == "Disponibilite" && info.event.extendedProps.prio == "Forte") {
+       info.el.querySelector('.fc-title').append(" [FORTE] ");
+     }
+    else if (info.event.extendedProps.type == "Disponibilite" && info.event.extendedProps.prio == "Moyenne") {
+        info.el.querySelector('.fc-title').append(" [MOY] ");
+      }
+     else if (info.event.extendedProps.type == "Disponibilite" && info.event.extendedProps.prio == "Faible") {
+         info.el.querySelector('.fc-title').append(" [FAIBLE] ");
+       }
+
 
 },
 eventClick: function(info) {
@@ -169,15 +192,33 @@ eventClick: function(info) {
 
   document.getElementById('dateDebut').innerHTML = "Début : " + dateDeb;
   document.getElementById('dateFin').innerHTML =  "Fin : " + dateFin ;
-  document.getElementById('nomcreneau').innerHTML = info.event.title;
-  document.getElementById('titrevt').value = info.event.title;
+
+  document.getElementById('type').innerHTML =  "Type : " + info.event.extendedProps.type ;
+  document.getElementById('prio').innerHTML =  "Priorité : " + info.event.extendedProps.prio ;
+  if(info.event.extendedProps.type != "Disponibilite"){
+    document.getElementById('nomcreneau').style.display="block";
+    document.getElementById('titrevt').style.display="block";
+    document.getElementById('type').style.display="block";
+    document.getElementById('prio').style.display="block";
+    document.getElementById('dateDebut').style.display="block";
+    document.getElementById('dateFin').style.display="block";
+    document.getElementById('titrevt').value = info.event.title;
+  }
+  if(info.event.extendedProps.type == "ContraintePerso" || info.event.extendedProps.type == "Disponibilite"){
+    document.getElementById('nomcreneau').style.display="none";
+    document.getElementById('titrevt').style.display="none";
+    document.getElementById('type').style.display="block";
+    document.getElementById('prio').style.display="block";
+    document.getElementById('dateDebut').style.display="block";
+    document.getElementById('dateFin').style.display="block";
+  }
+
   info.event.setProp("borderColor", "red");
 
 
   document.getElementById('apply').onclick = function() {
     if (document.getElementById('titrevt').value != '') {
       info.event.setProp("title", document.getElementById('titrevt').value);
-      document.getElementById("nomcreneau").innerHTML = info.event.title;
       hebdo.rerenderEvents();
     }
   openNav();

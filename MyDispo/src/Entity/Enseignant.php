@@ -115,6 +115,13 @@ class Enseignant
      */
     private $nbRelance= 0;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $grouperEnseignements = "Indifferent";
+
+
+
     public function __construct()
     {
         $this->logsEnseignant = new ArrayCollection();
@@ -453,6 +460,19 @@ class Enseignant
     {
         return $this->nom;
     }
+
+    public function getGrouperEnseignements(): ?string
+    {
+        return $this->grouperEnseignements;
+    }
+
+    public function setGrouperEnseignements(string $grouperEnseignements): self
+    {
+        $this->grouperEnseignements = $grouperEnseignements;
+
+        return $this;
+    }
+
 
 
 

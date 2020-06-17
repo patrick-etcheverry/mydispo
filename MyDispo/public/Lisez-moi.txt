@@ -12,29 +12,29 @@ Explication sur la structure du fichier .csv :
 	- Adresse mail de l'enseignant (Colonne 3)
 	- Statut de l'enseignant (Colonne 4)
 
-2ème ligne contient (si existant) :
+2ème ligne contient (si existante) :
+	- Type de la remarque hebdomadaire (Colonne 1)
+	- Contenu de la remarque hebdomadaire  (Colonne 2)
+
+3ème ligne contient (si existante) :
+	- Type de la remarque ponctuelle (Colonne 1)
+	- Contenu de la remarque ponctuelle (Colonne 2)
+
+4ème ligne contient (si existant) :
 	- Titre du créneau n°1 (Colonne 1) 
 	- Priorité du créneau n°1 (Colonne 2) 
 	- Date de début du créneau n°1 (Colonne 3) 
 	- Date de fin du créneau n°1 (Colonne 4) 
 	- Type du créneau n°1 (Colonne 5) 
-	
-3ème ligne contient (si existant) :
+
+5ème ligne contient (si existant) :
 	- Titre du créneau n°2 (Colonne 1) 
 	- Priorité du créneau n°2 (Colonne 2) 
 	- Date de début du créneau n°2 (Colonne 3) 
 	- Date de fin du créneau n°2 (Colonne 4) 
 	- Type du créneau n°2 (Colonne 5) 
-
+	
 etc ...
-
-n-ème ligne contient (si existant) :
-	- Titre du créneau n°(n-1) (Colonne 1) 
-	- Priorité du créneau n°(n-1) (Colonne 2) 
-	- Date de début du créneau n°(n-1) (Colonne 3) 
-	- Date de fin du créneau n°(n-1) (Colonne 4) 
-	- Type du créneau n°(n-1) (Colonne 5) 
-
 
 
 =====================================================
@@ -51,11 +51,11 @@ Explication sur les valeurs possibles pour les attributs "type" et "prioOuPref" 
 ===============================================================================================
 
 Valeurs possibles pour l'attribut "type" :
-	- ContrainteProHebdo
-	- ContraintePersoHebdo
-	- ContrainteProPonctu
-	- Evenement
-	- Disponibilite
+	- ContrainteProHebdo (Pour les enseignants)
+	- ContraintePersoHebdo	(Pour les enseignants)
+	- ContrainteProPonctu	(Pour les enseignants et vacataires)
+	- Evenement	(Pour l'admin)
+	- Disponibilite (Pour les vacataires)
 
 
 Valeurs possibles pour l'attribut "prioOuPref" :
