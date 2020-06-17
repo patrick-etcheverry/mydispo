@@ -101,13 +101,13 @@ class MyDispoController extends AbstractController
       switch ($event->getType()) {
         case 'ContraintePro':
           if($event->getPrioOuPref() == "Forte"){
-            $object->backgroundColor="#B84331";
-            $object->borderColor="#B84331";
-            $object->textColor="black";
+            $object->backgroundColor="#D35400";
+            $object->borderColor="#D35400";
+            $object->textColor="white";
           }
           if($event->getPrioOuPref() == "Moyenne"){
-            $object->backgroundColor="orange";
-            $object->borderColor="orange";
+            $object->backgroundColor="#F39C12";
+            $object->borderColor="#F39C12";
             $object->textColor="black";
           }
           if($event->getPrioOuPref() == "Faible"){
@@ -119,25 +119,32 @@ class MyDispoController extends AbstractController
         case 'ContraintePerso' :
 
           if($event->getPrioOuPref() == "Forte"){
-            $object->borderColor="#8A47A9";
-            $object->textColor="black";
-            $object->backgroundColor="#8A47A9";
+            $object->borderColor="#2471A3";
+            $object->textColor="white";
+            $object->backgroundColor="#2471A3";
           }
           if($event->getPrioOuPref() == "Moyenne"){
-            $object->borderColor="#314AB8";
+            $object->borderColor="#3498DB";
             $object->textColor="black";
-            $object->backgroundColor="#314AB8";
+            $object->backgroundColor="#3498DB";
           }
           if($event->getPrioOuPref() == "Faible"){
-            $object->borderColor="#2EAED3";
+            $object->borderColor="#AED6F1";
             $object->textColor="black";
-            $object->backgroundColor="#2EAED3";
+            $object->backgroundColor="#AED6F1";
           }
         break;
       }
 
       $creneauxEnseignant[] = $object;
     }}
+
+    $creneauxEnseignantSansGrisee = array();
+    foreach ($creneauxEnseignant as $creneauxEnseignantCourant) {
+      array_push($creneauxEnseignantSansGrisee,$creneauxEnseignantCourant);
+    }
+
+    $result2=json_encode($creneauxEnseignantSansGrisee);
 
     foreach ($creneauxGrisee as $creneauxGriseeCourant) {
       array_push($creneauxEnseignant,$creneauxGriseeCourant);
@@ -255,6 +262,7 @@ if ($form2->isSubmitted()) {
         'events' => $result,
         'enseignant' => $enseignant[0],
         'eventsMensuel' => $resultPonctu,
+        'eventsSansGrisee' => $result2,
         'remarqueH' => $remarqueHebdo,
         'remarqueP' => $remarquePonctu,
     ]);
@@ -346,6 +354,13 @@ if ($form2->isSubmitted()) {
 
       $creneauxEnseignant[] = $object;
     }}
+
+    $creneauxEnseignantSansGrisee = array();
+    foreach ($creneauxEnseignant as $creneauxEnseignantCourant) {
+      array_push($creneauxEnseignantSansGrisee,$creneauxEnseignantCourant);
+    }
+
+    $result2=json_encode($creneauxEnseignantSansGrisee);
 
     foreach ($creneauxGrisee as $creneauxGriseeCourant) {
       array_push($creneauxEnseignant,$creneauxGriseeCourant);
@@ -463,6 +478,7 @@ if ($form2->isSubmitted()) {
     'form' => $form->createView(),
     'form2' => $form2->createView(),
     'events' => $result,
+    'eventsSansGrisee' => $result2,
     'enseignant' => $enseignant[0],
     'eventsMensuel' => $resultPonctu,
     'remarqueH' => $remarqueHebdo,

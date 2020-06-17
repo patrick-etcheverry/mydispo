@@ -4,8 +4,9 @@
 document.addEventListener('DOMContentLoaded', function() {
 
 
+  setTimeout(function(){
+      var hebdoEl = document.getElementById('hebdo');
 
-  var hebdoEl = document.getElementById('hebdo');
   var hebdo = new FullCalendar.Calendar(hebdoEl, {
 
     plugins: [
@@ -37,8 +38,8 @@ document.addEventListener('DOMContentLoaded', function() {
       right: ''
     },
 
-    select: function(arg) {
 
+    select: function(arg) {
       closeNav();
       if(estFormulaireTitulaire){
         hebdo.setOption('defaultTimedEventDuration',tempsParDefaut());
@@ -59,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
           type: "Disponibilite",
           prio: detPrio(),
           color: detFond(),
-          textColor: "black",
+          textColor: detTexteCouleur(),
         });
       }
 
@@ -73,12 +74,13 @@ document.addEventListener('DOMContentLoaded', function() {
             type: detType(),
             prio: detPrio(),
             color: detFond(),
-            textColor: "black",
+            textColor: detTexteCouleur(),
           });
         }
 
         //Créneau contrainte pro
         else{
+
           hebdo.addEvent({
             title: title,
             start: arg.start,
@@ -86,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
             type: detType(),
             prio: detPrio(),
             color: detFond(),
-            textColor: "black",
+            textColor: detTexteCouleur(),
           });
         }
 
@@ -193,7 +195,21 @@ eventClick: function(info) {
   document.getElementById('dateDebut').innerHTML = "Début : " + dateDeb;
   document.getElementById('dateFin').innerHTML =  "Fin : " + dateFin ;
 
-  document.getElementById('type').innerHTML =  "Type : " + info.event.extendedProps.type ;
+var texte = "";
+switch (info.event.extendedProps.type) {
+  case "ContraintePro":
+    texte = "Contrainte professionnelle";
+    break;
+    case "ContraintePerso":
+    texte = "Contrainte personnelle";
+      break;
+      case "Disponibilite":
+    texte = "Disponibilité";
+        break;
+  default:
+
+}
+  document.getElementById('type').innerHTML =  texte ;
   document.getElementById('prio').innerHTML =  "Priorité : " + info.event.extendedProps.prio ;
   if(info.event.extendedProps.type != "Disponibilite"){
     document.getElementById('nomcreneau').style.display="block";
@@ -202,11 +218,15 @@ eventClick: function(info) {
     document.getElementById('prio').style.display="block";
     document.getElementById('dateDebut').style.display="block";
     document.getElementById('dateFin').style.display="block";
+    document.getElementById('apply').style.display="block";
+    document.getElementById('remove').style.display="block";
     document.getElementById('titrevt').value = info.event.title;
   }
   if(info.event.extendedProps.type == "ContraintePerso" || info.event.extendedProps.type == "Disponibilite"){
     document.getElementById('nomcreneau').style.display="none";
     document.getElementById('titrevt').style.display="none";
+    document.getElementById('apply').style.display="none";
+    document.getElementById('remove').style.display="block";
     document.getElementById('type').style.display="block";
     document.getElementById('prio').style.display="block";
     document.getElementById('dateDebut').style.display="block";
@@ -289,9 +309,12 @@ if(saisieEnseignant){
 
       // récup toutes les infos de l’enseignant en BD
 
-      // Events mensuels -> events
+      // Events mensuels -> creneauxEnseignantSansGrisee
       // Remarque ponctu -> remarqueHebdo
 
+
+console.log(creneauxEnseignantSansGrisee);
+console.log(creneauxHebdoSaisie);
 
       // Calculer le delta pour enregistrer dans le log
 
@@ -311,19 +334,27 @@ if(saisieEnseignant){
 
 
       //Delta sur les créneaux
-      if(events.length > creneauxHebdoSaisie.length){
+
+      if(creneauxEnseignantSansGrisee.length > creneauxHebdoSaisie.length){
         deltaCreneauxHebdo.push("Suppression de créneaux hebdomadaires");
       }
-      if(events.length < creneauxHebdoSaisie.length){
-        deltaCreneauxHebdo.push("Ajout de créneaux hebdomadaires");
+      if(creneauxEnseignantSansGrisee.length < creneauxHebdoSaisie.length){
+        var texte = "Ajout de créneaux hebdomadaires";
+        var indice = (creneauxHebdoSaisie.length - (creneauxHebdoSaisie.length - creneauxEnseignantSansGrisee.length)) + 1;
+        console.log(indice);
+        for (var i = indice; i < creneauxHebdoSaisie.length-1; i++) {
+          texte += " (Nouveau créneau : " + creneauxEnseignantSansGrisee[i].title + ")";
+        }
+        deltaCreneauxHebdo.push(texte);
       }
 
 
 
       creneauxHebdoSaisie.forEach(creneauxCourant => {
-        if(events[compteurEventsHebdo] != null){
-        if(creneauxCourant.title != events[compteurEventsHebdo].title ){
-          deltaCreneauxHebdo.push("Modification du titre d'un ou plusieurs créneaux hebdomadaires");
+        if(creneauxEnseignantSansGrisee[compteurEventsHebdo] != null){
+        if(creneauxCourant.title != creneauxEnseignantSansGrisee[compteurEventsHebdo].title ){
+          deltaCreneauxHebdo.push("Modification du titre d'un ou plusieurs créneaux hebdomadaires (Ancien titre : " + creneauxEnseignantSansGrisee[compteurEventsHebdo].title
+          + " - Nouveau titre : " + creneauxCourant.title + ")");
         }
 
         compteurEventsHebdo +=1;
@@ -416,7 +447,7 @@ if (saisieEnseignant) {
     }
 
   });
-}
+}}, 5);
 
 
 });

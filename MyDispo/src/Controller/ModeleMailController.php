@@ -148,7 +148,11 @@ $session->set('saisieFaite',$saisieFaite);
 $session->set('mailRelanceRecu',$mailRelanceRecu);
 $session->set('statut',$statut);
 
-
+if($form->get('nomCourt')->getData() == null){
+  return $this->render('modele_mail/envoieMail.html.twig', [
+      'form' => $form->createView(),
+  ]);
+}
 
         return $this->render('modele_mail/envoieMailResume.html.twig', [
             'data' => $data,

@@ -29,9 +29,17 @@
               <div class="card-footer">
                 <center>
                   <button class="btn-primary">
-                    <i class="fas fa-pencil-alt"></i>{{ button_label|default(' Créer') }}</button>
-                </center>
+                    <i class="fas fa-pencil-alt"></i> {{ button_label|default(' Créer') }}</button>
+
                 {{ form_end(form) }}
+
+                <a href="{{ path('random_Onetoken', { 'id': enseignant.id }) }}">
+                  <button class="btn-primary">
+                    <i class="fas fa-link"></i>
+                  {{ button_label2|default(' Générer le token ') }}</button>
+                </a>
+
+                </center>
 
               </div>
             </div>

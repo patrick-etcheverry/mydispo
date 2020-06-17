@@ -49,6 +49,32 @@ class EnseignantController extends AbstractController
       }
 
       /**
+       * @Route("/GenerationUnToken/{id}", name="random_Onetoken")
+      */
+      public function GenererUnToken(Enseignant $enseignant)
+          {
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $listeCharacteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$_.+!*()';
+            $tokenLength = 90;
+
+              $randomString = "";
+                for ($i = 0; $i < $tokenLength; $i++) {
+                    $randomString .= $listeCharacteres[rand(0, strlen($listeCharacteres) - 1)];
+                }
+              $randomString .= $enseignant->getId();
+              $enseignant->setToken($randomString);
+              $entityManager->persist($enseignant);
+              $entityManager->flush();
+
+
+              return $this->render('enseignant/show.html.twig', [
+                  'enseignant' => $enseignant,
+              ]);
+
+          }
+
+      /**
        * @Route("/telechargerContrainte", name="telechargerContrainte")
        */
       public function telechargerContrainte()
@@ -106,7 +132,7 @@ class EnseignantController extends AbstractController
                   $nomFichierCourant = $nomEnseignant.$prenomEnseignant.$idEnseignant.'.csv';
 
                   // Ajout au fichier les infos de l'enseignant
-                  $texte = $nomEnseignant.', '.$enseignantCourant->getPrenom().', '.$enseignantCourant->getMail().', '.$enseignantCourant->getStatut()."\r";
+                  $texte = $nomEnseignant.', '.$enseignantCourant->getPrenom().', '.$enseignantCourant->getMail().', '.$enseignantCourant->getStatut().', '.$enseignantCourant->getGrouperEnseignements()."\r";
                   file_put_contents( $nomFichierCourant, $texte);
 
                   // Ajout au fichier les remarques de l'enseignant

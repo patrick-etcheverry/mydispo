@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('prio').style.display="none";
       document.getElementById('titrevt').style.display="block";
       document.getElementById('nomcreneau').style.display="block";
-      
+      document.getElementById('apply').style.display="block";
       document.getElementById('dateDebut').innerHTML = "";
       document.getElementById('dateFin').innerHTML =  "";
       document.getElementById('titrevt').value = info.event.title;

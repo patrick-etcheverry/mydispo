@@ -11,6 +11,7 @@ Explication sur la structure du fichier .csv :
 	- Prénom de l'enseignant (Colonne 2)
 	- Adresse mail de l'enseignant (Colonne 3)
 	- Statut de l'enseignant (Colonne 4)
+	- La préférence sur le groupe des enseignements (Colonne 5)
 
 2ème ligne contient (si existante) :
 	- Type de la remarque hebdomadaire (Colonne 1)
@@ -47,7 +48,7 @@ Exemple possible : '14-54 06/05/2020'  traduit en -> 14h54 le 06 Mai 2020
 
 
 ===============================================================================================
-Explication sur les valeurs possibles pour les attributs "type" et "prioOuPref" du fichier .csv :
+Explication sur les valeurs possibles pour les attributs "type", "prioOuPref" et "grouperEnseignements" du fichier .csv :
 ===============================================================================================
 
 Valeurs possibles pour l'attribut "type" :
@@ -65,5 +66,10 @@ Valeurs possibles pour l'attribut "prioOuPref" :
 	- SansPrio (Pour les créneaux de type "ContrainteProPonctu")
 
  
+Valeurs possibles pour l'attribut "grouperEnseignements" :
+	- Oui
+	- Non
+	- Indifférent (Choix par défaut)
+
 
 

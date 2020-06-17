@@ -122,6 +122,8 @@ class Enseignant
 
 
 
+
+
     public function __construct()
     {
         $this->logsEnseignant = new ArrayCollection();
@@ -472,6 +474,8 @@ class Enseignant
 
         return $this;
     }
+
+
 
 
 

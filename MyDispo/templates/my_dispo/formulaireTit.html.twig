@@ -16,7 +16,7 @@
 {% block sideNav %}
   <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" id="close">&times;</a>
-    <center><h5 id="nomcreneau">Titre</h5><textarea type="text" name="titre" id="titrevt" style="width: 280px; rows: 50"></textarea>
+    <center><h5 id="nomcreneau">Description</h5><textarea type="text" name="titre" id="titrevt" style="width: 280px; rows: 50"></textarea>
   </br>
   <p id="type"></p>
   <p id="prio"></p>
@@ -24,8 +24,8 @@
     <p id="dateDebut"></p>
     <p id="dateFin"></p>
 </br>
-    <button id="apply"><i class="far fa-save"></i> Enregistrer ce créneau</button>
-    <button id="remove" style="color:#C22F2F"><i class="fas fa-trash-alt"></i> Supprimer ce créneau</button></center>
+    <button id="apply"><i class="far fa-save"></i> Enregistrer </button>
+    <button id="remove" style="color:#C22F2F"><i class="fas fa-trash-alt"></i> Supprimer </button></center>
   </div>
 {% endblock %}
 
@@ -232,6 +232,16 @@ function detPrio() {
   }
   return prio;
 }
+
+function detTexteCouleur() {
+  if (document.getElementById('proForte').checked || document.getElementById('persForte').checked) {
+    couleurTexte = "white";
+  } else {
+  couleurTexte = "black";
+  }
+  return couleurTexte;
+}
+
 function detType() {
   if (document.getElementById('proForte').checked || document.getElementById('proMoy').checked || document.getElementById('proFaible').checked) {
     type = 'ContraintePro';
@@ -372,7 +382,7 @@ var enseignant = {{enseignant.id}};
 var eventsMensuel = {{eventsMensuel|raw}};
 var remarquePonctu = "{{remarqueP}}";
 var remarqueHebdo = "{{remarqueH}}";
-
+var creneauxEnseignantSansGrisee = {{eventsSansGrisee|raw}};
 var estFormulaireTitulaire = true;
 
 

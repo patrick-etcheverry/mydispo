@@ -164,34 +164,35 @@
 
 
                 {% if logEnseignantCourant.zone == "Zone saisie hebdomadaire" %}
-                <center>Zone saisie hebdomadaire</center>
+                <center>Zone saisie hebdomadaire
                   {% if 'Suppression' in logEnseignantCourant.description %}
-                  <center>Suppression</center>
+                    <i class="far fa-trash-alt"></i>
                   {% endif %}
                   {% if 'Ajout' in logEnseignantCourant.description %}
-                  <center>Ajout</center>
+                  <i class="fas fa-plus-circle"></i>
                   {% endif %}
                   {% if 'Modification' in logEnseignantCourant.description %}
-                  <center>Modification</center>
+                    <i class="fas fa-pencil-alt"></i>
                   {% endif %}
+                </center>
                 {% endif %}
 
                   </center>
 
               {% if logEnseignantCourant.typeAction == "Consultation" %}
-              <center>Consultation</center>
+              <center>Consultation seulement <i class="far fa-eye"></i></center>
               {% endif %}
 
                 {% if logEnseignantCourant.zone == "Zone saisie ponctuelle"%}
                 <center>Zone saisie ponctuelle</center>
                   {% if 'Suppression' in logEnseignantCourant.description %}
-                  <center>Suppresion</center>
+                  <center><i class="far fa-trash-alt"></i></center>
                   {% endif %}
                   {% if 'Ajout' in logEnseignantCourant.description %}
-                  <center>Ajout</center>
+                  <center><i class="fas fa-plus-circle"></i></center>
                   {% endif %}
                   {% if 'Modification' in logEnseignantCourant.description %}
-                  <center>Modification</center>
+                  <center>  <i class="fas fa-pencil-alt"></i></center>
                   {% endif %}
                 {% endif %}
             </td>
