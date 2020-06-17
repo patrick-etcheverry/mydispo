@@ -100,11 +100,11 @@
   <div class="card-body">
     <form>
     <div class="form-group">
-     <label for="exampleFormControlSelect1"> Groupement des enseignements </label>
-     <select class="form-control" id="exampleFormControlSelect1">
-       <option>1</option>
-       <option>2</option>
-       <option>3</option>
+     <label for="regroupement"> Je souhaite que mes enseignements soient : </label>
+     <select class="form-control" id="regroupement">
+       <option>Indifférent</option>
+       <option>Regroupés</option>
+       <option>Non regroupés</option>
      </select>
    </div>
      </form>
@@ -119,18 +119,10 @@
 {% endblock %}
 
 
-
-
-
 {% block javascripts %}
 
 {{ parent() }}
 <script>
-
-
-
-
-
 
 function enregistrerDesRemarques(contenuRemarque1 , typeRemarque1 , contenuRemarque2, typeRemarque2, enseignant) {
   $.ajax({

@@ -162,19 +162,21 @@ class MyDispoController extends AbstractController
 
     //RECUPERATION REMARQUES
     $remarques = $enseignant->getRemarques();
-    if(empty($remarques) == false){
-      foreach ($remarques as $remarqueCourante) {
-        if($remarqueCourante->getType()=="Hebdomadaire"){
-          $remarqueHebdo=$remarqueCourante->getContenu();
-        }
-        else{
-          $remarquePonctu=$remarqueCourante->getContenu();
-        }
-      }
+
+    if($remarques[0]->getType()=="Hebdomadaire" && count($remarques)==1){$remarqueHebdo=$remarques[0]->getContenu();}
+    else if($remarques[0]->getType()=='Ponctuelle' && count($remarques)==1){$remarquePonctu=$remarques[0]->getContenu();}
+    else if($remarques[0]->getType()=='Ponctuelle' && $remarques[1]->getType()=='Hebdomadaire'){
+      $remarquePonctu=$remarques[0]->getContenu();
+      $remarqueHebdo=$remarques[1]->getContenu();
     }
+    else if($remarques[0]->getType()=='Hebdomadaire' && $remarques[1]->getType()=='Ponctuelle'){
+      $remarquePonctu=$remarques[1]->getContenu();
+      $remarqueHebdo=$remarques[0]->getContenu();
+    }
+
     else{
-      $remarqueHebdo = " ";
-      $remarquePonctu = " ";
+      $remarqueHebdo = "";
+      $remarquePonctu = "";
     }
 
     // $creneauxEnseignantSansGrisee = array();
@@ -209,9 +211,9 @@ class MyDispoController extends AbstractController
         'remarqueP' => $remarquePonctu,
         'lien' => $lien,
 
-    ]);
+      ]);
+    }
   }
-}
 
   /**
   * @Route("/resume-saisie/{token}", name="resume_saisie")
