@@ -239,14 +239,13 @@ document.getElementById('submit').onclick = function() {
     supprimerDesCreneaux("Disponibilite", enseignant);
     supprimerDesRemarques(enseignant);
     enregistrerDesRemarques(document.getElementById('form_remarquesHebdo').value,"Hebdomadaire",document.getElementById('form_remarquesPonctu').value,"Ponctuelle",enseignant);
-
   }
 
   if (saisieEnseignant && estFormulaireTitulaire) {
     supprimerDesCreneaux("ContraintePro", enseignant);
     supprimerDesCreneaux("ContraintePerso", enseignant);
     supprimerDesRemarques(enseignant);
-    enregistrerDesRemarques(document.getElementById('form_remarquesHebdo').value,"Hebdomadaire",document.getElementById('form_remarquesPonctu').value,"Ponctuelle",enseignant);
+    enregistrerDesRemarques(document.getElementById('form_remarquesHebdo').innerHTML,"Hebdomadaire",document.getElementById('form_remarquesPonctu').innerHTML,"Ponctuelle",enseignant);
   }
 
 
@@ -255,7 +254,6 @@ document.getElementById('submit').onclick = function() {
   }
   creneaux = hebdo.getEvents(); //on récupère tous les événements du calendrier sous forme d'un tableau
   creneaux.forEach(creneau => enregistrerUnCreneau(creneau.start.toISOString(), creneau.end.toISOString(), creneau.title, creneau.extendedProps.type, creneau.extendedProps.prio, enseignant));
-
 };
 
 hebdo.render();
