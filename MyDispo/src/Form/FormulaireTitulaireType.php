@@ -27,17 +27,17 @@ class FormulaireTitulaireType extends AbstractType
       ->add('textePonctuel',TextareaType::class,['label' => 'Texte affiché pour la saisie des contraintes ponctuelles',])
       ->add('anneeUniversitaire',TextType::class,['label' => 'Année universitaire du formulaire',])
       ->add('remarquesHebdoActives',CheckboxType::class, [
-        'label_attr' => ['class' => 'switch-custom'], 'label' => 'Activer les remarques éventuelles pour les contraintes hebdomadaires'
+        'label_attr' => ['class' => 'switch-custom'], 'label' => 'Activer les remarques éventuelles pour les contraintes hebdomadaires', 'required' => false
       ])
       ->add('remarquesPonctuelActives',CheckboxType::class, [
-        'label_attr' => ['class' => 'switch-custom'], 'label' => 'Activer les remarques éventuelles pour les contraintes ponctuelles'
+        'label_attr' => ['class' => 'switch-custom'], 'label' => 'Activer les remarques éventuelles pour les contraintes ponctuelles', 'required' => false
       ])
       ->add('autoriserTitreVideContraintePerso',CheckboxType::class, [
-        'label_attr' => ['class' => 'switch-custom'], 'label' => 'Autoriser les utilisateurs à avoir des contraintes personnelles sans description'
+        'label_attr' => ['class' => 'switch-custom'], 'label' => 'Autoriser les utilisateurs à avoir des contraintes personnelles sans description', 'required' => false
       ])
 
       ->add('estOuvert',CheckboxType::class, [
-        'label_attr' => ['class' => 'switch-custom'], 'label' => 'Ouvrir les saisies'
+        'label_attr' => ['class' => 'switch-custom'], 'label' => 'Ouvrir les saisies', 'required' => false
       ])
       ->add('quantiteProForte',IntegerType::class,['label' => 'Nombre de créneaux autorisé pour la saisie des contraintes professionnelles de priorité forte',])
       ->add('quantiteProMoy',IntegerType::class,['label' => 'Nombre de créneaux autorisé pour la saisie des contraintes professionnelles de priorité moyenne',])

@@ -33,7 +33,7 @@ class LogEnseignant
     private $zone;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text", length=2000)
      */
     private $description;
 

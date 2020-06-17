@@ -4,16 +4,18 @@
 document.addEventListener('DOMContentLoaded', function() {
 
 
-  const creneauObjet = {
-    start: "",
-    end: "",
-    title: "",
-    type: "",
-    prio: "",
-    enseignant: "",
-  }
+const creneauObjet = {
+  start: "",
+  end: "",
+  title: "",
+  type: "",
+  prio: "",
+  enseignant: "",
+}
 
-  var hebdoEl = document.getElementById('hebdo');
+  setTimeout(function(){
+      var hebdoEl = document.getElementById('hebdo');
+
   var hebdo = new FullCalendar.Calendar(hebdoEl, {
 
     plugins: [
@@ -45,8 +47,8 @@ document.addEventListener('DOMContentLoaded', function() {
       right: ''
     },
 
-    select: function(arg) {
 
+    select: function(arg) {
       closeNav();
       if(estFormulaireTitulaire){
         hebdo.setOption('defaultTimedEventDuration',tempsParDefaut());
@@ -67,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
           type: "Disponibilite",
           prio: detPrio(),
           color: detFond(),
-          textColor: "black",
+          textColor: detTexteCouleur(),
         });
       }
 
@@ -82,12 +84,13 @@ document.addEventListener('DOMContentLoaded', function() {
             type: detType(),
             prio: detPrio(),
             color: detFond(),
-            textColor: "black",
+            textColor: detTexteCouleur(),
           });
         }
 
         //Créneau contrainte pro
         else{
+
           hebdo.addEvent({
             title: title,
             start: arg.start,
@@ -95,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
             type: detType(),
             prio: detPrio(),
             color: detFond(),
-            textColor: "black",
+            textColor: detTexteCouleur(),
           });
         }
 
@@ -151,11 +154,34 @@ else if(limiteDepassee()==true){alert("Trop de contraintes de ce type saisies");
 },
 
 eventRender: function(info) {
- if (info.event.extendedProps.type == "ContraintePro") {
-    info.el.querySelector('.fc-title').append(" [PRO] ");
-  } else if (info.event.extendedProps.type == "ContraintePerso") {
-    info.el.querySelector('.fc-title').append(" [PERSO] ");
+ if (info.event.extendedProps.type == "ContraintePro" && info.event.extendedProps.prio == "Forte") {
+    info.el.querySelector('.fc-title').append(" [PRO] [FORTE] ");
   }
+ else if (info.event.extendedProps.type == "ContraintePro" && info.event.extendedProps.prio == "Moyenne") {
+     info.el.querySelector('.fc-title').append(" [PRO] [MOY] ");
+   }
+  else if (info.event.extendedProps.type == "ContraintePro" && info.event.extendedProps.prio == "Faible") {
+      info.el.querySelector('.fc-title').append(" [PRO] [FAIBLE] ");
+    }
+ else if (info.event.extendedProps.type == "ContraintePerso" && info.event.extendedProps.prio == "Forte") {
+    info.el.querySelector('.fc-title').append(" [PERSO] [FORTE] ");
+  }
+  else if (info.event.extendedProps.type == "ContraintePerso" && info.event.extendedProps.prio == "Moyenne") {
+     info.el.querySelector('.fc-title').append(" [PERSO] [MOY] ");
+   }
+   else if (info.event.extendedProps.type == "ContraintePerso" && info.event.extendedProps.prio == "Faible") {
+      info.el.querySelector('.fc-title').append(" [PERSO] [FAIBLE] ");
+    }
+    else if (info.event.extendedProps.type == "Disponibilite" && info.event.extendedProps.prio == "Forte") {
+       info.el.querySelector('.fc-title').append(" [FORTE] ");
+     }
+    else if (info.event.extendedProps.type == "Disponibilite" && info.event.extendedProps.prio == "Moyenne") {
+        info.el.querySelector('.fc-title').append(" [MOY] ");
+      }
+     else if (info.event.extendedProps.type == "Disponibilite" && info.event.extendedProps.prio == "Faible") {
+         info.el.querySelector('.fc-title').append(" [FAIBLE] ");
+       }
+
 
 },
 eventClick: function(info) {
@@ -178,15 +204,51 @@ eventClick: function(info) {
 
   document.getElementById('dateDebut').innerHTML = "Début : " + dateDeb;
   document.getElementById('dateFin').innerHTML =  "Fin : " + dateFin ;
-  document.getElementById('nomcreneau').innerHTML = info.event.title;
-  document.getElementById('titrevt').value = info.event.title;
+
+var texte = "";
+switch (info.event.extendedProps.type) {
+  case "ContraintePro":
+    texte = "Contrainte professionnelle";
+    break;
+    case "ContraintePerso":
+    texte = "Contrainte personnelle";
+      break;
+      case "Disponibilite":
+    texte = "Disponibilité";
+        break;
+  default:
+
+}
+  document.getElementById('type').innerHTML =  texte ;
+  document.getElementById('prio').innerHTML =  "Priorité : " + info.event.extendedProps.prio ;
+  if(info.event.extendedProps.type != "Disponibilite"){
+    document.getElementById('nomcreneau').style.display="block";
+    document.getElementById('titrevt').style.display="block";
+    document.getElementById('type').style.display="block";
+    document.getElementById('prio').style.display="block";
+    document.getElementById('dateDebut').style.display="block";
+    document.getElementById('dateFin').style.display="block";
+    document.getElementById('apply').style.display="block";
+    document.getElementById('remove').style.display="block";
+    document.getElementById('titrevt').value = info.event.title;
+  }
+  if(info.event.extendedProps.type == "ContraintePerso" || info.event.extendedProps.type == "Disponibilite"){
+    document.getElementById('nomcreneau').style.display="none";
+    document.getElementById('titrevt').style.display="none";
+    document.getElementById('apply').style.display="none";
+    document.getElementById('remove').style.display="block";
+    document.getElementById('type').style.display="block";
+    document.getElementById('prio').style.display="block";
+    document.getElementById('dateDebut').style.display="block";
+    document.getElementById('dateFin').style.display="block";
+  }
+
   info.event.setProp("borderColor", "red");
 
 
   document.getElementById('apply').onclick = function() {
     if (document.getElementById('titrevt').value != '') {
       info.event.setProp("title", document.getElementById('titrevt').value);
-      document.getElementById("nomcreneau").innerHTML = info.event.title;
       hebdo.rerenderEvents();
     }
   openNav();
@@ -241,7 +303,90 @@ eventClick: function(info) {
 
 });
 
+
+
 document.getElementById('submit').onclick = function() {
+
+
+if(saisieEnseignant){
+  var deltaRemarqueHebdo = [];
+  var deltaCreneauxHebdo = [];
+  var compteurEventsHebdo = 0;
+      // récup toutes les infos de l’enseignant saisies dans le formulaire
+
+      creneauxHebdoSaisie = hebdo.getEvents();   // Les créneaux
+      remarqueHebdoSaisie = document.getElementById('form_remarquesHebdo').value; // Remarque ponctu
+
+      // récup toutes les infos de l’enseignant en BD
+
+      // Events mensuels -> creneauxEnseignantSansGrisee
+      // Remarque ponctu -> remarqueHebdo
+
+
+console.log(creneauxEnseignantSansGrisee);
+console.log(creneauxHebdoSaisie);
+
+      // Calculer le delta pour enregistrer dans le log
+
+      // Delta sur les remarques
+      if(!(remarqueHebdoSaisie == remarqueHebdo)){
+
+        if(remarqueHebdoSaisie == "" && remarqueHebdo != ""){
+          deltaRemarqueHebdo.push("Suppression de la remarque sur les contraintes hebdomadaires");
+        }
+        else if (remarqueHebdoSaisie != "" && remarqueHebdo == ""){
+          deltaRemarqueHebdo.push("Ajout de la remarque sur les contraintes hebdomadaires");
+        }
+        else {
+          deltaRemarqueHebdo.push("Modification de la remarque sur les contraintes hebdomadaires");
+        }
+      }
+
+
+      //Delta sur les créneaux
+
+      if(creneauxEnseignantSansGrisee.length > creneauxHebdoSaisie.length){
+        deltaCreneauxHebdo.push("Suppression de créneaux hebdomadaires");
+      }
+      if(creneauxEnseignantSansGrisee.length < creneauxHebdoSaisie.length){
+        var texte = "Ajout de créneaux hebdomadaires";
+        var indice = (creneauxHebdoSaisie.length - (creneauxHebdoSaisie.length - creneauxEnseignantSansGrisee.length)) + 1;
+        console.log(indice);
+        for (var i = indice; i < creneauxHebdoSaisie.length-1; i++) {
+          texte += " (Nouveau créneau : " + creneauxEnseignantSansGrisee[i].title + ")";
+        }
+        deltaCreneauxHebdo.push(texte);
+      }
+
+
+
+      creneauxHebdoSaisie.forEach(creneauxCourant => {
+        if(creneauxEnseignantSansGrisee[compteurEventsHebdo] != null){
+        if(creneauxCourant.title != creneauxEnseignantSansGrisee[compteurEventsHebdo].title ){
+          deltaCreneauxHebdo.push("Modification du titre d'un ou plusieurs créneaux hebdomadaires (Ancien titre : " + creneauxEnseignantSansGrisee[compteurEventsHebdo].title
+          + " - Nouveau titre : " + creneauxCourant.title + ")");
+        }
+
+        compteurEventsHebdo +=1;
+      }});
+
+      //Envoie des logs à LogEnseignantController
+      if(deltaRemarqueHebdo.length == 0 && deltaCreneauxHebdo.length == 0){
+        envoyerLogHebdo("Aucune modif remarque", "Aucune modif créneau", enseignant);
+      }
+      else if(deltaRemarqueHebdo.length == 0){
+        envoyerLogHebdo("Aucune modif remarque", deltaCreneauxHebdo, enseignant);
+      }
+      else if (deltaCreneauxHebdo.length == 0){
+        envoyerLogHebdo(deltaRemarqueHebdo, "Aucune modif créneau", enseignant);
+      }
+      else{
+        envoyerLogHebdo(deltaRemarqueHebdo, deltaCreneauxHebdo, enseignant);
+      }
+
+}
+
+
 
   if(saisieEnseignant && estFormulaireTitulaire == false){
     supprimerDesCreneaux("Disponibilite", enseignant);
@@ -322,7 +467,7 @@ if (saisieEnseignant) {
     }
 
   });
-}
+}}, 5);
 
 
 });

@@ -16,13 +16,16 @@
 {% block sideNav %}
   <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" id="close">&times;</a>
-    <center><p id="nomcreneau">Nom du creneau</p>
+    <center><h5 id="nomcreneau">Description</h5><textarea type="text" name="titre" id="titrevt" style="width: 280px; rows: 50"></textarea>
   </br>
+  <p id="type"></p>
+  <p id="prio"></p>
+</br>
     <p id="dateDebut"></p>
     <p id="dateFin"></p>
-    <input type="text" name="titre" id="titrevt" style="width: 280px">
-    <button id="apply">Enregistrer</button>
-    <button id="remove">Supprimer ce créneau</button></center>
+</br>
+    <button id="apply"><i class="far fa-save"></i> Enregistrer </button>
+    <button id="remove" style="color:#C22F2F"><i class="fas fa-trash-alt"></i> Supprimer </button></center>
   </div>
 {% endblock %}
 
@@ -41,12 +44,15 @@
 </div>
 </br>
 
-{{ form_row(form.remarquesHebdo) }}
+{{ form_row(form.remarquesHebdo, { 'attr': {
+  'style' : 'width:1350px',
+  'rows' : '6',
+  'cols' : '30' }} ) }}
 <script>  document.getElementById("form_remarquesHebdo").innerHTML = "{{remarqueH}}" ;</script>
 
 <center>
 <button class="btn-primary" id="submit">
-  <i class="fas fa-pencil-alt"></i>{{ button_label|default(' Envoyer ') }}</button>
+  <i class="far fa-save"></i>{{ button_label|default(' Enregistrer ') }}</button>
 </center>
 {% endblock %}
 
@@ -56,20 +62,46 @@
 {% block ZoneCentreSaisiesContraintesPonctuelles %}
 <div id="main">
   {{ formulaireVacataire.textePonctuel }}
-
-
-
+  </br>
 </br>
   <div id='mensuel'></div>
-  {{ form_row(form.remarquesPonctu) }}
+  {{ form_row(form.remarquesPonctu, { 'attr': {
+    'style' : 'width:1350px',
+    'rows' : '6',
+    'cols' : '30' }} ) }}
   <script> document.getElementById("form_remarquesPonctu").innerHTML = "{{remarqueP}}" ;</script>
   </br>
   <center>
   <button class="btn-primary" id="submit2">
-    <i class="fas fa-pencil-alt"></i>{{ button_label|default(' Envoyer ') }}</button>
+    <i class="far fa-save"></i>{{ button_label|default(' Enregistrer ') }}</button>
   </center>
 </div>
 {% endblock %}
+
+{% block GroupementEnseignement %}
+</br>
+<div class="card">
+<h5 class="card-header">
+  <center>
+    Groupement de vos enseignements
+  </center>
+</h5>
+<div class="card-body">
+  <p class="card-text">
+    {{form_start(form2)}}
+    {{form_row(form2.regroupementEnseignement)}}
+  </p>
+</div>
+<div class="card-footer">
+  <center>
+    <button class="btn-primary" id="submit3">
+      <i class="far fa-save"></i>{{ button_label|default(' Enregistrer ') }}</button>
+  </center>
+  {{form_end(form2)}}
+</div>
+</div>
+{% endblock %}
+
 
 {% block javascripts %}
 
@@ -104,6 +136,8 @@ function enregistrerDesRemarques(contenuRemarque1 , typeRemarque1 , contenuRemar
   });
 }
 
+
+
 function supprimerDesRemarques(enseignant) {
   $.ajax({
     url: "{{path("suppr_remarque")}}",
@@ -112,7 +146,7 @@ function supprimerDesRemarques(enseignant) {
     },
     type: "POST"
   });
-  
+
 }
 
 function supprimerDesCreneaux(type, enseignant="") {
@@ -125,6 +159,34 @@ function supprimerDesCreneaux(type, enseignant="") {
     type: "POST"
   });
 }
+
+
+function envoyerLogHebdo(deltaRemarqueHebdo, deltaCreneauxHebdo,enseignant) {
+  $.ajax({
+    url: "{{path("set_log_enseignant_hebdo")}}",
+    data: {
+      tabDeltaRemarqueHebdo: deltaRemarqueHebdo,
+      tabDeltaCreneauxHebdo: deltaCreneauxHebdo,
+      idEnseignant: enseignant,
+
+    },
+    type: "POST"
+  });
+}
+
+function envoyerLogPonctu(deltaRemarquePonctu, deltaCreneauxPonctu,enseignant) {
+  $.ajax({
+    url: "{{path("set_log_enseignant_ponctu")}}",
+    data: {
+      tabDeltaRemarquePonctu: deltaRemarquePonctu,
+      tabDeltaCreneauxPonctu: deltaCreneauxPonctu,
+      idEnseignant: enseignant,
+
+    },
+    type: "POST"
+  });
+}
+
 //déterminer la couleur du fond de l'événement à utiliser en fonction du bouton radio coché
 function detFond() {
   if (document.getElementById('Forte').checked) {
@@ -146,6 +208,15 @@ function detPrio() {
     prio = 'Faible';
   }
   return prio;
+}
+
+function detTexteCouleur() {
+  if (document.getElementById('Forte').checked ) {
+    couleurTexte = "white";
+  } else {
+  couleurTexte = "black";
+  }
+  return couleurTexte;
 }
 
 function detType() {
@@ -212,9 +283,10 @@ var events = {{events|raw}};
 var enseignant = {{enseignant.id}};
 var eventsMensuel = {{eventsMensuel|raw}};
 var titrevide = true;
-
+var remarquePonctu = "{{remarqueP}}";
+var remarqueHebdo = "{{remarqueH}}";
 var estFormulaireTitulaire = false;
-
+var creneauxEnseignantSansGrisee = {{eventsSansGrisee|raw}};
 
 
 

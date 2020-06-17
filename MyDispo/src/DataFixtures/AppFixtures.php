@@ -78,6 +78,7 @@ class AppFixtures extends Fixture
         $enseignant1->setDateDerniereRelance(new DateTime('12/07/2020'));
         $enseignant1->setNbRelance(1);
 
+
         $manager->persist($enseignant1);
 
 
@@ -174,6 +175,7 @@ class AppFixtures extends Fixture
         $enseignant6->setDateDerniereRelance(null);
         $enseignant6->setNbRelance(0);
 
+
         $manager->persist($enseignant6);
 
         $enseignant7 = new Enseignant();
@@ -210,6 +212,7 @@ class AppFixtures extends Fixture
         $enseignant8->setDatePremierMail(null);
         $enseignant8->setDateDerniereRelance(null);
         $enseignant8->setNbRelance(0);
+
 
 
         $manager->persist($enseignant8);
