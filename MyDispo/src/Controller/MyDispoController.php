@@ -197,8 +197,6 @@ class MyDispoController extends AbstractController
 
 if ($form2->isSubmitted()) {
     $choix = $form2['regroupementEnseignement']->getData();
-
-
     $enseignant[0]->setGrouperEnseignements($choix);
     $entityManager = $this->getDoctrine()->getManager();
     $entityManager->persist($enseignant[0]);
@@ -244,13 +242,8 @@ if ($form2->isSubmitted()) {
 
       $entityManager->persist($enseignant);
 
-      // Renvoie l'enseignant vers la page résumant sa saisie avant d'envoyer le mail
-      return $this->render('my_dispo/resumeSaisie.html.twig',
-      [
-          'enseignant' => $enseignant,
-          'form' => $form->createView(),
-      ]
-    );
+
+
 
     }
 
