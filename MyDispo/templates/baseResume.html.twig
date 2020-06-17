@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>
+    {% block title %}Titre onglet{% endblock %}
+  </title>
+
+  {% block stylesheets %}
+  <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.css')}}" crossorigin="anonymous">  <!-- Style Bootstrap en local -->
+  <link href="{{ asset('css/fullcalendarstyle.css') }}" rel="stylesheet"/>
+  <link href="{{ asset('fullcalendar/packages/core/main.css') }}" rel='stylesheet'/>
+  <link href="{{ asset('fullcalendar/packages/timegrid/main.css') }}" rel='stylesheet'/>
+  <link href="{{ asset('fullcalendar/packages/daygrid/main.css') }}" rel='stylesheet'/>
+  <link href="{{ asset('fullcalendar/packages/list/main.css') }}" rel='stylesheet'/>
+  <link href="{{ asset('fullcalendar/packages/bootstrap/main.css') }}" rel='stylesheet'/>
+
+  <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+  {% endblock %}
+
+
+</head>
+<body>
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-md-12">
+        {% block enTete %}
+        {% endblock %}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        {% block contenu %}
+        {% endblock %}
+
+      </div>
+    </div>
+
+
+    {% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+
+    <script src="{{ asset('fullcalendar/packages/core/main.js')}}"></script>
+    <script src="{{ asset('fullcalendar/packages/daygrid/main.js')}}"></script>
+    <script src="{{ asset('fullcalendar/packages/timegrid/main.js')}}"></script>
+    <script src="{{ asset('fullcalendar/packages/list/main.js')}}"></script>
+    <script src="{{ asset('fullcalendar/packages/core/locales/fr.js')}}"></script>
+    <script src="{{ asset('fullcalendar/packages/bootstrap/main.js')}}"></script>
+
+    <script src="{{ asset('monJs/fullcalendar/hebdoResume.js')}}"></script>
+    <script src="{{ asset('monJs/fullcalendar/liste.js')}}"></script>
+
+
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+
+    {% endblock %}
+  </body>
+  </html>

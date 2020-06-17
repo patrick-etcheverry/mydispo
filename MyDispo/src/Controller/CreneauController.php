@@ -23,30 +23,24 @@ class CreneauController extends AbstractController
   */
   public function ajouterCreneau(EnseignantRepository $enseignantRepository ): Response
   {
+      $entityManager = $this->getDoctrine()->getManager();
+    $mesCreneaux = $_POST['tab'];
+    foreach ($mesCreneaux as $unCreneau) {
+      $creneau = new Creneau();
 
-    $creneau = new Creneau();
-
-    $titre = $_POST["titleevt"];
-    $debut = $_POST["startevt"];
-    $fin = $_POST["endevt"];
-    $type = $_POST["typeevt"];
-    $prio = $_POST["prioevt"];
-    $idEnseignant = $_POST["enseignantevt"];
-
-    $creneau->setTitre($titre);
-    $creneau->setDateDebut(new DateTime($debut));
-    $creneau->getDateDebut()->setTimeZone(new DateTimeZone('Europe/Paris'));
-    $creneau->setDateFin(new DateTime($fin));
-    $creneau->getDateFin()->setTimeZone(new DateTimeZone('Europe/Paris'));
-    $creneau->setType($type);
-    $creneau->setPrioOuPref($prio);
-
-    if($idEnseignant != ""){
-    $creneau->setEnseignant($enseignantRepository->findById($idEnseignant)[0]);
+      $creneau->setTitre($unCreneau['title']);
+      $creneau->setDateDebut(new DateTime($unCreneau['start']));
+      $creneau->getDateDebut()->setTimeZone(new DateTimeZone('Europe/Paris'));
+      $creneau->setDateFin(new DateTime($unCreneau['end']));
+      $creneau->getDateFin()->setTimeZone(new DateTimeZone('Europe/Paris'));
+      $creneau->setType($unCreneau['type']);
+      $creneau->setPrioOuPref($unCreneau['prio']);
+      if(isset($unCreneau['enseignant']) ){
+      $creneau->setEnseignant($enseignantRepository->findById($unCreneau['enseignant'])[0]);
+      }
+          $entityManager->persist($creneau);
     }
 
-    $entityManager = $this->getDoctrine()->getManager();
-    $entityManager->persist($creneau);
     $entityManager->flush();
 
     return new Response();

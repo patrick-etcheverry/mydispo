@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\FormulaireVacataire;
 use App\Form\FormulaireVacataireType;
 use App\Repository\FormulaireVacataireRepository;
+use App\Repository\EnseignantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,9 +22,11 @@ class FormulaireVacataireController extends AbstractController
   /**
    * @Route("/edit", name="formulaire_vacataire_edit", methods={"GET","POST"})
    */
-  public function edit(Request $request, FormulaireVacataireRepository $formvacataireRepository): Response
+  public function edit(Request $request, FormulaireVacataireRepository $formvacataireRepository, EnseignantRepository $enseignantRepository): Response
   {
       $formulaireVacataire = $formvacataireRepository->findAll()[0];
+      $enseignant = $enseignantRepository->findOneByNom("VacataireTest");
+      $lien = $this->generateUrl('saisieContrainte',['token'=> $enseignant->getToken()],false);
       $form = $this->createForm(FormulaireVacataireType::class, $formulaireVacataire);
       $form->handleRequest($request);
 
@@ -35,6 +38,7 @@ class FormulaireVacataireController extends AbstractController
       return $this->render('formulaire_vacataire/parametrage.html.twig', [
           'formulaire_vacataire' => $formulaireVacataire,
           'form' => $form->createView(),
+          'lien' => $lien,
       ]);
   }
 
@@ -68,6 +72,7 @@ class FormulaireVacataireController extends AbstractController
         return $this->render('formulaire_vacataire/new.html.twig', [
             'formulaire_vacataire' => $formulaireVacataire,
             'form' => $form->createView(),
+
         ]);
     }
 

@@ -43,15 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
       });
       var contenu = "Titre : " + info.event.title + "</br>Début : " + dateDeb + "</br>Fin : " + dateFin;
 
-      var tooltip = new tippy(info.el, {
-        allowHTML: true,
-        content: contenu,
-        trigger: 'mouseenter',
-        sticky: true,
-        animation: 'shift-toward',
-        maxWidth: 200
-      });
-
     },
     eventClick: function(info) {
       mensuel.getEvents().forEach(event => {

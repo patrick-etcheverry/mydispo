@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\FormulaireTitulaire;
 use App\Form\FormulaireTitulaireType;
 use App\Repository\FormulaireTitulaireRepository;
+use App\Repository\EnseignantRepository;
 use App\Repository\CreneauRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,9 +22,11 @@ class FormulaireTitulaireController extends AbstractController
   /**
    * @Route("/edit", name="formulaire_titulaire_edit", methods={"GET","POST"})
    */
-  public function edit(Request $request,CreneauRepository $creneauRepository, FormulaireTitulaireRepository $formtitulaireRepository): Response
+  public function edit(Request $request, FormulaireTitulaireRepository $formtitulaireRepository, EnseignantRepository $enseignantRepository): Response
   {
       $formulaireTitulaire = $formtitulaireRepository->findAll()[0];
+      $enseignant = $enseignantRepository->findOneByNom("TitulaireTest");
+      $lien = $this->generateUrl('saisieContrainte',['token'=> $enseignant->getToken()],false);
       $form = $this->createForm(FormulaireTitulaireType::class, $formulaireTitulaire);
       $form->handleRequest($request);
 
@@ -32,22 +35,10 @@ class FormulaireTitulaireController extends AbstractController
 
           return $this->redirectToRoute('formulaire_titulaire_edit');
       }
-$myarray = array();
-$events = $creneauRepository->selectStartEndTitleByType("zoneGrisee");
-foreach ($events as $event){
-  $object = new StdClass;
-  $object->title=$event["title"];
-  $object->daysOfWeek=date('w',$event["start"]->getTimestamp());
-  $object->startTime=$event["start"]->format("H:i:s");
-  $object->endTime=$event["end"]->format("H:i:s");
-  $myarray[] = $object;
-}
-
-$result=json_encode($myarray);
 
       return $this->render('formulaire_titulaire/parametrage.html.twig', [
           'formulaire_titulaire' => $formulaireTitulaire,
-          'events' => $result,
+          'lien' => $lien,
           'form' => $form->createView(),
       ]);
   }

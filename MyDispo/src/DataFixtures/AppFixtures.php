@@ -24,6 +24,42 @@ class AppFixtures extends Fixture
         // Création d'un générateur de données Faker
         $faker = \Faker\Factory::create('fr_FR');
 
+          //UTILISATEURS DE TEST POUR L'APERCU DES FORMULAIRES
+        $titulaireTest = new Enseignant();
+        $titulaireTest->setNom('TitulaireTest');
+        $titulaireTest->setPrenom('TestTitulaire');
+        $titulaireTest->setStatut('Titulaire');
+        $titulaireTest->setMail($_ENV['ADMIN_MAIL']);
+        $titulaireTest->setToken('https://iutbayonne/formulaire/gtauzfeduigazaddaz.fr');
+        $titulaireTest->setEnSommeil(false);
+        $titulaireTest->setSaisieFaite(true);
+        $titulaireTest->setDateSaisie(new DateTime('12/07/2020'));
+        $titulaireTest->setDateDerniereModif(null);
+        $titulaireTest->setMailRelanceRecu(true);
+        $titulaireTest->setPremierMailRecu(true);
+        $titulaireTest->setDatePremierMail(new DateTime('05/06/2020'));
+        $titulaireTest->setDateDerniereRelance(new DateTime('12/07/2020'));
+        $titulaireTest->setNbRelance(0);
+
+        $manager->persist($titulaireTest);
+
+        $vacataireTest = new Enseignant();
+        $vacataireTest->setNom('VacataireTest');
+        $vacataireTest->setPrenom('TestVacataire');
+        $vacataireTest->setStatut('Vacataire');
+        $vacataireTest->setMail($_ENV['ADMIN_MAIL']);
+        $vacataireTest->setToken('https://iutbayonne/formulaire/gtauzfeduigazaddazklkpkoo.fr');
+        $vacataireTest->setEnSommeil(false);
+        $vacataireTest->setSaisieFaite(true);
+        $vacataireTest->setDateSaisie(new DateTime('12/07/2020'));
+        $vacataireTest->setDateDerniereModif(null);
+        $vacataireTest->setMailRelanceRecu(true);
+        $vacataireTest->setPremierMailRecu(true);
+        $vacataireTest->setDatePremierMail(new DateTime('05/06/2020'));
+        $vacataireTest->setDateDerniereRelance(new DateTime('12/07/2020'));
+        $vacataireTest->setNbRelance(0);
+
+        $manager->persist($vacataireTest);
 
         //Création d'enseignants
         $enseignant1 = new Enseignant();
@@ -44,6 +80,10 @@ class AppFixtures extends Fixture
 
 
         $manager->persist($enseignant1);
+
+
+
+
 
         $enseignant2 = new Enseignant();
         $enseignant2->setNom('Roose');

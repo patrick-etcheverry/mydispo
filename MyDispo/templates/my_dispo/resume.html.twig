@@ -1,0 +1,70 @@
+{% extends 'baseResume.html.twig' %}
+
+
+{% block title %}Résumé de la saisie{% endblock %}
+
+{% block enTete %}
+{% endblock %}
+
+{% block contenu %}
+
+<div id="hebdo">
+</div>
+<br/>
+<p>
+Remarques : {{remarqueH}}
+</p>
+<br/>
+
+<div id="liste">
+</div>
+<br/>
+<p>
+Remarques : {{remarqueP}}
+</p>
+<br/>
+
+<center>
+  <button class="btn-primary" id="retour-saisie">Retour à la saisie</button>
+  <button class="btn-primary" id="valider">Valider</button>
+</center>
+
+{% endblock %}
+
+{% block javascripts %}
+
+{{ parent() }}
+<script>
+
+String.prototype.minsToHHMMSS = function() {
+  var mins_num = parseFloat(this, 10);
+  var hours = Math.floor(mins_num / 60);
+  var minutes = Math.floor((mins_num - ((hours * 3600)) / 60));
+  var seconds = Math.floor((mins_num * 60) - (hours * 3600) - (minutes * 60));
+
+  if (hours < 10) {
+    hours = "0" + hours;
+  }
+  if (minutes < 10) {
+    minutes = "0" + minutes;
+  }
+  if (seconds < 10) {
+    seconds = "0" + seconds;
+  }
+  return hours + ':' + minutes + ':' + seconds;
+}
+
+
+
+var events = {{events|raw}};
+var eventsListe = {{eventsListe|raw}};
+var heureDebut = "{{heureDebut|date("H:i:s")}}";
+var heureFin = "{{heureFin|date("H:i:s")}}";
+var echelle = "{{echelle}}".minsToHHMMSS();
+
+document.getElementById('retour-saisie').onclick = function() {window.location.href = "{{lien}}";};
+document.getElementById('valider').onclick = function() {};
+
+
+</script>
+{% endblock %}

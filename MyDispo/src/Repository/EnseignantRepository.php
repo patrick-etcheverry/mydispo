@@ -241,6 +241,16 @@ class EnseignantRepository extends ServiceEntityRepository
 
     }
 
+    public function findOneByNom($value): ?Enseignant
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.nom = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     /*
     public function findOneBySomeField($value): ?Enseignant
     {

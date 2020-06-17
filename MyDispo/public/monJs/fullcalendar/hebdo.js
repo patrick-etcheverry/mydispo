@@ -4,6 +4,15 @@
 document.addEventListener('DOMContentLoaded', function() {
 
 
+const creneauObjet = {
+  start: "",
+  end: "",
+  title: "",
+  type: "",
+  prio: "",
+  enseignant: "",
+}
+
   setTimeout(function(){
       var hebdoEl = document.getElementById('hebdo');
 
@@ -65,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
     else if(saisieEnseignant && limiteDepassee()==false){
+      if(!title){title=" ";}
         //Créneau contrainte perso
         if(detType()=="ContraintePerso"){
           hebdo.addEvent({
@@ -380,29 +390,44 @@ if(saisieEnseignant){
     supprimerDesCreneaux("Disponibilite", enseignant);
     supprimerDesRemarques(enseignant);
     enregistrerDesRemarques(document.getElementById('form_remarquesHebdo').value,"Hebdomadaire",document.getElementById('form_remarquesPonctu').value,"Ponctuelle",enseignant);
-
   }
 
   if (saisieEnseignant && estFormulaireTitulaire) {
     supprimerDesCreneaux("ContraintePro", enseignant);
     supprimerDesCreneaux("ContraintePerso", enseignant);
     supprimerDesRemarques(enseignant);
-    enregistrerDesRemarques(document.getElementById('form_remarquesHebdo').value,"Hebdomadaire",document.getElementById('form_remarquesPonctu').value,"Ponctuelle",enseignant);
+    enregistrerDesRemarques(document.getElementById('form_remarquesHebdo').innerHTML,"Hebdomadaire",document.getElementById('form_remarquesPonctu').innerHTML,"Ponctuelle",enseignant);
   }
 
 
   if(saisieEnseignant == false){
     supprimerDesCreneaux("zoneGrisee");
   }
+  var tableauCreneaux = [];
   creneaux = hebdo.getEvents(); //on récupère tous les événements du calendrier sous forme d'un tableau
+<<<<<<< HEAD
   creneaux.forEach(creneau => enregistrerUnCreneau(creneau.start.toISOString(), creneau.end.toISOString(), creneau.title, creneau.extendedProps.type, creneau.extendedProps.prio, enseignant));
 
 document.getElementById("submit2").click();
 document.getElementById("submit3").click();
 
+=======
+  creneaux.forEach(function(creneau){
+    var aAjouterAuTableau = Object.create(creneauObjet);
+    aAjouterAuTableau.start = creneau.start.toISOString();
+    aAjouterAuTableau.end = creneau.end.toISOString();
+    aAjouterAuTableau.title = creneau.title;
+    aAjouterAuTableau.type = creneau.extendedProps.type;
+    aAjouterAuTableau.prio = creneau.extendedProps.prio;
+    aAjouterAuTableau.enseignant = enseignant;
+    tableauCreneaux.push(aAjouterAuTableau);
+  });
+ enregistrerDesCreneaux(tableauCreneaux);
+>>>>>>> 1d447483c9777fa9c50fa17d4de67df2a466b721
 };
 
 hebdo.render();
+
 
 if (saisieEnseignant) {
 

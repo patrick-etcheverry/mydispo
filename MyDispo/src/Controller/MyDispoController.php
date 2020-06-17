@@ -481,7 +481,139 @@ if ($form2->isSubmitted()) {
 }
 }
 
+/**
+* @Route("/resume-saisie/{token}", name="resume_saisie")
+*/
+public function resumerSaisie(EnseignantRepository $enseignantRepository, CreneauRepository $creneauRepository,FormulaireTitulaireRepository $formTitulaireRepository,
+FormulaireVacataireRepository $formVacataireRepository, $token)
+{
+  $enseignant = $enseignantRepository->findByToken($token)[0];
 
+  //On recupère tous les événements nécessaires à l'affichage d'un calendrier hebdo pour un enseignant (Zones grisées, Contraintes perso, Contraintes pro, Disponibilités)
+  $zonesGrisees = array();
+  $events = $creneauRepository->selectStartEndTitleByType("zoneGrisee");
+  foreach ($events as $event){
+    $object = new StdClass;
+    $object->title=$event["title"];
+    $object->daysOfWeek=date('w',$event["start"]->getTimestamp());
+    $object->startTime=$event["start"]->format("H:i:s");
+    $object->endTime=$event["end"]->format("H:i:s");
+    $zoneGrisees[] = $object;
+  }
+
+  $creneauxEnseignant = array();
+  $events = $enseignant->getCreneaux();
+  foreach ($events as $event){
+    $object = new StdClass;
+    $object->title=$event->getTitre();
+    $object->daysOfWeek=date('w',$event->getDateDebut()->getTimestamp());
+    $object->startTime=$event->getDateDebut()->format("H:i:s");
+    $object->endTime=$event->getDateFin()->format("H:i:s");
+    $object->prio=$event->getPrioOuPref();
+    $object->type=$event->getType();
+    switch ($event->getType()) {
+      case 'ContraintePro':
+      if($event->getPrioOuPref() == "Forte"){
+        $object->backgroundColor="#B84331";
+        $object->borderColor="#B84331";
+        $object->textColor="black";
+      }
+      if($event->getPrioOuPref() == "Moyenne"){
+        $object->backgroundColor="orange";
+        $object->borderColor="orange";
+        $object->textColor="black";
+      }
+      if($event->getPrioOuPref() == "Faible"){
+        $object->backgroundColor="#FFD433";
+        $object->borderColor="#FFD433";
+        $object->textColor="black";
+      }
+      break;
+      case 'ContraintePerso' :
+
+      if($event->getPrioOuPref() == "Forte"){
+        $object->borderColor="#8A47A9";
+        $object->textColor="black";
+        $object->backgroundColor="#8A47A9";
+      }
+      if($event->getPrioOuPref() == "Moyenne"){
+        $object->borderColor="#314AB8";
+        $object->textColor="black";
+        $object->backgroundColor="#314AB8";
+      }
+      if($event->getPrioOuPref() == "Faible"){
+        $object->borderColor="#2EAED3";
+        $object->textColor="black";
+        $object->backgroundColor="#2EAED3";
+      }
+      break;
+      case 'Disponibilite' :
+
+      if($event->getPrioOuPref() == "Forte"){
+        $object->backgroundColor="#B84331";
+        $object->borderColor="#B84331";
+        $object->textColor="black";
+      }
+      if($event->getPrioOuPref() == "Moyenne"){
+        $object->backgroundColor="orange";
+        $object->borderColor="orange";
+        $object->textColor="black";
+      }
+      if($event->getPrioOuPref() == "Faible"){
+        $object->backgroundColor="#FFD433";
+        $object->borderColor="#FFD433";
+        $object->textColor="black";
+      }
+    }
+    $creneauxEnseignant[] = $object;
+  }
+
+  foreach ($zonesGrisees as $creneauGrise) {
+    array_push($creneauxEnseignant,$creneauGrise);
+  }
+  $result=json_encode($creneauxEnseignant);
+
+  $eventsListe = array();
+  $events = $creneauRepository->findByTypeEtEnseignant("ContrainteProPonctu",$enseignant->getId());
+  foreach ($events as $event){
+    $object = new StdClass;
+    $object->title=$event->getTitre();
+    $object->start=$event->getDateDebut()->format("Y-m-d H:i:s");
+    $object->end=$event->getDateFin()->format("Y-m-d H:i:s");
+    $eventsListe[] = $object;
+  }
+  $resultListe=json_encode($eventsListe);
+
+  if($enseignant->getStatut()=="Titulaire"){
+    $formulaire = $formTitulaireRepository->findAll()[0];
+  }
+  else{
+    $formulaire=$formVacataireRepository->findAll()[0];
+  }
+
+  $echelle = $formulaire->getEchelleCalendrier();
+  $heureDebut = $formulaire->getHeureDebutCalendrier();
+  $heureFin = $formulaire->getHeureFinCalendrier();
+  $lien = $this->generateUrl('saisieContrainte',['token'=> $enseignant->getToken()],false);
+  $tabRemarques = $enseignant->getRemarques();
+  foreach ($tabRemarques as $remarque) {
+    if($remarque->getType()=="Hebdomadaire"){
+      $remarqueHebdo=$remarque->getContenu();
+    }
+    else{$remarquePonctu=$remarque->getContenu();}
+  }
+
+  return $this->render('my_dispo/resume.html.twig', [
+    'events' => $result,
+    'eventsListe' => $resultListe,
+    'echelle' => $echelle,
+    'heureDebut' => $heureDebut,
+    'heureFin' => $heureFin,
+    'lien' => $lien,
+    'remarqueH' => $remarqueHebdo,
+    'remarqueP' => $remarquePonctu,
+  ]);
+}
 
 
 

@@ -126,20 +126,6 @@
 
 
 
-function enregistrerUnCreneau(start, end, title, type="zoneGrisee", prio="sansPrio", enseignant="") {
-  $.ajax({
-    url: "{{path("creneau_ajouter")}}",
-    data: {
-      startevt: start,
-      endevt: end,
-      titleevt: title,
-      typeevt: type,
-      prioevt: prio,
-      enseignantevt: enseignant,
-    },
-    type: "POST"
-  });
-}
 
 function enregistrerDesRemarques(contenuRemarque1 , typeRemarque1 , contenuRemarque2, typeRemarque2, enseignant) {
   $.ajax({
@@ -380,12 +366,24 @@ var heureFin = "{{formulaireTitulaire.heureFinCalendrier|date("H:i:s")}}";
 var events = {{events|raw}};
 var enseignant = {{enseignant.id}};
 var eventsMensuel = {{eventsMensuel|raw}};
+var lien = "{{lien}}";
 var remarquePonctu = "{{remarqueP}}";
 var remarqueHebdo = "{{remarqueH}}";
 var creneauxEnseignantSansGrisee = {{eventsSansGrisee|raw}};
 var estFormulaireTitulaire = true;
 
-
+function enregistrerDesCreneaux(tab) {
+  $.ajax({
+    url: "{{path("creneau_ajouter")}}",
+    data: {
+      tab: tab
+    },
+    type: "POST",
+    success: function(){
+      window.location.href = lien;
+    }
+  });
+}
 
 
 </script>
