@@ -41,19 +41,45 @@
   {{ formulaireVacataire.texteHebdomadaire }}
   </br>
   <div id='hebdo'></div>
+</br>
+<form>
+  <div class="form-group">
+    <label for="remarquesHebdo">Remarques :</label>
+    <textarea class="form-control" id="remarquesHebdo" rows="3">{{remarqueH}}</textarea>
+  </div>
+</form>
+</br>
+
+<div class="card">
+<h5 class="card-header">
+  <center>
+    Groupement de vos enseignements
+  </center>
+</h5>
+<div class="card-body">
+  <form>
+  <div class="form-group">
+   <label for="regroupement"> Je souhaite que mes enseignements soient : </label>
+   <select class="form-control" id="regroupement">
+     <option value="Regroupes">Regroupés</option>
+     <option value="Non regroupes">Non regroupés</option>
+     <option value="Indifferent">Indifférent</option>
+   </select>
+  </div>
+   </form>
+</div>
+<div class="card-footer">
+  <center>
+    <button class="btn-primary" id="submit3" style="display: none;">
+      <i class="far fa-save"></i>{{ button_label|default(' Enregistrer ') }}</button>
+  </center>
+
+</div>
 </div>
 </br>
 
-{{ form_row(form.remarquesHebdo, { 'attr': {
-  'style' : 'width:1350px',
-  'rows' : '6',
-  'cols' : '30' }} ) }}
-<script>  document.getElementById("form_remarquesHebdo").innerHTML = "{{remarqueH}}" ;</script>
 
-<center>
-<button class="btn-primary" id="submit">
-  <i class="far fa-save"></i>{{ button_label|default(' Enregistrer ') }}</button>
-</center>
+</div>
 {% endblock %}
 
 {% block ZoneGaucheSaisiesContraintesPonctuelles %}
@@ -65,41 +91,23 @@
   </br>
 </br>
   <div id='mensuel'></div>
-  {{ form_row(form.remarquesPonctu, { 'attr': {
-    'style' : 'width:1350px',
-    'rows' : '6',
-    'cols' : '30' }} ) }}
-  <script> document.getElementById("form_remarquesPonctu").innerHTML = "{{remarqueP}}" ;</script>
+  </br>
+  <form>
+    <div class="form-group">
+      <label for="remarquesPonctu">Remarques :</label>
+      <textarea class="form-control" id="remarquesPonctu" rows="3">{{remarqueP}}</textarea>
+    </div>
+  </form>
   </br>
   <center>
-  <button class="btn-primary" id="submit2">
+  <button class="btn-primary" id="submit2" style="display: none;">
     <i class="far fa-save"></i>{{ button_label|default(' Enregistrer ') }}</button>
   </center>
 </div>
 {% endblock %}
 
 {% block GroupementEnseignement %}
-</br>
-<div class="card">
-<h5 class="card-header">
-  <center>
-    Groupement de vos enseignements
-  </center>
-</h5>
-<div class="card-body">
-  <p class="card-text">
-    {{form_start(form2)}}
-    {{form_row(form2.regroupementEnseignement)}}
-  </p>
-</div>
-<div class="card-footer">
-  <center>
-    <button class="btn-primary" id="submit3">
-      <i class="far fa-save"></i>{{ button_label|default(' Enregistrer ') }}</button>
-  </center>
-  {{form_end(form2)}}
-</div>
-</div>
+
 {% endblock %}
 
 
@@ -107,6 +115,18 @@
 
 {{ parent() }}
 <script>
+
+function changerRegroupementEnseignements(reponse,enseignant){
+  $.ajax({
+    url: "{{path("changer_regroupement")}}",
+    data: {
+      reponse: reponse,
+      idEnseignant: enseignant,
+    },
+    type: "POST"
+  });
+}
+
 function enregistrerUnCreneau(start, end, title, type="zoneGrisee", prio="sansPrio", enseignant="") {
   $.ajax({
     url: "{{path("creneau_ajouter")}}",
@@ -286,7 +306,7 @@ var titrevide = true;
 var remarquePonctu = "{{remarqueP}}";
 var remarqueHebdo = "{{remarqueH}}";
 var estFormulaireTitulaire = false;
-var creneauxEnseignantSansGrisee = {{eventsSansGrisee|raw}};
+//var creneauxEnseignantSansGrisee = {eventsSansGrisee|raw}};
 
 
 
