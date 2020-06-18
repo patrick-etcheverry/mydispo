@@ -220,15 +220,18 @@ class EnseignantController extends AbstractController
 
 
               $sujet =$modeleMail->getSujet();
-              $contenu = $modeleMail->getContenu();
+
               $entityManager = $this->getDoctrine()->getManager();
 
               foreach ( $enseignants  as  $enseignantCourant ){
-
+                $contenu = $modeleMail->getContenu();
                 $urlEnseignant = $this->generateUrl('saisieContrainte',['token'=> $enseignantCourant->getToken()],false);
-                $contenu .= "\r"."\r"."Votre lien personnalisé : ".$urlEnseignant."\r"."\r"."Cordialement,"."\r"."\r".$_ENV['ADMIN_NAME'];
+                $partieAvantLien = stristr($contenu, "[LIEN]", true);
+                $partieAprèsLien = stristr($contenu, "[LIEN]");
+                $contenu = $partieAvantLien." ".$urlEnseignant."\r\r\r".$partieAprèsLien;
+                $contenuFinal = str_replace("[LIEN]", "", $contenu);
 
-                var_dump($this->generateUrl('saisieContrainte',['token'=> $enseignantCourant->getToken()],false));
+
               $transport = (new \Swift_SmtpTransport($_ENV['ADRESS_SERVER_SMTP'], 465))
                 ->setEncryption('ssl')
                 ->setAuthMode('login')
@@ -238,7 +241,7 @@ class EnseignantController extends AbstractController
             $message = (new \Swift_Message($sujet))
                ->setFrom($_ENV['MAIL_SENDER'])
                ->setTo($enseignantCourant->getMail())
-               ->setBody($contenu);
+               ->setBody($contenuFinal);
             $mailer->send($message);
 
           }
@@ -277,7 +280,7 @@ class EnseignantController extends AbstractController
 
 
 
-          return $this->render('my_dispo/confirmationEnvoieMail.html.twig');
+          return $this->render('modele_mail/confirmationEnvoieMail.html.twig');
     }
 
 

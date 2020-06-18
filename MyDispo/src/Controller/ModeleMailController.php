@@ -202,13 +202,21 @@ if($form->get('nomCourt')->getData() == null){
             $nom = 'Mail oubli';
             break;
       }
+      $repositoryModeleMail = $this->getDoctrine()->getRepository(ModeleMail::class);
+      $modeleMail = $repositoryModeleMail->findOneByNomModeleMail($nom);
+
       $entityManager = $this->getDoctrine()->getManager();
       $entityManager->persist($enseignant);
       $entityManager->flush();
 
+      $contenu = $modeleMail->getContenu();
+      $urlEnseignant = $this->generateUrl('saisieContrainte',['token'=> $enseignant->getToken()],false);
+      $partieAvantLien = stristr($contenu, "[LIEN]", true);
+      $partieAprèsLien = stristr($contenu, "[LIEN]");
+      $contenu = $partieAvantLien." ".$urlEnseignant."\r\r\r".$partieAprèsLien;
+      $contenuFinal = str_replace("[LIEN]", "", $contenu);
 
-            $repositoryModeleMail = $this->getDoctrine()->getRepository(ModeleMail::class);
-            $modeleMail = $repositoryModeleMail->findOneByNomModeleMail($nom);
+
 
             $transport = (new \Swift_SmtpTransport($_ENV['ADRESS_SERVER_SMTP'], 465))
               ->setEncryption('ssl')
@@ -219,7 +227,7 @@ if($form->get('nomCourt')->getData() == null){
           $message = (new \Swift_Message($modeleMail->getSujet()))
              ->setFrom($_ENV['MAIL_SENDER'])
              ->setTo($enseignant->getMail())
-             ->setBody($modeleMail->getContenu());
+             ->setBody($contenuFinal);
           $mailer->send($message);
 
           return $this->render('modele_mail/confirmationEnvoieMail.html.twig');
