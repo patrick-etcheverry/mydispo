@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-
+use Symfony\Component\Validator\Constraints\DateTime;
 
 
 class MyDispoController extends AbstractController
@@ -226,7 +226,21 @@ class MyDispoController extends AbstractController
   public function resumerSaisie(EnseignantRepository $enseignantRepository, CreneauRepository $creneauRepository,FormulaireTitulaireRepository $formTitulaireRepository,
   FormulaireVacataireRepository $formVacataireRepository, $token)
   {
+    $entityManager = $this->getDoctrine()->getManager();
     $enseignant = $enseignantRepository->findByToken($token)[0];
+
+
+    if($enseignant->getSaisieFaite() == false){
+      $enseignant->setSaisieFaite(true);
+      $enseignant->setDateSaisie(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
+    }
+    $enseignant->setDateDerniereModif(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
+
+    $entityManager->persist($enseignant);
+    $entityManager->flush();
+
+
+
 
     //On recupère tous les événements nécessaires à l'affichage d'un calendrier hebdo pour un enseignant (Zones grisées, Contraintes perso, Contraintes pro, Disponibilités)
     $zonesGrisees = array();
