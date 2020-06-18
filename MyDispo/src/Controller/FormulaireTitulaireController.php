@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use StdClass;
 
 /**
- * @Route("/formulaire/titulaire")
+ * @Route("/admin/formulaire/titulaire")
  */
 class FormulaireTitulaireController extends AbstractController
 {

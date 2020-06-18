@@ -427,7 +427,7 @@ class MyDispoController extends AbstractController
 
 
   /**
-  * @Route("/horaires", name="horaires_non_saisissables")
+  * @Route("/admin/horaires", name="horaires_non_saisissables")
   */
   public function horaires(CreneauRepository $creneauRepository,FormulaireTitulaireRepository $formTitulaireRepository, FormulaireVacataireRepository $formVacataireRepository)
   {
@@ -472,7 +472,7 @@ class MyDispoController extends AbstractController
   }
 
   /**
-  * @Route("/evenements", name="evenements", methods={"GET","POST"})
+  * @Route("/admin/evenements", name="evenements", methods={"GET","POST"})
   */
   public function evenements(CreneauRepository $creneauRepository,FormulaireTitulaireRepository $formTitulaireRepository, FormulaireVacataireRepository $formVacataireRepository)
   {
@@ -497,7 +497,7 @@ class MyDispoController extends AbstractController
 
 
   /**
-  * @Route("/ChangementAnnee", name="changement_annee")
+  * @Route("/admin/ChangementAnnee", name="changement_annee")
   */
   public function ChangementAnnee(EnseignantRepository $repoEnseignant, LogEnseignantRepository $repoLogs, CreneauRepository $repoCreneau)
   {

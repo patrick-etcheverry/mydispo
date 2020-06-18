@@ -14,7 +14,7 @@ use \DateTime;
 use \DateTimeZone;
 
 /**
-* @Route("/creneau")
+* @Route("/admin/creneau")
 */
 class CreneauController extends AbstractController
 {

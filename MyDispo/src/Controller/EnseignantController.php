@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints\DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 
 /**
- * @Route("/enseignant")
+ * @Route("/admin/enseignant")
  */
 class EnseignantController extends AbstractController
 {

@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\DateTime;
 /**
- * @Route("/log/enseignant")
+ * @Route("/admin/log/enseignant")
  */
 class LogEnseignantController extends AbstractController
 {

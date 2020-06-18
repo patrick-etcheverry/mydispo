@@ -14,7 +14,7 @@ use App\Repository\CreneauRepository;
 
 
 /**
- * @Route("/formulaire/vacataire")
+ * @Route("/admin/formulaire/vacataire")
  */
 class FormulaireVacataireController extends AbstractController
 {
