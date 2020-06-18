@@ -145,18 +145,18 @@ class MyDispoController extends AbstractController
         break;
         case 'Disponibilite' :
         if($event->getPrioOuPref() == "Forte"){
-          $object->backgroundColor="#B84331";
-          $object->borderColor="#B84331";
+          $object->backgroundColor="#D35400";
+          $object->borderColor="#D35400";
           $object->textColor="black";
         }
         if($event->getPrioOuPref() == "Moyenne"){
-          $object->backgroundColor="orange";
-          $object->borderColor="orange";
+          $object->backgroundColor="#F39C12";
+          $object->borderColor="#F39C12";
           $object->textColor="black";
         }
         if($event->getPrioOuPref() == "Faible"){
-          $object->backgroundColor="#FFD433";
-          $object->borderColor="#FFD433";
+          $object->backgroundColor="#F1C40F";
+          $object->borderColor="#F1C40F";
           $object->textColor="black";
         }
       }
@@ -192,7 +192,9 @@ class MyDispoController extends AbstractController
      $result2=json_encode($creneauxEnseignantSansGrisee);
 
 
-    if($enseignant->getStatut()=='Titulaire'){
+
+
+    if($enseignant->getStatut()=='Titulaire' && $formulaireTitulaire->getEstOuvert() == true){
       return $this->render('my_dispo/formulaireTit.html.twig', [
         'formulaireTitulaire' => $formulaireTitulaire,
         'events' => $result,
@@ -205,7 +207,7 @@ class MyDispoController extends AbstractController
       ]);
     }
 
-    else if($enseignant->getStatut()=='Vacataire'){
+    else if($enseignant->getStatut()=='Vacataire' && $formulaireVacataire->getEstOuvert() == true){
       return $this->render('my_dispo/formulaireVac.html.twig',[
         'formulaireVacataire' => $formulaireVacataire,
         'events' => $result,
@@ -217,6 +219,10 @@ class MyDispoController extends AbstractController
         'lien' => $lien,
 
       ]);
+    }
+    else{
+      return $this->render('my_dispo/formulaireFerme.html.twig');
+
     }
   }
 

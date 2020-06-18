@@ -19,12 +19,12 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 /**
- * @Route("/admin/modele/mail")
+ * @Route("/modele/mail")
  */
 class ModeleMailController extends AbstractController
 {
     /**
-     * @Route("/", name="modele_mail_index", methods={"GET"})
+     * @Route("/admin/", name="modele_mail_index", methods={"GET"})
      */
     public function index(ModeleMailRepository $modeleMailRepository): Response
     {
@@ -34,7 +34,7 @@ class ModeleMailController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="modele_mail_new", methods={"GET","POST"})
+     * @Route("/admin/new", name="modele_mail_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -57,7 +57,7 @@ class ModeleMailController extends AbstractController
     }
 
     /**
-     * @Route("/envoieMail", name="envoie_modele_mail", methods={"GET","POST"})
+     * @Route("/admin/envoieMail", name="envoie_modele_mail", methods={"GET","POST"})
      */
 public function formEnvoieMail(Request $request)
 {
@@ -175,7 +175,7 @@ if($form->get('nomCourt')->getData() == null){
 
 
     /**
-     * @Route("/premierMail/{id}/{compteur}", name="notifierUnEnseignant", methods={"GET"})
+     * @Route("/admin/premierMail/{id}/{compteur}", name="notifierUnEnseignant", methods={"GET"})
      */
     public function notifierUnEnseignant(Enseignant $enseignant , int $compteur)
     {
@@ -306,7 +306,7 @@ if($form->get('nomCourt')->getData() == null){
 
 
     /**
-     * @Route("/{id}", name="modele_mail_show", methods={"GET"})
+     * @Route("/admin/{id}", name="modele_mail_show", methods={"GET"})
      */
     public function show(ModeleMail $modeleMail): Response
     {
@@ -316,7 +316,7 @@ if($form->get('nomCourt')->getData() == null){
     }
 
     /**
-     * @Route("/{id}/edit", name="modele_mail_edit", methods={"GET","POST"})
+     * @Route("/admin/{id}/edit", name="modele_mail_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, ModeleMail $modeleMail): Response
     {
@@ -336,7 +336,7 @@ if($form->get('nomCourt')->getData() == null){
     }
 
     /**
-     * @Route("/{id}", name="modele_mail_delete", methods={"DELETE"})
+     * @Route("/admin/{id}", name="modele_mail_delete", methods={"DELETE"})
      */
     public function delete(Request $request, ModeleMail $modeleMail): Response
     {
@@ -350,7 +350,7 @@ if($form->get('nomCourt')->getData() == null){
     }
 
     /**
-     * @Route("/supprimer/{id}", name="modele_mail_supprimer")
+     * @Route("/admin/supprimer/{id}", name="modele_mail_supprimer")
      */
     public function supprimer(ModeleMail $modeleMail){
         return $this->render('modele_mail/delete.html.twig', [

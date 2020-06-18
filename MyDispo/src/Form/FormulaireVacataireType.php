@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 
 class FormulaireVacataireType extends AbstractType
@@ -24,15 +24,24 @@ class FormulaireVacataireType extends AbstractType
                 'label' => 'Texte affiché pour la saisie des contraintes hebdomadaires',))
             ->add('textePonctuel',TextareaType::class,['label' => 'Texte affiché pour la saisie des contraintes ponctuelles',])
             ->add('anneeUniversitaire',TextType::class,['label' => 'Année universitaire du formulaire',])
-            ->add('remarquesHebdoActives',CheckboxType::class, [
-                'label_attr' => ['class' => 'switch-custom'], 'label' => 'Activer les remarques éventuelles pour les contraintes hebdomadaires'
+            ->add('remarquesHebdoActives',ChoiceType::class, [
+                'choices' => array(
+                    "Oui" => true,
+                    "Non" => false,
+                ), 'label' => 'Activer les remarques éventuelles pour les contraintes hebdomadaires'
             ])
-            ->add('remarquesPonctuelActives',CheckboxType::class, [
-                'label_attr' => ['class' => 'switch-custom'], 'label' => 'Activer les remarques éventuelles pour les contraintes ponctuelles'
+            ->add('remarquesPonctuelActives',ChoiceType::class, [
+                'choices' => array(
+                    "Oui" => true,
+                    "Non" => false,
+                ), 'label' => 'Activer les remarques éventuelles pour les contraintes ponctuelles'
             ])
 
-            ->add('estOuvert',CheckboxType::class, [
-                'label_attr' => ['class' => 'switch-custom'], 'label' => 'Ouvrir les saisies'
+            ->add('estOuvert',ChoiceType::class, [
+                'choices' => array(
+                    "Oui" => true,
+                    "Non" => false,
+                ), 'label' => 'Ouvrir les saisies'
             ])
         ;
     }

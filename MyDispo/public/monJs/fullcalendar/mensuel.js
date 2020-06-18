@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       closeNav();
       var title = prompt('Titre du créneau:');
-      if (title) { // si un titre d'événement a été saisi et que la limite d'événement autorisés n'a pas été dépassée
+      if (title) { // si un titre d'événement a été saisi 
         mensuel.addEvent({title: title, start: arg.start, end: arg.end, allDay: true, classNames: ['plusBord']})
       }
 

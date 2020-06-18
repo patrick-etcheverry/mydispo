@@ -45,7 +45,7 @@
 </br>
 <form>
   <div class="form-group">
-    <label for="remarquesHebdo">Remarques :</label>
+    <label for="remarquesHebdo" id="texteRemarquesHebdo" >Remarques :</label>
     <textarea class="form-control" id="remarquesHebdo" rows="3">{{remarqueH}}</textarea>
   </div>
 </form>
@@ -96,7 +96,7 @@
 </br>
 <form>
   <div class="form-group">
-    <label for="remarquesPonctu">Remarques :</label>
+    <label for="remarquesPonctu" id="texteRemarquesPonctu" >Remarques :</label>
     <textarea class="form-control" id="remarquesPonctu" rows="3">{{remarqueP}}</textarea>
   </div>
 </form>
@@ -344,7 +344,19 @@ var limiteProFaible = {{formulaireTitulaire.quantiteProFaible}};
 var limitePersForte = {{formulaireTitulaire.quantitePersForte}};
 var limitePersMoy = {{formulaireTitulaire.quantitePersMoy}};
 var limitePersFaible = {{formulaireTitulaire.quantitePersFaible}};
+var remarqueActiveHebdo = "{{ formulaireTitulaire.remarquesHebdoActives }}";
+var remarqueActivePonctu = "{{ formulaireTitulaire.remarquesPonctuelActives }}";
 
+
+if(remarqueActiveHebdo != true){
+  document.getElementById("remarquesHebdo").style.display = "none";
+  document.getElementById("texteRemarquesHebdo").style.display = "none";
+}
+
+if(remarqueActivePonctu != true){
+  document.getElementById("remarquesPonctu").style.display = "none";
+  document.getElementById("texteRemarquesPonctu").style.display = "none";
+}
 
 
 function limiteDepassee(){

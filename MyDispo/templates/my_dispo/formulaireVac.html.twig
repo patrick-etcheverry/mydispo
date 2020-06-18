@@ -44,7 +44,7 @@
 </br>
 <form>
   <div class="form-group">
-    <label for="remarquesHebdo">Remarques :</label>
+    <label for="remarquesHebdo" id="texteRemarquesHebdo">Remarques :</label>
     <textarea class="form-control" id="remarquesHebdo" rows="3">{{remarqueH}}</textarea>
   </div>
 </form>
@@ -95,7 +95,7 @@
   </br>
   <form>
     <div class="form-group">
-      <label for="remarquesPonctu">Remarques :</label>
+      <label for="remarquesPonctu" id="texteRemarquesPonctu" >Remarques :</label>
       <textarea class="form-control" id="remarquesPonctu" rows="3">{{remarqueP}}</textarea>
     </div>
   </form>
@@ -117,6 +117,10 @@
 {{ parent() }}
 <script>
 
+
+
+
+
 function changerRegroupementEnseignements(reponse,enseignant){
   $.ajax({
     url: "{{path("changer_regroupement")}}",
@@ -128,18 +132,14 @@ function changerRegroupementEnseignements(reponse,enseignant){
   });
 }
 
-function enregistrerUnCreneau(start, end, title, type="zoneGrisee", prio="sansPrio", enseignant="") {
+function enregistrerDesCreneaux(tab) {
   $.ajax({
     url: "{{path("creneau_ajouter")}}",
     data: {
-      startevt: start,
-      endevt: end,
-      titleevt: title,
-      typeevt: type,
-      prioevt: prio,
-      enseignantevt: enseignant,
+      tab: tab
     },
     type: "POST"
+
   });
 }
 
@@ -308,8 +308,19 @@ var remarquePonctu = "{{remarqueP}}";
 var remarqueHebdo = "{{remarqueH}}";
 var estFormulaireTitulaire = false;
 var creneauxEnseignantSansGrisee = {{eventsSansGrisee|raw}};
+var remarqueActiveHebdo = "{{ formulaireVacataire.remarquesHebdoActives }}";
+var remarqueActivePonctu = "{{ formulaireVacataire.remarquesPonctuelActives }}";
 
 
+if(remarqueActiveHebdo != true){
+  document.getElementById("remarquesHebdo").style.display = "none";
+  document.getElementById("texteRemarquesHebdo").style.display = "none";
+}
+
+if(remarqueActivePonctu != true){
+  document.getElementById("remarquesPonctu").style.display = "none";
+  document.getElementById("texteRemarquesPonctu").style.display = "none";
+}
 
 </script>
 {% endblock %}

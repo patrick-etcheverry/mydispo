@@ -57,6 +57,7 @@ const creneauObjet = {
       if(saisieEnseignant){
       if(detType()=="ContraintePro" || saisieEnseignant==false || titrevide==false){
         var title = prompt('Titre de la contrainte:');
+
       }
       else{var title=" ";}
       //Créneau disponibilité
@@ -74,7 +75,10 @@ const creneauObjet = {
       }
 
     else if(saisieEnseignant && limiteDepassee()==false){
-      if(!title){title=" ";}
+      if(!title){
+        title=" ";
+      }
+
         //Créneau contrainte perso
         if(detType()=="ContraintePerso"){
           hebdo.addEvent({
