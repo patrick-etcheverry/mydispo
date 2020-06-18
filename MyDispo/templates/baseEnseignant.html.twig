@@ -43,7 +43,6 @@
         <!-- add data-toggle attribute to the anchors -->
         <li role="presentation"><a class="nav-link active" data-toggle="tab" href="#contraintesHebdo" role="tab" aria-controls="contraintesHebdo" aria-selected="true" >Contraintes hebdomadaires</a></li>
         <li role="presentation"><a class="nav-link" data-toggle="tab" href="#contraintesPonct" role="tab" aria-controls="contraintesPonct" aria-selected="false" >Contraintes ponctuelles</a></li>
-        <li role="presentation"><a class="nav-link" data-toggle="tab" href="#groupementEnseignement" role="tab" aria-controls="groupementEnseignement" aria-selected="false" >Groupement enseignements</a></li>
   </ul>
 
   <div class="tab-content">
@@ -76,21 +75,15 @@
     </div>
   </div>
 
-  <!--Saisie du groupement des enseignements  -->
-  <div id="groupementEnseignement" class="tab-pane fade" aria-labelledby="groupementEnseignement-tab">
-    <div class="row">
-      <div class="col-md-3">
-      </div>
-      <div class="col-md-6">
-        {% block GroupementEnseignement %}{% endblock %}
-      </div>
-      <div class="col-md-3">
-      </div>
-    </div>
   </div>
 
+  <center>
+  <button class="btn-primary" id="submit">
+    <i class="far fa-save"></i>{{ button_label|default(' Enregistrer ') }}</button>
+  </center>
 
-  </div>
+
+
 </div>
 </div>
 

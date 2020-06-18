@@ -4,10 +4,14 @@
 {% block title %}Résumé de la saisie{% endblock %}
 
 {% block enTete %}
+<div class="jumbotron" style="height : 230px">
+  <h1 class="display-4">{{enseignant.prenom}} {{enseignant.nom}}</h1>
+  <p class="lead">Résumé de votre saisie</p>
+  <hr class="my-4">
+</div>
 {% endblock %}
 
 {% block contenu %}
-
 <div id="hebdo">
 </div>
 <br/>
@@ -26,7 +30,7 @@ Remarques : {{remarqueP}}
 
 <center>
   <button class="btn-primary" id="retour-saisie">Retour à la saisie</button>
-  <button class="btn-primary" id="valider">Valider</button>
+  <button class="btn-primary" id="valider">Recevoir une copie par mail</button>
 </center>
 
 {% endblock %}

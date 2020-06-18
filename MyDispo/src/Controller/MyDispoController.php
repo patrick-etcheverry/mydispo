@@ -352,6 +352,7 @@ class MyDispoController extends AbstractController
 
     return $this->render('my_dispo/resume.html.twig', [
       'events' => $result,
+      'enseignant' => $enseignant,
       'eventsListe' => $resultListe,
       'echelle' => $echelle,
       'heureDebut' => $heureDebut,
