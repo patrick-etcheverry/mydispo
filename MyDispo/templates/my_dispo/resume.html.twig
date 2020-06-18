@@ -29,8 +29,11 @@ Remarques : {{remarqueP}}
 <br/>
 
 <center>
-  <button class="btn-primary" id="retour-saisie">Retour à la saisie</button>
-  <button class="btn-primary" id="valider">Recevoir une copie par mail</button>
+  <button class="btn-primary" id="retour-saisie"><i class="fas fa-arrow-circle-left"></i> Retour à la saisie</button>
+  <a href="{{ path('mailResume', { 'id': enseignant.id }) }}">
+    <button class="btn-primary">
+      <i class="far fa-envelope"></i> M'envoyer une copie par mail</button>
+  </a>
 </center>
 
 {% endblock %}
@@ -67,7 +70,7 @@ var heureFin = "{{heureFin|date("H:i:s")}}";
 var echelle = "{{echelle}}".minsToHHMMSS();
 
 document.getElementById('retour-saisie').onclick = function() {window.location.href = "{{lien}}";};
-document.getElementById('valider').onclick = function() {};
+
 
 
 </script>

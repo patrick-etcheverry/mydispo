@@ -308,19 +308,23 @@ switch (info.event.extendedProps.type) {
 document.getElementById('submit').onclick = function() {
 
 
-/*if(saisieEnseignant){
+if(saisieEnseignant){
+
+
+
+  //LOG HEBDO
   var deltaRemarqueHebdo = [];
   var deltaCreneauxHebdo = [];
   var compteurEventsHebdo = 0;
       // récup toutes les infos de l’enseignant saisies dans le formulaire
 
       creneauxHebdoSaisie = hebdo.getEvents();   // Les créneaux
-      remarqueHebdoSaisie = document.getElementById('form_remarquesHebdo').value; // Remarque ponctu
+      remarqueHebdoSaisie = document.getElementById('remarquesHebdo').value; // Remarque HEBDO
 
       // récup toutes les infos de l’enseignant en BD
 
-      // Events mensuels -> creneauxEnseignantSansGrisee
-      // Remarque ponctu -> remarqueHebdo
+      // Events hebdo -> creneauxEnseignantSansGrisee
+      // Remarque hebdo -> remarqueHebdo
 
 
       // Calculer le delta pour enregistrer dans le log
@@ -381,8 +385,34 @@ document.getElementById('submit').onclick = function() {
         envoyerLogHebdo(deltaRemarqueHebdo, deltaCreneauxHebdo, enseignant);
       }
 
+
+
+
+
+
+
+      //LOG Ponctuelle
+
+
 }
-*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //CALENDRIER HEBDO DANS FORMULAIRE VACATAIRE
   if(saisieEnseignant && estFormulaireTitulaire == false){
@@ -433,7 +463,7 @@ else{
   });
  enregistrerDesCreneaux(tableauCreneaux);
   document.getElementById('submit2').click();
-  
+
   document.getElementById('submit3').click();
 
  changerRegroupementEnseignements(document.getElementById('regroupement').value,enseignant);

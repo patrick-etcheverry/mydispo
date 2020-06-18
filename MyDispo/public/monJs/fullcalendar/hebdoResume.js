@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-  var hebdoEl = document.getElementById('hebdo');
+  setTimeout(function(){var hebdoEl = document.getElementById('hebdo');
   var hebdo = new FullCalendar.Calendar(hebdoEl, {
 
     plugins: [
@@ -45,4 +45,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
   hebdo.render();
 
-});
+},50);});

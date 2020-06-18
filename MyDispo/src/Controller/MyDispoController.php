@@ -184,12 +184,12 @@ class MyDispoController extends AbstractController
       $remarquePonctu = "";
     }
 
-    // $creneauxEnseignantSansGrisee = array();
-    // foreach ($creneauxEnseignant as $creneauxEnseignantCourant) {
-    //   array_push($creneauxEnseignantSansGrisee,$creneauxEnseignantCourant);      ????????????????????????????????? UTILE POUR LES LOGS ???????????????????????????????????
-    // }
-    //
-    // $result2=json_encode($creneauxEnseignantSansGrisee);
+     $creneauxEnseignantSansGrisee = array();
+     foreach ($creneauxEnseignant as $creneauxEnseignantCourant) {
+      array_push($creneauxEnseignantSansGrisee,$creneauxEnseignantCourant);
+     }
+
+     $result2=json_encode($creneauxEnseignantSansGrisee);
 
 
     if($enseignant->getStatut()=='Titulaire'){
@@ -199,7 +199,7 @@ class MyDispoController extends AbstractController
         'enseignant' => $enseignant,
         'lien' => $lien,
         'eventsMensuel' => $resultPonctu,
-        // 'eventsSansGrisee' => $result2,
+        'eventsSansGrisee' => $result2,
         'remarqueH' => $remarqueHebdo,
         'remarqueP' => $remarquePonctu,
       ]);
@@ -209,7 +209,7 @@ class MyDispoController extends AbstractController
       return $this->render('my_dispo/formulaireVac.html.twig',[
         'formulaireVacataire' => $formulaireVacataire,
         'events' => $result,
-        //'eventsSansGrisee' => $result2,
+        'eventsSansGrisee' => $result2,
         'enseignant' => $enseignant,
         'eventsMensuel' => $resultPonctu,
         'remarqueH' => $remarqueHebdo,
@@ -349,6 +349,64 @@ class MyDispoController extends AbstractController
       $remarqueHebdo = " ";
       $remarquePonctu = " ";
     }
+
+
+
+    // ENVOI DU MAIL A L'ADMIN
+    $creneaux = $enseignant->getCreneaux();
+    $remarques = $enseignant->getRemarques();
+    $sujetMail = "Résumé de la saisie de ".$enseignant->getPrenom()." ".$enseignant->getNom()." - IUT Bayonne";
+    $contenu = "Résumé de la saisie de ".$enseignant->getPrenom()." ".$enseignant->getNom()." : \r\r\r";
+
+    $contenu .= "Contraintes hebdomadaires : \r\r";
+    foreach ($creneaux as $creneauxCourant) {
+      if($creneauxCourant->getType() == "ContraintePro" || $creneauxCourant->getType() == "ContraintePerso"){
+        $contenu .= "- Titre : ".$creneauxCourant->getTitre().", Priorité : ".$creneauxCourant->getPrioOuPref().", Date de début : "
+        .$creneauxCourant->getDateDebut()->format('d-m-Y à H:i').", Date de fin : ".$creneauxCourant->getDateFin()->format('d-m-Y à H:i').". \r\r";
+      }
+    }
+
+    $contenu .= "\r Remarques sur les contraintes hebdomadaires : \r\r";
+    foreach ($remarques as $remarquesCourant) {
+      if($remarquesCourant->getType() == "Hebdomadaire"){
+        $contenu .= "- Contenu : ".$remarquesCourant->getContenu().". \r\r";
+      }
+    }
+
+    $contenu .= "\r Contraintes ponctuelles : \r\r";
+    foreach ($creneaux as $creneauxCourant) {
+      if($creneauxCourant->getType() == "ContrainteProPonctu"){
+        $contenu .= "- Titre : ".$creneauxCourant->getTitre().", Date : "
+        .$creneauxCourant->getDateDebut()->format('d-m-Y').". \r\r";
+      }
+    }
+
+    $contenu .= "\r Remarques sur les contraintes ponctuelles : \r\r";
+    foreach ($remarques as $remarquesCourant) {
+      if($remarquesCourant->getType() == "Ponctuelle"){
+        $contenu .= "- Contenu : ".$remarquesCourant->getContenu().". \r\r";
+      }
+    }
+
+    $contenu .= "\r Préférence sur le regroupement des enseignements : \r\r";
+    $contenu .= "- ".$enseignant->getGrouperEnseignements().". \r\r\r";
+
+
+            $transport = (new \Swift_SmtpTransport($_ENV['ADRESS_SERVER_SMTP'], 465))
+              ->setEncryption('ssl')
+              ->setAuthMode('login')
+              ->setUsername($_ENV['LOGIN_SMTP'])
+              ->setPassword($_ENV['PASSWORD_SMTP']);
+          $mailer = new \Swift_Mailer($transport);
+          $message = (new \Swift_Message($sujetMail))
+             ->setFrom($_ENV['MAIL_SENDER'])
+             ->setTo($_ENV['MAIL_SENDER'])
+             ->setBody($contenu);
+          $mailer->send($message);
+
+
+
+
 
     return $this->render('my_dispo/resume.html.twig', [
       'events' => $result,

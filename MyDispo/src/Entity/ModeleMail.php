@@ -23,7 +23,7 @@ class ModeleMail
     private $sujet;
 
     /**
-     * @ORM\Column(type="string", length=3000)
+     * @ORM\Column(type="text", length=3000)
      */
     private $contenu;
 

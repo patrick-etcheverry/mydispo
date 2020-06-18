@@ -179,7 +179,7 @@ if($form->get('nomCourt')->getData() == null){
      */
     public function notifierUnEnseignant(Enseignant $enseignant , int $compteur)
     {
-      new \DateTimeZone('Europe/Paris');
+
       switch ($compteur)
       {
         case 1 :
@@ -210,16 +210,14 @@ if($form->get('nomCourt')->getData() == null){
             $repositoryModeleMail = $this->getDoctrine()->getRepository(ModeleMail::class);
             $modeleMail = $repositoryModeleMail->findOneByNomModeleMail($nom);
 
-            $transport = (new \Swift_SmtpTransport('smtp.gmail.com', 465))
-              ->setHost('smtp.gmail.com')
-              ->setPort('465')
+            $transport = (new \Swift_SmtpTransport($_ENV['ADRESS_SERVER_SMTP'], 465))
               ->setEncryption('ssl')
               ->setAuthMode('login')
-              ->setUsername($_ENV['MAILER_USER'])
-              ->setPassword($_ENV['MAILER_PASSWORD']);
+              ->setUsername($_ENV['LOGIN_SMTP'])
+              ->setPassword($_ENV['PASSWORD_SMTP']);
           $mailer = new \Swift_Mailer($transport);
           $message = (new \Swift_Message($modeleMail->getSujet()))
-             ->setFrom('Patrick Etcheverry')
+             ->setFrom($_ENV['MAIL_SENDER'])
              ->setTo($enseignant->getMail())
              ->setBody($modeleMail->getContenu());
           $mailer->send($message);
@@ -230,6 +228,72 @@ if($form->get('nomCourt')->getData() == null){
 
   }
 
+
+  /**
+   * @Route("/mailResume/{id}", name="mailResume", methods={"GET"})
+   */
+  public function mailResume(Enseignant $enseignant)
+  {
+
+    $creneaux = $enseignant->getCreneaux();
+    $remarques = $enseignant->getRemarques();
+    $sujetMail = "Résumé de votre saisie - IUT Bayonne";
+    $contenu = "Bonjour,\r\r Vous trouverez ci-dessous le résumé de votre saisie : \r\r\r";
+
+    $contenu .= "Vos contraintes hebdomadaires : \r\r";
+    foreach ($creneaux as $creneauxCourant) {
+      if($creneauxCourant->getType() == "ContraintePro" || $creneauxCourant->getType() == "ContraintePerso"){
+        $contenu .= "- Titre : ".$creneauxCourant->getTitre().", Priorité : ".$creneauxCourant->getPrioOuPref().", Date de début : "
+        .$creneauxCourant->getDateDebut()->format('d-m-Y à H:i').", Date de fin : ".$creneauxCourant->getDateFin()->format('d-m-Y à H:i').". \r\r";
+      }
+    }
+
+    $contenu .= "\r Vos remarques sur vos contraintes hebdomadaires : \r\r";
+    foreach ($remarques as $remarquesCourant) {
+      if($remarquesCourant->getType() == "Hebdomadaire"){
+        $contenu .= "- Contenu : ".$remarquesCourant->getContenu().". \r\r";
+      }
+    }
+
+    $contenu .= "\r Vos contraintes ponctuelles : \r\r";
+    foreach ($creneaux as $creneauxCourant) {
+      if($creneauxCourant->getType() == "ContrainteProPonctu"){
+        $contenu .= "- Titre : ".$creneauxCourant->getTitre().", Date : "
+        .$creneauxCourant->getDateDebut()->format('d-m-Y').". \r\r";
+      }
+    }
+
+    $contenu .= "\r Vos remarques sur vos contraintes ponctuelles : \r\r";
+    foreach ($remarques as $remarquesCourant) {
+      if($remarquesCourant->getType() == "Ponctuelle"){
+        $contenu .= "- Contenu : ".$remarquesCourant->getContenu().". \r\r";
+      }
+    }
+
+    $contenu .= "\r Votre préférence sur le regroupement de vos enseignements : \r\r";
+    $contenu .= "- ".$enseignant->getGrouperEnseignements().". \r\r\r";
+
+    $contenu .= "Cordialement, \r\r".$_ENV['ADMIN_NAME'];
+
+
+
+            $transport = (new \Swift_SmtpTransport($_ENV['ADRESS_SERVER_SMTP'], 465))
+              ->setEncryption('ssl')
+              ->setAuthMode('login')
+              ->setUsername($_ENV['LOGIN_SMTP'])
+              ->setPassword($_ENV['PASSWORD_SMTP']);
+          $mailer = new \Swift_Mailer($transport);
+          $message = (new \Swift_Message($sujetMail))
+             ->setFrom($_ENV['MAIL_SENDER'])
+             ->setTo($enseignant->getMail())
+             ->setBody($contenu);
+          $mailer->send($message);
+
+        return $this->render('my_dispo/confirmationEnvoieMail.html.twig', [
+            'enseignant' => $enseignant,
+        ]);
+
+}
 
 
 

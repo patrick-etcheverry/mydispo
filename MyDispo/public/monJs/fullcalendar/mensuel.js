@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   document.getElementById('submit2').onclick = function() {
 
-    /*
+
     if(saisieEnseignant){
     var deltaRemarquePonctu = [];
     var deltaCreneauxPonctu = [];
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // récup toutes les infos de l’enseignant saisies dans le formulaire
 
     creneauxSaisie = mensuel.getEvents();   // Les créneaux
-    remarquePonctuSaisie = document.getElementById('form_remarquesPonctu').value; // Remarque ponctu
+    remarquePonctuSaisie = document.getElementById('remarquesPonctu').value; // Remarque ponctu
 
     // récup toutes les infos de l’enseignant en BD
 
@@ -140,17 +140,6 @@ deltaCreneauxPonctu.push("Ajout de créneaux professionnels ponctuels");
 }
 
 
-creneauxSaisie.forEach(creneauxCourant => {
-if(events[compteurEventsMensuel] != null){
-if(creneauxCourant.title != eventsMensuel[compteurEventsMensuel].title ){
-deltaCreneauxPonctu.push("Modification du titre d'un ou plusieurs créneaux professionnels ponctuels");
-}
-if(moment(creneauxCourant.start).format('YYYY MM DD') != moment(eventsMensuel[compteurEventsMensuel].start).format('YYYY MM DD')
-|| moment(creneauxCourant.end).format('YYYY MM DD') != moment(eventsMensuel[compteurEventsMensuel].end).format('YYYY MM DD') ){
-deltaCreneauxPonctu.push("Modification de la date d'un ou plusieurs créneaux professionnels ponctuels");
-}
-compteurEventsMensuel +=1;
-}});
 
 //Envoie des logs à LogEnseignantController
 if(deltaRemarquePonctu.length == 0 && deltaCreneauxPonctu.length == 0){
@@ -169,7 +158,21 @@ envoyerLogPonctu(deltaRemarquePonctu, deltaCreneauxPonctu, enseignant);
 }
 
 
-*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Effacer les données de l’enseignant en BD et envoyer les données du formulaire de l’enseignant en BD

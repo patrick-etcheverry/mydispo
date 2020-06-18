@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Envoie mail{% endblock %}
+
+{% block body %}
+
+  <div class="card">
+    <div class="card-body">
+      <p class="card-text">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+              <div class="card">
+                <h5 class="card-header">
+                  <center>
+                    <td>Confirmation de l'envoi</h4>
+                  </td>
+                </center>
+              </h5>
+              <div class="card-body">
+                <p class="card-text">
+                  <center>
+                    Le résumé de votre saisie a bien été envoyé à l'adresse suivante : {{enseignant.mail}}  !
+                  </br>
+                  </center>
+                </p>
+              </div>
+              <div class="card-footer"></div>
+            </div>
+          </div>
+          <div class="col-md-3"></div>
+        </div>
+      </div>
+    </p>
+  </div>
+</div>
+
+
+{% endblock %}

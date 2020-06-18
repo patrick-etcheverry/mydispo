@@ -277,7 +277,7 @@ class EnseignantController extends AbstractController
 
 
 
-          return $this->render('modele_mail/confirmationEnvoieMail.html.twig');
+          return $this->render('my_dispo/confirmationEnvoieMail.html.twig');
     }
 
 
