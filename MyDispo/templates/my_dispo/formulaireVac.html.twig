@@ -118,6 +118,18 @@
 
 {{ parent() }}
 <script>
+
+function changerRegroupementEnseignements(reponse,enseignant){
+  $.ajax({
+    url: "{{path("changer_regroupement")}}",
+    data: {
+      reponse: reponse,
+      idEnseignant: enseignant,
+    },
+    type: "POST"
+  });
+}
+
 function enregistrerUnCreneau(start, end, title, type="zoneGrisee", prio="sansPrio", enseignant="") {
   $.ajax({
     url: "{{path("creneau_ajouter")}}",

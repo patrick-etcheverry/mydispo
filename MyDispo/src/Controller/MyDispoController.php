@@ -51,8 +51,11 @@ class MyDispoController extends AbstractController
       $object = new StdClass;
       $object->title=$event["title"];
       $object->rendering="background";
-      $object->start=$event["start"]->format("Y-m-d H:i:s");
-      $object->end=$event["end"]->format("Y-m-d H:i:s");
+      $object->start=$event["start"]->format("Y-m-d");
+      $object->end=$event["end"]->format("Y-m-d");
+      $object->allDay=true;
+      $object->type="Evenement";
+      $object->prio="sansPrio";
       $creneauxEvenement[] = $object;
     }
     //CRENEAUX QUI SONT DES CONTRAINTES PROFESSIONNELLES PONCTUELLES (Saisis par l'enseignant désigné par le token dans l'url)
@@ -61,8 +64,11 @@ class MyDispoController extends AbstractController
     foreach ($events as $event){
       $object = new StdClass;
       $object->title=$event->getTitre();
-      $object->start=$event->getDateDebut()->format("Y-m-d H:i:s");
-      $object->end=$event->getDateFin()->format("Y-m-d H:i:s");
+      $object->start=$event->getDateDebut()->format("Y-m-d");
+      $object->end=$event->getDateFin()->format("Y-m-d");
+      $object->allDay=true;
+      $object->type="ContrainteProPonctu";
+      $object->prio="sansPrio";
       $eventsEnseignantPonctu[] = $object;
     }
 
@@ -84,6 +90,8 @@ class MyDispoController extends AbstractController
       $object->daysOfWeek=date('w',$event["start"]->getTimestamp());
       $object->startTime=$event["start"]->format("H:i:s");
       $object->endTime=$event["end"]->format("H:i:s");
+      $object->type="zoneGrisee";
+      $object->prio="sansPrio";
       $creneauxGrisee[] = $object;
     }
 
@@ -163,17 +171,14 @@ class MyDispoController extends AbstractController
     //RECUPERATION REMARQUES
     $remarques = $enseignant->getRemarques();
 
-    if($remarques[0]->getType()=="Hebdomadaire" && count($remarques)==1){$remarqueHebdo=$remarques[0]->getContenu();}
-    else if($remarques[0]->getType()=='Ponctuelle' && count($remarques)==1){$remarquePonctu=$remarques[0]->getContenu();}
-    else if($remarques[0]->getType()=='Ponctuelle' && $remarques[1]->getType()=='Hebdomadaire'){
-      $remarquePonctu=$remarques[0]->getContenu();
-      $remarqueHebdo=$remarques[1]->getContenu();
+    if($remarques[0] != null){
+      if($remarques[0]->getType()=="Hebdomadaire"){$remarqueHebdo=$remarques[0]->getContenu();}
+      else{$remarquePonctu=$remarques[0]->getContenu();}
     }
-    else if($remarques[0]->getType()=='Hebdomadaire' && $remarques[1]->getType()=='Ponctuelle'){
-      $remarquePonctu=$remarques[1]->getContenu();
-      $remarqueHebdo=$remarques[0]->getContenu();
+    if($remarques[1] != null){
+      if($remarques[1]->getType()=="Hebdomadaire"){$remarqueHebdo=$remarques[1]->getContenu();}
+      else{$remarquePonctu=$remarques[1]->getContenu();}
     }
-
     else{
       $remarqueHebdo = "";
       $remarquePonctu = "";
@@ -312,8 +317,9 @@ class MyDispoController extends AbstractController
     foreach ($events as $event){
       $object = new StdClass;
       $object->title=$event->getTitre();
-      $object->start=$event->getDateDebut()->format("Y-m-d H:i:s");
-      $object->end=$event->getDateFin()->format("Y-m-d H:i:s");
+      $object->start=$event->getDateDebut()->format("Y-m-d");
+      $object->end=$event->getDateFin()->format("Y-m-d");
+      $object->allDay=true;
       $eventsListe[] = $object;
     }
     $resultListe=json_encode($eventsListe);
@@ -329,12 +335,19 @@ class MyDispoController extends AbstractController
     $heureDebut = $formulaire->getHeureDebutCalendrier();
     $heureFin = $formulaire->getHeureFinCalendrier();
     $lien = $this->generateUrl('saisieContrainte',['token'=> $enseignant->getToken()],false);
-    $tabRemarques = $enseignant->getRemarques();
-    foreach ($tabRemarques as $remarque) {
-      if($remarque->getType()=="Hebdomadaire"){
-        $remarqueHebdo=$remarque->getContenu();
-      }
-      else{$remarquePonctu=$remarque->getContenu();}
+    $remarques = $enseignant->getRemarques();
+
+    if($remarques[0] != null){
+      if($remarques[0]->getType()=="Hebdomadaire"){$remarqueHebdo=$remarques[0]->getContenu();}
+      else{$remarquePonctu=$remarques[0]->getContenu();}
+    }
+    if($remarques[1] != null){
+      if($remarques[1]->getType()=="Hebdomadaire"){$remarqueHebdo=$remarques[1]->getContenu();}
+      else{$remarquePonctu=$remarques[1]->getContenu();}
+    }
+    else{
+      $remarqueHebdo = " ";
+      $remarquePonctu = " ";
     }
 
     return $this->render('my_dispo/resume.html.twig', [

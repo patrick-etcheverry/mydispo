@@ -102,9 +102,9 @@
     <div class="form-group">
      <label for="regroupement"> Je souhaite que mes enseignements soient : </label>
      <select class="form-control" id="regroupement">
-       <option>Indifférent</option>
-       <option>Regroupés</option>
-       <option>Non regroupés</option>
+       <option value="Indifferent">Indifférent</option>
+       <option value="Regroupes">Regroupés</option>
+       <option value="Non regroupes">Non regroupés</option>
      </select>
    </div>
      </form>
@@ -123,6 +123,58 @@
 
 {{ parent() }}
 <script>
+
+String.prototype.minsToHHMMSS = function() {
+  var mins_num = parseFloat(this, 10); // don't forget the second param
+  var hours = Math.floor(mins_num / 60);
+  var minutes = Math.floor((mins_num - ((hours * 3600)) / 60));
+  var seconds = Math.floor((mins_num * 60) - (hours * 3600) - (minutes * 60));
+  // Appends 0 when unit is less than 10
+  if (hours < 10) {
+    hours = "0" + hours;
+  }
+  if (minutes < 10) {
+    minutes = "0" + minutes;
+  }
+  if (seconds < 10) {
+    seconds = "0" + seconds;
+  }
+  return hours + ':' + minutes + ':' + seconds;
+}
+
+Date.prototype.addMinutes = function(m) {
+  this.setTime(this.getTime() + (m*60*1000));
+  return this;
+}
+
+var titrevide = "{{formulaireTitulaire.autoriserTitreVideContraintePerso}}";
+var saisieEnseignant= true; //Active le code permettant d'enregistrer et de supprimer les créneaux pour un enseignant donné
+var modifications = false; //Active le drag and drop des événements, à désactiver pour les vues de saisie puisque la durée d'un événement ne doit pas être modifiable
+var echelle = "{{formulaireTitulaire.echelleCalendrier}}".minsToHHMMSS();
+var heureDebut = "{{ formulaireTitulaire.heureDebutCalendrier|date("H:i:s")}}";
+var heureFin = "{{formulaireTitulaire.heureFinCalendrier|date("H:i:s")}}";
+var events = {{events|raw}};
+var enseignant = {{enseignant.id}};
+var eventsMensuel = {{eventsMensuel|raw}};
+var lien = "{{lien}}";
+var remarquePonctu = "{{remarqueP}}";
+var remarqueHebdo = "{{remarqueH}}";
+//var creneauxEnseignantSansGrisee = {eventsSansGrisee|raw}};
+var estFormulaireTitulaire = true;
+
+function changerRegroupementEnseignements(reponse,enseignant){
+  $.ajax({
+    url: "{{path("changer_regroupement")}}",
+    data: {
+      reponse: reponse,
+      idEnseignant: enseignant,
+    },
+    type: "POST",
+    success: function(){
+        window.location.href = lien;
+      }
+  });
+}
 
 function enregistrerDesRemarques(contenuRemarque1 , typeRemarque1 , contenuRemarque2, typeRemarque2, enseignant) {
   $.ajax({
@@ -145,6 +197,18 @@ function supprimerDesRemarques(enseignant) {
       idEnseignant: enseignant,
     },
     type: "POST"
+  });
+}
+
+
+function enregistrerDesCreneaux(tab) {
+  $.ajax({
+    url: "{{path("creneau_ajouter")}}",
+    data: {
+      tab: tab
+    },
+    type: "POST"
+
   });
 }
 
@@ -257,28 +321,7 @@ function tempsParDefaut(){
   date = defaultTime.toString().minsToHHMMSS();
   return date;
 }
-String.prototype.minsToHHMMSS = function() {
-  var mins_num = parseFloat(this, 10); // don't forget the second param
-  var hours = Math.floor(mins_num / 60);
-  var minutes = Math.floor((mins_num - ((hours * 3600)) / 60));
-  var seconds = Math.floor((mins_num * 60) - (hours * 3600) - (minutes * 60));
-  // Appends 0 when unit is less than 10
-  if (hours < 10) {
-    hours = "0" + hours;
-  }
-  if (minutes < 10) {
-    minutes = "0" + minutes;
-  }
-  if (seconds < 10) {
-    seconds = "0" + seconds;
-  }
-  return hours + ':' + minutes + ':' + seconds;
-}
 
-Date.prototype.addMinutes = function(m) {
-  this.setTime(this.getTime() + (m*60*1000));
-  return this;
-}
 
 
 function openNav() {
@@ -351,35 +394,6 @@ function limiteDepassee(){
     }
   }
   return res;
-}
-
-
-var titrevide = "{{formulaireTitulaire.autoriserTitreVideContraintePerso}}";
-var saisieEnseignant= true; //Active le code permettant d'enregistrer et de supprimer les créneaux pour un enseignant donné
-var modifications = false; //Active le drag and drop des événements, à désactiver pour les vues de saisie puisque la durée d'un événement ne doit pas être modifiable
-var echelle = "{{formulaireTitulaire.echelleCalendrier}}".minsToHHMMSS();
-var heureDebut = "{{ formulaireTitulaire.heureDebutCalendrier|date("H:i:s")}}";
-var heureFin = "{{formulaireTitulaire.heureFinCalendrier|date("H:i:s")}}";
-var events = {{events|raw}};
-var enseignant = {{enseignant.id}};
-var eventsMensuel = {{eventsMensuel|raw}};
-var lien = "{{lien}}";
-var remarquePonctu = "{{remarqueP}}";
-var remarqueHebdo = "{{remarqueH}}";
-//var creneauxEnseignantSansGrisee = {eventsSansGrisee|raw}};
-var estFormulaireTitulaire = true;
-
-function enregistrerDesCreneaux(tab) {
-  $.ajax({
-    url: "{{path("creneau_ajouter")}}",
-    data: {
-      tab: tab
-    },
-    type: "POST",
-    success: function(){
-      window.location.href = lien;
-    }
-  });
 }
 
 

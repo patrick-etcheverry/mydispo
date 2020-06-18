@@ -21,6 +21,27 @@ use Symfony\Component\Validator\Constraints\DateTime;
  */
 class EnseignantController extends AbstractController
 {
+
+  /**
+  * @Route("/MAJ/regroupementEnseignements", name="changer_regroupement" , methods={"POST"})
+  */
+  public function MAJRegroupement(EnseignantRepository $enseignantRepository)
+  {
+    $entityManager = $this->getDoctrine()->getManager();
+
+    $idEnseignant = $_POST["idEnseignant"];
+    $valeur = $_POST['reponse'];
+
+    $enseignant = $enseignantRepository->findById($idEnseignant)[0];
+    $enseignant->setGrouperEnseignements($valeur);
+    $entityManager->persist($enseignant);
+    $entityManager->flush();
+
+    return new Response();
+  }
+
+
+
   /**
    * @Route("/GenerationToken", name="random_token")
   */

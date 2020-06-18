@@ -24,6 +24,8 @@ class CreneauController extends AbstractController
   public function ajouterCreneau(EnseignantRepository $enseignantRepository ): Response
   {
       $entityManager = $this->getDoctrine()->getManager();
+
+      if(isset($_POST['tab'])){
     $mesCreneaux = $_POST['tab'];
     foreach ($mesCreneaux as $unCreneau) {
       $creneau = new Creneau();
@@ -35,11 +37,12 @@ class CreneauController extends AbstractController
       $creneau->getDateFin()->setTimeZone(new DateTimeZone('Europe/Paris'));
       $creneau->setType($unCreneau['type']);
       $creneau->setPrioOuPref($unCreneau['prio']);
-      if(isset($unCreneau['enseignant']) ){
+      if($unCreneau['enseignant'] != null){
       $creneau->setEnseignant($enseignantRepository->findById($unCreneau['enseignant'])[0]);
       }
           $entityManager->persist($creneau);
     }
+  }
 
     $entityManager->flush();
 
@@ -54,7 +57,7 @@ class CreneauController extends AbstractController
   {
     $entityManager = $this->getDoctrine()->getManager();
 
-    $typeCreneau = $_POST["typeCreneau"];
+      $typeCreneau = $_POST["typeCreneau"];
       $enseignant = $_POST["idEnseignant"];
 
     if($enseignant != ""){

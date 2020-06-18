@@ -85,21 +85,17 @@
   }
 
 
-  function enregistrerUnCreneau(start, end, title, type="zoneGrisee", prio="sansPrio", enseignant="") {
 
+  function enregistrerDesCreneaux(tab) {
     $.ajax({
       url: "{{path("creneau_ajouter")}}",
       data: {
-        startevt: start,
-        endevt: end,
-        titleevt: title,
-        typeevt: type,
-        prioevt: prio,
-        enseignantevt: enseignant,
+        tab: tab
       },
-      type: "POST"
+      type: "POST",
     });
   }
+
 
   function supprimerDesCreneaux(type, enseignant="") {
 

@@ -308,7 +308,7 @@ switch (info.event.extendedProps.type) {
 document.getElementById('submit').onclick = function() {
 
 
-if(saisieEnseignant){
+/*if(saisieEnseignant){
   var deltaRemarqueHebdo = [];
   var deltaCreneauxHebdo = [];
   var compteurEventsHebdo = 0;
@@ -382,31 +382,45 @@ if(saisieEnseignant){
       }
 
 }
+*/
 
-
-
+//CALENDRIER HEBDO DANS FORMULAIRE VACATAIRE
   if(saisieEnseignant && estFormulaireTitulaire == false){
     supprimerDesCreneaux("Disponibilite", enseignant);
-    supprimerDesRemarques(enseignant);
-    enregistrerDesRemarques(document.getElementById('form_remarquesHebdo').value,"Hebdomadaire",document.getElementById('form_remarquesPonctu').value,"Ponctuelle",enseignant);
   }
 
+//CALENDRIER HEBDO DANS FORMULAIRE TITULAIRE
   if (saisieEnseignant && estFormulaireTitulaire) {
     supprimerDesCreneaux("ContraintePro", enseignant);
     supprimerDesCreneaux("ContraintePerso", enseignant);
-    supprimerDesRemarques(enseignant);
-    enregistrerDesRemarques(document.getElementById('form_remarquesHebdo').innerHTML,"Hebdomadaire",document.getElementById('form_remarquesPonctu').innerHTML,"Ponctuelle",enseignant);
   }
 
-
-
-
+//CALENDRIER HEBDO PAGE ADMIN
   if(saisieEnseignant == false){
     supprimerDesCreneaux("zoneGrisee");
+    var tableauCreneaux = [];
+    creneaux = hebdo.getEvents();
+    creneaux.forEach(function(creneau){
+      var aAjouterAuTableau = Object.create(creneauObjet);
+      aAjouterAuTableau.start = creneau.start.toISOString();
+      aAjouterAuTableau.end = creneau.end.toISOString();
+      aAjouterAuTableau.title = creneau.title;
+      aAjouterAuTableau.type = "zoneGrisee";
+      aAjouterAuTableau.prio = "sansPrio";
+      tableauCreneaux.push(aAjouterAuTableau);
+    });
+   enregistrerDesCreneaux(tableauCreneaux);
   }
+
+//CALENDRIER HEBDO DANS FORMULAIRE QUELCONQUE
+else{
+  supprimerDesRemarques(enseignant);
+  enregistrerDesRemarques(document.getElementById('remarquesHebdo').value,"Hebdomadaire",document.getElementById('remarquesPonctu').value,"Ponctuelle",enseignant);
+
   var tableauCreneaux = [];
-  creneaux = hebdo.getEvents(); //on récupère tous les événements du calendrier sous forme d'un tableau
+  creneaux = hebdo.getEvents();
   creneaux.forEach(function(creneau){
+    if(creneau.extendedProps.type != 'zoneGrisee'){
     var aAjouterAuTableau = Object.create(creneauObjet);
     aAjouterAuTableau.start = creneau.start.toISOString();
     aAjouterAuTableau.end = creneau.end.toISOString();
@@ -415,18 +429,24 @@ if(saisieEnseignant){
     aAjouterAuTableau.prio = creneau.extendedProps.prio;
     aAjouterAuTableau.enseignant = enseignant;
     tableauCreneaux.push(aAjouterAuTableau);
+  }
   });
  enregistrerDesCreneaux(tableauCreneaux);
+  document.getElementById('submit2').click();
+  
+  document.getElementById('submit3').click();
 
- document.getElementById('submit2').click();
+ changerRegroupementEnseignements(document.getElementById('regroupement').value,enseignant);
+}
 
- document.getElementById('submit3').click();
+
+
 };
 
 hebdo.render();
 
 
-if (saisieEnseignant) {
+if(saisieEnseignant){
 
   //On compte tous les créneaux déjà présents sur le calendrier et on incrémente les compteurs en fonction
   creneaux = hebdo.getEvents();

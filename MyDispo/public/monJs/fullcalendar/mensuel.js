@@ -98,109 +98,123 @@ document.addEventListener('DOMContentLoaded', function() {
 
   document.getElementById('submit2').onclick = function() {
 
+    /*
+    if(saisieEnseignant){
+    var deltaRemarquePonctu = [];
+    var deltaCreneauxPonctu = [];
+    var compteurEventsMensuel = 0;
+    // récup toutes les infos de l’enseignant saisies dans le formulaire
 
-  if(saisieEnseignant){
-  var deltaRemarquePonctu = [];
-  var deltaCreneauxPonctu = [];
-  var compteurEventsMensuel = 0;
-      // récup toutes les infos de l’enseignant saisies dans le formulaire
+    creneauxSaisie = mensuel.getEvents();   // Les créneaux
+    remarquePonctuSaisie = document.getElementById('form_remarquesPonctu').value; // Remarque ponctu
 
-      creneauxSaisie = mensuel.getEvents();   // Les créneaux
-      remarquePonctuSaisie = document.getElementById('form_remarquesPonctu').value; // Remarque ponctu
+    // récup toutes les infos de l’enseignant en BD
 
-      // récup toutes les infos de l’enseignant en BD
-
-      // Events mensuels -> eventsMensuel
-      // Remarque ponctu -> remarquePonctu
-
-
-      // Calculer le delta pour enregistrer dans le log
-
-      // Delta sur les remarques
-      if(!(remarquePonctuSaisie == remarquePonctu)){
-
-        if(remarquePonctuSaisie == "" && remarquePonctu != ""){
-          deltaRemarquePonctu.push("Suppression de la remarque sur les contraintes professionnelles ponctuelles");
-        }
-        else if (remarquePonctuSaisie != "" && remarquePonctu == ""){
-          deltaRemarquePonctu.push("Ajout de la remarque sur les contraintes professionnelles ponctuelles");
-        }
-        else {
-          deltaRemarquePonctu.push("Modification de la remarque sur les contraintes professionnelles ponctuelles");
-        }
-      }
+    // Events mensuels -> eventsMensuel
+    // Remarque ponctu -> remarquePonctu
 
 
-      //Delta sur les créneaux
-      if(eventsMensuel.length > creneauxSaisie.length){
-        deltaCreneauxPonctu.push("Suppression de créneaux professionnels ponctuels");
-      }
-      if(eventsMensuel.length < creneauxSaisie.length){
-        deltaCreneauxPonctu.push("Ajout de créneaux professionnels ponctuels");
-      }
+    // Calculer le delta pour enregistrer dans le log
 
+    // Delta sur les remarques
+    if(!(remarquePonctuSaisie == remarquePonctu)){
 
-      creneauxSaisie.forEach(creneauxCourant => {
-        if(events[compteurEventsMensuel] != null){
-        if(creneauxCourant.title != eventsMensuel[compteurEventsMensuel].title ){
-          deltaCreneauxPonctu.push("Modification du titre d'un ou plusieurs créneaux professionnels ponctuels");
-        }
-        if(moment(creneauxCourant.start).format('YYYY MM DD') != moment(eventsMensuel[compteurEventsMensuel].start).format('YYYY MM DD')
-        || moment(creneauxCourant.end).format('YYYY MM DD') != moment(eventsMensuel[compteurEventsMensuel].end).format('YYYY MM DD') ){
-          deltaCreneauxPonctu.push("Modification de la date d'un ou plusieurs créneaux professionnels ponctuels");
-        }
-        compteurEventsMensuel +=1;
-      }});
-
-      //Envoie des logs à LogEnseignantController
-      if(deltaRemarquePonctu.length == 0 && deltaCreneauxPonctu.length == 0){
-        envoyerLogPonctu("Aucune modif remarque", "Aucune modif créneau", enseignant);
-      }
-      else if(deltaRemarquePonctu.length == 0){
-        envoyerLogPonctu("Aucune modif remarque", deltaCreneauxPonctu, enseignant);
-      }
-      else if (deltaCreneauxPonctu.length == 0){
-        envoyerLogPonctu(deltaRemarquePonctu, "Aucune modif créneau", enseignant);
-      }
-      else{
-        envoyerLogPonctu(deltaRemarquePonctu, deltaCreneauxPonctu, enseignant);
-      }
-
+    if(remarquePonctuSaisie == "" && remarquePonctu != ""){
+    deltaRemarquePonctu.push("Suppression de la remarque sur les contraintes professionnelles ponctuelles");
   }
+  else if (remarquePonctuSaisie != "" && remarquePonctu == ""){
+  deltaRemarquePonctu.push("Ajout de la remarque sur les contraintes professionnelles ponctuelles");
+}
+else {
+deltaRemarquePonctu.push("Modification de la remarque sur les contraintes professionnelles ponctuelles");
+}
+}
 
 
+//Delta sur les créneaux
+if(eventsMensuel.length > creneauxSaisie.length){
+deltaCreneauxPonctu.push("Suppression de créneaux professionnels ponctuels");
+}
+if(eventsMensuel.length < creneauxSaisie.length){
+deltaCreneauxPonctu.push("Ajout de créneaux professionnels ponctuels");
+}
 
 
+creneauxSaisie.forEach(creneauxCourant => {
+if(events[compteurEventsMensuel] != null){
+if(creneauxCourant.title != eventsMensuel[compteurEventsMensuel].title ){
+deltaCreneauxPonctu.push("Modification du titre d'un ou plusieurs créneaux professionnels ponctuels");
+}
+if(moment(creneauxCourant.start).format('YYYY MM DD') != moment(eventsMensuel[compteurEventsMensuel].start).format('YYYY MM DD')
+|| moment(creneauxCourant.end).format('YYYY MM DD') != moment(eventsMensuel[compteurEventsMensuel].end).format('YYYY MM DD') ){
+deltaCreneauxPonctu.push("Modification de la date d'un ou plusieurs créneaux professionnels ponctuels");
+}
+compteurEventsMensuel +=1;
+}});
 
-      // Effacer les données de l’enseignant en BD et envoyer les données du formulaire de l’enseignant en BD
+//Envoie des logs à LogEnseignantController
+if(deltaRemarquePonctu.length == 0 && deltaCreneauxPonctu.length == 0){
+envoyerLogPonctu("Aucune modif remarque", "Aucune modif créneau", enseignant);
+}
+else if(deltaRemarquePonctu.length == 0){
+envoyerLogPonctu("Aucune modif remarque", deltaCreneauxPonctu, enseignant);
+}
+else if (deltaCreneauxPonctu.length == 0){
+envoyerLogPonctu(deltaRemarquePonctu, "Aucune modif créneau", enseignant);
+}
+else{
+envoyerLogPonctu(deltaRemarquePonctu, deltaCreneauxPonctu, enseignant);
+}
 
-        if (saisieEnseignant) {
-          supprimerDesCreneaux("ContrainteProPonctu", enseignant);
-          supprimerDesRemarques(enseignant);
-          supprimerDesCreneaux("zoneGrisee");
-          supprimerDesCreneaux("Evenement","");
-          enregistrerDesRemarques(document.getElementById('form_remarquesHebdo').value,"Hebdomadaire",document.getElementById('form_remarquesPonctu').value,"Ponctuelle",enseignant);
-        }
+}
 
-        if(saisieEnseignant == false){
-          supprimerDesCreneaux("zoneGrisee");
-        }
 
-        var tableauCreneaux = [];
-        creneaux = mensuel.getEvents(); //on récupère tous les événements du calendrier sous forme d'un tableau
-        creneaux.forEach(function(creneau){
-          var aAjouterAuTableau = Object.create(creneauObjet);
-          aAjouterAuTableau.start = creneau.start.toISOString();
-          aAjouterAuTableau.end = creneau.end.toISOString();
-          aAjouterAuTableau.title = creneau.title;
-          aAjouterAuTableau.type = creneau.extendedProps.type;
-          aAjouterAuTableau.prio = creneau.extendedProps.prio;
-          aAjouterAuTableau.enseignant = enseignant;
-          tableauCreneaux.push(aAjouterAuTableau);
-        });
-       enregistrerDesCreneaux(tableauCreneaux);
-    };
+*/
 
-    mensuel.render();
 
+// Effacer les données de l’enseignant en BD et envoyer les données du formulaire de l’enseignant en BD
+
+if (saisieEnseignant) {
+  supprimerDesCreneaux("ContrainteProPonctu", enseignant);
+
+  var tableauCreneaux = [];
+  creneaux = mensuel.getEvents();
+  creneaux.forEach(function(creneau){
+    if(creneau.extendedProps.type != 'Evenement'){
+      var aAjouterAuTableau = Object.create(creneauObjet);
+      aAjouterAuTableau.start = creneau.start.toISOString();
+      aAjouterAuTableau.end = creneau.end.toISOString();
+      aAjouterAuTableau.title = creneau.title;
+      aAjouterAuTableau.type = "ContrainteProPonctu";
+      aAjouterAuTableau.prio = "sansPrio";
+      aAjouterAuTableau.enseignant = enseignant;
+      tableauCreneaux.push(aAjouterAuTableau);
+    }
   });
+  enregistrerDesCreneaux(tableauCreneaux);
+}
+
+
+if(saisieEnseignant == false){
+  supprimerDesCreneaux("Evenement","");
+
+  var tableauCreneaux = [];
+  creneaux = mensuel.getEvents();
+  creneaux.forEach(function(creneau){
+    var aAjouterAuTableau = Object.create(creneauObjet);
+    aAjouterAuTableau.start = creneau.start.toISOString();
+    aAjouterAuTableau.end = creneau.end.toISOString();
+    aAjouterAuTableau.title = creneau.title;
+    aAjouterAuTableau.type = "Evenement";
+    aAjouterAuTableau.prio = "sansPrio";
+    tableauCreneaux.push(aAjouterAuTableau);
+  });
+  enregistrerDesCreneaux(tableauCreneaux);
+}
+}
+
+
+
+mensuel.render();
+
+});

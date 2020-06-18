@@ -19,12 +19,16 @@
 
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" id="close">&times;</a>
-  <p id="nomcreneau">Nom du creneau</p>
-  <p id="dateDebut"></p>
-  <p id="dateFin"></p>
-  <input type="text" name="titre" id="titrevt">
-  <button id="apply">Appliquer le titre</button>
-  <button id="remove">Supprimer ce créneau</button>
+  <center><h5 id="nomcreneau">Description</h5><textarea type="text" name="titre" id="titrevt" style="width: 280px; rows: 50"></textarea>
+  </br>
+  <p id="type"></p>
+  <p id="prio"></p>
+</br>
+<p id="dateDebut"></p>
+<p id="dateFin"></p>
+</br>
+<button id="apply"><i class="far fa-save"></i> Enregistrer </button>
+<button id="remove" style="color:#C22F2F"><i class="fas fa-trash-alt"></i> Supprimer </button></center>
 </div>
 
 <div id="main">
@@ -51,6 +55,8 @@
 <script src="{{ asset('monJs/fullcalendar/mensuel.js')}}"></script>
 
 <script>
+var eventsMensuel = {{ events|raw  }};
+var saisieEnseignant = false;
 
 String.prototype.minsToHHMMSS = function() {
   var mins_num = parseFloat(this, 10); // don't forget the second param
@@ -83,32 +89,30 @@ function closeNav() {
   document.getElementById("main").style.marginRight = "0";
 }
 
-function enregistrerUnCreneau(start, end, title, type) {
-
+function enregistrerDesCreneaux(tab) {
   $.ajax({
     url: "{{path("creneau_ajouter")}}",
     data: {
-      startevt: start,
-      endevt: end,
-      titleevt: title,
-      typeevt: type
-    }, //données envoyées au serveur pour chaque événement
-    type: "POST"
+      tab: tab
+    },
+    type: "POST",
   });
 }
 
-function supprimerDesCreneaux(typeCreneau,idEnseignant) {
+function supprimerDesCreneaux(typeCreneau,enseignant="") {
 
   $.ajax({
     url: "{{path("suppr_creneaux")}}",
     data: {
-      type: typeCreneau,
-      id: idEnseignant,
+      typeCreneau: typeCreneau,
+      idEnseignant: enseignant,
     },
     type: "POST"
   });
 }
 
-var eventsMensuel = {{ events|raw  }};
+
+
+
 </script>
 {% endblock %}
