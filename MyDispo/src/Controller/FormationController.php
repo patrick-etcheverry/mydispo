@@ -91,4 +91,13 @@ class FormationController extends AbstractController
 
         return $this->redirectToRoute('formation_index');
     }
+
+    /**
+     * @Route("/supprimer/{id}", name="formation_supprimer")
+     */
+    public function supprimer(Formation $formation){
+        return $this->render('formation/delete.html.twig', [
+            'formation' => $formation,
+        ]);
+    }
 }

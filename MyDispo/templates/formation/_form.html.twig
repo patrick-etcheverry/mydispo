@@ -1,4 +1,44 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="card">
+
+  <div class="card-body">
+    <p class="card-text">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-6">
+            <div class="card">
+              <h5 class="card-header">
+                <center>
+                  <td>
+                    <h4>
+                      
+                    </h4>
+                  </td>
+                </center>
+              </h5>
+              <div class="card-body">
+                <p class="card-text">
+                  {{ form_start(form) }}
+                  {{ form_widget(form) }}
+
+                </p>
+              </div>
+              <div class="card-footer">
+                <center>
+                  <button class="btn-primary">
+                    <i class="fas fa-pencil-alt"></i> {{ button_label|default(' Créer') }}</button>
+
+                {{ form_end(form) }}
+
+
+
+                </center>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p>
+  </div>
+</div>

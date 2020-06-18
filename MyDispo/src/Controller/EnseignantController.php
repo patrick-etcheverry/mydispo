@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use \Swift_Mailer;
 use \Swift_SmtpTransport;
 use Symfony\Component\Validator\Constraints\DateTime;
+use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * @Route("/enseignant")
@@ -82,8 +83,8 @@ class EnseignantController extends AbstractController
         $zip = new \ZipArchive();
 
         //Supprime l'archive précédente si existante
-        if (file_exists ('Contraintes.zip')) {
-            unlink('Contraintes.zip');
+        if (file_exists ('./Exportation-Contraintes/Contraintes.zip')) {
+            unlink('./Exportation-Contraintes/Contraintes.zip');
         }
 
 
@@ -115,7 +116,7 @@ class EnseignantController extends AbstractController
 
        // Initialisation ZipArchive
               $zip = new \ZipArchive();
-              $filename = 'Contraintes.zip';
+              $filename = './Exportation-Contraintes/Contraintes.zip';
 
       // Créer un fichier pour chaque enseignant qu'on ajoute à l'archive
 
@@ -169,7 +170,7 @@ class EnseignantController extends AbstractController
 
                 }
                 // Ajouter le fichier explicatif "Lisez-moi.txt"
-                $zip->addFile('Lisez-moi.txt');
+                $zip->addFile('./Exportation-Contraintes/Lisez-moi.txt');
                 // Fermer l'archive
                 $zip->close();
 
@@ -181,6 +182,10 @@ class EnseignantController extends AbstractController
             return $this->render('enseignant/confirmationTelechargement.html.twig');
 
     }
+
+
+
+
 
       /**
        * @Route("/confirmationEnvoieMail/", name="envoie_mail", methods={"GET"})
@@ -357,6 +362,19 @@ class EnseignantController extends AbstractController
             'enseignant' => $enseignant,
         ]);
     }
+
+    /**
+     * @Route("/confirmationToken/{id}", name="token_confirmation")
+     */
+    public function confirmationToken(Enseignant $enseignant, EnseignantRepository $enseignantRepository){
+        return $this->render('enseignant/token.html.twig', [
+            'enseignant' => $enseignant,
+            'enseignants' => $enseignantRepository->findAll(),
+
+        ]);
+    }
+
+
 
 
 

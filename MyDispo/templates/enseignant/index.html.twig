@@ -96,6 +96,10 @@
                       <a href="{{ path('enseignant_supprimer', {'id': enseignant.id}) }}" style="text-decoration: none">
                         <i class="far fa-trash-alt" title="Supprimer l'enseignant"></i>
                       </a>
+
+                      <a href="{{ path('token_confirmation', { 'id': enseignant.id }) }}" style="text-decoration: none">
+                        <i class="fas fa-link" title="Regénérer le token de l'enseignant"></i>
+                      </a>
                     </center>
                   </td>
                 </tr>
@@ -122,7 +126,6 @@
           <i class="fas fa-link"></i>
           Regénérer tous les liens</button>
       </a>
-
 
       <a href="{{ path('telechargerContrainte') }}">
       <button class="btn-primary">

@@ -30,7 +30,7 @@ class AppFixtures extends Fixture
         $titulaireTest->setPrenom('TestTitulaire');
         $titulaireTest->setStatut('Titulaire');
         $titulaireTest->setMail($_ENV['ADMIN_MAIL']);
-        $titulaireTest->setToken('https://iutbayonne/formulaire/gtauzfeduigazaddaz.fr');
+        $titulaireTest->setToken($titulaireTest->genererToken());
         $titulaireTest->setEnSommeil(false);
         $titulaireTest->setSaisieFaite(true);
         $titulaireTest->setDateSaisie(new DateTime('12/07/2020'));
@@ -48,7 +48,7 @@ class AppFixtures extends Fixture
         $vacataireTest->setPrenom('TestVacataire');
         $vacataireTest->setStatut('Vacataire');
         $vacataireTest->setMail($_ENV['ADMIN_MAIL']);
-        $vacataireTest->setToken('https://iutbayonne/formulaire/gtauzfeduigazaddazklkpkoo.fr');
+        $vacataireTest->setToken($vacataireTest->genererToken());
         $vacataireTest->setEnSommeil(false);
         $vacataireTest->setSaisieFaite(true);
         $vacataireTest->setDateSaisie(new DateTime('12/07/2020'));
@@ -68,7 +68,7 @@ class AppFixtures extends Fixture
         $enseignant1->setMail('thombouchet@aol.com');
         $enseignant1->setStatut('Titulaire');
         $enseignant1->setEnSommeil(false);
-        $enseignant1->setToken('https://iutbayonne/formulaire/gtauzfeduig.fr');
+        $enseignant1->setToken($enseignant1->genererToken());
         $enseignant1->setSaisieFaite(true);
         $enseignant1->setDateSaisie(new DateTime('12/07/2020'));
         $enseignant1->setDateDerniereModif(null);
@@ -81,7 +81,35 @@ class AppFixtures extends Fixture
 
         $manager->persist($enseignant1);
 
+        // Import d'enseignant depuis un fichier
+        $NumeroLigne = 0;
 
+        if (($fichier = fopen("./public/Importation-Enseignants/Enseignants.csv", "r")) !== FALSE) {
+            while (($donnees = fgetcsv($fichier, 1000, ",")) !== FALSE) {
+              $NumeroLigne++;
+              $enseignant = "enseignant".$NumeroLigne;
+
+              $enseignant = new Enseignant();
+              $enseignant->setNom($donnees[0]);
+              $enseignant->setPrenom($donnees[1]);
+              $enseignant->setMail($donnees[2]);
+              $enseignant->setStatut($donnees[3]);
+              $enseignant->setEnSommeil(false);
+              $enseignant->setToken($enseignant->genererToken());
+              $enseignant->setSaisieFaite(false);
+              $enseignant->setDateSaisie(null);
+              $enseignant->setDateDerniereModif(null);
+              $enseignant->setMailRelanceRecu(false);
+              $enseignant->setPremierMailRecu(false);
+              $enseignant->setDatePremierMail(null);
+              $enseignant->setDateDerniereRelance(null);
+              $enseignant->setNbRelance(0);
+
+              $manager->persist($enseignant);
+              $manager->flush();
+        }
+        fclose($fichier);
+        }
 
 
 
@@ -91,7 +119,7 @@ class AppFixtures extends Fixture
         $enseignant2->setMail('thombouchet@aol.com');
         $enseignant2->setStatut('Titulaire');
         $enseignant2->setEnSommeil(true);
-        $enseignant2->setToken('https://iutbayonne/formulaire/qiuOfeduig.fr');
+        $enseignant2->setToken($enseignant2->genererToken());
         $enseignant2->setSaisieFaite(false);
         $enseignant2->setDateSaisie(null);
         $enseignant2->setDateDerniereModif(null);
@@ -109,7 +137,7 @@ class AppFixtures extends Fixture
         $enseignant3->setMail('thombouchet@aol.com');
         $enseignant3->setStatut('Vacataire');
         $enseignant3->setEnSommeil(false);
-        $enseignant3->setToken('https://iutbayonne/formulaire/lqIZSURHduig.fr');
+        $enseignant3->setToken($enseignant3->genererToken());
         $enseignant3->setSaisieFaite(true);
         $enseignant3->setDateSaisie(new DateTime('08/06/2020'));
         $enseignant3->setDateDerniereModif(new DateTime('05/06/2020'));
@@ -128,7 +156,7 @@ class AppFixtures extends Fixture
         $enseignant4->setMail('thombouchet@aol.com');
         $enseignant4->setStatut('Titulaire');
         $enseignant4->setEnSommeil(false);
-        $enseignant4->setToken('https://iutbayonne/formulaire/gQLOIUSHYeduig.fr');
+        $enseignant4->setToken($enseignant4->genererToken());
         $enseignant4->setSaisieFaite(false);
         $enseignant4->setDateSaisie(null);
         $enseignant4->setDateDerniereModif(null);
@@ -147,7 +175,7 @@ class AppFixtures extends Fixture
         $enseignant5->setMail('thombouchet@aol.com');
         $enseignant5->setStatut('Titulaire');
         $enseignant5->setEnSommeil(false);
-        $enseignant5->setToken('https://iutbayonne/formulaire/gtauzfeduig.fr');
+        $enseignant5->setToken($enseignant5->genererToken());
         $enseignant5->setSaisieFaite(true);
         $enseignant5->setDateSaisie(new DateTime('12/07/2020'));
         $enseignant5->setDateDerniereModif(null);
@@ -165,7 +193,7 @@ class AppFixtures extends Fixture
         $enseignant6->setMail('thombouchet@aol.com');
         $enseignant6->setStatut('Vacataire');
         $enseignant6->setEnSommeil(true);
-        $enseignant6->setToken('https://iutbayonne/formulaire/qiuOfeduig.fr');
+        $enseignant6->setToken($enseignant6->genererToken());
         $enseignant6->setSaisieFaite(false);
         $enseignant6->setDateSaisie(null);
         $enseignant6->setDateDerniereModif(null);
@@ -184,7 +212,7 @@ class AppFixtures extends Fixture
         $enseignant7->setMail('thombouchet@aol.com');
         $enseignant7->setStatut('Titulaire');
         $enseignant7->setEnSommeil(false);
-        $enseignant7->setToken('https://iutbayonne/formulaire/lqIZSURHduig.fr');
+        $enseignant7->setToken($enseignant7->genererToken());
         $enseignant7->setSaisieFaite(false);
         $enseignant7->setDateSaisie(null);
         $enseignant7->setDateDerniereModif(null);
@@ -203,7 +231,7 @@ class AppFixtures extends Fixture
         $enseignant8->setMail('thombouchet@aol.com');
         $enseignant8->setStatut('Titulaire');
         $enseignant8->setEnSommeil(false);
-        $enseignant8->setToken('https://iutbayonne/formulaire/gQLOIUSHYeduig.fr');
+        $enseignant8->setToken($enseignant8->genererToken());
         $enseignant8->setSaisieFaite(true);
         $enseignant8->setDateSaisie(new DateTime('06/06/2020'));
         $enseignant8->setDateDerniereModif(new DateTime('05/06/2020'));
@@ -216,6 +244,8 @@ class AppFixtures extends Fixture
 
 
         $manager->persist($enseignant8);
+
+
 
         //Création des formations
         $formationDUT = new Formation();

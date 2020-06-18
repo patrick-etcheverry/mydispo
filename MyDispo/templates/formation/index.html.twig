@@ -2,36 +2,76 @@
 
 {% block title %}Formation index{% endblock %}
 
+{% block stylesheets %}
+  {{ parent() }}
+  <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous"/>
+{% endblock %}
+
 {% block body %}
-    <h1>Formation index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>NomCourt</th>
-                <th>NomLong</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for formation in formations %}
-            <tr>
-                <td>{{ formation.id }}</td>
-                <td>{{ formation.nomCourt }}</td>
-                <td>{{ formation.nomLong }}</td>
-                <td>
-                    <a href="{{ path('formation_show', {'id': formation.id}) }}">show</a>
-                    <a href="{{ path('formation_edit', {'id': formation.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+  <div class="card">
+    <h5 class="card-header">
+      <center>
+        <h2>Les formations</h2>
+      </center>
+    </h5>
+    <div class="card-body">
+      <p class="card-text">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Nom long</th>
+                <th>Nom court</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
 
-    <a href="{{ path('formation_new') }}">Create new</a>
+              {% for formation in formations %}
+                <tr>
+                  <td>
+                    {{ formation.nomCourt }}</td>
+                  <td>
+                    {{ formation.nomLong }}</td>
+                  <td>
+                    <center>
+                      <a href="{{ path('formation_edit', {'id': formation.id}) }}" style="text-decoration: none">
+                        <i class="fas fa-pencil-alt" title="Modifier la formation"></i>
+                      </a>
+                      <a href="{{ path('formation_supprimer', {'id': formation.id}) }}" style="text-decoration: none">
+                        <i class="far fa-trash-alt" title="Supprimer la formation"></i>
+                      </a>
+                    </center>
+                  </td>
+                </tr>
+              {% else %}
+                <tr>
+                  <td colspan="10">Aucun formation enregistré</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </p>
+      </div>
+    </p>
+  </div>
+  <div class="card-footer">
+    <center>
+      <a href="{{ path('formation_new') }}">
+        <button class="btn-primary">
+          <i class="fas fa-plus-circle"></i>
+          Ajouter une formation</button>
+      </a>
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+<script src="{{asset('monJs/datatable.js')}}"></script>
 {% endblock %}

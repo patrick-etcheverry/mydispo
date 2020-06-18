@@ -1,0 +1,5 @@
+{% extends 'enseignant/show.html.twig' %}
+{% block body %}
+    {{ parent() }}
+    {{ include('enseignant/_generateToken_form.html.twig') }}
+{% endblock %}

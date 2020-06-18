@@ -1,0 +1,32 @@
+
+[Guide utilisation fichier .csv pour importation]
+
+
+==============================================
+Explication sur la structure du fichier .csv :
+==============================================
+
+1ère ligne contient :
+	- Nom de l'enseignant n°1 (Colonne 1)
+	- Prénom de l'enseignant n°1 (Colonne 2)
+	- Adresse mail de l'enseignant n°1 (Colonne 3)
+	- Statut de l'enseignant n°1 (Colonne 4)
+
+2ème ligne contient :
+	- Nom de l'enseignant n°2 (Colonne 1)
+	- Prénom de l'enseignant n°2 (Colonne 2)
+	- Adresse mail de l'enseignant n°2 (Colonne 3)
+	- Statut de l'enseignant n°2 (Colonne 4)
+
+etc...
+
+
+===============================================================================================
+Explication sur les valeurs possibles pour l'attribut "Statut" :
+===============================================================================================
+
+Valeurs possibles pour l'attribut "Statut" :
+	- Titulaire
+	- Vacataire
+
+(même format, première lettre en majuscule, le reste en minuscule)

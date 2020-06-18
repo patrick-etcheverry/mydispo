@@ -3,9 +3,11 @@
 {% block title %}New Formation{% endblock %}
 
 {% block body %}
-    <h1>Create new Formation</h1>
+    <center>
+      <h1>Créer une nouvelle formation</h1>
+    </center>
 
     {{ include('formation/_form.html.twig') }}
 
-    <a href="{{ path('formation_index') }}">back to list</a>
+
 {% endblock %}

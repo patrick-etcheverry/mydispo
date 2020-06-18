@@ -6,6 +6,7 @@ use App\Repository\EnseignantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Persistence\ObjectManager;
 
 
 /**
@@ -131,6 +132,7 @@ class Enseignant
         $this->remarques = new ArrayCollection();
         $this->modelesMails = new ArrayCollection();
         $this->creneaux = new ArrayCollection();
+        $this->setToken($this->genererToken());
     }
 
     public function getId(): ?int
@@ -221,6 +223,23 @@ class Enseignant
 
         return $this;
     }
+
+    public function genererToken(): ?string
+        {
+
+
+          $listeCharacteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$_.+!*()';
+          $tokenLength = 90;
+
+            $randomString = "";
+              for ($i = 0; $i < $tokenLength; $i++) {
+                  $randomString .= $listeCharacteres[rand(0, strlen($listeCharacteres) - 1)];
+              }
+            $randomString .= $this->getId();
+
+            return $randomString;
+
+        }
 
     /**
      * @return Collection|LogEnseignant[]
