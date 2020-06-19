@@ -117,9 +117,7 @@
 {{ parent() }}
 <script>
 
-
-
-
+var lien = "{{lien}}";
 
 function changerRegroupementEnseignements(reponse,enseignant){
   $.ajax({
@@ -128,7 +126,10 @@ function changerRegroupementEnseignements(reponse,enseignant){
       reponse: reponse,
       idEnseignant: enseignant,
     },
-    type: "POST"
+    type: "POST",
+    success: function(){
+        window.location.href = lien;
+      }
   });
 }
 

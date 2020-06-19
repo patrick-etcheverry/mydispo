@@ -467,9 +467,7 @@ else{
   });
  enregistrerDesCreneaux(tableauCreneaux);
   document.getElementById('submit2').click();
-
   document.getElementById('submit3').click();
-
  changerRegroupementEnseignements(document.getElementById('regroupement').value,enseignant);
 }
 
