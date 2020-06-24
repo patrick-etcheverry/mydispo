@@ -41,6 +41,8 @@ document.addEventListener('DOMContentLoaded', function() {
     eventRender: function(info) {
       if(info.event.rendering == 'background'){
         info.el.append(info.event.title);
+        info.el.style.color = "white";
+        info.el.style.fontSize = "12px";
       }
 
       var dateDeb = mensuel.formatDate(info.event.start, {
@@ -61,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     },
     eventClick: function(info) {
+      if(info.event.rendering != "background"){
       mensuel.getEvents().forEach(event => {
         event.setProp("borderColor", "white");
       });
@@ -94,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
       };
       openNav();
     }
-
+}
   });
 
 

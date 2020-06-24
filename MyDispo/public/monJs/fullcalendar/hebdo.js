@@ -298,9 +298,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         eventRender: function(info) {
 
-          if(info.event.rendering == 'background'){
-            info.el.append(info.event.title);
-          }
+
           if (info.event.extendedProps.type == "ContraintePro" && info.event.extendedProps.prio == "Forte") {
             info.el.querySelector('.fc-title').append(" [PRO] [FORTE] ");
           }
@@ -329,9 +327,15 @@ document.addEventListener('DOMContentLoaded', function() {
             info.el.querySelector('.fc-title').append(" [FAIBLE] ");
           }
 
+          if(info.event.rendering == 'background'){
+            info.el.append(info.event.title);
+            info.el.style.color = "white";
+            info.el.style.fontSize = "12px";
+          }
 
         },
         eventClick: function(info) {
+          if(info.event.rendering != "background"){
           hebdo.getEvents().forEach(event => {
             event.setProp("borderColor", "white");
           });
@@ -447,7 +451,7 @@ document.addEventListener('DOMContentLoaded', function() {
           };
           openNav();
         }
-
+}
       });
 
 
