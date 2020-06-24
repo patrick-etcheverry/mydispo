@@ -152,6 +152,7 @@
       </thead>
       <tbody>
         <tr>
+          {% set IdEnseignantPrecedent = "" %}
           {% for logEnseignantCourant in logsEnseignants %}
             <td>
               <center>{{logEnseignantCourant.dateLog|date("d/m/Y à H:i")}}</center>

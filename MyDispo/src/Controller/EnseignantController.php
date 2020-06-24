@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Enseignant;
 use App\Form\EnseignantType;
+use App\Entity\LogEnseignant;
 use App\Repository\EnseignantRepository;
 use App\Repository\LogEnseignantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -225,11 +226,42 @@ class EnseignantController extends AbstractController
 
               foreach ( $enseignants  as  $enseignantCourant ){
                 $contenu = $modeleMail->getContenu();
+                $nomEnseignant = $enseignantCourant->getNom();
+                $prenomEnseignant = $enseignantCourant->getPrenom();
                 $urlEnseignant = $this->generateUrl('saisieContrainte',['token'=> $enseignantCourant->getToken()],false);
-                $partieAvantLien = stristr($contenu, "[LIEN]", true);
-                $partieAprèsLien = stristr($contenu, "[LIEN]");
+
+                //Remplace [PRENOM] par le prenom de l'enseignant
+                if(stristr($contenu, "[*PRENOM*]", true) == TRUE) {
+                $partieAvantLien = stristr($contenu, "[*PRENOM*]", true);
+                $partieAprèsLien = stristr($contenu, "[*PRENOM*]");
+                $contenu = $partieAvantLien." ".$prenomEnseignant." ".$partieAprèsLien;
+                $contenuFinal = str_replace("[*PRENOM*]", "", $contenu);
+              }
+              else{
+                $contenuFinal = $contenu;
+              }
+
+                //Remplace [LIEN] par le lien personnalisé de l'enseignant
+                if(stristr($contenuFinal, "[*LIEN*]", true) == TRUE) {
+                $partieAvantLien = stristr($contenuFinal, "[*LIEN*]", true);
+                $partieAprèsLien = stristr($contenuFinal, "[*LIEN*]");
                 $contenu = $partieAvantLien." ".$urlEnseignant."\r\r\r".$partieAprèsLien;
-                $contenuFinal = str_replace("[LIEN]", "", $contenu);
+                $contenuFinal = str_replace("[*LIEN*]", "", $contenu);
+              }
+              else {
+                if(isset($contenuFinal) == FALSE){
+                  $contenuFinal = $contenu;
+                }
+              }
+
+                //Remplace [NOM] par le nom de l'enseignant
+                if(stristr($contenuFinal, "[*NOM*]", true) == TRUE) {
+                $partieAvantLien = stristr($contenuFinal, "[*NOM*]", true);
+                $partieAprèsLien = stristr($contenuFinal, "[*NOM*]");
+                $contenu = $partieAvantLien." ".$nomEnseignant." ".$partieAprèsLien;
+                $contenuFinal = str_replace("[*NOM*]", "", $contenu);
+              }
+
 
 
               $transport = (new \Swift_SmtpTransport($_ENV['ADRESS_SERVER_SMTP'], 465))
@@ -302,7 +334,7 @@ class EnseignantController extends AbstractController
 
         return $this->render('enseignant/acceuiladmin.html.twig', [
             'enseignants' => $enseignantRepository->findAll(),
-            'logsEnseignants' => $logEnseignantRepository->findAll(),
+            'logsEnseignants' => $logEnseignantRepository->findOrderByDate(),
 
         ]);
     }

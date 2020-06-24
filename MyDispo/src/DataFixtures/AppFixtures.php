@@ -97,13 +97,13 @@ class AppFixtures extends Fixture
         $modeleMailPremier->setNom('Mail premier contact');
         $modeleMailPremier->setSujet('Saisie de vos contraintes et disponibilités IUT Anglet');
         $modeleMailPremier->setContenu(
-          'Bonjour,
+          'Bonjour [*PRENOM*] [*NOM*],
 
            L\'année universitaire 2020-2021 approche !
            Je vous contact aujourd\'hui dans le but de saisir vos disponibilités et contraintes pour l\'année 2020-2021.
            Pour trouverez en suivant un lien vous permettant de saisir vos contraintes et disponibilités sur notre nouveau site web.
 
-           Lien : [LIEN]
+           Lien : [*LIEN*]
 
            Si vous avez des questions ou des remarques contactez-moi.
 
@@ -120,13 +120,13 @@ class AppFixtures extends Fixture
         $modeleMailRelance->setNom('Mail de relance');
         $modeleMailRelance->setSujet('Relance pour la saisie de vos contraintes et disponibilités IUT Anglet');
         $modeleMailRelance->setContenu(
-          'Bonjour,
+          'Bonjour [*PRENOM*] [*NOM*],
 
            L\'année universitaire 2020-2021 approche !
            Je vous relance suite à la saisie de vos disponibilités et contraintes pour l\'universitaire 2020-2021.
            Veuillez-vous rendre sur le lien ci-joint pour effectuer vos saisies.
 
-           Lien : [LIEN]
+           Lien : [*LIEN*]
 
            Si vous avez des questions ou des remarques contactez-moi.
 
@@ -143,11 +143,11 @@ class AppFixtures extends Fixture
         $modeleMailOubli->setSujet('Lien oublié saisie de vos contraintes IUT Anglet');
         $modeleMailOubli->setContenu(
 
-            'Bonjour,
+            'Bonjour [*PRENOM*] [*NOM*],
 
              Vous avez oublié votre lien personnalisé pour la saisie de vos contraintes et disponibilités pour l\'année 2020-2021 ?
 
-             Voici votre lien : [LIEN]
+             Voici votre lien : [*LIEN*]
 
              Si vous avez des questions ou des remarques contactez-moi.
 
@@ -221,6 +221,19 @@ déplacement ACDI, etc.) merci de les préciser :
 
 
         $manager->persist($formulaireVacataire);
+
+        $formationDUT = new Formation();
+        $formationDUT->setNomCourt("DUT Info");
+        $formationDUT->setNomLong("Diplôme universitaire de technologie");
+
+        $manager->persist($formationDUT);
+
+
+        $formationLP =  new Formation();
+        $formationLP->setNomCourt("LP Info");
+        $formationLP->setNomLong("License professionnelle informatique");
+
+        $manager->persist($formationLP);
 
 
         // Envoyer les données en BD

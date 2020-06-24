@@ -9,7 +9,7 @@ security:
       in_memory:
         memory:
           users:
-            admin: { password: $2y$10$wA0tTMST8.7lFAtgoPAT5uKzyKjYMNx6OH.6vJJW9lLdWgB0wNqUa , roles: ROLE_ADMIN }
+            root: { password: $2y$10$Vl/S399i4ddF6.UTHbvROex1slXNTFokMTeUrQX4W6E3OAxt.BI2W , roles: ROLE_ADMIN }
         # used to reload user from session & other features (e.g. switch_user)
 
     firewalls:
