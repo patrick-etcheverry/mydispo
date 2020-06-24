@@ -35,11 +35,13 @@ document.addEventListener('DOMContentLoaded', function() {
       weekNumberCalculation: "ISO",
       weekends: false,
       selectable: true,
+      selectOverlap: false,
       events: events,
       columnHeaderFormat: {
         weekday: 'long'
       },
-      editable: modifications,
+      editable: true,
+      eventDurationEditable: false,
       locale: 'fr',
       header: {
         left: '',
@@ -295,6 +297,10 @@ document.addEventListener('DOMContentLoaded', function() {
         },
 
         eventRender: function(info) {
+
+          if(info.event.rendering == 'background'){
+            info.el.append(info.event.title);
+          }
           if (info.event.extendedProps.type == "ContraintePro" && info.event.extendedProps.prio == "Forte") {
             info.el.querySelector('.fc-title').append(" [PRO] [FORTE] ");
           }

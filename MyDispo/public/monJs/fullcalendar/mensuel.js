@@ -19,15 +19,17 @@ document.addEventListener('DOMContentLoaded', function() {
     selectable: true,
     displayEventTime : false,
     editable: true,
+    eventDurationEditable: false,
     height: 700,
     events: eventsMensuel,
     contentHeight: 'auto',
     locale: 'fr',
+    selectOverlap: false,
     select: function(arg) {
 
       closeNav();
       var title = prompt('Titre du créneau:');
-      if (title) { // si un titre d'événement a été saisi 
+      if (title) { // si un titre d'événement a été saisi
         mensuel.addEvent({title: title, start: arg.start, end: arg.end, allDay: true, classNames: ['plusBord']})
       }
 
@@ -37,6 +39,10 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     },
     eventRender: function(info) {
+      if(info.event.rendering == 'background'){
+        info.el.append(info.event.title);
+      }
+
       var dateDeb = mensuel.formatDate(info.event.start, {
         weekday: 'long',
         day: 'numeric',

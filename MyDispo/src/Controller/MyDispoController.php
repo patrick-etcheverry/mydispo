@@ -51,6 +51,9 @@ class MyDispoController extends AbstractController
       $object = new StdClass;
       $object->title=$event["title"];
       $object->rendering="background";
+      $object->overlap=false;
+      $object->backgroundColor="#EAEAEA";
+      $object->textColor="black";
       $object->start=$event["start"]->format("Y-m-d");
       $object->end=$event["end"]->format("Y-m-d");
       $object->allDay=true;
@@ -87,6 +90,9 @@ class MyDispoController extends AbstractController
       $object = new StdClass;
       $object->title=$event["title"];
       $object->rendering="background";
+      $object->overlap=false;
+      $object->backgroundColor="#EAEAEA";
+      $object->textColor="black";
       $object->daysOfWeek=date('w',$event["start"]->getTimestamp());
       $object->startTime=$event["start"]->format("H:i:s");
       $object->endTime=$event["end"]->format("H:i:s");
@@ -254,6 +260,10 @@ class MyDispoController extends AbstractController
     foreach ($events as $event){
       $object = new StdClass;
       $object->title=$event["title"];
+      $object->rendering='background';
+      $object->overlap=false;
+      $object->backgroundColor="#EAEAEA";
+      $object->textColor="black";
       $object->daysOfWeek=date('w',$event["start"]->getTimestamp());
       $object->startTime=$event["start"]->format("H:i:s");
       $object->endTime=$event["end"]->format("H:i:s");
