@@ -81,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
           if(detType()=="ContraintePerso" && titrevide==true){
             title=" ";
             if(limiteDepassee()==false){
+              if(detFin()==false){
               hebdo.addEvent({
                 title: title,
                 start: arg.start,
@@ -89,7 +90,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 prio: detPrio(),
                 color: detFond(),
                 textColor: detTexteCouleur(),
-              });
+              });}
+              else{
+                hebdo.addEvent({
+                  title: title,
+                  start: arg.start,
+                  end: arg.end,
+                  classNames: ['plusBord'],
+                  type: detType(),
+                  prio: detPrio(),
+                  color: detFond(),
+                  textColor: detTexteCouleur(),
+                });
+              }
               hebdo.unselect();
               //Incrémentation des compteurs lorsque la limite n'a pas été dépassée dans une vue de saisie pour les enseignants
               if( document.getElementById('proForte').checked) {
@@ -132,6 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
           else if(detType()=="ContraintePerso" && titrevide==false){
             if(limiteDepassee()==false){
               if(title){
+                if(detFin()==false){
                 hebdo.addEvent({
                   title: title,
                   start: arg.start,
@@ -140,7 +154,19 @@ document.addEventListener('DOMContentLoaded', function() {
                   prio: detPrio(),
                   color: detFond(),
                   textColor: detTexteCouleur(),
-                });
+                });}
+                else{
+                  hebdo.addEvent({
+                    title: title,
+                    start: arg.start,
+                    end: arg.end,
+                    classNames: ['plusBord'],
+                    type: detType(),
+                    prio: detPrio(),
+                    color: detFond(),
+                    textColor: detTexteCouleur(),
+                  });
+                }
                 hebdo.unselect();
                 //Incrémentation des compteurs lorsque la limite n'a pas été dépassée dans une vue de saisie pour les enseignants
                 if( document.getElementById('proForte').checked) {
@@ -185,6 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
           else{
             if(limiteDepassee()==false){
               if(title){
+                if(detFin()==false){
                 hebdo.addEvent({
                   title: title,
                   start: arg.start,
@@ -193,7 +220,19 @@ document.addEventListener('DOMContentLoaded', function() {
                   prio: detPrio(),
                   color: detFond(),
                   textColor: detTexteCouleur(),
-                });
+                });}
+                else{
+                  hebdo.addEvent({
+                    title: title,
+                    start: arg.start,
+                    end: arg.end,
+                    classNames: ['plusBord'],
+                    type: detType(),
+                    prio: detPrio(),
+                    color: detFond(),
+                    textColor: detTexteCouleur(),
+                  });
+                }
                 hebdo.unselect();
                 //Incrémentation des compteurs lorsque la limite n'a pas été dépassée dans une vue de saisie pour les enseignants
                 if( document.getElementById('proForte').checked) {
