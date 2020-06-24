@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
               color: detFond(),
               textColor: detTexteCouleur(),
             });
+            hebdo.unselect();
           }
 
           else{
@@ -89,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 color: detFond(),
                 textColor: detTexteCouleur(),
               });
+              hebdo.unselect();
               //Incrémentation des compteurs lorsque la limite n'a pas été dépassée dans une vue de saisie pour les enseignants
               if( document.getElementById('proForte').checked) {
                 compteur.ContraintePro.proForte+=1;
@@ -139,6 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   color: detFond(),
                   textColor: detTexteCouleur(),
                 });
+                hebdo.unselect();
                 //Incrémentation des compteurs lorsque la limite n'a pas été dépassée dans une vue de saisie pour les enseignants
                 if( document.getElementById('proForte').checked) {
                   compteur.ContraintePro.proForte+=1;
@@ -191,6 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   color: detFond(),
                   textColor: detTexteCouleur(),
                 });
+                hebdo.unselect();
                 //Incrémentation des compteurs lorsque la limite n'a pas été dépassée dans une vue de saisie pour les enseignants
                 if( document.getElementById('proForte').checked) {
                   compteur.ContraintePro.proForte+=1;
@@ -240,7 +244,9 @@ document.addEventListener('DOMContentLoaded', function() {
               start: arg.start,
               end: arg.end,
               classNames: ['plusBord'],
-            });}
+            });
+            hebdo.unselect();
+          }
             else{hebdo.unselect();}
           }
 
