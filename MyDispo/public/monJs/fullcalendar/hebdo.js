@@ -37,6 +37,11 @@ document.addEventListener('DOMContentLoaded', function() {
       selectable: true,
       selectOverlap: false,
       events: events,
+      eventConstraint:
+        {
+          startTime: heureDebut,
+          endTime: heureFin,
+      },
       columnHeaderFormat: {
         weekday: 'long'
       },
@@ -442,6 +447,17 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('titrevt').style.display="block";
             document.getElementById('type').style.display="block";
             document.getElementById('prio').style.display="block";
+            document.getElementById('dateDebut').style.display="block";
+            document.getElementById('dateFin').style.display="block";
+            document.getElementById('apply').style.display="block";
+            document.getElementById('remove').style.display="block";
+            document.getElementById('titrevt').value = info.event.title;
+          }
+          if(info.event.extendedProps.type == null){       //zones grisées et évenements
+            document.getElementById('nomcreneau').style.display="block";
+            document.getElementById('titrevt').style.display="block";
+            document.getElementById('type').style.display="block";
+            document.getElementById('prio').style.display="none";
             document.getElementById('dateDebut').style.display="block";
             document.getElementById('dateFin').style.display="block";
             document.getElementById('apply').style.display="block";

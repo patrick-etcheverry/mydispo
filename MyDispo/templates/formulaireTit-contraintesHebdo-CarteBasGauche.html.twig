@@ -8,7 +8,11 @@
             value="persForte"> Priorité forte
             <span class="badge badge-persForte" id="quantitePersForte">{{formulaireTitulaire.quantitePersForte}}/{{formulaireTitulaire.quantitePersForte}}</span>
             </br>
+            {% if formulaireTitulaire.dureePersForte != 0 %}
                 (Créneaux de {{formulaireTitulaire.dureePersForte}} minutes)
+            {% else %}
+                  (Créneaux de durée libre)
+            {% endif %}
             </br>
           </br>
 
@@ -16,7 +20,11 @@
               value="persMoy"> Priorité moyenne
               <span class="badge badge-persMoy" id="quantitePersMoy">{{formulaireTitulaire.quantitePersMoy}}/{{formulaireTitulaire.quantitePersMoy}}</span>
               </br>
+              {% if formulaireTitulaire.dureePersMoy != 0 %}
                   (Créneaux de {{formulaireTitulaire.dureePersMoy}} minutes)
+                  {% else %}
+                        (Créneaux de durée libre)
+                  {% endif %}
               </br>
             </br>
 
@@ -24,7 +32,11 @@
           value="persFaible"> Priorité faible
           <span class="badge badge-persFaible" id="quantitePersFaible">{{formulaireTitulaire.quantitePersFaible}}/{{formulaireTitulaire.quantitePersFaible}}</span>
           </br>
+          {% if formulaireTitulaire.dureePersFaible != 0 %}
               (Créneaux de {{formulaireTitulaire.dureePersFaible}} minutes)
+              {% else %}
+                    (Créneaux de durée libre)
+              {% endif %}
           </br>
         </br>
     </p>
