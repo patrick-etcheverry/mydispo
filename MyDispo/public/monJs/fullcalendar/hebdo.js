@@ -209,6 +209,71 @@ document.addEventListener('DOMContentLoaded', function() {
             }
           }
 
+          //Créneau contrainte perso si titre vide autorisé
+          else if(detType()=="ContraintePerso" && titrevide==true){
+            if(limiteDepassee()==false){
+                if(detFin()==false){
+                hebdo.addEvent({
+                  title: title,
+                  start: arg.start,
+                  classNames: ['plusBord'],
+                  type: detType(),
+                  prio: detPrio(),
+                  color: detFond(),
+                  textColor: detTexteCouleur(),
+                });}
+                else{
+                  hebdo.addEvent({
+                    title: title,
+                    start: arg.start,
+                    end: arg.end,
+                    classNames: ['plusBord'],
+                    type: detType(),
+                    prio: detPrio(),
+                    color: detFond(),
+                    textColor: detTexteCouleur(),
+                  });
+                }
+                hebdo.unselect();
+                //Incrémentation des compteurs lorsque la limite n'a pas été dépassée dans une vue de saisie pour les enseignants
+                if( document.getElementById('proForte').checked) {
+                  compteur.ContraintePro.proForte+=1;
+                  document.getElementById("quantiteProForte").innerHTML = (limiteProForte - compteur.ContraintePro.proForte).toString() + "/" + limiteProForte  ;
+                }
+                else if(document.getElementById('proMoy').checked) {
+                  compteur.ContraintePro.proMoy+=1;
+                  document.getElementById("quantiteProMoy").innerHTML = (limiteProMoy - compteur.ContraintePro.proMoy).toString() + "/" + limiteProMoy  ;
+
+                }
+                else if(document.getElementById('proFaible').checked) {
+                  compteur.ContraintePro.proFaible+=1;
+                  document.getElementById("quantiteProFaible").innerHTML = (limiteProFaible - compteur.ContraintePro.proFaible).toString() + "/" + limiteProFaible  ;
+
+                }
+                else if(document.getElementById('persForte').checked) {
+                  compteur.ContraintePerso.persoForte+=1;
+                  document.getElementById("quantitePersForte").innerHTML = (limitePersForte - compteur.ContraintePerso.persoForte).toString() + "/" + limitePersForte  ;
+
+                }
+                else if(document.getElementById('persMoy').checked) {
+                  compteur.ContraintePerso.persoMoy+=1;
+                  document.getElementById("quantitePersMoy").innerHTML = (limitePersMoy - compteur.ContraintePerso.persoMoy).toString() + "/" + limitePersMoy  ;
+
+                }
+                else if(document.getElementById('persFaible').checked) {
+                  compteur.ContraintePerso.persoFaible+=1;
+                  document.getElementById("quantitePersFaible").innerHTML = (limitePersFaible - compteur.ContraintePerso.persoFaible).toString() + "/" + limitePersFaible  ;
+
+                }
+
+              else{hebdo.unselect();}
+            }
+            else{
+              alert("Trop de contraintes de ce type saisies");
+              hebdo.unselect();
+            }
+          }
+
           //Créneau contrainte pro
           else{
             if(limiteDepassee()==false){
