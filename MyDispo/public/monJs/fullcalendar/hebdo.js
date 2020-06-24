@@ -23,7 +23,7 @@ const creneauObjet = {
     ],
     now: "2013-12-01T00:00:00",
     defaultView: 'timeGridWeek',
-    defaultTimedEventDuration: '01:00',
+    defaultTimedEventDuration: '01:00', 
     forceEventDuration: true,
     themeSystem: 'bootstrap',
     contentHeight: "auto",

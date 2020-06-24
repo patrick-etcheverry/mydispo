@@ -210,11 +210,41 @@ if($form->get('nomCourt')->getData() == null){
       $entityManager->flush();
 
       $contenu = $modeleMail->getContenu();
+      $nomEnseignant = $enseignant->getNom();
+      $prenomEnseignant = $enseignant->getPrenom();
       $urlEnseignant = $this->generateUrl('saisieContrainte',['token'=> $enseignant->getToken()],false);
-      $partieAvantLien = stristr($contenu, "[LIEN]", true);
-      $partieAprèsLien = stristr($contenu, "[LIEN]");
+
+      //Remplace [PRENOM] par le prenom de l'enseignant
+      if(stristr($contenu, "[*PRENOM*]", true) == TRUE) {
+      $partieAvantLien = stristr($contenu, "[*PRENOM*]", true);
+      $partieAprèsLien = stristr($contenu, "[*PRENOM*]");
+      $contenu = $partieAvantLien." ".$prenomEnseignant." ".$partieAprèsLien;
+      $contenuFinal = str_replace("[*PRENOM*]", "", $contenu);
+    }
+    else{
+      $contenuFinal = $contenu;
+    }
+
+      //Remplace [LIEN] par le lien personnalisé de l'enseignant
+      if(stristr($contenuFinal, "[*LIEN*]", true) == TRUE) {
+      $partieAvantLien = stristr($contenuFinal, "[*LIEN*]", true);
+      $partieAprèsLien = stristr($contenuFinal, "[*LIEN*]");
       $contenu = $partieAvantLien." ".$urlEnseignant."\r\r\r".$partieAprèsLien;
-      $contenuFinal = str_replace("[LIEN]", "", $contenu);
+      $contenuFinal = str_replace("[*LIEN*]", "", $contenu);
+    }
+    else {
+      if(isset($contenuFinal) == FALSE){
+        $contenuFinal = $contenu;
+      }
+    }
+
+      //Remplace [NOM] par le nom de l'enseignant
+      if(stristr($contenuFinal, "[*NOM*]", true) == TRUE) {
+      $partieAvantLien = stristr($contenuFinal, "[*NOM*]", true);
+      $partieAprèsLien = stristr($contenuFinal, "[*NOM*]");
+      $contenu = $partieAvantLien." ".$nomEnseignant." ".$partieAprèsLien;
+      $contenuFinal = str_replace("[*NOM*]", "", $contenu);
+    }
 
 
 
