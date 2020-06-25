@@ -464,6 +464,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('dateFin').style.display="block";
             document.getElementById('apply').style.display="block";
             document.getElementById('remove').style.display="block";
+            document.getElementById('texteExplicatif').style.display = "block";
             document.getElementById('titrevt').value = info.event.title;
           }
           else if(info.event.extendedProps.type == "ContraintePerso" && titrevide==true){
@@ -475,6 +476,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('dateFin').style.display="block";
             document.getElementById('apply').style.display="none";
             document.getElementById('remove').style.display="block";
+            document.getElementById('texteExplicatif').style.display = "none";
             document.getElementById('titrevt').value = info.event.title;
           }
           else if(info.event.extendedProps.type == "ContraintePerso" && titrevide==false){
@@ -486,6 +488,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('dateFin').style.display="block";
             document.getElementById('apply').style.display="block";
             document.getElementById('remove').style.display="block";
+            document.getElementById('texteExplicatif').style.display = "none";
             document.getElementById('titrevt').value = info.event.title;
           }
           else if(info.event.extendedProps.type == "ContraintePro"){
