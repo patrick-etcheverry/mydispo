@@ -176,7 +176,7 @@
           </td>
           <td>
             <center>
-              <a href="{{ path('log_enseignant_show', {'id': logCourant.id}) }}" style="text-decoration: none">
+              <a href="{{ path('log_enseignant_show', {'idEnseignant': logCourant.enseignant.id, 'idLog': logCourant.id}) }}" style="text-decoration: none">
                 <i class="far fa-eye" title="Voir le log"></i>
               </a>
             </center>

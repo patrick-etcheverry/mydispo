@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Log
-  {{log_enseignant.enseignant.nom}}
-  {{log_enseignant.enseignant.prenom}}
+  {{logs_enseignant.0.enseignant.nom}}
+  {{logs_enseignant.0.enseignant.prenom}}
 {% endblock %}
 
 {% block body %}
@@ -13,8 +13,8 @@
         <h2>
           <i class="fas fa-user"></i>
           Log de
-          {{log_enseignant.enseignant.nom}}
-          {{log_enseignant.enseignant.prenom}}</h2>
+          {{logs_enseignant.0.enseignant.nom}}
+          {{logs_enseignant.0.enseignant.prenom}}</h2>
         <center></h5>
         <div class="card-body">
           <p class="card-text">
@@ -22,48 +22,43 @@
               <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                  <div class="card">
-                    <h5 class="card-header">
-                      <center>
-                        <td>
-                          <h4>
 
-                          </h4>
-                        </td>
-                      </center>
-                    </h5>
-                    <div class="card-body">
-                      <p class="card-text">
-                        <table class="table">
-                          <tbody>
-                            <tr>
-                              <th>Date du log</th>
-                              <td>{{ log_enseignant.dateLog|date("d/m/Y à H:i") }}</td>
-                            </tr>
-                            <tr>
-                              <th>Type d'action effectuée</th>
-                              <td>{{ log_enseignant.typeAction }}</td>
-                            </tr>
-                            <tr>
-                              <th>Zone</th>
-                              <td>{{ log_enseignant.zone }}</td>
-                            </tr>
-                            <tr>
-                              <th>Description </th>
-                              <td>{{ log_enseignant.description|replace({'  ': ', '}) }}</td>
-                            </tr>
-                        </tbody>
-                      </table>
-                    </p>
-                  </div>
-                  <div class="card-footer"></div>
+                  {% for logCourant in logs_enseignant %}
+                    <div class="card">
+                      <div class="card-body">
+                        <p class="card-text">
+                          <table class="table">
+                            <tbody>
+                              <tr>
+                                <th>Date du log</th>
+                                <td>{{ logCourant.dateLog|date("d/m/Y à H:i") }}</td>
+                              </tr>
+                              <tr>
+                                <th>Type d'action effectuée</th>
+                                <td>{{ logCourant.typeAction }}</td>
+                              </tr>
+                              <tr>
+                                <th>Zone</th>
+                                <td>{{ logCourant.zone }}</td>
+                              </tr>
+                              <tr>
+                                <th>Description
+                                </th>
+                                <td>{{ logCourant.description }}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </p>
+                      </div>
+                    </div>
+                  {% endfor %}
+
                 </div>
+                <div class="col-md-3"></div>
               </div>
-              <div class="col-md-3"></div>
             </div>
-          </div>
-        </p>
+          </p>
+        </div>
       </div>
-    </div>
 
-  {% endblock %}
+    {% endblock %}

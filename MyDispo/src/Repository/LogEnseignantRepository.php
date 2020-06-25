@@ -56,4 +56,15 @@ class LogEnseignantRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+
+    public function findByEnseignantId($id)
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.enseignant = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

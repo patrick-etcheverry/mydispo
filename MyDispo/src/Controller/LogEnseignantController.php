@@ -50,12 +50,28 @@ class LogEnseignantController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="log_enseignant_show", methods={"GET"})
+     * @Route("/{idEnseignant}/{idLog}", name="log_enseignant_show", methods={"GET"})
      */
-    public function show(LogEnseignant $logEnseignant): Response
+    public function show($idEnseignant, $idLog,LogEnseignantRepository $logEnseignantRepository, enseignantRepository $enseignantRepository): Response
     {
+      // Permet de retrouver les logs de l'enseignant
+      $enseignantCible = $enseignantRepository->findOneById($idEnseignant);
+      $logs = $logEnseignantRepository->findByEnseignantId($enseignantCible);
+
+      // Trouver la date du log
+      $log = $logEnseignantRepository->findOneById($idLog);
+
+      $logsFinal = [];
+      // Recherche les logs de l'enseignant avec la même dateLog
+      foreach ($logs as $logCourant) {
+        if($log->getDateLog()->format('Y-m-d H') == $logCourant->getDateLog()->format('Y-m-d H')  ){
+          array_push($logsFinal,$logCourant);
+        }
+      }
+
+
         return $this->render('log_enseignant/show.html.twig', [
-            'log_enseignant' => $logEnseignant,
+            'logs_enseignant' => $logsFinal,
         ]);
     }
 
