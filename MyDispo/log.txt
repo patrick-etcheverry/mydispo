@@ -1,6 +1,0 @@
-
- [32mCareful, database "test" will be purged. Do you want to continue? (yes/no)[39m [[33mno[39m]:
- > 
-   [33m>[39m [32mpurging database[39m
-   [33m>[39m [32mloading App\DataFixtures\AppFixtures[39m
-tokenAvantCryptage = 3*!cK*ZRAAety0P6cj6U1KFDu!Wmd)5OSoEhJThRxCIRq17d)XM6Dvw+hq7z6rL8xnNhxIdNrMS2NcI9b!*Dv0E9I) tokenApresCryptage = 5*!yM*FWJJxch3I8yo8Z1MSCg!Hta)6RTpDmGUmWqLVWw10a)ON8Csj+mw0z8lX4qvBmqVaBlNT2ByV7n!*Cs3D7V) tokenApresDecryptage = 3*!cK*ZRAAety0P6cj6U1KFDu!Wmd)5OSoEhJThRxCIRq17d)XM6Dvw+hq7z6rL8xnNhxIdNrMS2NcI9b!*Dv0E9I)
