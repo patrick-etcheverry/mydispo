@@ -68,7 +68,7 @@
                     {% if enseignant.dateSaisie == null %}
                       Aucune saisie
                     {% else %}
-                      {{enseignant.dateSaisie|date("d/m/Y à H:i")}}
+                      {{enseignant.dateSaisie|date("d/m/Y à H:i", "Europe/Paris")}}
                     {% endif %}
                   </td>
                   <td>
