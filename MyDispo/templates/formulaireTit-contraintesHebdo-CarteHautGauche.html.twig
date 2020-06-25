@@ -11,7 +11,11 @@
             Priorité forte
             <span class="badge badge-proForte" id="quantiteProForte" >{{formulaireTitulaire.quantiteProForte}}/{{formulaireTitulaire.quantiteProForte}}</span>
             </br>
+            {% if formulaireTitulaire.dureeProForte != 0 %}
                 (Créneaux de {{formulaireTitulaire.dureeProForte}} minutes)
+            {% else %}
+                (Créneaux de durée libre)
+            {% endif %}
             </br>
           </br>
 
@@ -20,7 +24,12 @@
               value="proMoy"> Priorité moyenne
             <span class="badge badge-proMoy" id="quantiteProMoy">{{formulaireTitulaire.quantiteProMoy}}/{{formulaireTitulaire.quantiteProMoy}} </span>
               </br>
+              {% if formulaireTitulaire.dureeProMoy != 0 %}
                   (Créneaux de {{formulaireTitulaire.dureeProMoy}} minutes)
+              {% else %}
+                (Créneaux de durée libre)
+              {% endif %}
+
               </br>
             </br>
 
@@ -28,7 +37,11 @@
             value="proFaible"> Priorité faible
            <span class="badge badge-proFaible" id="quantiteProFaible">{{formulaireTitulaire.quantiteProFaible}}/{{formulaireTitulaire.quantiteProFaible}}</span>
             </br>
+              {% if formulaireTitulaire.dureeProFaible != 0 %}
                 (Créneaux de {{formulaireTitulaire.dureeProFaible}} minutes)
+                {% else %}
+                (Créneaux de durée libre)
+                {% endif %}
             </br>
           </br>
     </p>

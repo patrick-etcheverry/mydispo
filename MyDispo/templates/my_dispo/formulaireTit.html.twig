@@ -140,7 +140,6 @@ Date.prototype.addMinutes = function(m) {
 
 var titrevide = "{{formulaireTitulaire.autoriserTitreVideContraintePerso}}";
 var saisieEnseignant= true; //Active le code permettant d'enregistrer et de supprimer les créneaux pour un enseignant donné
-var modifications = false; //Active le drag and drop des événements, à désactiver pour les vues de saisie puisque la durée d'un événement ne doit pas être modifiable
 var echelle = "{{formulaireTitulaire.echelleCalendrier}}".minsToHHMMSS();
 var heureDebut = "{{ formulaireTitulaire.heureDebutCalendrier|date("H:i:s")}}";
 var heureFin = "{{formulaireTitulaire.heureFinCalendrier|date("H:i:s")}}";
@@ -313,7 +312,28 @@ function tempsParDefaut(){
   return date;
 }
 
-
+function detFin(){
+  var fin=false;
+  if(document.getElementById('proForte').checked && {{formulaireTitulaire.dureeProForte}}==0) {
+    fin= true;
+  }
+  else if(document.getElementById('proMoy').checked && {{formulaireTitulaire.dureeProMoy}}==0) {
+    fin= true;
+  }
+  else if(document.getElementById('proFaible').checked && {{formulaireTitulaire.dureeProFaible}}==0) {
+      fin= true;
+  }
+  else if(document.getElementById('persForte').checked && {{formulaireTitulaire.dureePersForte}}==0) {
+      fin= true;
+  }
+  else if(document.getElementById('persMoy').checked && {{formulaireTitulaire.dureePersMoy}}==0) {
+    fin= true;
+  }
+  else if(document.getElementById('persFaible').checked && {{formulaireTitulaire.dureePersFaible}}==0) {
+      fin= true;
+  }
+return fin;
+}
 
 function openNav() {
   document.getElementById("mySidenav").style.width = "350px";
@@ -343,6 +363,7 @@ var limiteProFaible = {{formulaireTitulaire.quantiteProFaible}};
 var limitePersForte = {{formulaireTitulaire.quantitePersForte}};
 var limitePersMoy = {{formulaireTitulaire.quantitePersMoy}};
 var limitePersFaible = {{formulaireTitulaire.quantitePersFaible}};
+
 var remarqueActiveHebdo = "{{ formulaireTitulaire.remarquesHebdoActives }}";
 var remarqueActivePonctu = "{{ formulaireTitulaire.remarquesPonctuelActives }}";
 

@@ -19,15 +19,17 @@ document.addEventListener('DOMContentLoaded', function() {
     selectable: true,
     displayEventTime : false,
     editable: true,
+    eventDurationEditable: false,
     height: 700,
     events: eventsMensuel,
     contentHeight: 'auto',
     locale: 'fr',
+    selectOverlap: false,
     select: function(arg) {
 
       closeNav();
       var title = prompt('Titre du créneau:');
-      if (title) { // si un titre d'événement a été saisi 
+      if (title) { // si un titre d'événement a été saisi
         mensuel.addEvent({title: title, start: arg.start, end: arg.end, allDay: true, classNames: ['plusBord']})
       }
 
@@ -37,6 +39,12 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     },
     eventRender: function(info) {
+      if(info.event.rendering == 'background'){
+        info.el.append(info.event.title);
+        info.el.style.color = "white";
+        info.el.style.fontSize = "12px";
+      }
+
       var dateDeb = mensuel.formatDate(info.event.start, {
         weekday: 'long',
         day: 'numeric',
@@ -55,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     },
     eventClick: function(info) {
+      if(info.event.rendering != "background"){
       mensuel.getEvents().forEach(event => {
         event.setProp("borderColor", "white");
       });
@@ -88,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
       };
       openNav();
     }
-
+}
   });
 
 
