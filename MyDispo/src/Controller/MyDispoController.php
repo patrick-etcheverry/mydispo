@@ -163,7 +163,7 @@ class MyDispoController extends AbstractController
         if($event->getPrioOuPref() == "Forte"){
           $object->backgroundColor="#D35400";
           $object->borderColor="#D35400";
-          $object->textColor="black";
+          $object->textColor="white";
         }
         if($event->getPrioOuPref() == "Moyenne"){
           $object->backgroundColor="#F39C12";
@@ -278,9 +278,9 @@ class MyDispoController extends AbstractController
     foreach ($events as $event){
       $object = new StdClass;
       $object->title=$event["title"];
-      $object->rendering='background';
+      $object->rendering="background";
       $object->overlap=false;
-      $object->backgroundColor="#EAEAEA";
+      $object->backgroundColor="#000000";
       $object->daysOfWeek=date('w',$event["start"]->getTimestamp());
       $object->startTime=$event["start"]->format("H:i:s");
       $object->endTime=$event["end"]->format("H:i:s");
@@ -300,13 +300,13 @@ class MyDispoController extends AbstractController
       switch ($event->getType()) {
         case 'ContraintePro':
         if($event->getPrioOuPref() == "Forte"){
-          $object->backgroundColor="#B84331";
-          $object->borderColor="#B84331";
-          $object->textColor="black";
+          $object->backgroundColor="#D35400";
+          $object->borderColor="#D35400";
+          $object->textColor="white";
         }
         if($event->getPrioOuPref() == "Moyenne"){
-          $object->backgroundColor="orange";
-          $object->borderColor="orange";
+          $object->backgroundColor="#F39C12";
+          $object->borderColor="#F39C12";
           $object->textColor="black";
         }
         if($event->getPrioOuPref() == "Faible"){
@@ -318,36 +318,36 @@ class MyDispoController extends AbstractController
         case 'ContraintePerso' :
 
         if($event->getPrioOuPref() == "Forte"){
-          $object->borderColor="#8A47A9";
-          $object->textColor="black";
-          $object->backgroundColor="#8A47A9";
+          $object->borderColor="#2471A3";
+          $object->textColor="white";
+          $object->backgroundColor="#2471A3";
         }
         if($event->getPrioOuPref() == "Moyenne"){
-          $object->borderColor="#314AB8";
+          $object->borderColor="#3498DB";
           $object->textColor="black";
-          $object->backgroundColor="#314AB8";
+          $object->backgroundColor="#3498DB";
         }
         if($event->getPrioOuPref() == "Faible"){
-          $object->borderColor="#2EAED3";
+          $object->borderColor="#AED6F1";
           $object->textColor="black";
-          $object->backgroundColor="#2EAED3";
+          $object->backgroundColor="#AED6F1";
         }
         break;
         case 'Disponibilite' :
 
         if($event->getPrioOuPref() == "Forte"){
-          $object->backgroundColor="#B84331";
-          $object->borderColor="#B84331";
-          $object->textColor="black";
+          $object->backgroundColor="#D35400";
+          $object->borderColor="#D35400";
+          $object->textColor="white";
         }
         if($event->getPrioOuPref() == "Moyenne"){
-          $object->backgroundColor="orange";
-          $object->borderColor="orange";
+          $object->backgroundColor="#F39C12";
+          $object->borderColor="#F39C12";
           $object->textColor="black";
         }
         if($event->getPrioOuPref() == "Faible"){
-          $object->backgroundColor="#FFD433";
-          $object->borderColor="#FFD433";
+          $object->backgroundColor="#F1C40F";
+          $object->borderColor="#F1C40F";
           $object->textColor="black";
         }
       }
