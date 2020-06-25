@@ -495,13 +495,11 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('prio').style.display="block";
             document.getElementById('dateDebut').style.display="block";
             document.getElementById('dateFin').style.display="block";
-<<<<<<< HEAD
             document.getElementById('texteExplicatif').style.display = "none";
-=======
             document.getElementById('apply').style.display="block";
             document.getElementById('remove').style.display="block";
             document.getElementById('titrevt').value = info.event.title;
->>>>>>> 0e17912e895d1b13b0aecd553d100cdcd53ca255
+
           }
 
           info.event.setProp("borderColor", "red");
