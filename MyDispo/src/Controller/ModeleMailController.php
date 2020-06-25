@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bridge\Doctrine\Form\Type\IntegerType;
 use App\Form\ModeleMailType;
 use App\Repository\ModeleMailRepository;
+use App\Repository\FormationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,9 +60,19 @@ class ModeleMailController extends AbstractController
     /**
      * @Route("/admin/envoieMail", name="envoie_modele_mail", methods={"GET","POST"})
      */
-public function formEnvoieMail(Request $request)
+public function formEnvoieMail(Request $request, FormationRepository $formationRepository)
 {
     $defaultData = ['message' => 'Type your message here'];
+
+    $tabListeFormations = array();
+    $toutesLesFormations = $formationRepository->findAll();
+    foreach ($toutesLesFormations as $formationCourante)
+    {
+      $tabListeFormations[$formationCourante->getNomCourt()] = $formationCourante->getNomCourt();
+    }
+
+dump($tabListeFormations);
+
     $form = $this->createFormBuilder($defaultData)
         ->add('nom', EntityType::class, array(
                 'class' => ModeleMail::class,
@@ -71,13 +82,27 @@ public function formEnvoieMail(Request $request)
                 'expanded' => false,
                 'required' => true
             ))
+
+            //
+            // ->add('nomCourt', EntityType::class, array(
+            //         'class' => Formation::class,
+            //         'choice_label' => 'nomCourt',
+            //         'label' => 'Enseignant intervenant en :',
+            //         'multiple' => true,
+            //         'expanded' => true,
+            //         'required' => true
+            //     ))
+
+
+
+
+
+
+
             ->add('nomCourt', ChoiceType::class, array(
-                    'help' => 'Exemple : Pour cibler un enseignant intervenant les formations DUT Info et LP Info : - Cocher la case DUT Info et LP Info',
+                    'help' => "Attention : Si aucune formation n'est sélectionnée, aucun enseignant ne sera ciblé par le mail.",
                     'label' => 'Enseignant intervenant en :',
-                    'choices' => [
-                      'DUT Info' => 'DUT Info',
-                      'LP Info' => 'LP Info',
-                      ],
+                    'choices' => $tabListeFormations,
                     'multiple' => true,
                     'expanded' => true,
                     'required' => true
@@ -121,6 +146,7 @@ public function formEnvoieMail(Request $request)
 
     if ($form->isSubmitted() && $form->isValid()) {
       $data = $form->getData();
+      dump($data);
       $repositoryModeleMail = $this->getDoctrine()->getRepository(ModeleMail::class);
       $repositoryEnseignant = $this->getDoctrine()->getRepository(Enseignant::class);
 

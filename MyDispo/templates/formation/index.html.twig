@@ -36,6 +36,9 @@
                     {{ formation.nomLong }}</td>
                   <td>
                     <center>
+                      <a href="{{ path('formation_show', {'id': formation.id}) }}" style="text-decoration: none">
+                        <i class="far fa-eye" title="Voir la formation"></i>
+                      </a>
                       <a href="{{ path('formation_edit', {'id': formation.id}) }}" style="text-decoration: none">
                         <i class="fas fa-pencil-alt" title="Modifier la formation"></i>
                       </a>

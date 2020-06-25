@@ -452,9 +452,10 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('dateFin').style.display="block";
             document.getElementById('apply').style.display="block";
             document.getElementById('remove').style.display="block";
+            document.getElementById('texteExplicatif').style.display = "none";
             document.getElementById('titrevt').value = info.event.title;
           }
-          if(info.event.extendedProps.type == null){       //zones grisées et évenements
+          if(info.event.extendedProps.type == undefined){       //zones grisées et évenements
             document.getElementById('nomcreneau').style.display="block";
             document.getElementById('titrevt').style.display="block";
             document.getElementById('type').style.display="block";
@@ -474,6 +475,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('prio').style.display="block";
             document.getElementById('dateDebut').style.display="block";
             document.getElementById('dateFin').style.display="block";
+            document.getElementById('texteExplicatif').style.display = "none";
           }
 
           info.event.setProp("borderColor", "red");

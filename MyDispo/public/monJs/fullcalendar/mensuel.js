@@ -67,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
       mensuel.getEvents().forEach(event => {
         event.setProp("borderColor", "white");
       });
+      document.getElementById('texteExplicatif').innerHTML="Merci de préciser dans le descriptif les horaires pour lesquels vous n'êtes pas disponible.";
       document.getElementById('type').style.display="none";
       document.getElementById('prio').style.display="none";
       document.getElementById('titrevt').style.display="block";

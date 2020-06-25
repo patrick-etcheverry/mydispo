@@ -164,7 +164,7 @@
           {% for logATraiter in tabLogsRestants %}
 
           {# Vérifier si le log à traiter concerne un nouvel enseignant ou un nouveau jour #}
-          {% if logATraiter.enseignant.id == logCourant.enseignant.id and logATraiter.dateLog|date("d/m/Y H") == logCourant.dateLog|date("d/m/Y H") %}
+          {% if logATraiter.enseignant.id == logCourant.enseignant.id and logATraiter.dateLog|date("d/m/Y") == logCourant.dateLog|date("d/m/Y") %}
           {# Ce nouveau log concerne le meme enseignant que précédemment : on ne fait rien sauf si c'est le dernier log #}
           {% if loop.last %}
           <tr>

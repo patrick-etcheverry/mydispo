@@ -43,6 +43,50 @@
                         </tbody>
                       </table>
                     </p>
+                    <br/>
+
+                    <h6>Enseignant(s) : </h6>
+                    <!-- Liste des enseignants de la formation -->
+                    <div class="table-responsive">
+                      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                          <tr>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                          {% for enseignantCourant in formation.enseignants %}
+                            <tr>
+                              <td>
+                                {{ enseignantCourant.nom }}</td>
+                              <td>
+                                {{ enseignantCourant.prenom }}</td>
+                              <td>
+                                <center>
+                                  <a href="{{ path('enseignant_show', {'id': enseignantCourant.id}) }}" style="text-decoration: none">
+                                    <i class="far fa-eye" title="Voir l'enseignant'"></i>
+                                  </a>
+                                </center>
+                              </td>
+                            </tr>
+                          {% else %}
+                            <tr>
+                              <td colspan="10">Aucun enseignant associé à cette formation</td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </p>
+                  </div>
+
+
+
+
+
+
                   </div>
                   <div class="card-footer"></div>
                 </div>
@@ -54,4 +98,13 @@
       </div>
     </div>
 
+  {% endblock %}
+
+
+
+  {% block javascripts %}
+  {{ parent() }}
+  <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+  <script src="{{asset('monJs/datatable.js')}}"></script>
   {% endblock %}

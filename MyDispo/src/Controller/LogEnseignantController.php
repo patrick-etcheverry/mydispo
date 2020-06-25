@@ -64,7 +64,7 @@ class LogEnseignantController extends AbstractController
       $logsFinal = [];
       // Recherche les logs de l'enseignant avec la même dateLog
       foreach ($logs as $logCourant) {
-        if($log->getDateLog()->format('Y-m-d H') == $logCourant->getDateLog()->format('Y-m-d H')  ){
+        if($log->getDateLog()->format('Y-m-d') == $logCourant->getDateLog()->format('Y-m-d')  ){
           array_push($logsFinal,$logCourant);
         }
       }

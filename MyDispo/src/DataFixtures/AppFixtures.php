@@ -198,7 +198,7 @@ déplacement ACDI, etc.) merci de les préciser :"
         $formulaireTitulaire->setDureePersFaible(60);
         $formulaireTitulaire->setHeureDebutCalendrier(new DateTime('08:00:00'));
         $formulaireTitulaire->setHeureFinCalendrier(new DateTime('18:00:00'));
-        $formulaireTitulaire->setAutoriserTitreVideContraintePerso(true);
+        $formulaireTitulaire->setAutoriserTitreVideContraintePerso(false);
         $formulaireTitulaire->setAnneeUniversitaire("2020-2021");
 
 

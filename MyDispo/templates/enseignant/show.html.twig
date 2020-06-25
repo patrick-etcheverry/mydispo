@@ -90,6 +90,17 @@
                               <td>{{ enseignant.nbRelance }}</td>
                             {% endif %}
                           </tr>
+                          <tr>
+                            <th>Formation(s)</th>
+                            <td>
+                              {% for formationCourante in enseignant.formations %}
+                                  {{ formationCourante.nomCourt }}
+                                  {% if loop.last == false %}
+                                  ,
+                                  {% endif %}
+                              {% endfor %}
+                            </td>
+                          </tr>
                         </tbody>
                       </table>
                     </p>

@@ -49,7 +49,8 @@ class FormulaireTitulaireType extends AbstractType
           'choices' => array(
               "Oui" => true,
               "Non" => false
-          ), 'label' => 'Autoriser les utilisateurs à avoir des contraintes personnelles sans description'
+
+          ), 'label' => 'Imposer un descriptif pour les contraintes personnelles'
       ])
 
       ->add('quantiteProForte',IntegerType::class,['label' => 'Nombre de créneaux autorisé pour la saisie des contraintes professionnelles de priorité forte',])
