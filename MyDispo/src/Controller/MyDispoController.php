@@ -210,7 +210,7 @@ class MyDispoController extends AbstractController
 
 
 
-    if($enseignant->getStatut()==" Titulaire" || "Titulaire" && $formulaireTitulaire->getEstOuvert() == true){
+    if($enseignant->getStatut()== "Titulaire" && $formulaireTitulaire->getEstOuvert() == true){
       return $this->render('my_dispo/formulaireTit.html.twig', [
         'formulaireTitulaire' => $formulaireTitulaire,
         'events' => $result,
