@@ -45,7 +45,7 @@ class MyDispoController extends AbstractController
     if(!$enseignant)
     {
       // redirection vers une page indiquant que l'URL est invalide
-      return $this->redirect("https://www.google.fr");
+      return $this->render('my_dispo/tokenInvalide.html.twig');
     }
     // Lien pour la redirection vers le résumé de la saisie
     $lien = $this->generateUrl('resume_saisie',['token'=> $enseignant->getToken()],false);
