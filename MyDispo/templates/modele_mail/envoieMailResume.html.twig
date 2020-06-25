@@ -177,7 +177,7 @@
               </td>
               <td>
                 {% if enseignantCourant.dateSaisie == null %}
-
+                Aucune date
                 {% else %}
                 {{enseignantCourant.dateSaisie|date("d/m/Y à H:i", "Europe/Paris")}}
                 {% endif %}
@@ -193,7 +193,7 @@
               </td>
               <td>
                 {% if enseignantCourant.dateDerniereRelance == null %}
-
+                Aucune date
                 {% else %}
                 {{enseignantCourant.dateDerniereRelance|date("d/m/Y à H:i", "Europe/Paris")}}
                 {% endif %}

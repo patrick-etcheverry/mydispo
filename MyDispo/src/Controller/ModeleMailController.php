@@ -63,6 +63,7 @@ class ModeleMailController extends AbstractController
 public function formEnvoieMail(Request $request, FormationRepository $formationRepository)
 {
     $defaultData = ['message' => 'Type your message here'];
+    $formationDUT = $formationRepository->findByNomCourt("DUT Info");
 
     $tabListeFormations = array();
     $toutesLesFormations = $formationRepository->findAll();
@@ -83,26 +84,11 @@ dump($tabListeFormations);
                 'required' => true
             ))
 
-            //
-            // ->add('nomCourt', EntityType::class, array(
-            //         'class' => Formation::class,
-            //         'choice_label' => 'nomCourt',
-            //         'label' => 'Enseignant intervenant en :',
-            //         'multiple' => true,
-            //         'expanded' => true,
-            //         'required' => true
-            //     ))
-
-
-
-
-
-
-
             ->add('nomCourt', ChoiceType::class, array(
                     'help' => "Attention : Si aucune formation n'est sélectionnée, aucun enseignant ne sera ciblé par le mail.",
                     'label' => 'Enseignant intervenant en :',
                     'choices' => $tabListeFormations,
+                    'data' => $formationDUT,
                     'multiple' => true,
                     'expanded' => true,
                     'required' => true
@@ -113,6 +99,7 @@ dump($tabListeFormations);
                           'Vacataire' => 'Vacataire',
                           'Tous les statuts' => 'Tous les statuts',
                           ],
+                          'data' => 'Tous les statuts',
                         'label' => 'Enseignant ayant le statut de :',
                         'multiple' => false,
                         'expanded' => true,
@@ -124,6 +111,7 @@ dump($tabListeFormations);
                           'Une saisie non effectuée' => 'false',
                           'Toutes les saisies' => 'Toutes les saisies',
                           ],
+                          'data' => 'Toutes les saisies',
                         'label' => 'Enseignant avec : ',
                         'multiple' => false,
                         'expanded' => true,
@@ -135,6 +123,7 @@ dump($tabListeFormations);
                               'N\'ayant pas reçu de mail de relance' => 'false',
                               'Toutes les relances' => 'Toutes les relances',
                               ],
+                              'data' => 'Toutes les relances',
                             'label' => 'Enseignant : ',
                             'multiple' => false,
                             'expanded' => true,
