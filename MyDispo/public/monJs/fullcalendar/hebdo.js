@@ -443,18 +443,7 @@ document.addEventListener('DOMContentLoaded', function() {
           }
           document.getElementById('type').innerHTML =  texte ;
           document.getElementById('prio').innerHTML =  "Priorité : " + info.event.extendedProps.prio ;
-          if(info.event.extendedProps.type != "Disponibilite"){
-            document.getElementById('nomcreneau').style.display="block";
-            document.getElementById('titrevt').style.display="block";
-            document.getElementById('type').style.display="block";
-            document.getElementById('prio').style.display="block";
-            document.getElementById('dateDebut').style.display="block";
-            document.getElementById('dateFin').style.display="block";
-            document.getElementById('apply').style.display="block";
-            document.getElementById('remove').style.display="block";
-            document.getElementById('titrevt').value = info.event.title;
-          }
-          if(info.event.extendedProps.type == null){       //zones grisées et évenements
+          if(info.event.extendedProps.type == "Disponibilite"){
             document.getElementById('nomcreneau').style.display="block";
             document.getElementById('titrevt').style.display="block";
             document.getElementById('type').style.display="block";
@@ -465,15 +454,49 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('remove').style.display="block";
             document.getElementById('titrevt').value = info.event.title;
           }
-          if(info.event.extendedProps.type == "ContraintePerso" || info.event.extendedProps.type == "Disponibilite"){
-            document.getElementById('nomcreneau').style.display="none";
-            document.getElementById('titrevt').style.display="none";
-            document.getElementById('apply').style.display="none";
+          else if(info.event.extendedProps.type == undefined){   //zones grisées et évenements
+            document.getElementById('nomcreneau').style.display="block";
+            document.getElementById('titrevt').style.display="block";
+            document.getElementById('type').style.display="block";
+            document.getElementById('prio').style.display="none";
+            document.getElementById('dateDebut').style.display="block";
+            document.getElementById('dateFin').style.display="block";
+            document.getElementById('apply').style.display="block";
             document.getElementById('remove').style.display="block";
+            document.getElementById('titrevt').value = info.event.title;
+          }
+          else if(info.event.extendedProps.type == "ContraintePerso" && titrevide==true){
+            document.getElementById('nomcreneau').style.display="block";
+            document.getElementById('titrevt').style.display="none";
             document.getElementById('type').style.display="block";
             document.getElementById('prio').style.display="block";
             document.getElementById('dateDebut').style.display="block";
             document.getElementById('dateFin').style.display="block";
+            document.getElementById('apply').style.display="none";
+            document.getElementById('remove').style.display="block";
+            document.getElementById('titrevt').value = info.event.title;
+          }
+          else if(info.event.extendedProps.type == "ContraintePerso" && titrevide==false){
+            document.getElementById('nomcreneau').style.display="block";
+            document.getElementById('titrevt').style.display="block";
+            document.getElementById('type').style.display="block";
+            document.getElementById('prio').style.display="block";
+            document.getElementById('dateDebut').style.display="block";
+            document.getElementById('dateFin').style.display="block";
+            document.getElementById('apply').style.display="block";
+            document.getElementById('remove').style.display="block";
+            document.getElementById('titrevt').value = info.event.title;
+          }
+          else if(info.event.extendedProps.type == "ContraintePro"){
+            document.getElementById('nomcreneau').style.display="block";
+            document.getElementById('titrevt').style.display="block";
+            document.getElementById('type').style.display="block";
+            document.getElementById('prio').style.display="block";
+            document.getElementById('dateDebut').style.display="block";
+            document.getElementById('dateFin').style.display="block";
+            document.getElementById('apply').style.display="block";
+            document.getElementById('remove').style.display="block";
+            document.getElementById('titrevt').value = info.event.title;
           }
 
           info.event.setProp("borderColor", "red");
