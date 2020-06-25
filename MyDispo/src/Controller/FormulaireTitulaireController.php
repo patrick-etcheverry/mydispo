@@ -25,7 +25,7 @@ class FormulaireTitulaireController extends AbstractController
   public function edit(Request $request, FormulaireTitulaireRepository $formtitulaireRepository, EnseignantRepository $enseignantRepository): Response
   {
       $formulaireTitulaire = $formtitulaireRepository->findAll()[0];
-      $enseignant = $enseignantRepository->findOneByNom("TitulaireTest");
+      $enseignant = $enseignantRepository->findOneByNom("Titulaire");
       $lien = $this->generateUrl('saisieContrainte',['token'=> $enseignant->getToken()],false);
       $form = $this->createForm(FormulaireTitulaireType::class, $formulaireTitulaire);
       $form->handleRequest($request);

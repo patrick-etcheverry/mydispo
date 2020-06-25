@@ -72,7 +72,7 @@ public function formEnvoieMail(Request $request)
                 'required' => true
             ))
             ->add('nomCourt', ChoiceType::class, array(
-                    'help' => 'Exemple : Pour cibler un enseignant intervenant dans n\'importe quelle formation : - Cocher la case DUT Info et LP Info',
+                    'help' => 'Exemple : Pour cibler un enseignant intervenant les formations DUT Info et LP Info : - Cocher la case DUT Info et LP Info',
                     'label' => 'Enseignant intervenant en :',
                     'choices' => [
                       'DUT Info' => 'DUT Info',
