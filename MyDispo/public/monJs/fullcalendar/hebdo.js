@@ -584,11 +584,6 @@ document.addEventListener('DOMContentLoaded', function() {
           }
           if(creneauxEnseignantSansGrisee.length < creneauxHebdoSaisie.length){
             var texte = "Ajout de créneaux hebdomadaires";
-            var indice = (creneauxHebdoSaisie.length - (creneauxHebdoSaisie.length - creneauxEnseignantSansGrisee.length)) + 1;
-            console.log(indice);
-            for (var i = indice; i < creneauxHebdoSaisie.length-1; i++) {
-              texte += " (Nouveau créneau : " + creneauxEnseignantSansGrisee[i].title + ")";
-            }
             deltaCreneauxHebdo.push(texte);
           }
 

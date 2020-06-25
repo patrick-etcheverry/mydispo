@@ -125,10 +125,7 @@ function changerRegroupementEnseignements(reponse,enseignant){
       reponse: reponse,
       idEnseignant: enseignant,
     },
-    type: "POST",
-    success: function(){
-        window.location.href = lien;
-      }
+    type: "POST"
   });
 }
 
@@ -204,7 +201,10 @@ function envoyerLogPonctu(deltaRemarquePonctu, deltaCreneauxPonctu,enseignant) {
       idEnseignant: enseignant,
 
     },
-    type: "POST"
+    type: "POST",
+    success: function(){
+        window.location.href = lien;
+      }
   });
 }
 

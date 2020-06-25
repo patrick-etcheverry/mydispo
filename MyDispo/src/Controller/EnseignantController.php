@@ -349,6 +349,10 @@ class EnseignantController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+          $formations=$enseignant->getFormations();
+          foreach ($formations as $formation) {
+            $formation->addEnseignant($enseignant);
+          }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($enseignant);
             $entityManager->flush();
