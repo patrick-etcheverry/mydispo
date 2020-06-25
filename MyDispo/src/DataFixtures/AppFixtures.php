@@ -26,8 +26,8 @@ class AppFixtures extends Fixture
 
           //UTILISATEURS DE TEST POUR L'APERCU DES FORMULAIRES
         $titulaireTest = new Enseignant();
-        $titulaireTest->setNom('TitulaireTest');
-        $titulaireTest->setPrenom('TestTitulaire');
+        $titulaireTest->setNom('Titulaire');
+        $titulaireTest->setPrenom('Test');
         $titulaireTest->setStatut('Titulaire');
         $titulaireTest->setMail($_ENV['ADMIN_MAIL']);
         $titulaireTest->setToken($titulaireTest->genererToken());
@@ -44,8 +44,8 @@ class AppFixtures extends Fixture
         $manager->persist($titulaireTest);
 
         $vacataireTest = new Enseignant();
-        $vacataireTest->setNom('VacataireTest');
-        $vacataireTest->setPrenom('TestVacataire');
+        $vacataireTest->setNom('Vacataire');
+        $vacataireTest->setPrenom('Test');
         $vacataireTest->setStatut('Vacataire');
         $vacataireTest->setMail($_ENV['ADMIN_MAIL']);
         $vacataireTest->setToken($vacataireTest->genererToken());
