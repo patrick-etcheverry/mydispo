@@ -48,7 +48,7 @@ class AppFixtures extends Fixture
         $vacataireTest->setPrenom('TestVacataire');
         $vacataireTest->setStatut('Vacataire');
         $vacataireTest->setMail($_ENV['ADMIN_MAIL']);
-        $vacataireTest->setToken($vacataireTest->genererToken());
+        $vacataireTest->setToken($tokenAvantCryptage);
         $vacataireTest->setEnSommeil(false);
         $vacataireTest->setSaisieFaite(true);
         $vacataireTest->setDateSaisie(new DateTime('12/07/2020'));
@@ -64,6 +64,10 @@ class AppFixtures extends Fixture
         // Import d'enseignant depuis un fichier
         $NumeroLigne = 0;
 
+// A $formVacataireRepository
+$fichierTokensEnClair = 'tokensEnClair.txt';
+
+
         if (($fichier = fopen("./public/Importation-Enseignants/Enseignants.csv", "r")) !== FALSE) {
             while (($donnees = fgetcsv($fichier, 1000, ",")) !== FALSE) {
               $NumeroLigne++;
@@ -75,6 +79,7 @@ class AppFixtures extends Fixture
               $enseignant->setMail($donnees[2]);
               $enseignant->setStatut($donnees[3]);
               $enseignant->setEnSommeil(false);
+              $tokenEnClair = $enseignant->genererToken();
               $enseignant->setToken($enseignant->genererToken());
               $enseignant->setSaisieFaite(false);
               $enseignant->setDateSaisie(null);

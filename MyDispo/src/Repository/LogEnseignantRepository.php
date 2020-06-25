@@ -51,7 +51,7 @@ class LogEnseignantRepository extends ServiceEntityRepository
     public function findOrderByDate()
     {
         return $this->createQueryBuilder('l')
-            ->orderBy('l.dateLog', 'ASC')
+            ->orderBy('l.dateLog', 'DESC')
             ->getQuery()
             ->getResult()
         ;

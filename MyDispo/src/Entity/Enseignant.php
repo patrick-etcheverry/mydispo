@@ -202,14 +202,13 @@ class Enseignant
 
     public function getToken(): ?string
     {
-        return $this->token;
+      return $this->decrypterToken($this->token);
     }
 
     public function setToken(string $token): self
     {
-        $this->token = $token;
-
-        return $this;
+      $this->token = $this->crypterToken($token);
+      return $this;
     }
 
     public function getSaisieFaite(): ?bool
@@ -495,8 +494,165 @@ class Enseignant
     }
 
 
+// Fonctions privées utilitaires
 
 
+public function crypterToken($token){
+
+  $tokenCrypte = $token;
+  $tableCryptage = [	'a'	=>	'r',
+'b'	=>	'n',
+'c'	=>	'y',
+'d'	=>	'a',
+'e'	=>	'x',
+'f'	=>	'e',
+'g'	=>	'i',
+'h'	=>	'm',
+'i'	=>	'u',
+'j'	=>	'o',
+'k'	=>	'f',
+'l'	=>	'b',
+'m'	=>	't',
+'n'	=>	'v',
+'o'	=>	'p',
+'p'	=>	'k',
+'q'	=>	'w',
+'r'	=>	'l',
+'s'	=>	'd',
+'t'	=>	'c',
+'u'	=>	'g',
+'v' =>	's',
+'w'	=>	'j',
+'x'	=>	'q',
+'y'	=>	'h',
+'z'	=>	'z',
+'A'	=>	'J',
+'B'	=>	'A',
+'C'	=>	'L',
+'D'	=>	'C',
+'E'	=>	'D',
+'F' =>	'S',
+'G'	=>	'P',
+'H'	=>	'E',
+'I' =>	'V',
+'J'	=>	'G',
+'K'	=>	'M',
+'L'	=>	'X',
+'M'	=>	'N',
+'N'	=>	'B',
+'O'	=>	'R',
+'P' =>	'I',
+'Q'	=>	'Q',
+'R'	=>	'W',
+'S' =>	'T',
+'T' =>	'U',
+'U' =>	'Z',
+'V' =>	'K',
+'W' =>	'H',
+'X'	=>	'O',
+'Y'	=>	'Y',
+'Z'	=>	'F',
+'0' =>	'3',
+'1' =>	'1',
+'2'	=>	'2',
+'3'	=>	'5',
+'4'	=>	'9',
+'5' =>	'6',
+'6'	=>	'8',
+'7'	=>	'0',
+'8'	=>	'4',
+'9'	=>	'7'];
+
+
+
+  for ($i = 0 ; $i < strlen($token) ; $i++)
+  {
+    if (ctype_digit($token[$i]) || preg_match('/[a-zA-Z]/', $token[$i])) {
+      $tokenCrypte[$i] = $tableCryptage[$token[$i]];
+    }
+  }
+
+  return $tokenCrypte;
+}
+
+
+
+
+public function decrypterToken($tokenCrypte){
+
+  $token = $tokenCrypte;
+  $tableDecryptage = ['r'	=>	'a',
+'n'	=>	'b',
+'y'	=>	'c',
+'a'	=>	'd',
+'x'	=>	'e',
+'e'	=>	'f',
+'i'	=>	'g',
+'m'	=>	'h',
+'u'	=>	'i',
+'o'	=>	'j',
+'f'	=>	'k',
+'b'	=>	'l',
+'t'	=>	'm',
+'v'	=>	'n',
+'p'	=>	'o',
+'k'	=>	'p',
+'w'	=>	'q',
+'l'	=>	'r',
+'d'	=>	's',
+'c'	=>	't',
+'g'	=>	'u',
+'s'	=>	'v',
+'j'	=>	'w',
+'q'	=>	'x',
+'h'	=>	'y',
+'z'	=>	'z',
+'J'	=>	'A',
+'A'	=>	'B',
+'L'	=>	'C',
+'C'	=>	'D',
+'D'	=>	'E',
+'S'	=>	'F',
+'P'	=>	'G',
+'E'	=>	'H',
+'V'	=>	'I',
+'G'	=>	'J',
+'M'	=>	'K',
+'X'	=>	'L',
+'N'	=>	'M',
+'B'	=>	'N',
+'R'	=>	'O',
+'I'	=>	'P',
+'Q'	=>	'Q',
+'W'	=>	'R',
+'T'	=>	'S',
+'U'	=>	'T',
+'Z'	=>	'U',
+'K'	=>	'V',
+'H'	=>	'W',
+'O'	=>	'X',
+'Y'	=>	'Y',
+'F'	=>	'Z',
+'3'	=>	'0',
+'1'	=>	'1',
+'2'	=>	'2',
+'5'	=>	'3',
+'9'	=>	'4',
+'6'	=>	'5',
+'8'	=>	'6',
+'0'	=>	'7',
+'4'	=>	'8',
+'7'	=>	'9'];
+
+  for ($i = 0 ; $i < strlen($tokenCrypte) ; $i++)
+  {
+    if (ctype_digit($tokenCrypte[$i]) || preg_match('/[a-zA-Z]/', $tokenCrypte[$i])) {
+      $token[$i] = $tableDecryptage[$tokenCrypte[$i]];
+    }
+  }
+
+  return $token;
+}
 
 
 }

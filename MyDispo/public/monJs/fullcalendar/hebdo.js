@@ -23,7 +23,7 @@ const creneauObjet = {
     ],
     now: "2013-12-01T00:00:00",
     defaultView: 'timeGridWeek',
-    defaultTimedEventDuration: '01:00', 
+    defaultTimedEventDuration: '01:00',
     forceEventDuration: true,
     themeSystem: 'bootstrap',
     contentHeight: "auto",
@@ -149,6 +149,7 @@ else if(limiteDepassee()==true){alert("Trop de contraintes de ce type saisies");
         start: arg.start,
         end: arg.end,
         classNames: ['plusBord'],
+        color: "#93A299",
       });
     }
 

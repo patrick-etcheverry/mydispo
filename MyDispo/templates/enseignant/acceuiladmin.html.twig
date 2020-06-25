@@ -146,70 +146,81 @@
         <tr>
           <th>Date de connexion</th>
           <th>Enseignant</th>
-          <th>Opérations réalisées</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          {% set IdEnseignantPrecedent = "" %}
-          {% for logEnseignantCourant in logsEnseignants %}
+
+
+          {% if logsEnseignants|length > 0 %}
+          {% set logCourant = logsEnseignants.0 %}
+          {% endif %}
+
+          {% set nbLogsRestants = logsEnseignants|length - 1 %}
+
+          {% set tabLogsRestants = logsEnseignants|slice(1,nbLogsRestants)  %}
+
+
+          {% for logATraiter in tabLogsRestants %}
+
+          {# Vérifier si le log à traiter concerne un nouvel enseignant ou un nouveau jour #}
+          {% if logATraiter.enseignant.id == logCourant.enseignant.id and logATraiter.dateLog|date("d/m/Y") == logCourant.dateLog|date("d/m/Y") %}
+          {# Ce nouveau log concerne le meme enseignant que précédemment : on ne fait rien sauf si c'est le dernier log #}
+          {% if loop.last %}
+          <tr>
+          <td>
+            <center>{{logCourant.dateLog|date("d/m/Y à H:i")}}</center>
+          </td>
+          <td>
+            <center>{{logCourant.enseignant.nom}} {{logCourant.enseignant.prenom}}</center>
+          </td>
+          <td>
+            <center>
+              <a href="{{ path('log_enseignant_show', {'id': logCourant.id}) }}" style="text-decoration: none">
+                <i class="far fa-eye" title="Voir le log"></i>
+              </a>
+            </center>
+          </td>
+        </tr>
+        {% endif %}
+
+          {% else %}
+            {# Le log courant concerne un autre enseignant ou une nouvelle journée. Il faut : #}
+            {# - afficher le log résumé de l'enseignant précédent #}
+            {# - réinitialiser le logCourant #}
+            <tr>
             <td>
-              <center>{{logEnseignantCourant.dateLog|date("d/m/Y à H:i")}}</center>
+              <center>{{logCourant.dateLog|date("d/m/Y à H:i")}}</center>
             </td>
             <td>
-              <center>{{logEnseignantCourant.enseignant.nom}} {{logEnseignantCourant.enseignant.prenom}}</center>
+              <center>{{logCourant.enseignant.nom}} {{logCourant.enseignant.prenom}}</center>
             </td>
             <td>
               <center>
-
-
-                {% if logEnseignantCourant.zone == "Zone saisie hebdomadaire" %}
-                <center>Zone saisie hebdomadaire
-                  {% if 'Suppression' in logEnseignantCourant.description %}
-                    <i class="far fa-trash-alt"></i>
-                  {% endif %}
-                  {% if 'Ajout' in logEnseignantCourant.description %}
-                  <i class="fas fa-plus-circle"></i>
-                  {% endif %}
-                  {% if 'Modification' in logEnseignantCourant.description %}
-                    <i class="fas fa-pencil-alt"></i>
-                  {% endif %}
-                </center>
-                {% endif %}
-
-                  </center>
-
-              {% if logEnseignantCourant.typeAction == "Consultation" %}
-              <center>Consultation seulement <i class="far fa-eye"></i></center>
-              {% endif %}
-
-                {% if logEnseignantCourant.zone == "Zone saisie ponctuelle"%}
-                <center>Zone saisie ponctuelle</center>
-                  {% if 'Suppression' in logEnseignantCourant.description %}
-                  <center><i class="far fa-trash-alt"></i></center>
-                  {% endif %}
-                  {% if 'Ajout' in logEnseignantCourant.description %}
-                  <center><i class="fas fa-plus-circle"></i></center>
-                  {% endif %}
-                  {% if 'Modification' in logEnseignantCourant.description %}
-                  <center>  <i class="fas fa-pencil-alt"></i></center>
-                  {% endif %}
-                {% endif %}
-            </td>
-            <td>
-              <center>
-                <a href="{{ path('log_enseignant_show', {'id': logEnseignantCourant.id}) }}" style="text-decoration: none">
+                <a href="{{ path('log_enseignant_show', {'id': logCourant.id}) }}" style="text-decoration: none">
                   <i class="far fa-eye" title="Voir le log"></i>
                 </a>
               </center>
             </td>
           </tr>
+
+          {% set logCourant = logATraiter %}
+
+
+
+          {% endif %}
+
+
+
+          {# Cas où il n'y a pas de log #}
         {% else %}
           <tr>
-            <td colspan="10">Aucun enseignant enregistré</td>
+            <td colspan="10">Aucun log enregistré</td>
           </tr>
         {% endfor %}
+
+
+
       </tbody>
     </table>
   </p>

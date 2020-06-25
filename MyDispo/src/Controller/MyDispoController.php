@@ -34,10 +34,22 @@ class MyDispoController extends AbstractController
   FormulaireTitulaireRepository $formulaireTitulaireRepository,FormulaireVacataireRepository $formulaireVacataireRepository, $token)
   {
 
+    // Dans l'url on récupère le token en clair => on le crypte pour trouver l'enseignant correspondant en BD
+    $enseignantTemporairePourAccederFonctionCryptage = new Enseignant();
+    $tokenCrypte = $enseignantTemporairePourAccederFonctionCryptage->crypterToken($token);
+
     //Récupérer l'enseignant ayant le token $token
-    $enseignant = $enseignantRepository->findByToken($token)[0];
+    $enseignant = $enseignantRepository->findOneByToken($tokenCrypte);
+
+    // Vérifier qu'on a trouvé un enseignant avec ce token
+    if(!$enseignant)
+    {
+      // redirection vers une page indiquant que l'URL est invalide
+      return $this->redirect("https://www.google.fr");
+    }
     // Lien pour la redirection vers le résumé de la saisie
     $lien = $this->generateUrl('resume_saisie',['token'=> $enseignant->getToken()],false);
+
     //Récupérer les formulaires(paramètrage des formulaires à faire passer dans les vues)
     $formulaireTitulaire = $formulaireTitulaireRepository->findAll()[0];
     $formulaireVacataire = $formulaireVacataireRepository->findAll()[0];
@@ -194,7 +206,7 @@ class MyDispoController extends AbstractController
 
 
 
-    if($enseignant->getStatut()=='Titulaire' && $formulaireTitulaire->getEstOuvert() == true){
+    if($enseignant->getStatut()==" Titulaire" || "Titulaire" && $formulaireTitulaire->getEstOuvert() == true){
       return $this->render('my_dispo/formulaireTit.html.twig', [
         'formulaireTitulaire' => $formulaireTitulaire,
         'events' => $result,
@@ -207,7 +219,7 @@ class MyDispoController extends AbstractController
       ]);
     }
 
-    else if($enseignant->getStatut()=='Vacataire' && $formulaireVacataire->getEstOuvert() == true){
+    if($enseignant->getStatut()=="Vacataire" && $formulaireVacataire->getEstOuvert() == true){
       return $this->render('my_dispo/formulaireVac.html.twig',[
         'formulaireVacataire' => $formulaireVacataire,
         'events' => $result,
@@ -233,7 +245,15 @@ class MyDispoController extends AbstractController
   FormulaireVacataireRepository $formVacataireRepository, $token)
   {
     $entityManager = $this->getDoctrine()->getManager();
-    $enseignant = $enseignantRepository->findByToken($token)[0];
+
+    // Dans l'url on récupère le token en clair => on le crypte pour trouver l'enseignant correspondant en BD
+    $enseignantTemporairePourAccederFonctionCryptage = new Enseignant();
+    $tokenCrypte = $enseignantTemporairePourAccederFonctionCryptage->crypterToken($token);
+
+    //Récupérer l'enseignant ayant le token $token
+    $enseignant = $enseignantRepository->findOneByToken($tokenCrypte);
+
+
 
 
     if($enseignant->getSaisieFaite() == false){
