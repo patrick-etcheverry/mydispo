@@ -91,7 +91,7 @@ class AppFixtures extends Fixture
                 if(isset($donnees[i])){
                   $enseignant->addFormation($donnees[i]);
                 }*/
-              }
+
 
 
 
