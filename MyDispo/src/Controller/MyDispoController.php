@@ -54,6 +54,8 @@ class MyDispoController extends AbstractController
     $formulaireTitulaire = $formulaireTitulaireRepository->findAll()[0];
     $formulaireVacataire = $formulaireVacataireRepository->findAll()[0];
 
+    //Récupérer le regroupement des enseignenements de l'enseignant
+    $regroupement=$enseignant->getGrouperEnseignements();
     //RECUPERATION CRENEAUX POUR CALENDRIER MENSUEL
 
     //CRENEAUX QUI SONT DES EVENEMENTS SPECIAUX (Saisis par l'admin)
@@ -220,6 +222,7 @@ class MyDispoController extends AbstractController
         'eventsSansGrisee' => $result2,
         'remarqueH' => $remarqueHebdo,
         'remarqueP' => $remarquePonctu,
+        'regrouperEnseignements' => $regroupement,
       ]);
     }
 
@@ -233,7 +236,7 @@ class MyDispoController extends AbstractController
         'remarqueH' => $remarqueHebdo,
         'remarqueP' => $remarquePonctu,
         'lien' => $lien,
-
+        'regrouperEnseignements' => $regroupement,
       ]);
     }
     else{
@@ -257,7 +260,8 @@ class MyDispoController extends AbstractController
     //Récupérer l'enseignant ayant le token $token
     $enseignant = $enseignantRepository->findOneByToken($tokenCrypte);
 
-
+    //Récupérer le regroupement des enseignements de l'enseignant
+    $regroupement = $enseignant->getGrouperEnseignements();
 
 
     if($enseignant->getSaisieFaite() == false){
@@ -465,6 +469,7 @@ class MyDispoController extends AbstractController
       'lien' => $lien,
       'remarqueH' => $remarqueHebdo,
       'remarqueP' => $remarquePonctu,
+      'regrouperEnseignements' => $regroupement,
     ]);
   }
 

@@ -60,10 +60,24 @@
     <form>
     <div class="form-group">
      <select class="form-control" id="regroupement">
-      <option value="Indifferent">Indifférent</option>
-       <option value="Regroupes">Regrouper</option>
-       <option value="Non regroupes">Ne pas grouper</option>
 
+      {% if regrouperEnseignements == "Indifferent" %}
+      <option value="Indifferent" selected>Indifférent</option>
+      {% else %}
+      <option value="Indifferent">Indifférent</option>
+      {% endif %}
+
+       {% if regrouperEnseignements == "Regroupes" %}
+       <option value="Regroupes" selected>Regrouper</option>
+       {% else %}
+       <option value="Regroupes">Regrouper</option>
+       {% endif %}
+
+        {% if regrouperEnseignements == "Non regroupes" %}
+       <option value="Non regroupes" selected>Ne pas grouper</option>
+       {% else %}
+       <option value="Non regroupes">Ne pas grouper</option>
+       {% endif %}
 
      </select>
    </div>
