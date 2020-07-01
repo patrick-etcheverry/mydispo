@@ -57,7 +57,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
       select: function(arg) {
         closeNav();
-
+        document.getElementById('apply').innerHTML = "<i class='far fa-save'></i> Créer";
+        document.getElementById('remove').innerHTML = "<i class='fas fa-trash-alt'></i> Annuler";
 
         if(estFormulaireTitulaire){
           hebdo.setOption('defaultTimedEventDuration',tempsParDefaut()); //On change le temps par défaut en fonction du bouton radio sélectionné grâce à la fonction tempsParDefaut()
@@ -164,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             document.getElementById('apply').onclick = function(){
               if(limiteDepassee()==false){
-                if(document.getElementById('titrevt').value != "" ){
+                if(document.getElementById('titrevt').value != "" && /\w/.test(document.getElementById('titrevt').value) ){
                   var title = document.getElementById('titrevt').value;
                   if(detFin()==false){
                     hebdo.addEvent({
@@ -223,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                   }
                   else{
-                    alert(" Erreur : Un titre doit être saisi");
+                    alert(" Erreur : Un titre valide doit être saisi");
                     closeNav();
                     hebdo.unselect();
                   }
@@ -261,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
               document.getElementById('apply').onclick = function(){
                 if(limiteDepassee()==false){
-                  if(document.getElementById('titrevt').value != "" ){
+                  if(document.getElementById('titrevt').value != "" && /\w/.test(document.getElementById('titrevt').value) ){
                     var title = document.getElementById('titrevt').value;
                     if(detFin()==false){
                       hebdo.addEvent({
@@ -320,7 +321,7 @@ document.addEventListener('DOMContentLoaded', function() {
                       }
                     }
                     else{
-                      alert(" Erreur : Un titre doit être saisi");
+                      alert(" Erreur : Un titre valide doit être saisi");
                       closeNav();
                       hebdo.unselect();
                     }
@@ -358,7 +359,7 @@ document.addEventListener('DOMContentLoaded', function() {
               openNav();
 
               document.getElementById('apply').onclick = function() {
-                if(document.getElementById('titrevt').value != ""){
+                if(document.getElementById('titrevt').value != "" && /\w/.test(document.getElementById('titrevt').value)){
                   var title=document.getElementById('titrevt').value;
                   hebdo.addEvent({
                     title: title,
@@ -372,7 +373,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 else{
                   closeNav();
                   hebdo.unselect();
-                  alert("Erreur : La saisie d'un titre est obligatoire");
+                  alert("Erreur : Un titre valide doit être saisi");
                 }
               };
 
@@ -431,6 +432,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
           },
           eventClick: function(info) {
+            document.getElementById('apply').innerHTML = "<i class='far fa-save'></i> Appliquer modifications";
+            document.getElementById('remove').innerHTML = "<i class='fas fa-trash-alt'></i> Supprimer le créneau";
+
             if(info.event.rendering != "background"){
               hebdo.getEvents().forEach(event => {
                 event.setProp("borderColor", "white");
