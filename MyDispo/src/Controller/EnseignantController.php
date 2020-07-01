@@ -333,7 +333,7 @@ class EnseignantController extends AbstractController
     {
 
         return $this->render('enseignant/acceuiladmin.html.twig', [
-            'enseignants' => $enseignantRepository->findAll(),
+            'enseignants' => $enseignantRepository->findByEnSommeil(false),
             'logsEnseignants' => $logEnseignantRepository->findOrderByDate(),
 
         ]);

@@ -57,7 +57,7 @@ class Enseignant
     private $saisieFaite = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=LogEnseignant::class, mappedBy="enseignant")
+     * @ORM\OneToMany(targetEntity=LogEnseignant::class, mappedBy="enseignant", cascade={"remove"})
      */
     private $logsEnseignant;
 
@@ -67,7 +67,7 @@ class Enseignant
     private $formations;
 
     /**
-     * @ORM\OneToMany(targetEntity=Remarque::class, mappedBy="enseignant")
+     * @ORM\OneToMany(targetEntity=Remarque::class, mappedBy="enseignant", cascade={"remove"})
      */
     private $remarques;
 
@@ -77,7 +77,7 @@ class Enseignant
     private $modelesMails;
 
     /**
-     * @ORM\OneToMany(targetEntity=Creneau::class, mappedBy="enseignant")
+     * @ORM\OneToMany(targetEntity=Creneau::class, mappedBy="enseignant", cascade={"remove"})
      */
     private $creneaux;
 
@@ -132,6 +132,7 @@ class Enseignant
         $this->remarques = new ArrayCollection();
         $this->modelesMails = new ArrayCollection();
         $this->creneaux = new ArrayCollection();
+        $this->saisieFaite = false;
         $this->setToken($this->genererToken());
     }
 

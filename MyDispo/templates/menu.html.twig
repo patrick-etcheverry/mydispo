@@ -31,7 +31,9 @@
           Les mails
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="{{path('envoie_modele_mail')}}">Envoi des mails</a>
+          <a class="dropdown-item" href="{{path('envoie_modele_mail')}}">Envoi des mails groupés</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="{{path('enseignant_indexadmin')}}">Envoi des mails personnalisés</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{{path('modele_mail_index')}}">Paramètres des mails</a>
         </div>
@@ -42,7 +44,7 @@
     </ul>
 <ul class="navbar-nav md-auto">
     <li class="nav-item active">
-      <a class="nav-link" href="{{path('changement_annee')}}"><i class="fas fa-calendar-alt"></i> Passer à l'année suivante<span class="sr-only">(current)</span></a>
+      <a class="nav-link" href="{{path('confirmationChangementAnnee')}}"><i class="fas fa-calendar-alt"></i> Passer à l'année suivante<span class="sr-only">(current)</span></a>
     </li>
 </ul>
   </div>

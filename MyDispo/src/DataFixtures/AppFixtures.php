@@ -61,8 +61,64 @@ class AppFixtures extends Fixture
 
         $manager->persist($vacataireTest);
 
+        //UTILISATEURS DE TEST POUR L'APERCU DES FORMULAIRES
+      $titulaireTest2 = new Enseignant();
+      $titulaireTest2->setNom('Chakib');
+      $titulaireTest2->setPrenom('Alami');
+      $titulaireTest2->setStatut('Titulaire');
+      $titulaireTest2->setMail('thombouchet@aol.com');
+      $titulaireTest2->setToken($titulaireTest2->genererToken());
+      $titulaireTest2->setEnSommeil(false);
+      $titulaireTest2->setSaisieFaite(false);
+      $titulaireTest2->setDateSaisie(null);
+      $titulaireTest2->setDateDerniereModif(null);
+      $titulaireTest2->setMailRelanceRecu(false);
+      $titulaireTest2->setPremierMailRecu(false);
+      $titulaireTest2->setDatePremierMail(null);
+      $titulaireTest2->setDateDerniereRelance(null);
+      $titulaireTest2->setNbRelance(0);
+
+      $manager->persist($titulaireTest2);
+
+      $vacataireTest2 = new Enseignant();
+      $vacataireTest2->setNom('Etcheverry');
+      $vacataireTest2->setPrenom('Patrick');
+      $vacataireTest2->setStatut('Titulaire');
+      $vacataireTest2->setMail('thombouchet@aol.com');
+      $vacataireTest2->setToken($vacataireTest2->genererToken());
+      $vacataireTest2->setEnSommeil(false);
+      $vacataireTest2->setSaisieFaite(false);
+      $vacataireTest2->setDateSaisie(null);
+      $vacataireTest2->setDateDerniereModif(null);
+      $vacataireTest2->setMailRelanceRecu(false);
+      $vacataireTest2->setPremierMailRecu(false);
+      $vacataireTest2->setDatePremierMail(null);
+      $vacataireTest2->setDateDerniereRelance(null);
+      $vacataireTest2->setNbRelance(0);
+
+      $manager->persist($vacataireTest2);
+
+      $vacataireTest21 = new Enseignant();
+      $vacataireTest21->setNom('Urruty');
+      $vacataireTest21->setPrenom('Damien');
+      $vacataireTest21->setStatut('Vacataire');
+      $vacataireTest21->setMail('thombouchet@aol.com');
+      $vacataireTest21->setToken($vacataireTest21->genererToken());
+      $vacataireTest21->setEnSommeil(false);
+      $vacataireTest21->setSaisieFaite(false);
+      $vacataireTest21->setDateSaisie(null);
+      $vacataireTest21->setDateDerniereModif(null);
+      $vacataireTest21->setMailRelanceRecu(false);
+      $vacataireTest21->setPremierMailRecu(false);
+      $vacataireTest21->setDatePremierMail(null);
+      $vacataireTest21->setDateDerniereRelance(null);
+      $vacataireTest21->setNbRelance(0);
+
+      $manager->persist($vacataireTest21);
+
+
         // Import d'enseignant depuis un fichier
-        $NumeroLigne = 0;
+      /*  $NumeroLigne = 0;
 
 
 
@@ -87,10 +143,10 @@ class AppFixtures extends Fixture
               $enseignant->setDatePremierMail(null);
               $enseignant->setDateDerniereRelance(null);
               $enseignant->setNbRelance(0);
-              /*for ($i=4; $i < sizeof($donnees) ; $i++) {
+              for ($i=4; $i < sizeof($donnees) ; $i++) {
                 if(isset($donnees[i])){
                   $enseignant->addFormation($donnees[i]);
-                }*/
+                }
 
 
 
@@ -99,7 +155,7 @@ class AppFixtures extends Fixture
               $manager->flush();
         }
         fclose($fichier);
-        }
+      }*/
 
 
         // Création des modèles de mails
@@ -198,7 +254,7 @@ déplacement ACDI, etc.) merci de les préciser :"
         $formulaireTitulaire->setDureePersFaible(60);
         $formulaireTitulaire->setHeureDebutCalendrier(new DateTime('08:00:00'));
         $formulaireTitulaire->setHeureFinCalendrier(new DateTime('18:00:00'));
-        $formulaireTitulaire->setAutoriserTitreVideContraintePerso(false);
+        $formulaireTitulaire->setAutoriserTitreVideContraintePerso(true);
         $formulaireTitulaire->setAnneeUniversitaire("2020-2021");
 
 

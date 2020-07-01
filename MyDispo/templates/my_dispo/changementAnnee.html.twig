@@ -21,22 +21,9 @@
               <div class="card-body">
                 <p class="card-text">
                   <center>
-                    Etes-vous sûr de bien vouloir changer d'année ? </br></br>
-                    Ceci entraînera les actions suivantes :</br>
-                    - Réinitialiser les informations relatives aux mails envoyés à chaque enseignant</br>
-                    et enregistrer le fait qu'aucune saisie n'a été réalisée</br></br>
-
-                    - Supprimer les remarques ponctuelles (on conserve les remarques hebdomadaires)</br></br>
-
-                    - Supprimer les événements créés par l'admin</br></br>
-
-                    - Supprimer tous les logs des enseignants
-                  </br></br>
-                  <a href="{{ path('changement_annee') }}">
-                    <button class="btn-primary">
-                      <i class="far fa-check-circle"></i>
-                      Confirmer</button>
-                  </a>
+                    Vous avez bien changé d'année. Les données ont bien été mises à jour.
+                  </br>
+                    <em>Vous serez automatiquement rediriger dans 3 secondes</em>
                   </center>
                 </p>
               </div>
@@ -49,6 +36,6 @@
     </p>
   </div>
 </div>
-
+<meta http-equiv="refresh" content="3;url={{ path('enseignant_indexadmin') }}">
 
 {% endblock %}

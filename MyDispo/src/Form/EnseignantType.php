@@ -30,6 +30,12 @@ class EnseignantType extends AbstractType
                     ),
                        'label' => 'Statut de l\'enseignant'
                   ))
+                  ->add('saisieFaite', ChoiceType::class, array(
+                      'choices'  => array(
+                          'Non' => false,
+                          'Oui' => true
+                  )
+                ))
                   ->add('enSommeil', ChoiceType::class, array(
                       'choices'  => array(
                            'Actif' => false,

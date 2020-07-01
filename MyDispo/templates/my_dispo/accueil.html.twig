@@ -1,0 +1,41 @@
+{% extends 'baseValidationEnseignant.html.twig' %}
+
+{% block title %}Accueil MyDispo{% endblock %}
+
+{% block body %}
+
+
+		<div class="col-md-12">
+			<div class="card">
+        <h5 class="card-header">
+					<center>
+            MyDispo
+          </center>
+				</h5>
+				<div class="card-body">
+					<p class="card-text">
+  <div class="col-md-12">
+    <p>
+      <center>
+      MyDispo est une application permettant d’organiser le recueil des contraintes et disponibilités des enseignants à l'IUT de Bayonne.
+    </center>
+    </p>
+  </div>
+</div>
+<div class="card-footer">
+  <center>
+  <a href="{{ path('enseignant_indexadmin') }}">
+    <button class="btn-primary">
+      <i class="fas fa-sign-in-alt"></i>
+      Connexion </button>
+    </center>
+  </a>
+</div>
+</div>
+</div>
+
+
+
+
+
+{% endblock %}

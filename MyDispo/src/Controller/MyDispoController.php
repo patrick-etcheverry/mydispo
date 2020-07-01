@@ -28,6 +28,22 @@ class MyDispoController extends AbstractController
 {
 
   /**
+  * @Route("/", name="redirectionAdmin")
+  */
+  public function goToAdmin(){
+    return $this->render('my_dispo/accueil.html.twig');
+  }
+
+
+
+
+
+
+
+
+
+
+  /**
   * @Route("/saisie-contrainte/{token}", name="saisieContrainte")
   */
   public function index(CreneauRepository $creneauRepository, EnseignantRepository $enseignantRepository,  RemarqueRepository $remarqueRepository,
@@ -547,6 +563,13 @@ class MyDispoController extends AbstractController
   }
 
 
+/**
+* @Route("/admin/confirmationChangementAnnee", name="confirmationChangementAnnee")
+*/
+public function confirmationChangementAnnee()
+{
+  return $this->render('my_dispo/confirmationChangementAnnee.html.twig');
+}
 
   /**
   * @Route("/admin/ChangementAnnee", name="changement_annee")
@@ -569,7 +592,7 @@ class MyDispoController extends AbstractController
       $enseignantCourant->setNbRelance(0);
       $entityManager->persist($enseignantCourant);
 
-      /* Supprimer les remarques ponctuelles (on conserver les remarques hebdomadaires)*/
+      /* Supprimer les remarques ponctuelles (on conserve les remarques hebdomadaires)*/
       $tabRemarques = $enseignantCourant->getRemarques();
       foreach ($tabRemarques as $remarque) {
         if($remarque->getType() == "Ponctuelle"){
@@ -593,7 +616,7 @@ class MyDispoController extends AbstractController
     }
     $entityManager->flush();
 
-    return $this->render('my_dispo/confirmationChangementAnnee.html.twig');
+    return $this->render('my_dispo/changementAnnee.html.twig');
   }
 
 }
