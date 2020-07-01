@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     themeSystem: 'bootstrap',
     contentHeight: "auto",
     events: eventsListe,
+    noEventsMessage: "Aucune contrainte ponctuelle saisie pour le mois sélectionné",
     columnHeaderFormat: {
       weekday: 'long'
     },
