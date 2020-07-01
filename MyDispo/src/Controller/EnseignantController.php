@@ -17,6 +17,7 @@ use \Swift_Mailer;
 use \Swift_SmtpTransport;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 /**
  * @Route("/admin/enseignant")
@@ -273,6 +274,7 @@ class EnseignantController extends AbstractController
             $message = (new \Swift_Message($sujet))
                ->setFrom($_ENV['MAIL_SENDER'])
                ->setTo($enseignantCourant->getMail())
+               ->setReplyTo($_ENV['ADMIN_MAIL'])
                ->setBody($contenuFinal);
             $mailer->send($message);
 
@@ -345,10 +347,12 @@ class EnseignantController extends AbstractController
     public function new(Request $request): Response
     {
         $enseignant = new Enseignant();
+        $enseignant->setSaisieFaite(false);
         $form = $this->createForm(EnseignantType::class, $enseignant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
           $formations=$enseignant->getFormations();
           foreach ($formations as $formation) {
             $formation->addEnseignant($enseignant);
@@ -386,6 +390,14 @@ class EnseignantController extends AbstractController
     public function edit(Request $request, Enseignant $enseignant): Response
     {
         $form = $this->createForm(EnseignantType::class, $enseignant);
+        // Modifier la saisie faite que lorsqu'on edit un enseignant
+        $form->add('saisieFaite', ChoiceType::class, array(
+                              'choices'  => array(
+                                  'Non' => false,
+                                  'Oui' => true
+                          ),
+                          'help' => 'Attention : en passant le champ "Saisie faite" à non, les créneaux, remarques et logs déjà en BD ne sont pas effacés.'
+                        ));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

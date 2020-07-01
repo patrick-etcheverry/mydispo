@@ -30,18 +30,16 @@
                   {{ form_row(form.premierMailRecu) }}
                   {{ form_row(form.mailRelanceRecu) }}
                   {{ form_row(form.formations) }}
+
                 </p>
               </div>
               <div class="card-footer">
                 <center>
                   <button class="btn-primary">
                     <i class="fas fa-pencil-alt"></i> {{ button_label|default(' Créer') }}</button>
-
-
-
-
-
                 </center>
+
+                {{ form_end(form) }}
 
               </div>
             </div>

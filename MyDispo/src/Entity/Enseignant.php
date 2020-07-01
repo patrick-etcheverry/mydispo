@@ -132,7 +132,6 @@ class Enseignant
         $this->remarques = new ArrayCollection();
         $this->modelesMails = new ArrayCollection();
         $this->creneaux = new ArrayCollection();
-        $this->saisieFaite = false;
         $this->setToken($this->genererToken());
     }
 

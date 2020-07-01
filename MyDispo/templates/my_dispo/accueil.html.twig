@@ -1,41 +1,47 @@
-{% extends 'baseValidationEnseignant.html.twig' %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block title %}Accueil MyDispo{% endblock %}
+<head>
 
-{% block body %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
+  <title>Stylish Portfolio - Start Bootstrap Template</title>
 
-		<div class="col-md-12">
-			<div class="card">
-        <h5 class="card-header">
-					<center>
-            MyDispo
-          </center>
-				</h5>
-				<div class="card-body">
-					<p class="card-text">
-  <div class="col-md-12">
-    <p>
-      <center>
-      MyDispo est une application permettant d’organiser le recueil des contraintes et disponibilités des enseignants à l'IUT de Bayonne.
-    </center>
-    </p>
-  </div>
-</div>
-<div class="card-footer">
-  <center>
-  <a href="{{ path('enseignant_indexadmin') }}">
-    <button class="btn-primary">
-      <i class="fas fa-sign-in-alt"></i>
-      Connexion </button>
-    </center>
-  </a>
-</div>
-</div>
-</div>
+  <!-- Bootstrap Core CSS -->
+  <link href="{{ asset('css/styles.css') }}" rel="stylesheet"/>  <!-- Style infobulles -->
+  <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.css')}}" crossorigin="anonymous">  <!-- Style Bootstrap en local -->
+
+  <!-- Custom Fonts -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+  <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="css/stylish-portfolio.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
 
 
+  <!-- Header -->
+  <header class="masthead d-flex">
+    <div class="container text-center my-auto">
+      <h1 class="mb-1">MyDispo</h1>
+      <h3 class="mb-5">
+        <em>Saisie de contraintes d'emploi du temps</em>
+      </h3>
+      <a class="btn btn-primary btn-xl js-scroll-trigger" href="{{ path('enseignant_indexadmin') }}">Se connecter</a>
+    </div>
+    <div class="overlay"></div>
+  </header>
 
 
 
-{% endblock %}
+
+</body>
+
+</html>

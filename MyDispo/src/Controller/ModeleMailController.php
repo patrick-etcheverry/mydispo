@@ -272,6 +272,7 @@ if($form->get('nomCourt')->getData() == null){
           $message = (new \Swift_Message($modeleMail->getSujet()))
              ->setFrom($_ENV['MAIL_SENDER'])
              ->setTo($enseignant->getMail())
+             ->setReplyTo($_ENV['ADMIN_MAIL'])
              ->setBody($contenuFinal);
           $mailer->send($message);
 
@@ -339,6 +340,7 @@ if($form->get('nomCourt')->getData() == null){
           $message = (new \Swift_Message($sujetMail))
              ->setFrom($_ENV['MAIL_SENDER'])
              ->setTo($enseignant->getMail())
+             ->setReplyTo($_ENV['ADMIN_MAIL'])
              ->setBody($contenu);
           $mailer->send($message);
 

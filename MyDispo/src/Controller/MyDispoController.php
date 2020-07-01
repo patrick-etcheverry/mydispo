@@ -467,7 +467,7 @@ class MyDispoController extends AbstractController
           $mailer = new \Swift_Mailer($transport);
           $message = (new \Swift_Message($sujetMail))
              ->setFrom($_ENV['MAIL_SENDER'])
-             ->setTo($_ENV['MAIL_SENDER'])
+             ->setTo($_ENV['ADMIN_MAIL'])
              ->setBody($contenu);
           $mailer->send($message);
 
