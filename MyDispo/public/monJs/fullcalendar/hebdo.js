@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
         closeNav();
         document.getElementById('apply').innerHTML = "<i class='far fa-save'></i> Créer";
         document.getElementById('remove').innerHTML = "<i class='fas fa-trash-alt'></i> Annuler";
+        document.getElementById('titrevt').value = "";
 
         if(estFormulaireTitulaire){
           hebdo.setOption('defaultTimedEventDuration',tempsParDefaut()); //On change le temps par défaut en fonction du bouton radio sélectionné grâce à la fonction tempsParDefaut()
@@ -367,12 +368,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     end: arg.end,
                     classNames: ['plusBord'],
                   });
+                  closeNav();
                   hebdo.unselect();
 
                 }
                 else{
-                  closeNav();
-                  hebdo.unselect();
                   alert("Erreur : Un titre valide doit être saisi");
                 }
               };
@@ -432,6 +432,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
           },
           eventClick: function(info) {
+            document.getElementById('texteExplicatif').style.display = "none";
             document.getElementById('apply').innerHTML = "<i class='far fa-save'></i> Appliquer modifications";
             document.getElementById('remove').innerHTML = "<i class='fas fa-trash-alt'></i> Supprimer le créneau";
 

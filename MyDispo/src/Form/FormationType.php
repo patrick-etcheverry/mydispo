@@ -3,9 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Formation;
+use App\Entity\Enseignant;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class FormationType extends AbstractType
 {
@@ -14,7 +16,11 @@ class FormationType extends AbstractType
         $builder
             ->add('nomCourt')
             ->add('nomLong')
-
+            ->add('enseignants', EntityType::class, array(
+              'class' => Enseignant::class,
+              'multiple' => true,
+              'expanded' => true,
+              ))
         ;
     }
 

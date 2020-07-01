@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
       closeNav();
       document.getElementById('apply').innerHTML = "<i class='far fa-save'></i> Créer";
       document.getElementById('remove').innerHTML = "<i class='fas fa-trash-alt'></i> Annuler";
+      document.getElementById('titrevt').value = "";
 
 
                   //Paramétrage du menu à afficher
@@ -39,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   document.getElementById('prio').style.display="none";
                   document.getElementById('dateDebut').style.display="none";
                   document.getElementById('dateFin').style.display="none";
-                  document.getElementById('texteExplicatif').style.display = "none";
+                  document.getElementById('texteExplicatif').style.display = "block";
                   document.getElementById('apply').style.display="block";
                   document.getElementById('remove').style.display="block";
 
@@ -95,11 +96,15 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('apply').innerHTML = "<i class='far fa-save'></i> Appliquer les modifications";
       document.getElementById('remove').innerHTML = "<i class='fas fa-trash-alt'></i> Supprimer le créneau";
 
+
       if(info.event.rendering != "background"){
       mensuel.getEvents().forEach(event => {
         event.setProp("borderColor", "white");
       });
-      document.getElementById('texteExplicatif').innerHTML="Merci de préciser dans le descriptif les horaires pour lesquels vous n'êtes pas disponible.";
+
+      document.getElementById('texteExplicatif').style.display="block";
+
+
       document.getElementById('type').style.display="none";
       document.getElementById('prio').style.display="none";
       document.getElementById('titrevt').style.display="block";
