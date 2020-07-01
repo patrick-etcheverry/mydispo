@@ -19,11 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
       weekday: 'long'
     },
     locale: 'fr',
-    header: {
-      left: '',
-      center: '',
-      right: ''
-    },
+
 
     eventRender: function(info) {
       if (info.event.extendedProps.type == "ContraintePro") {

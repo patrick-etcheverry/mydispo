@@ -12,29 +12,61 @@
 {% endblock %}
 
 {% block contenu %}
+<h2>Vos contraites hebdomadaires : </h2>
+{% if events == "[]" %}
+  Vous n'avez saisi aucune contrainte hebdomadaire
+{% else %}
 <div id="hebdo">
 </div>
+{% endif %}
 <br/>
 <p>
-Remarques : {{remarqueH}}
+{% if remarqueH != "" %}
+Vos remarques pour les contraintes hebdomadaires: {{remarqueH}}
+{% else %}
+Vous n'avez saisi aucune remarque pour vos contraintes hebdomadaires
+{% endif %}
+
 </p>
 <br/>
+<p>
 
+{% if regrouperEnseignements == "Indifferent" %}
+Vous avez indiqué être indifférent au regroupement de vos enseignements
+{% elseif regrouperEnseignements == "Regroupes" %}
+Vous préférez que vos enseignements soient regroupés
+{% elseif regrouperEnseignements == "Non regroupes" %}
+Vous préférez que vos enseignements ne soient pas groupés
+{% endif %}
+</p>
+
+<br/>
+<h2>Vos contraites ponctuelles : </h2>
+{% if eventsListe == "[]" %}
+<center>
+  Vous n'avez saisi aucune contrainte ponctuelle
+</center>
+{% else %}
 <div id="liste">
 </div>
+{% endif %}
 <br/>
+
 <p>
-Remarques : {{remarqueP}}
+{% if remarqueP != "" %}
+Vos remarques pour les contraintes ponctuelles :
+{{remarqueP}}
+{% else %}
+Vous n'avez saisi aucune remarque pour vos contraintes ponctuelles
+{% endif %}
 </p>
-<br/>
-Enseignements : {{regrouperEnseignements}}
 <br/>
 
 <center>
   <button class="btn-primary" id="retour-saisie"><i class="fas fa-arrow-circle-left"></i> Retour à la saisie</button>
   <a href="{{ path('mailResume', { 'id': enseignant.id }) }}">
     <button class="btn-primary">
-      <i class="far fa-envelope"></i> M'envoyer une copie par mail</button>
+      <i class="far fa-envelope"></i>M'envoyer une copie par mail</button>
   </a>
 </center>
 

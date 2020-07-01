@@ -250,10 +250,7 @@ function envoyerLogPonctu(deltaRemarquePonctu, deltaCreneauxPonctu,enseignant) {
       idEnseignant: enseignant,
 
     },
-    type: "POST",
-    success: function(){
-        window.location.href = lien;
-      }
+    type: "POST"
   });
 }
 
@@ -436,6 +433,6 @@ function limiteDepassee(){
   return res;
 }
 
-
+$(document).ajaxStop(function() {window.location.href = lien;});
 </script>
 {% endblock %}

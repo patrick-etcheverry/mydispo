@@ -216,10 +216,7 @@ function envoyerLogPonctu(deltaRemarquePonctu, deltaCreneauxPonctu,enseignant) {
       idEnseignant: enseignant,
 
     },
-    type: "POST",
-    success: function(){
-        window.location.href = lien;
-      }
+    type: "POST"
   });
 }
 
@@ -335,6 +332,8 @@ if(remarqueActivePonctu != true){
   document.getElementById("remarquesPonctu").style.display = "none";
   document.getElementById("texteRemarquesPonctu").style.display = "none";
 }
+
+$(document).ajaxStop(function() {window.location.href = lien;});
 
 </script>
 {% endblock %}
