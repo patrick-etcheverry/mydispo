@@ -292,20 +292,20 @@ class MyDispoController extends AbstractController
 
 
 
-    //On recupère tous les événements nécessaires à l'affichage d'un calendrier hebdo pour un enseignant (Zones grisées, Contraintes perso, Contraintes pro, Disponibilités)
-    $zonesGrisees = array();
-    $events = $creneauRepository->selectStartEndTitleByType("zoneGrisee");
-    foreach ($events as $event){
-      $object = new StdClass;
-      $object->title=$event["title"];
-      $object->rendering="background";
-      $object->overlap=false;
-      $object->backgroundColor="#000000";
-      $object->daysOfWeek=date('w',$event["start"]->getTimestamp());
-      $object->startTime=$event["start"]->format("H:i:s");
-      $object->endTime=$event["end"]->format("H:i:s");
-      $zoneGrisees[] = $object;
-    }
+    // //On recupère tous les événements nécessaires à l'affichage d'un calendrier hebdo pour un enseignant (Zones grisées, Contraintes perso, Contraintes pro, Disponibilités)
+    // $zonesGrisees = array();
+    // $events = $creneauRepository->selectStartEndTitleByType("zoneGrisee");
+    // foreach ($events as $event){
+    //   $object = new StdClass;
+    //   $object->title=$event["title"];
+    //   $object->rendering="background";
+    //   $object->overlap=false;
+    //   $object->backgroundColor="#000000";
+    //   $object->daysOfWeek=date('w',$event["start"]->getTimestamp());
+    //   $object->startTime=$event["start"]->format("H:i:s");
+    //   $object->endTime=$event["end"]->format("H:i:s");
+    //   $zoneGrisees[] = $object;
+    // }
 
     $creneauxEnseignant = array();
     $events = $enseignant->getCreneaux();
@@ -374,14 +374,14 @@ class MyDispoController extends AbstractController
       $creneauxEnseignant[] = $object;
     }
 
-    foreach ($zonesGrisees as $creneauGrise) {
-      array_push($creneauxEnseignant,$creneauGrise);
-    }
+    // foreach ($zonesGrisees as $creneauGrise) {
+    //   array_push($creneauxEnseignant,$creneauGrise);
+    // }
     $result=json_encode($creneauxEnseignant);
 
     $eventsListe = array();
     $events = $creneauRepository->findByTypeEtEnseignant("ContrainteProPonctu",$enseignant->getId());
-    foreach ($events as $event){
+    foreach($events as $event){
       $object = new StdClass;
       $object->title=$event->getTitre();
       $object->start=$event->getDateDebut()->format("Y-m-d");
@@ -470,8 +470,6 @@ class MyDispoController extends AbstractController
              ->setTo($_ENV['MAIL_SENDER'])
              ->setBody($contenu);
           $mailer->send($message);
-
-
 
 
 

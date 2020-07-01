@@ -28,12 +28,41 @@ document.addEventListener('DOMContentLoaded', function() {
     select: function(arg) {
 
       closeNav();
-      var title = prompt('Titre du créneau:');
-      if (title) { // si un titre d'événement a été saisi
-        mensuel.addEvent({title: title, start: arg.start, end: arg.end, allDay: true, classNames: ['plusBord']})
-      }
+      document.getElementById('apply').innerHTML = "<i class='far fa-save'></i> Créer";
+      document.getElementById('remove').innerHTML = "<i class='fas fa-trash-alt'></i> Annuler";
+      document.getElementById('titrevt').value = "";
 
-      mensuel.unselect();
+
+                  //Paramétrage du menu à afficher
+                  document.getElementById('nomcreneau').style.display="none";
+                  document.getElementById('titrevt').style.display="block";
+                  document.getElementById('type').style.display="none";
+                  document.getElementById('prio').style.display="none";
+                  document.getElementById('dateDebut').style.display="none";
+                  document.getElementById('dateFin').style.display="none";
+                  document.getElementById('texteExplicatif').style.display = "block";
+                  document.getElementById('apply').style.display="block";
+                  document.getElementById('remove').style.display="block";
+
+                  openNav();
+
+                    document.getElementById('apply').onclick = function(){
+                      if(document.getElementById('titrevt').value != "" &&  /\w/.test(document.getElementById('titrevt').value)){
+                        var title = document.getElementById('titrevt').value;
+                          mensuel.addEvent({title: title, start: arg.start, end: arg.end, allDay: true, classNames: ['plusBord']});
+                          closeNav();
+                          mensuel.unselect();
+                        }
+                        else{
+                          alert(" Erreur : Un titre valide doit être saisi");
+                            document.getElementById('titrevt').value = "";
+                        }};
+
+                        document.getElementById('remove').onclick = function(){
+                          closeNav();
+                          mensuel.unselect();
+                        };
+
       mensuel.getEvents().forEach(event => {
         event.setProp("borderColor", "white");
       });
@@ -63,16 +92,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     },
     eventClick: function(info) {
+
+      document.getElementById('apply').innerHTML = "<i class='far fa-save'></i> Appliquer les modifications";
+      document.getElementById('remove').innerHTML = "<i class='fas fa-trash-alt'></i> Supprimer le créneau";
+
+
       if(info.event.rendering != "background"){
       mensuel.getEvents().forEach(event => {
         event.setProp("borderColor", "white");
       });
-      document.getElementById('texteExplicatif').innerHTML="Merci de préciser dans le descriptif les horaires pour lesquels vous n'êtes pas disponible.";
+
       document.getElementById('texteExplicatif').style.display="block";
 
-      if(saisieEnseignant == false){
-      document.getElementById('texteExplicatif').style.display="none";
-    }
+
       document.getElementById('type').style.display="none";
       document.getElementById('prio').style.display="none";
       document.getElementById('titrevt').style.display="block";
