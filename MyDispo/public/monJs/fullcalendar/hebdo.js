@@ -711,7 +711,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             //CALENDRIER HEBDO PAGE ADMIN
             if(saisieEnseignant == false){
-              supprimerDesCreneaux("zoneGrisee");
+
               var tableauCreneaux = [];
               creneaux = hebdo.getEvents();
               creneaux.forEach(function(creneau){
@@ -723,7 +723,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 aAjouterAuTableau.prio = "sansPrio";
                 tableauCreneaux.push(aAjouterAuTableau);
               });
-              enregistrerDesCreneaux(tableauCreneaux);
+              supprimerDesCreneaux("zoneGrisee",tableauCreneaux);//déclenche la fonction enregistrerDesCreneaux(tableauCreneaux) quand elle est terminée.
             }
 
             //CALENDRIER HEBDO DANS FORMULAIRE QUELCONQUE

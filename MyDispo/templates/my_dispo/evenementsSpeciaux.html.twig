@@ -100,7 +100,7 @@ function enregistrerDesCreneaux(tab) {
   });
 }
 
-function supprimerDesCreneaux(typeCreneau,enseignant="") {
+function supprimerDesCreneaux(typeCreneau,tableauCreneaux,enseignant="") {
 
   $.ajax({
     url: "{{path("suppr_creneaux")}}",
@@ -108,7 +108,8 @@ function supprimerDesCreneaux(typeCreneau,enseignant="") {
       typeCreneau: typeCreneau,
       idEnseignant: enseignant,
     },
-    type: "POST"
+    type: "POST",
+    success: function() {enregistrerDesCreneaux(tableauCreneaux);}
   });
 }
 

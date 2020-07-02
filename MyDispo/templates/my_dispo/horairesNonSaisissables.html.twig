@@ -102,7 +102,7 @@
   }
 
 
-  function supprimerDesCreneaux(type, enseignant="") {
+  function supprimerDesCreneaux(type, tableauCreneaux, enseignant="") {
 
     $.ajax({
       url: "{{path("suppr_creneaux")}}",
@@ -110,7 +110,9 @@
         typeCreneau: type,
         idEnseignant: enseignant,
       },
-      type: "POST"
+      type: "POST",
+      success: function() {enregistrerDesCreneaux(tableauCreneaux);}
+
     });
   }
 

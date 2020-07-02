@@ -246,7 +246,7 @@ if (saisieEnseignant) {
 
 
 if(saisieEnseignant == false){
-  supprimerDesCreneaux("Evenement","");
+
 
   var tableauCreneaux = [];
   creneaux = mensuel.getEvents();
@@ -259,11 +259,9 @@ if(saisieEnseignant == false){
     aAjouterAuTableau.prio = "sansPrio";
     tableauCreneaux.push(aAjouterAuTableau);
   });
-  enregistrerDesCreneaux(tableauCreneaux);
+    supprimerDesCreneaux("Evenement",tableauCreneaux, "");
 }
 }
-
-
 
 mensuel.render();
 
