@@ -229,8 +229,8 @@ class MyDispoController extends AbstractController
       else{$remarquePonctu=$remarques[1]->getContenu();}
     }
     else{
-      $remarqueHebdo = "";
-      $remarquePonctu = "";
+      $remarqueHebdo = " ";
+      $remarquePonctu = " ";
     }
 
 

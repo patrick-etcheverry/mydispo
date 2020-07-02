@@ -332,18 +332,30 @@ var remarquePonctu = "{{remarqueP}}";
 var remarqueHebdo = "{{remarqueH}}";
 var estFormulaireTitulaire = false;
 var creneauxEnseignantSansGrisee = {{eventsSansGrisee|raw}};
-var remarqueActiveHebdo = "{{ formulaireVacataire.remarquesHebdoActives }}";
-var remarqueActivePonctu = "{{ formulaireVacataire.remarquesPonctuelActives }}";
+
+{% if formulaireVacataire.remarquesHebdoActives %}
+var remarqueActiveHebdo = true;
+{% else %}
+var remarqueActiveHebdo = false;
+{% endif %}
+
+{% if formulaireVacataire.remarquesPonctuelActives %}
+var remarqueActivePonctu = true;
+{% else %}
+var remarqueActivePonctu = false;
+{% endif %}
 
 
-if(remarqueActiveHebdo != true){
+if(remarqueActiveHebdo == false){
   document.getElementById("remarquesHebdo").style.display = "none";
   document.getElementById("texteRemarquesHebdo").style.display = "none";
+  document.getElementById("remarquesHebdo").value = null;
 }
 
-if(remarqueActivePonctu != true){
+if(remarqueActivePonctu == false){
   document.getElementById("remarquesPonctu").style.display = "none";
   document.getElementById("texteRemarquesPonctu").style.display = "none";
+  document.getElementById("remarquesPonctu").value = null;
 }
 
 $(document).ajaxStop(function() {window.location.href = lien;});

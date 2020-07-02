@@ -154,7 +154,12 @@ Date.prototype.addMinutes = function(m) {
   return this;
 }
 
-var titrevide = "{{formulaireTitulaire.autoriserTitreVideContraintePerso}}";
+{% if formulaireTitulaire.autoriserTitreVideContraintePerso %}
+var titrevide = false;
+{% else %}
+var titrevide = true;
+{% endif %}
+
 var saisieEnseignant= true; //Active le code permettant d'enregistrer et de supprimer les créneaux pour un enseignant donné
 var echelle = "{{formulaireTitulaire.echelleCalendrier}}".minsToHHMMSS();
 var heureDebut = "{{ formulaireTitulaire.heureDebutCalendrier|date("H:i:s")}}";
@@ -165,6 +170,7 @@ var eventsMensuel = {{eventsMensuel|raw}};
 var lien = "{{lien}}";
 var remarquePonctu = "{{remarqueP}}";
 var remarqueHebdo = "{{remarqueH}}";
+
 var creneauxEnseignantSansGrisee = {{eventsSansGrisee|raw}};
 var estFormulaireTitulaire = true;
 
@@ -393,18 +399,29 @@ var limitePersForte = {{formulaireTitulaire.quantitePersForte}};
 var limitePersMoy = {{formulaireTitulaire.quantitePersMoy}};
 var limitePersFaible = {{formulaireTitulaire.quantitePersFaible}};
 
-var remarqueActiveHebdo = "{{ formulaireTitulaire.remarquesHebdoActives }}";
-var remarqueActivePonctu = "{{ formulaireTitulaire.remarquesPonctuelActives }}";
+{% if formulaireTitulaire.remarquesHebdoActives %}
+var remarqueActiveHebdo = true;
+{% else %}
+var remarqueActiveHebdo = false;
+{% endif %}
+
+{% if formulaireTitulaire.remarquesPonctuelActives %}
+var remarqueActivePonctu = true;
+{% else %}
+var remarqueActivePonctu = false;
+{% endif %}
 
 
-if(remarqueActiveHebdo != true){
+if(remarqueActiveHebdo == false){
   document.getElementById("remarquesHebdo").style.display = "none";
   document.getElementById("texteRemarquesHebdo").style.display = "none";
+  document.getElementById("remarquesHebdo").value = null;
 }
 
-if(remarqueActivePonctu != true){
+if(remarqueActivePonctu == false){
   document.getElementById("remarquesPonctu").style.display = "none";
   document.getElementById("texteRemarquesPonctu").style.display = "none";
+  document.getElementById("remarquesPonctu").value = null;
 }
 
 
