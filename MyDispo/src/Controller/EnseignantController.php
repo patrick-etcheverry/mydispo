@@ -274,7 +274,7 @@ class EnseignantController extends AbstractController
             $message = (new \Swift_Message($sujet))
                ->setFrom($_ENV['MAIL_SENDER'])
                ->setTo($enseignantCourant->getMail())
-               ->setReplyTo($_ENV['ADMIN_MAIL'])
+               ->setReplyTo($_ENV['MAIL_SENDER'])
                ->setBody($contenuFinal);
             $mailer->send($message);
 
