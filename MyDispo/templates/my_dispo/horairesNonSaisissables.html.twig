@@ -102,16 +102,16 @@
   }
 
 
-  function supprimerDesCreneaux(type, tableauCreneaux, enseignant="") {
+  function supprimerEtEnregistrerDesCreneauxGrises(tabCreneaux, enseignant="") {
 
     $.ajax({
       url: "{{path("suppr_creneaux")}}",
       data: {
-        typeCreneau: type,
+        typeCreneau: "zoneGrisee",
         idEnseignant: enseignant,
       },
       type: "POST",
-      success: function() {enregistrerDesCreneaux(tableauCreneaux);}
+      success: function() {enregistrerDesCreneaux(tabCreneaux);}
 
     });
   }

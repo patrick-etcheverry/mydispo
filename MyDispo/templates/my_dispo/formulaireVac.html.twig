@@ -151,9 +151,33 @@ function enregistrerDesCreneaux(tab) {
       tab: tab
     },
     type: "POST"
-
   });
 }
+
+function supprimerEtEnregistrerDesCreneauxVacataire(tabCreneaux, enseignant="") {
+  $.ajax({
+    url: "{{path("suppr_creneaux")}}",
+    data: {
+      typeCreneau: "Disponibilite",
+      idEnseignant: enseignant,
+    },
+    type: "POST",
+    success: function(){enregistrerDesCreneaux(tabCreneaux);}
+  });
+}
+
+function supprimerEtEnregistrerDesCreneauxPonctuels(tabCreneaux, enseignant="") {
+  $.ajax({
+    url: "{{path("suppr_creneaux")}}",
+    data: {
+      typeCreneau: "ContrainteProPonctu",
+      idEnseignant: enseignant,
+    },
+    type: "POST",
+    success: function(){enregistrerDesCreneaux(tabCreneaux);}
+  });
+}
+
 
 function enregistrerDesRemarques(contenuRemarque1 , typeRemarque1 , contenuRemarque2, typeRemarque2, enseignant) {
   $.ajax({
@@ -169,29 +193,17 @@ function enregistrerDesRemarques(contenuRemarque1 , typeRemarque1 , contenuRemar
   });
 }
 
-
-
-function supprimerDesRemarques(enseignant) {
+function supprimerEtEnregistrerDesRemarques(contenuRemarque1 , typeRemarque1 , contenuRemarque2, typeRemarque2, enseignant) {
   $.ajax({
     url: "{{path("suppr_remarque")}}",
     data: {
       idEnseignant: enseignant,
     },
-    type: "POST"
-  });
-
-}
-
-function supprimerDesCreneaux(type, enseignant="") {
-  $.ajax({
-    url: "{{path("suppr_creneaux")}}",
-    data: {
-      typeCreneau: type,
-      idEnseignant: enseignant,
-    },
-    type: "POST"
+    type: "POST",
+    success: function(){enregistrerDesRemarques(contenuRemarque1 , typeRemarque1 , contenuRemarque2, typeRemarque2, enseignant);}
   });
 }
+
 
 
 function envoyerLogHebdo(deltaRemarqueHebdo, deltaCreneauxHebdo,enseignant) {

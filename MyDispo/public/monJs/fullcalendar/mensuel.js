@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     events: eventsMensuel,
     contentHeight: 'auto',
     locale: 'fr',
+    timeZone: 'local',
     selectOverlap: false,
     select: function(arg) {
 
@@ -74,21 +75,6 @@ document.addEventListener('DOMContentLoaded', function() {
         info.el.style.fontSize = "12px";
       }
 
-      var dateDeb = mensuel.formatDate(info.event.start, {
-        weekday: 'long',
-        day: 'numeric',
-        year: 'numeric',
-        month: 'long',
-        locale: 'fr'
-      });
-      var dateFin = mensuel.formatDate(info.event.end, {
-        weekday: 'long',
-        day: 'numeric',
-        year: 'numeric',
-        month: 'long',
-        locale: 'fr'
-      });
-      var contenu = "Titre : " + info.event.title + "</br>Début : " + dateDeb + "</br>Fin : " + dateFin;
 
     },
     eventClick: function(info) {
@@ -225,12 +211,12 @@ envoyerLogPonctu(deltaRemarquePonctu, deltaCreneauxPonctu, enseignant);
 // Effacer les données de l’enseignant en BD et envoyer les données du formulaire de l’enseignant en BD
 
 if (saisieEnseignant) {
-  supprimerDesCreneaux("ContrainteProPonctu", enseignant);
+
 
   var tableauCreneaux = [];
   creneaux = mensuel.getEvents();
   creneaux.forEach(function(creneau){
-    if(creneau.extendedProps.type != 'Evenement'){
+    if(creneau.extendedProps.type != "Evenement"){
       var aAjouterAuTableau = Object.create(creneauObjet);
       aAjouterAuTableau.start = creneau.start.toISOString();
       aAjouterAuTableau.end = creneau.end.toISOString();
@@ -241,7 +227,7 @@ if (saisieEnseignant) {
       tableauCreneaux.push(aAjouterAuTableau);
     }
   });
-  enregistrerDesCreneaux(tableauCreneaux);
+  supprimerEtEnregistrerDesCreneauxPonctuels(tableauCreneaux,enseignant);
 }
 
 
@@ -259,7 +245,7 @@ if(saisieEnseignant == false){
     aAjouterAuTableau.prio = "sansPrio";
     tableauCreneaux.push(aAjouterAuTableau);
   });
-    supprimerDesCreneaux("Evenement",tableauCreneaux, "");
+    supprimerEtEnregistrerDesCreneauxEvenement(tableauCreneaux);
 }
 }
 

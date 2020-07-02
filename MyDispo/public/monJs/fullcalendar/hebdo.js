@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function() {
       plugins: [
         'timeGrid', 'interaction', 'bootstrap'
       ],
-      now: "2013-12-01T00:00:00", //Valeur utilisée pour masquer l'indicateur du jour (pour ne pas confondre avec les zones non saisissables)
       defaultView: 'timeGridWeek',
       defaultTimedEventDuration: '01:00', // Durée par défaut d'un créneau créé
       forceEventDuration: true,
@@ -37,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
       selectable: true,
       selectOverlap: false,
       events: events,
+      timeZone: 'local',
       eventConstraint:
       {
         startTime: heureDebut,
@@ -685,30 +685,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //CALENDRIER HEBDO DANS FORMULAIRE VACATAIRE
-            if(saisieEnseignant && estFormulaireTitulaire == false){
-              supprimerDesCreneaux("Disponibilite", enseignant);
-            }
-
-            //CALENDRIER HEBDO DANS FORMULAIRE TITULAIRE
-            if (saisieEnseignant && estFormulaireTitulaire) {
-              supprimerDesCreneaux("ContraintePro", enseignant);
-              supprimerDesCreneaux("ContraintePerso", enseignant);
-            }
-
             //CALENDRIER HEBDO PAGE ADMIN
             if(saisieEnseignant == false){
 
@@ -723,13 +699,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 aAjouterAuTableau.prio = "sansPrio";
                 tableauCreneaux.push(aAjouterAuTableau);
               });
-              supprimerDesCreneaux("zoneGrisee",tableauCreneaux);//déclenche la fonction enregistrerDesCreneaux(tableauCreneaux) quand elle est terminée.
+              supprimerEtEnregistrerDesCreneauxGrises(tableauCreneaux);//déclenche la fonction enregistrerDesCreneaux(tableauCreneaux) quand elle est terminée.
             }
 
             //CALENDRIER HEBDO DANS FORMULAIRE QUELCONQUE
             else{
-              supprimerDesRemarques(enseignant);
-              enregistrerDesRemarques(document.getElementById('remarquesHebdo').value,"Hebdomadaire",document.getElementById('remarquesPonctu').value,"Ponctuelle",enseignant);
+              supprimerEtEnregistrerDesRemarques(document.getElementById('remarquesHebdo').value,"Hebdomadaire",document.getElementById('remarquesPonctu').value,"Ponctuelle",enseignant);//déclenche aussi l'enregistrement des remarques
 
               var tableauCreneaux = [];
               creneaux = hebdo.getEvents();
@@ -745,7 +720,16 @@ document.addEventListener('DOMContentLoaded', function() {
                   tableauCreneaux.push(aAjouterAuTableau);
                 }
               });
-              enregistrerDesCreneaux(tableauCreneaux);
+                //CALENDRIER HEBDO DANS FORMULAIRE VACATAIRE
+              if(saisieEnseignant && estFormulaireTitulaire == false){
+                supprimerEtEnregistrerDesCreneauxVacataire(tableauCreneaux, enseignant);
+              }
+
+              //CALENDRIER HEBDO DANS FORMULAIRE TITULAIRE
+              if (saisieEnseignant && estFormulaireTitulaire) {
+                supprimerEtEnregistrerDesCreneauxTitulaire(tableauCreneaux ,enseignant);
+              }
+
               document.getElementById('submit2').click();
               document.getElementById('submit3').click();
               changerRegroupementEnseignements(document.getElementById('regroupement').value,enseignant);

@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     defaultView: 'listMonth',
     themeSystem: 'bootstrap',
     contentHeight: "auto",
+    timeZone: 'local',
     events: eventsListe,
     noEventsMessage: "Aucune contrainte ponctuelle saisie pour le mois sélectionné",
     columnHeaderFormat: {

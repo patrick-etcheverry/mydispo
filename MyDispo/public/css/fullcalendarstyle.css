@@ -115,3 +115,8 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+.fc-today
+{
+  background-color:inherit !important;
+}

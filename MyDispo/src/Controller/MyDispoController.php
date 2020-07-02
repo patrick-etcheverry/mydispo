@@ -85,27 +85,35 @@ class MyDispoController extends AbstractController
       $object->backgroundColor="#000000";
       $object->start=$event["start"]->format("Y-m-d");
       $object->end=$event["end"]->format("Y-m-d");
-      $object->allDay=true;
       $object->type="Evenement";
       $object->prio="sansPrio";
       $creneauxEvenement[] = $object;
     }
+
     //CRENEAUX QUI SONT DES CONTRAINTES PROFESSIONNELLES PONCTUELLES (Saisis par l'enseignant désigné par le token dans l'url)
     $eventsEnseignantPonctu = array();
-    $events = $creneauRepository->findByTypeEtEnseignant("ContrainteProPonctu",$enseignant->getId());
+    $events = $creneauRepository->selectStartEndTitleByTypeEtEnseignant("ContrainteProPonctu",$enseignant->getId());
     foreach ($events as $event){
       $object = new StdClass;
-      $object->title=$event->getTitre();
-      $object->start=$event->getDateDebut()->format("Y-m-d");
-      $object->end=$event->getDateFin()->format("Y-m-d");
-      $object->allDay=true;
+      $object->title=$event["title"];
+      $object->start=$event["start"]->format("Y-m-d");
+      $object->end=$event["end"]->format("Y-m-d");
       $object->type="ContrainteProPonctu";
       $object->prio="sansPrio";
       $eventsEnseignantPonctu[] = $object;
     }
 
-    foreach ($creneauxEvenement as $creneauxEvenementCourant) {
-      array_push($eventsEnseignantPonctu,$creneauxEvenementCourant);
+    $creneauxEnseignantSansGrisee = array();
+    foreach ($eventsEnseignantPonctu as $eventEnseignantPonctu) {
+     array_push($creneauxEnseignantSansGrisee,$eventEnseignantPonctu);
+    }
+
+
+
+
+
+    foreach ($creneauxEvenement as $creneauEvenementCourant) {
+      array_push($eventsEnseignantPonctu,$creneauEvenementCourant);
     }
     $resultPonctu=json_encode($eventsEnseignantPonctu);
 
@@ -134,6 +142,7 @@ class MyDispoController extends AbstractController
     $events = $enseignant->getCreneaux();
 
     foreach ($events as $event){
+      if($event->getType() != "ContrainteProPonctu"){
       $object = new StdClass;
       $object->title=$event->getTitre();
       $object->daysOfWeek=date('w',$event->getDateDebut()->getTimestamp());
@@ -196,11 +205,17 @@ class MyDispoController extends AbstractController
       }
       $creneauxEnseignant[] = $object;
     }
+  }
+
+    foreach ($creneauxEnseignant as $creneauEnseignantCourant) {
+     array_push($creneauxEnseignantSansGrisee,$creneauEnseignantCourant);
+    }
+
     foreach ($creneauxGrisee as $creneauxGriseeCourant) {
       array_push($creneauxEnseignant,$creneauxGriseeCourant);
     }
     $result=json_encode($creneauxEnseignant);
-
+  $result2=json_encode($creneauxEnseignantSansGrisee);
 
     //RECUPERATION REMARQUES
     $remarques = $enseignant->getRemarques();
@@ -218,12 +233,7 @@ class MyDispoController extends AbstractController
       $remarquePonctu = "";
     }
 
-     $creneauxEnseignantSansGrisee = array();
-     foreach ($creneauxEnseignant as $creneauxEnseignantCourant) {
-      array_push($creneauxEnseignantSansGrisee,$creneauxEnseignantCourant);
-     }
 
-     $result2=json_encode($creneauxEnseignantSansGrisee);
 
 
 
@@ -292,24 +302,13 @@ class MyDispoController extends AbstractController
 
 
 
-    // //On recupère tous les événements nécessaires à l'affichage d'un calendrier hebdo pour un enseignant (Zones grisées, Contraintes perso, Contraintes pro, Disponibilités)
-    // $zonesGrisees = array();
-    // $events = $creneauRepository->selectStartEndTitleByType("zoneGrisee");
-    // foreach ($events as $event){
-    //   $object = new StdClass;
-    //   $object->title=$event["title"];
-    //   $object->rendering="background";
-    //   $object->overlap=false;
-    //   $object->backgroundColor="#000000";
-    //   $object->daysOfWeek=date('w',$event["start"]->getTimestamp());
-    //   $object->startTime=$event["start"]->format("H:i:s");
-    //   $object->endTime=$event["end"]->format("H:i:s");
-    //   $zoneGrisees[] = $object;
-    // }
+    // //On recupère tous les événements nécessaires à l'affichage d'un calendrier hebdo pour un enseignant (Contraintes perso, Contraintes pro, Disponibilités)
+
 
     $creneauxEnseignant = array();
     $events = $enseignant->getCreneaux();
     foreach ($events as $event){
+      if($event->getType() != "ContrainteProPonctu"){
       $object = new StdClass;
       $object->title=$event->getTitre();
       $object->daysOfWeek=date('w',$event->getDateDebut()->getTimestamp());
@@ -373,10 +372,8 @@ class MyDispoController extends AbstractController
       }
       $creneauxEnseignant[] = $object;
     }
+  }
 
-    // foreach ($zonesGrisees as $creneauGrise) {
-    //   array_push($creneauxEnseignant,$creneauGrise);
-    // }
     $result=json_encode($creneauxEnseignant);
 
     $eventsListe = array();

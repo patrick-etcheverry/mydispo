@@ -193,13 +193,14 @@ function enregistrerDesRemarques(contenuRemarque1 , typeRemarque1 , contenuRemar
   });
 }
 
-function supprimerDesRemarques(enseignant) {
+function supprimerEtEnregistrerDesRemarques(contenuRemarque1 , typeRemarque1 , contenuRemarque2, typeRemarque2, enseignant) {
   $.ajax({
     url: "{{path("suppr_remarque")}}",
     data: {
       idEnseignant: enseignant,
     },
-    type: "POST"
+    type: "POST",
+    success: function(){enregistrerDesRemarques(contenuRemarque1 , typeRemarque1 , contenuRemarque2, typeRemarque2, enseignant);}
   });
 }
 
@@ -216,14 +217,28 @@ function enregistrerDesCreneaux(tab) {
 }
 
 
-function supprimerDesCreneaux(type, enseignant="") {
+function supprimerEtEnregistrerDesCreneauxTitulaire(tabCreneaux, enseignant="") {
+  $.ajax({
+    url: "{{path("suppr_creneaux_deuxtypes")}}",
+    data: {
+      typeCreneau1: "ContraintePerso",
+      typeCreneau2: "ContraintePro",
+      idEnseignant: enseignant,
+    },
+    type: "POST",
+    success: function(){enregistrerDesCreneaux(tabCreneaux);}
+  });
+}
+
+function supprimerEtEnregistrerDesCreneauxPonctuels(tabCreneaux, enseignant="") {
   $.ajax({
     url: "{{path("suppr_creneaux")}}",
     data: {
-      typeCreneau: type,
+      typeCreneau: "ContrainteProPonctu",
       idEnseignant: enseignant,
     },
-    type: "POST"
+    type: "POST",
+    success: function(){enregistrerDesCreneaux(tabCreneaux);}
   });
 }
 

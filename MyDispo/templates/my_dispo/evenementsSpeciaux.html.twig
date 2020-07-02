@@ -100,12 +100,12 @@ function enregistrerDesCreneaux(tab) {
   });
 }
 
-function supprimerDesCreneaux(typeCreneau,tableauCreneaux,enseignant="") {
+function supprimerEtEnregistrerDesCreneauxEvenement(tableauCreneaux,enseignant="") {
 
   $.ajax({
     url: "{{path("suppr_creneaux")}}",
     data: {
-      typeCreneau: typeCreneau,
+      typeCreneau: "Evenement",
       idEnseignant: enseignant,
     },
     type: "POST",

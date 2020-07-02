@@ -68,6 +68,40 @@ class CreneauController extends AbstractController
       $aSupprimer = $creneauRepository->findByTypeEtEnseignant($typeCreneau,NULL);
     }
 
+
+    foreach($aSupprimer as $elementASupprimer){
+      $entityManager->remove($elementASupprimer);
+    }
+    $entityManager->flush();
+
+    return new Response();
+  }
+
+  /**
+  * @Route("/supprimer/creneaux2types", name="suppr_creneaux_deuxtypes" , methods={"POST"})
+  */
+  public function supprimerCreneaux2typesAvantMAJ(CreneauRepository $creneauRepository)
+  {
+    $entityManager = $this->getDoctrine()->getManager();
+
+      $typeCreneau1 = $_POST["typeCreneau1"];
+      $typeCreneau2 = $_POST["typeCreneau2"];
+      $enseignant = $_POST["idEnseignant"];
+
+    if($enseignant != ""){
+      $aSupprimer = $creneauRepository->findByTypeEtEnseignant($typeCreneau1,$enseignant);
+      $aSupprimer2 =  $creneauRepository->findByTypeEtEnseignant($typeCreneau2,$enseignant);
+    }
+
+    else{
+      $aSupprimer = $creneauRepository->findByTypeEtEnseignant($typeCreneau1,NULL);
+      $aSupprimer2 = $creneauRepository->findByTypeEtEnseignant($typeCreneau2,NULL);
+    }
+
+    foreach ($aSupprimer2 as $creneauxCourant) {
+     array_push($aSupprimer,$creneauxCourant);
+    }
+
     foreach($aSupprimer as $elementASupprimer){
       $entityManager->remove($elementASupprimer);
     }
