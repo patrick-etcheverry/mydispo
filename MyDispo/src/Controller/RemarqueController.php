@@ -11,9 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/admin/remarque")
- */
+
 class RemarqueController extends AbstractController
 {
   /**
@@ -21,6 +19,9 @@ class RemarqueController extends AbstractController
   */
   public function ajouterRemarque(EnseignantRepository $enseignantRepository ): Response
   {
+
+    // Cette méthode doit être accessible pouur les enseignants et ne doit pas être protégée par le pare-feu
+
 
     $remarque1 = new Remarque();
     $remarque2 = new Remarque();
@@ -52,10 +53,13 @@ class RemarqueController extends AbstractController
   }
 
   /**
-  * @Route("/supprimer/remarques", name="suppr_remarque" , methods={"POST"})
+  * @Route("/remarque/supprimerlesremarques", name="suppr_remarque" , methods={"POST"})
   */
   public function supprimerRemarquesAvantMAJ(RemarqueRepository $remarqueRepository)
   {
+    // Cette méthode doit être accessible pouur les enseignants et ne doit pas être protégée par le pare-feu
+
+
     $entityManager = $this->getDoctrine()->getManager();
 
     $enseignant = $_POST["idEnseignant"];
@@ -73,20 +77,25 @@ class RemarqueController extends AbstractController
 
 
     /**
-     * @Route("/", name="remarque_index", methods={"GET"})
+     * @Route("/admin/remarque/", name="remarque_index", methods={"GET"})
      */
     public function index(RemarqueRepository $remarqueRepository): Response
     {
+
+      // Cette méthode du CRUD n'est pas utilisée, on la protège derrière le pare-feu
+
         return $this->render('remarque/index.html.twig', [
             'remarques' => $remarqueRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/new", name="remarque_new", methods={"GET","POST"})
+     * @Route("/admin/remarque/new", name="remarque_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
+      // Cette méthode du CRUD n'est pas utilisée, on la protège derrière le pare-feu
+
         $remarque = new Remarque();
         $form = $this->createForm(RemarqueType::class, $remarque);
         $form->handleRequest($request);
@@ -106,20 +115,26 @@ class RemarqueController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="remarque_show", methods={"GET"})
+     * @Route("/admin/remarque/{id}", name="remarque_show", methods={"GET"})
      */
     public function show(Remarque $remarque): Response
     {
+
+      // Cette méthode du CRUD n'est pas utilisée, on la protège derrière le pare-feu
+
         return $this->render('remarque/show.html.twig', [
             'remarque' => $remarque,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="remarque_edit", methods={"GET","POST"})
+     * @Route("/admin/remarque/edit/{id}", name="remarque_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Remarque $remarque): Response
     {
+
+      // Cette méthode du CRUD n'est pas utilisée, on la protège derrière le pare-feu
+
         $form = $this->createForm(RemarqueType::class, $remarque);
         $form->handleRequest($request);
 
@@ -136,10 +151,13 @@ class RemarqueController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="remarque_delete", methods={"DELETE"})
+     * @Route("/admin/remarque/delete/{id}", name="remarque_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Remarque $remarque): Response
     {
+
+      // Cette méthode du CRUD n'est pas utilisée, on la protège derrière le pare-feu
+
         if ($this->isCsrfTokenValid('delete'.$remarque->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($remarque);

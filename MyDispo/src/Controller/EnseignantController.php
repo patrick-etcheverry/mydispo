@@ -19,17 +19,18 @@ use Symfony\Component\Validator\Constraints\DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-/**
- * @Route("/admin/enseignant")
- */
+
 class EnseignantController extends AbstractController
 {
 
   /**
-  * @Route("/MAJ/regroupementEnseignements", name="changer_regroupement" , methods={"POST"})
+  * @Route("/enseignant/MAJ/regroupementEnseignements", name="changer_regroupement" , methods={"POST"})
   */
   public function MAJRegroupement(EnseignantRepository $enseignantRepository)
   {
+
+    // Cette méthode doit être accessible pouur les enseignants et ne doit pas être protégée par le pare-feu
+
     $entityManager = $this->getDoctrine()->getManager();
 
     $idEnseignant = $_POST["idEnseignant"];
@@ -46,10 +47,13 @@ class EnseignantController extends AbstractController
 
 
   /**
-   * @Route("/GenerationToken", name="random_token")
+   * @Route("/admin/enseignant/GenerationToken", name="random_token")
   */
   public function GenererToken()
       {
+
+        // Cette méthode est utilisée par l'admin, on la protège derrière le pare-feu
+
         $entityManager = $this->getDoctrine()->getManager();
         $repositoryEnseignant = $this->getDoctrine()->getRepository(Enseignant::class);
         $enseignants = $repositoryEnseignant->findAll();
@@ -73,10 +77,12 @@ class EnseignantController extends AbstractController
       }
 
       /**
-       * @Route("/GenerationUnToken/{id}", name="random_Onetoken")
+       * @Route("/admin/enseignant/GenerationUnToken/{id}", name="random_Onetoken")
       */
       public function GenererUnToken(Enseignant $enseignant)
           {
+            // Cette méthode est utilisée par l'admin, on la protège derrière le pare-feu
+
             $entityManager = $this->getDoctrine()->getManager();
 
             $listeCharacteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$_.+!*()';
@@ -99,10 +105,12 @@ class EnseignantController extends AbstractController
           }
 
       /**
-       * @Route("/telechargerContrainte", name="telechargerContrainte")
+       * @Route("/admin/enseignant/telechargerContrainte", name="telechargerContrainte")
        */
       public function telechargerContrainte()
       {
+        // Cette méthode est utilisée par l'admin, on la protège derrière le pare-feu
+
         $zip = new \ZipArchive();
 
         //Supprime l'archive précédente si existante
@@ -211,10 +219,12 @@ class EnseignantController extends AbstractController
 
 
       /**
-       * @Route("/confirmationEnvoieMail/", name="envoie_mail", methods={"GET"})
+       * @Route("/admin/enseignant/confirmationEnvoieMail/", name="envoie_mail", methods={"GET"})
        */
       public function notifierEnseignant()
       {
+        // Cette méthode est utilisée par l'admin, on la protège derrière le pare-feu
+
 
             $session = new Session();
             $modeleMail = $session->get('modeleMail');
@@ -319,20 +329,24 @@ class EnseignantController extends AbstractController
 
 
     /**
-     * @Route("/", name="enseignant_index", methods={"GET"})
+     * @Route("/admin/enseignant/", name="enseignant_index", methods={"GET"})
      */
     public function index(EnseignantRepository $enseignantRepository): Response
     {
+      // Cette méthode du CRUD est utilisée par l'admin, on la protège derrière le pare-feu
+
         return $this->render('enseignant/index.html.twig', [
             'enseignants' => $enseignantRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/index", name="enseignant_indexadmin", methods={"GET"})
+     * @Route("/admin/enseignant/index", name="enseignant_indexadmin", methods={"GET"})
      */
     public function indexAdmin(EnseignantRepository $enseignantRepository, LogEnseignantRepository $logEnseignantRepository): Response
     {
+      // Cette méthode est utilisée par l'admin, on la protège derrière le pare-feu
+
 
         return $this->render('enseignant/acceuiladmin.html.twig', [
             'enseignants' => $enseignantRepository->findByEnSommeil(false),
@@ -342,10 +356,12 @@ class EnseignantController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="enseignant_new", methods={"GET","POST"})
+     * @Route("/admin/enseignant/new", name="enseignant_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
+      // Cette méthode du CRUD est utilisée par l'admin, on la protège derrière le pare-feu
+
         $enseignant = new Enseignant();
         $enseignant->setSaisieFaite(false);
         $form = $this->createForm(EnseignantType::class, $enseignant);
@@ -373,10 +389,12 @@ class EnseignantController extends AbstractController
 
 
     /**
-     * @Route("/{id}", name="enseignant_show", methods={"GET"})
+     * @Route("/admin/enseignant/{id}", name="enseignant_show", methods={"GET"})
      */
     public function show(Enseignant $enseignant): Response
     {
+      // Cette méthode du CRUD est utilisée par l'admin, on la protège derrière le pare-feu
+
         return $this->render('enseignant/show.html.twig', [
             'enseignant' => $enseignant,
         ]);
@@ -385,10 +403,12 @@ class EnseignantController extends AbstractController
 
 
     /**
-     * @Route("/{id}/edit", name="enseignant_edit", methods={"GET","POST"})
+     * @Route("/admin/enseignant/edit/{id}", name="enseignant_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Enseignant $enseignant): Response
     {
+      // Cette méthode du CRUD est utilisée par l'admin, on la protège derrière le pare-feu
+
         $form = $this->createForm(EnseignantType::class, $enseignant);
         // Modifier la saisie faite que lorsqu'on edit un enseignant
         $form->add('saisieFaite', ChoiceType::class, array(
@@ -417,10 +437,12 @@ class EnseignantController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="enseignant_delete", methods={"DELETE"})
+     * @Route("/admin/enseignant/delete/{id}", name="enseignant_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Enseignant $enseignant): Response
     {
+      // Cette méthode du CRUD est utilisée par l'admin, on la protège derrière le pare-feu
+
         if ($this->isCsrfTokenValid('delete'.$enseignant->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($enseignant);
@@ -431,18 +453,23 @@ class EnseignantController extends AbstractController
     }
 
     /**
-     * @Route("/supprimer/{id}", name="enseignant_supprimer")
+     * @Route("/admin/enseignant/supprimer/{id}", name="enseignant_supprimer")
      */
     public function supprimer(Enseignant $enseignant){
+      // Cette méthode est utilisée par l'admin, on la protège derrière le pare-feu
+
         return $this->render('enseignant/delete.html.twig', [
             'enseignant' => $enseignant,
         ]);
     }
 
     /**
-     * @Route("/confirmationToken/{id}", name="token_confirmation")
+     * @Route("/admin/enseignant/confirmationToken/{id}", name="token_confirmation")
      */
     public function confirmationToken(Enseignant $enseignant, EnseignantRepository $enseignantRepository){
+
+      // Cette méthode est utilisée par l'admin, on la protège derrière le pare-feu
+
         return $this->render('enseignant/token.html.twig', [
             'enseignant' => $enseignant,
             'enseignants' => $enseignantRepository->findAll(),

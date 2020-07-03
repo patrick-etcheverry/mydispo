@@ -13,16 +13,18 @@ use Symfony\Component\Routing\Annotation\Route;
 use \DateTime;
 use \DateTimeZone;
 
-/**
-* @Route("/admin/creneau")
-*/
+
 class CreneauController extends AbstractController
 {
   /**
-  * @Route("/ajout", name="creneau_ajouter", methods={"POST"})
+  * @Route("/creneau/ajout", name="creneau_ajouter", methods={"POST"})
   */
   public function ajouterCreneau(EnseignantRepository $enseignantRepository ): Response
   {
+
+    // Cette méthode doit être accessible pouur les enseignants et ne doit pas être protégée par le pare-feu
+
+
       $entityManager = $this->getDoctrine()->getManager();
 
       if(isset($_POST['tab'])){
@@ -51,10 +53,13 @@ class CreneauController extends AbstractController
   }
 
   /**
-  * @Route("/supprimer/creneaux", name="suppr_creneaux" , methods={"POST"})
+  * @Route("/creneau/supprimer1typedecreneau", name="suppr_creneaux" , methods={"POST"})
   */
   public function supprimerCreneauxAvantMAJ(CreneauRepository $creneauRepository)
   {
+
+    // Cette méthode doit être accessible pouur les enseignants et ne doit pas être protégée par le pare-feu
+
     $entityManager = $this->getDoctrine()->getManager();
 
       $typeCreneau = $_POST["typeCreneau"];
@@ -78,10 +83,13 @@ class CreneauController extends AbstractController
   }
 
   /**
-  * @Route("/supprimer/creneaux2types", name="suppr_creneaux_deuxtypes" , methods={"POST"})
+  * @Route("/creneau/supprimer2typesdecreneaux", name="suppr_creneaux_deuxtypes" , methods={"POST"})
   */
   public function supprimerCreneaux2typesAvantMAJ(CreneauRepository $creneauRepository)
   {
+
+    // Cette méthode doit être accessible pouur les enseignants et ne doit pas être protégée par le pare-feu
+
     $entityManager = $this->getDoctrine()->getManager();
 
       $typeCreneau1 = $_POST["typeCreneau1"];
@@ -113,20 +121,27 @@ class CreneauController extends AbstractController
 
 
   /**
-  * @Route("/", name="creneau_index", methods={"GET"})
+  * @Route("/admin/creneau/", name="creneau_index", methods={"GET"})
   */
   public function index(CreneauRepository $creneauRepository): Response
   {
+
+    // Cette méthode du CRUD n'est pas utilisée, on la protège derrière le pare-feu
+
     return $this->render('creneau/index.html.twig', [
       'creneaus' => $creneauRepository->findAll(),
     ]);
   }
 
   /**
-  * @Route("/new", name="creneau_new", methods={"GET","POST"})
+  * @Route("/admin/creneau/new", name="creneau_new", methods={"GET","POST"})
   */
   public function new(Request $request): Response
   {
+
+    // Cette méthode du CRUD n'est pas utilisée, on la protège derrière le pare-feu
+
+
     $creneau = new Creneau();
     $form = $this->createForm(CreneauType::class, $creneau);
     $form->handleRequest($request);
@@ -148,20 +163,26 @@ class CreneauController extends AbstractController
 
 
   /**
-  * @Route("/{id}", name="creneau_show", methods={"GET"})
+  * @Route("/admin/creneau/{id}", name="creneau_show", methods={"GET"})
   */
   public function show(Creneau $creneau): Response
   {
+
+    // Cette méthode du CRUD n'est pas utilisée, on la protège derrière le pare-feu
+
     return $this->render('creneau/show.html.twig', [
       'creneau' => $creneau,
     ]);
   }
 
   /**
-  * @Route("/{id}/edit", name="creneau_edit", methods={"GET","POST"})
+  * @Route("/admin/creneau/edit/{id}", name="creneau_edit", methods={"GET","POST"})
   */
   public function edit(Request $request, Creneau $creneau): Response
   {
+
+    // Cette méthode du CRUD n'est pas utilisée, on la protège derrière le pare-feu
+
     $form = $this->createForm(CreneauType::class, $creneau);
     $form->handleRequest($request);
 
@@ -178,10 +199,13 @@ class CreneauController extends AbstractController
   }
 
   /**
-  * @Route("/{id}", name="creneau_delete", methods={"DELETE"})
+  * @Route("/admin/creneau/delete/{id}", name="creneau_delete", methods={"DELETE"})
   */
   public function delete(Request $request, Creneau $creneau): Response
   {
+
+    // Cette méthode du CRUD n'est pas utilisée, on la protège derrière le pare-feu
+
     if ($this->isCsrfTokenValid('delete'.$creneau->getId(), $request->request->get('_token'))) {
       $entityManager = $this->getDoctrine()->getManager();
       $entityManager->remove($creneau);
