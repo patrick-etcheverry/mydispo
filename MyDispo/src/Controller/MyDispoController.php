@@ -212,7 +212,7 @@ class MyDispoController extends AbstractController
 
     //RECUPERATION REMARQUES
     $remarques = $enseignant->getRemarques();
-    dump($remarques[0]);
+
 
     if($remarques[0] != null){
       if($remarques[0]->getType()=="Hebdomadaire"){$remarqueHebdo=$remarques[0]->getContenu();}

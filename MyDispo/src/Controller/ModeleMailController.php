@@ -134,7 +134,6 @@ public function formEnvoieMail(Request $request, FormationRepository $formationR
 
     if ($form->isSubmitted() && $form->isValid()) {
       $data = $form->getData();
-      dump($data);
       $repositoryModeleMail = $this->getDoctrine()->getRepository(ModeleMail::class);
       $repositoryEnseignant = $this->getDoctrine()->getRepository(Enseignant::class);
 
