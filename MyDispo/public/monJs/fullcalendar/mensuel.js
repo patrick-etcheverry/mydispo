@@ -163,14 +163,46 @@ deltaRemarquePonctu.push("Modification de la remarque sur les contraintes profes
 }
 }
 
+eventsMensuelSansGrisee = [];
+creneauxSaisieSansGrisee = [];
+
+eventsMensuel.forEach(creneauCourant => {
+  if (creneauCourant.type != "Evenement"){
+    eventsMensuelSansGrisee.push(creneauCourant);
+  }
+});
+
+creneauxSaisie.forEach(creneauCourant => {
+  if (creneauCourant.extendedProps.type != "Evenement"){
+    creneauxSaisieSansGrisee.push(creneauCourant);
+  }
+});
+
 
 //Delta sur les créneaux
-if(eventsMensuel.length > creneauxSaisie.length){
+if(eventsMensuelSansGrisee.length > creneauxSaisieSansGrisee.length){
 deltaCreneauxPonctu.push("Suppression de créneaux professionnels ponctuels");
 }
-if(eventsMensuel.length < creneauxSaisie.length){
+if(eventsMensuelSansGrisee.length < creneauxSaisieSansGrisee.length){
 deltaCreneauxPonctu.push("Ajout de créneaux professionnels ponctuels");
 }
+
+
+
+
+
+creneauxSaisieSansGrisee.forEach(creneauxCourant => {
+  if(eventsMensuelSansGrisee[compteurEventsMensuel] != null){
+    if(creneauxCourant.title != eventsMensuelSansGrisee[compteurEventsMensuel].title ){
+      deltaCreneauxPonctu.push("Modification du titre d'un ou plusieurs créneaux hebdomadaires (Ancien titre : " + eventsMensuelSansGrisee[compteurEventsMensuel].title
+      + " - Nouveau titre : " + creneauxCourant.title + ")");
+    }}
+    compteurEventsMensuel +=1;
+  });
+
+
+
+
 
 
 

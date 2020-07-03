@@ -36,13 +36,6 @@ class MyDispoController extends AbstractController
 
 
 
-
-
-
-
-
-
-
   /**
   * @Route("/saisie-contrainte/{token}", name="saisieContrainte")
   */
@@ -219,6 +212,7 @@ class MyDispoController extends AbstractController
 
     //RECUPERATION REMARQUES
     $remarques = $enseignant->getRemarques();
+    dump($remarques[0]);
 
     if($remarques[0] != null){
       if($remarques[0]->getType()=="Hebdomadaire"){$remarqueHebdo=$remarques[0]->getContenu();}
@@ -569,7 +563,7 @@ public function confirmationChangementAnnee()
   /**
   * @Route("/admin/ChangementAnnee", name="changement_annee")
   */
-  public function ChangementAnnee(EnseignantRepository $repoEnseignant, LogEnseignantRepository $repoLogs, CreneauRepository $repoCreneau)
+  public function ChangementAnnee(EnseignantRepository $repoEnseignant, LogEnseignantRepository $repoLogs, CreneauRepository $repoCreneau, RemarqueRepository $repoRemarque)
   {
     $entityManager = $this->getDoctrine()->getManager();
 
@@ -585,16 +579,30 @@ public function confirmationChangementAnnee()
       $enseignantCourant->setDateDerniereRelance(null);
       $enseignantCourant->setDateDerniereModif(null);
       $enseignantCourant->setNbRelance(0);
-      $entityManager->persist($enseignantCourant);
+
 
       /* Supprimer les remarques ponctuelles (on conserve les remarques hebdomadaires)*/
-      $tabRemarques = $enseignantCourant->getRemarques();
+      $tabRemarques = $repoRemarque->findByEnseignant($enseignantCourant);
       foreach ($tabRemarques as $remarque) {
         if($remarque->getType() == "Ponctuelle"){
-          $entityManager->remove($remarque);
+          $remarque->setContenu("");
+          $entityManager->persist($remarque);
+          //$enseignantCourant->removeRemarque($remarque);
         }
       }
+
+      /* Supprimer les créneaux ponctuels de l'enseignant */
+      $tabCreneauxPonctuels = $repoCreneau->findByEnseignant($enseignantCourant);
+      foreach ($tabCreneauxPonctuels as $creneauxCourant) {
+        if($creneauxCourant->getType() == "ContrainteProPonctu"){
+          $entityManager->remove($creneauxCourant);
+          $enseignantCourant->removeCreneaux($creneauxCourant);
+        }
+      }
+
+      $entityManager->persist($enseignantCourant);
       $entityManager->flush();
+
     }
 
     /* Supprimer les événements créés par l'admin */
@@ -603,6 +611,7 @@ public function confirmationChangementAnnee()
       $entityManager->remove($EvenementCourant);
     }
     $entityManager->flush();
+
 
     /* Supprimer tous les logs des enseignants */
     $tabLogsEnseignants = $repoLogs->findAll();

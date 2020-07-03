@@ -33,6 +33,8 @@ class CreneauRepository extends ServiceEntityRepository
         ;
     }
 
+
+
  public function selectStartEndTitleByType($value)
  {
    return $this->createQueryBuilder('c')

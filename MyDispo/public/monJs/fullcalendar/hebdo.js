@@ -608,6 +608,16 @@ document.addEventListener('DOMContentLoaded', function() {
             // récup toutes les infos de l’enseignant saisies dans le formulaire
 
             creneauxHebdoSaisie = hebdo.getEvents();   // Les créneaux
+            creneauxHebdoSaisieSansGrisee = [];
+            creneauxEnseignantSansGriseeHebdo = [];
+            creneauxHebdoSaisie.forEach(creneauCourant => {
+              if(creneauCourant.extendedProps.type != "zoneGrisee" && creneauCourant.extendedProps.type != "ContrainteProPonctu"){
+                creneauxHebdoSaisieSansGrisee.push(creneauCourant);
+              }
+            });
+
+
+
             remarqueHebdoSaisie = document.getElementById('remarquesHebdo').value; // Remarque HEBDO
 
             // récup toutes les infos de l’enseignant en BD
@@ -634,26 +644,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
             //Delta sur les créneaux
+            creneauxEnseignantSansGrisee.forEach(creneauCourant => {
+              if (creneauCourant.type != "ContrainteProPonctu"){
+                creneauxEnseignantSansGriseeHebdo.push(creneauCourant);
+              }
+            });
 
-            if(creneauxEnseignantSansGrisee.length > creneauxHebdoSaisie.length){
+            if(creneauxEnseignantSansGriseeHebdo.length > creneauxHebdoSaisieSansGrisee.length){
               deltaCreneauxHebdo.push("Suppression de créneaux hebdomadaires");
             }
-            if(creneauxEnseignantSansGrisee.length < creneauxHebdoSaisie.length){
+            if(creneauxEnseignantSansGriseeHebdo.length < creneauxHebdoSaisieSansGrisee.length){
               var texte = "Ajout de créneaux hebdomadaires";
               deltaCreneauxHebdo.push(texte);
             }
 
 
 
-            creneauxHebdoSaisie.forEach(creneauxCourant => {
-              if(creneauxEnseignantSansGrisee[compteurEventsHebdo] != null){
-                if(creneauxCourant.title != creneauxEnseignantSansGrisee[compteurEventsHebdo].title ){
-                  deltaCreneauxHebdo.push("Modification du titre d'un ou plusieurs créneaux hebdomadaires (Ancien titre : " + creneauxEnseignantSansGrisee[compteurEventsHebdo].title
+            creneauxHebdoSaisieSansGrisee.forEach(creneauxCourant => {
+              if(creneauxEnseignantSansGriseeHebdo[compteurEventsHebdo] != null){
+                if(creneauxCourant.title != creneauxEnseignantSansGriseeHebdo[compteurEventsHebdo].title ){
+                  deltaCreneauxHebdo.push("Modification du titre d'un ou plusieurs créneaux hebdomadaires (Ancien titre : " + creneauxEnseignantSansGriseeHebdo[compteurEventsHebdo].title
                   + " - Nouveau titre : " + creneauxCourant.title + ")");
-                }
+                }}
 
                 compteurEventsHebdo +=1;
-              }});
+              });
 
               //Envoie des logs à LogEnseignantController
               if(deltaRemarqueHebdo.length == 0 && deltaCreneauxHebdo.length == 0){
