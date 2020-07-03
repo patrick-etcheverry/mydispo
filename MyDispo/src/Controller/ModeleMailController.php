@@ -63,7 +63,6 @@ class ModeleMailController extends AbstractController
 public function formEnvoieMail(Request $request, FormationRepository $formationRepository)
 {
     $defaultData = ['message' => 'Type your message here'];
-    $formationDUT = $formationRepository->findByNomCourt("DUT Info");
 
     $tabListeFormations = array();
     $toutesLesFormations = $formationRepository->findAll();
@@ -72,7 +71,7 @@ public function formEnvoieMail(Request $request, FormationRepository $formationR
       $tabListeFormations[$formationCourante->getNomCourt()] = $formationCourante->getNomCourt();
     }
 
-dump($tabListeFormations);
+
 
     $form = $this->createFormBuilder($defaultData)
         ->add('nom', EntityType::class, array(
@@ -88,7 +87,7 @@ dump($tabListeFormations);
                     'help' => "Attention : Si aucune formation n'est sélectionnée, aucun enseignant ne sera ciblé par le mail.",
                     'label' => 'Enseignant intervenant en :',
                     'choices' => $tabListeFormations,
-                    'data' => $formationDUT,
+                    'data' => $toutesLesFormations,
                     'multiple' => true,
                     'expanded' => true,
                     'required' => true
