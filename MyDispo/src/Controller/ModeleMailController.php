@@ -329,8 +329,8 @@ if($form->get('nomCourt')->getData() == null){
 
 
 
-            $transport = (new \Swift_SmtpTransport($_ENV['ADRESS_SERVER_SMTP'], 465))
-              ->setEncryption('ssl')
+            $transport = (new \Swift_SmtpTransport($_ENV['ADRESS_SERVER_SMTP'], $_ENV['SERVER_SMTP_PORT']))
+              ->setEncryption($_ENV['ENCRYPTION_SERVER_SMTP'])
               ->setAuthMode('login')
               ->setUsername($_ENV['LOGIN_SMTP'])
               ->setPassword($_ENV['PASSWORD_SMTP']);
