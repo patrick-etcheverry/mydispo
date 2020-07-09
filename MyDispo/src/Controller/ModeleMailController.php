@@ -290,42 +290,42 @@ if($form->get('nomCourt')->getData() == null){
     $creneaux = $enseignant->getCreneaux();
     $remarques = $enseignant->getRemarques();
     $sujetMail = "Résumé de votre saisie - IUT Bayonne";
-    $contenu = "Bonjour,\r\r Vous trouverez ci-dessous le résumé de votre saisie : \r\r\r";
+    $contenu = "Bonjour," . PHP_EOL . PHP_EOL . "Vous trouverez ci-dessous le résumé de votre saisie : " . PHP_EOL .PHP_EOL .PHP_EOL;
 
-    $contenu .= "Vos contraintes hebdomadaires : \r\r";
+    $contenu .= "Vos contraintes hebdomadaires : " . PHP_EOL . PHP_EOL;
     foreach ($creneaux as $creneauxCourant) {
       if($creneauxCourant->getType() == "ContraintePro" || $creneauxCourant->getType() == "ContraintePerso"){
-        $contenu .= "- Titre : ".$creneauxCourant->getTitre().", Priorité : ".$creneauxCourant->getPrioOuPref().", Date de début : "
-        .$creneauxCourant->getDateDebut()->format('d-m-Y à H:i').", Date de fin : ".$creneauxCourant->getDateFin()->format('d-m-Y à H:i').". \r\r";
+        $contenu .= "- Titre : ".trim($creneauxCourant->getTitre()).", Priorité : ".$creneauxCourant->getPrioOuPref().", Date de début : "
+        .$creneauxCourant->getDateDebut()->format('d-m-Y à H:i').", Date de fin : ".$creneauxCourant->getDateFin()->format('d-m-Y à H:i').". " . PHP_EOL . PHP_EOL;
       }
     }
 
-    $contenu .= "\r Vos remarques sur vos contraintes hebdomadaires : \r\r";
+    $contenu .= PHP_EOL. " Vos remarques sur vos contraintes hebdomadaires : " . PHP_EOL . PHP_EOL;
     foreach ($remarques as $remarquesCourant) {
       if($remarquesCourant->getType() == "Hebdomadaire"){
-        $contenu .= "- Contenu : ".$remarquesCourant->getContenu().". \r\r";
+        $contenu .= "- Contenu : ".trim($remarquesCourant->getContenu()).". " .PHP_EOL .PHP_EOL;
       }
     }
 
-    $contenu .= "\r Vos contraintes ponctuelles : \r\r";
+    $contenu .=  PHP_EOL . " Vos contraintes ponctuelles : " . PHP_EOL . PHP_EOL;
     foreach ($creneaux as $creneauxCourant) {
       if($creneauxCourant->getType() == "ContrainteProPonctu"){
-        $contenu .= "- Titre : ".$creneauxCourant->getTitre().", Date : "
-        .$creneauxCourant->getDateDebut()->format('d-m-Y').". \r\r";
+        $contenu .= "- Titre : ".trim($creneauxCourant->getTitre()).", Date : "
+        .$creneauxCourant->getDateDebut()->format('d-m-Y').". " . PHP_EOL . PHP_EOL;
       }
     }
 
-    $contenu .= "\r Vos remarques sur vos contraintes ponctuelles : \r\r";
+    $contenu .= PHP_EOL . " Vos remarques sur vos contraintes ponctuelles : " . PHP_EOL . PHP_EOL;
     foreach ($remarques as $remarquesCourant) {
       if($remarquesCourant->getType() == "Ponctuelle"){
-        $contenu .= "- Contenu : ".$remarquesCourant->getContenu().". \r\r";
+        $contenu .= "- Contenu : ".trim($remarquesCourant->getContenu()).". " .PHP_EOL .PHP_EOL;
       }
     }
 
-    $contenu .= "\r Votre préférence sur le regroupement de vos enseignements : \r\r";
-    $contenu .= "- ".$enseignant->getGrouperEnseignements().". \r\r\r";
+    $contenu .= PHP_EOL . " Votre préférence sur le regroupement de vos enseignements : " . PHP_EOL . PHP_EOL;
+    $contenu .= "- ".$enseignant->getGrouperEnseignements().". " . PHP_EOL .PHP_EOL .PHP_EOL;
 
-    $contenu .= "Cordialement, \r\r".$_ENV['ADMIN_NAME'];
+    $contenu .= "Cordialement, " . PHP_EOL . PHP_EOL .$_ENV['ADMIN_NAME'];
 
 
 

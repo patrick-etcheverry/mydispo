@@ -414,40 +414,40 @@ class MyDispoController extends AbstractController
     $creneaux = $enseignant->getCreneaux();
     $remarques = $enseignant->getRemarques();
     $sujetMail = "Résumé de la saisie de ".$enseignant->getPrenom()." ".$enseignant->getNom()." - IUT Bayonne";
-    $contenu = "Résumé de la saisie de ".$enseignant->getPrenom()." ".$enseignant->getNom()." : \r\r\r";
+    $contenu = "Résumé de la saisie de ".$enseignant->getPrenom()." ".$enseignant->getNom()." : " . PHP_EOL .PHP_EOL .PHP_EOL;
 
-    $contenu .= "Contraintes hebdomadaires : \r\r";
+    $contenu .= "Contraintes hebdomadaires : " . PHP_EOL .PHP_EOL;
     foreach ($creneaux as $creneauxCourant) {
       if($creneauxCourant->getType() == "ContraintePro" || $creneauxCourant->getType() == "ContraintePerso"){
-        $contenu .= "- Titre : ".$creneauxCourant->getTitre().", Priorité : ".$creneauxCourant->getPrioOuPref().", Date de début : "
-        .$creneauxCourant->getDateDebut()->format('d-m-Y à H:i').", Date de fin : ".$creneauxCourant->getDateFin()->format('d-m-Y à H:i').". \r\r";
+        $contenu .= "- Titre : ".trim($creneauxCourant->getTitre()).", Priorité : ".$creneauxCourant->getPrioOuPref().", Date de début : "
+        .$creneauxCourant->getDateDebut()->format('d-m-Y à H:i').", Date de fin : ".$creneauxCourant->getDateFin()->format('d-m-Y à H:i').". " . PHP_EOL .PHP_EOL;
       }
     }
 
-    $contenu .= "\r Remarques sur les contraintes hebdomadaires : \r\r";
+    $contenu .= PHP_EOL . " Remarques sur les contraintes hebdomadaires : " . PHP_EOL . PHP_EOL;
     foreach ($remarques as $remarquesCourant) {
       if($remarquesCourant->getType() == "Hebdomadaire"){
-        $contenu .= "- Contenu : ".$remarquesCourant->getContenu().". \r\r";
+        $contenu .= "- Contenu : ".trim($remarquesCourant->getContenu()).". " . PHP_EOL .PHP_EOL;
       }
     }
 
-    $contenu .= "\r Contraintes ponctuelles : \r\r";
+    $contenu .= PHP_EOL . " Contraintes ponctuelles : " . PHP_EOL .PHP_EOL;
     foreach ($creneaux as $creneauxCourant) {
       if($creneauxCourant->getType() == "ContrainteProPonctu"){
-        $contenu .= "- Titre : ".$creneauxCourant->getTitre().", Date : "
-        .$creneauxCourant->getDateDebut()->format('d-m-Y').". \r\r";
+        $contenu .= "- Titre : ".trim($creneauxCourant->getTitre()).", Date : "
+        .$creneauxCourant->getDateDebut()->format('d-m-Y').". " . PHP_EOL . PHP_EOL;
       }
     }
 
-    $contenu .= "\r Remarques sur les contraintes ponctuelles : \r\r";
+    $contenu .= PHP_EOL . " Remarques sur les contraintes ponctuelles : " . PHP_EOL .PHP_EOL;
     foreach ($remarques as $remarquesCourant) {
       if($remarquesCourant->getType() == "Ponctuelle"){
-        $contenu .= "- Contenu : ".$remarquesCourant->getContenu().". \r\r";
+        $contenu .= "- Contenu : ". trim($remarquesCourant->getContenu()).". " . PHP_EOL .PHP_EOL;
       }
     }
 
-    $contenu .= "\r Préférence sur le regroupement des enseignements : \r\r";
-    $contenu .= "- ".$enseignant->getGrouperEnseignements().". \r\r\r";
+    $contenu .= PHP_EOL . " Préférence sur le regroupement des enseignements : " . PHP_EOL .PHP_EOL;
+    $contenu .= "- ".$enseignant->getGrouperEnseignements().". "  . PHP_EOL . PHP_EOL .PHP_EOL;
 
 
            $transport = (new \Swift_SmtpTransport($_ENV['ADRESS_SERVER_SMTP'],$_ENV['SERVER_SMTP_PORT']))
