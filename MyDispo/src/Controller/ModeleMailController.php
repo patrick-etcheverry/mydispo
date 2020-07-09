@@ -242,7 +242,7 @@ if($form->get('nomCourt')->getData() == null){
       if(stristr($contenuFinal, "[*LIEN*]", true) == TRUE) {
       $partieAvantLien = stristr($contenuFinal, "[*LIEN*]", true);
       $partieAprèsLien = stristr($contenuFinal, "[*LIEN*]");
-      $contenu = $partieAvantLien." ".$urlEnseignant."\r\r\r".$partieAprèsLien;
+      $contenu = $partieAvantLien." ".$urlEnseignant. PHP_EOL .PHP_EOL . PHP_EOL .$partieAprèsLien;
       $contenuFinal = str_replace("[*LIEN*]", "", $contenu);
     }
     else {
@@ -286,7 +286,7 @@ if($form->get('nomCourt')->getData() == null){
    */
   public function mailResume(Enseignant $enseignant)
   {
-
+	$titrecontrainte = "";
     $creneaux = $enseignant->getCreneaux();
     $remarques = $enseignant->getRemarques();
     $sujetMail = "Résumé de votre saisie - IUT Bayonne";
@@ -295,7 +295,9 @@ if($form->get('nomCourt')->getData() == null){
     $contenu .= "Vos contraintes hebdomadaires : " . PHP_EOL . PHP_EOL;
     foreach ($creneaux as $creneauxCourant) {
       if($creneauxCourant->getType() == "ContraintePro" || $creneauxCourant->getType() == "ContraintePerso"){
-        $contenu .= "- Titre : ".trim($creneauxCourant->getTitre()).", Priorité : ".$creneauxCourant->getPrioOuPref().", Date de début : "
+	    $titrecontrainte = trim($creneauxCourant->getTitre());
+        if (($creneauxCourant->getType() == "ContraintePerso") && ($titrecontrainte == "")) {	$titrecontrainte = "Contrainte personnelle "; }
+        $contenu .= "- Titre : ". $titrecontrainte .", Priorité : ".$creneauxCourant->getPrioOuPref().", Type : " . $creneauxCourant->getType() . ", Date de début : "
         .$creneauxCourant->getDateDebut()->format('d-m-Y à H:i').", Date de fin : ".$creneauxCourant->getDateFin()->format('d-m-Y à H:i').". " . PHP_EOL . PHP_EOL;
       }
     }

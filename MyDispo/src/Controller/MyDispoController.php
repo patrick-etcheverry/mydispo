@@ -411,6 +411,7 @@ class MyDispoController extends AbstractController
 
 
     // ENVOI DU MAIL A L'ADMIN
+	  $titrecontrainte = "";
     $creneaux = $enseignant->getCreneaux();
     $remarques = $enseignant->getRemarques();
     $sujetMail = "Résumé de la saisie de ".$enseignant->getPrenom()." ".$enseignant->getNom()." - IUT Bayonne";
@@ -419,7 +420,9 @@ class MyDispoController extends AbstractController
     $contenu .= "Contraintes hebdomadaires : " . PHP_EOL .PHP_EOL;
     foreach ($creneaux as $creneauxCourant) {
       if($creneauxCourant->getType() == "ContraintePro" || $creneauxCourant->getType() == "ContraintePerso"){
-        $contenu .= "- Titre : ".trim($creneauxCourant->getTitre()).", Priorité : ".$creneauxCourant->getPrioOuPref().", Date de début : "
+      	$titrecontrainte = trim($creneauxCourant->getTitre());
+      	if (($creneauxCourant->getType() == "ContraintePerso") && ($titrecontrainte == "")) {	$titrecontrainte = "Contrainte personnelle "; }
+        $contenu .= "- Titre : ". $titrecontrainte .", Priorité : ".$creneauxCourant->getPrioOuPref().", Type : " . $creneauxCourant->getType() . ", Date de début : "
         .$creneauxCourant->getDateDebut()->format('d-m-Y à H:i').", Date de fin : ".$creneauxCourant->getDateFin()->format('d-m-Y à H:i').". " . PHP_EOL .PHP_EOL;
       }
     }
