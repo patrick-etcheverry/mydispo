@@ -118,7 +118,7 @@ class EnseignantController extends AbstractController
             unlink('./Exportation-Contraintes/Contraintes.zip');
         }
 
-
+		//TODO : extraire la fonction hors de la fonction telecharger contrainte ?
         // Fonction pour le formatage des noms des enseignants
         function enleverCaracteresSpeciaux($text) {
             $utf8 = array(
@@ -145,6 +145,9 @@ class EnseignantController extends AbstractController
               $repositoryEnseignant = $this->getDoctrine()->getRepository(Enseignant::class);
               $enseignants = $repositoryEnseignant->findAll();
 
+              //separateurcsv
+              $sep = $_ENV['SEPARATEUR_CSV'];
+
        // Initialisation ZipArchive
               $zip = new \ZipArchive();
               $filename = './Exportation-Contraintes/Contraintes.zip';
@@ -160,45 +163,48 @@ class EnseignantController extends AbstractController
                   $creneaux = $enseignantCourant->getCreneaux();
                   $remarques = $enseignantCourant->getRemarques();
 
-                  // Initialisation du nom du fichier
-                  $nomFichierCourant = $nomEnseignant.$prenomEnseignant.$idEnseignant.'.csv';
+                  if (!$creneaux->isEmpty() || !$remarques->isEmpty()) {
 
-                  // Ajout au fichier les infos de l'enseignant
-                  $texte = $nomEnseignant.', '.$enseignantCourant->getPrenom().', '.$enseignantCourant->getMail().', '.$enseignantCourant->getStatut().', '.$enseignantCourant->getGrouperEnseignements()."\r";
-                  file_put_contents( $nomFichierCourant, $texte);
+	                  // Initialisation du nom du fichier
+	                  $nomFichierCourant = $nomEnseignant . $prenomEnseignant . $idEnseignant . '.csv';
 
-                  // Ajout au fichier les remarques de l'enseignant
-                  foreach ( $remarques as $remarqueCourant ) {
-                    $type = $remarqueCourant->getType();
-                    $contenu = $remarqueCourant->getContenu();
-                    $texte = file_get_contents($nomFichierCourant);
-                    $texte .= $type.', '.$contenu."\r";
-                    file_put_contents( $nomFichierCourant, $texte);
+	                  // Ajout au fichier les infos de l'enseignant
+	                  $texte = $nomEnseignant . $sep . $enseignantCourant->getPrenom() . $sep . $enseignantCourant->getMail() . $sep . $enseignantCourant->getStatut() . $sep . $enseignantCourant->getGrouperEnseignements() . PHP_EOL;
+	                  file_put_contents( $nomFichierCourant, $texte );
+
+	                  // Ajout au fichier les remarques de l'enseignant
+	                  foreach ( $remarques as $remarqueCourant ) {
+		                  $type    = $remarqueCourant->getType();
+		                  $contenu = $remarqueCourant->getContenu();
+		                  $texte   = file_get_contents( $nomFichierCourant );
+		                  $texte   .= $type . $sep . $contenu . PHP_EOL;
+		                  file_put_contents( $nomFichierCourant, $texte );
+	                  }
+
+
+	                  // Ajout au fichier les créneaux de l'enseignant
+	                  foreach ( $creneaux as $creneauCourant ) {
+		                  // Formatage des dates
+		                  $dateDebutDate   = $creneauCourant->getDateDebut();
+		                  $dateDebutString = $dateDebutDate->format( 'H-i d-m-Y' );
+		                  $dateFinDate     = $creneauCourant->getDateFin();
+		                  $dateFinString   = $dateFinDate->format( 'H-i d-m-Y' );
+
+		                  $texte = file_get_contents( $nomFichierCourant );
+		                  $titrecontrainte = trim($creneauCourant->getTitre());
+		                  if (($creneauCourant->getType() == "ContraintePerso") && ($titrecontrainte == "")) {	$titrecontrainte = "Contrainte personnelle "; }
+		                  $texte .= $titrecontrainte . $sep . $creneauCourant->getPrioOuPref() . $sep . $dateDebutString . $sep . $dateFinString . $sep . $creneauCourant->getType() . PHP_EOL;
+		                  file_put_contents( $nomFichierCourant, $texte );
+	                  }
+
+	                  // Vérifier si l'archive peut être ouverte + création de l'archive
+	                  if ( $zip->open( $filename, ZIPARCHIVE::CREATE ) !== true ) {
+		                  exit( "cannot open <$filename><br/>" );
+	                  } else {
+		                  // Ajouter le fichier courant à l'archive
+		                  $zip->addFile( $nomFichierCourant );
+	                  }
                   }
-
-
-                  // Ajout au fichier les créneaux de l'enseignant
-                  foreach ( $creneaux as $creneauCourant ) {
-                    // Formatage des dates
-                    $dateDebutDate = $creneauCourant->getDateDebut();
-                    $dateDebutString = $dateDebutDate->format('H-i d-m-Y');
-                    $dateFinDate = $creneauCourant->getDateFin();
-                    $dateFinString = $dateFinDate->format('H-i d-m-Y');
-
-                    $texte = file_get_contents($nomFichierCourant);
-                    $texte .= $creneauCourant->getTitre().', '.$creneauCourant->getPrioOuPref().', '.$dateDebutString.', '.$dateFinString.', '.$creneauCourant->getType()."\r";
-                    file_put_contents( $nomFichierCourant, $texte);
-                  }
-
-                  // Vérifier si l'archive peut être ouverte + création de l'archive
-                  if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
-                      exit("cannot open <$filename><br/>");
-                  }
-                  else{
-                    // Ajouter le fichier courant à l'archive
-                    $zip->addFile($nomFichierCourant);
-                  }
-
                 }
                 // Ajouter le fichier explicatif "Lisez-moi.txt"
                 $zip->addFile('./Exportation-Contraintes/Lisez-moi.txt');
@@ -207,7 +213,10 @@ class EnseignantController extends AbstractController
 
                 // Supprimer tous les fichiers à l'extérieur de l'archive
                 foreach ( $enseignants as $enseignantCourant) {
-                  unlink(enleverCaracteresSpeciaux($enseignantCourant->getNom()).enleverCaracteresSpeciaux($enseignantCourant->getPrenom()).$enseignantCourant->getId().'.csv');
+                	$nomfichieraeffacer = enleverCaracteresSpeciaux($enseignantCourant->getNom()).enleverCaracteresSpeciaux($enseignantCourant->getPrenom()).$enseignantCourant->getId().'.csv';
+                    if (file_exists($nomfichieraeffacer)) {
+                	    unlink($nomfichieraeffacer);
+                    }
                 }
 
             return $this->render('enseignant/confirmationTelechargement.html.twig');
@@ -256,7 +265,7 @@ class EnseignantController extends AbstractController
                 if(stristr($contenuFinal, "[*LIEN*]", true) == TRUE) {
                 $partieAvantLien = stristr($contenuFinal, "[*LIEN*]", true);
                 $partieAprèsLien = stristr($contenuFinal, "[*LIEN*]");
-                $contenu = $partieAvantLien." ".$urlEnseignant."\r\r\r".$partieAprèsLien;
+                $contenu = $partieAvantLien." ".$urlEnseignant. PHP_EOL . PHP_EOL . PHP_EOL .$partieAprèsLien;
                 $contenuFinal = str_replace("[*LIEN*]", "", $contenu);
               }
               else {
@@ -275,8 +284,8 @@ class EnseignantController extends AbstractController
 
 
 
-              $transport = (new \Swift_SmtpTransport($_ENV['ADRESS_SERVER_SMTP'], 465))
-                ->setEncryption('ssl')
+              $transport = (new \Swift_SmtpTransport($_ENV['ADRESS_SERVER_SMTP'], $_ENV['SERVER_SMTP_PORT']))
+                ->setEncryption($_ENV['ENCRYPTION_SERVER_SMTP'])
                 ->setAuthMode('login')
                 ->setUsername($_ENV['LOGIN_SMTP'])
                 ->setPassword($_ENV['PASSWORD_SMTP']);

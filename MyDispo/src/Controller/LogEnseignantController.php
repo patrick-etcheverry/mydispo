@@ -150,12 +150,12 @@ class LogEnseignantController extends AbstractController
 
         if($deltaRemarqueHebdo != "Aucune modif remarque"){
         foreach ($deltaRemarqueHebdo as $deltaRemarqueHebdoCourant) {
-          $description .= $deltaRemarqueHebdoCourant."  ";
+          $description .= $deltaRemarqueHebdoCourant."  " . PHP_EOL;
         }
       }
       if($deltaCreneauxHebdo != "Aucune modif créneau"){
         foreach ($deltaCreneauxHebdo as $deltaCreneauxHebdoCourant) {
-          $description .= $deltaCreneauxHebdoCourant."  ";
+          $description .= $deltaCreneauxHebdoCourant."  " . PHP_EOL;
         }
       }
         $logEnseignant->setDescription($description);

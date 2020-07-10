@@ -414,7 +414,7 @@ class MyDispoController extends AbstractController
 	  $titrecontrainte = "";
     $creneaux = $enseignant->getCreneaux();
     $remarques = $enseignant->getRemarques();
-    $sujetMail = "Résumé de la saisie de ".$enseignant->getPrenom()." ".$enseignant->getNom()." - IUT Bayonne";
+    $sujetMail = $_ENV['PREFIX_MAIL'] . "Résumé de la saisie de ".$enseignant->getPrenom()." ".$enseignant->getNom()." - IUT Bayonne";
     $contenu = "Résumé de la saisie de ".$enseignant->getPrenom()." ".$enseignant->getNom()." : " . PHP_EOL .PHP_EOL .PHP_EOL;
 
     $contenu .= "Contraintes hebdomadaires : " . PHP_EOL .PHP_EOL;
@@ -460,8 +460,9 @@ class MyDispoController extends AbstractController
               ->setPassword($_ENV['PASSWORD_SMTP']);
           $mailer = new \Swift_Mailer($transport);
           $message = (new \Swift_Message($sujetMail))
-             ->setFrom($_ENV['MAIL_SENDER'])
-             ->setTo($_ENV['ADMIN_MAIL'])
+             ->setFrom($_ENV['ADMIN_MAIL'])
+             ->setTo($_ENV['MAIL_SENDER'])
+	         ->setReplyTo($_ENV['ADMIN_MAIL'])
              ->setBody($contenu);
           $mailer->send($message);
 
