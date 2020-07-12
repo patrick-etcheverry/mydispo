@@ -40,7 +40,7 @@
 {% block ZoneDroiteSaisiesContraintesHebdos %}
 
 <div id="main">
-  {{ formulaireTitulaire.texteHebdomadaire }}
+  {{ formulaireTitulaire.texteHebdomadaire|nl2br }}
 </br>
 <div id='hebdo'></div>
 </br>
@@ -168,8 +168,8 @@ var events = {{events|raw}};
 var enseignant = {{enseignant.id}};
 var eventsMensuel = {{eventsMensuel|raw}};
 var lien = "{{lien}}";
-var remarquePonctu = "{{remarqueP}}";
-var remarqueHebdo = "{{remarqueH}}";
+var remarquePonctu = "{{remarqueP|replace({ '\r\n': '\\r\\n', '\n': '\\n', '\r': '\\r' })}}";
+var remarqueHebdo = "{{remarqueH|replace({ '\r\n': '\\r\\n', '\n': '\\n', '\r': '\\r' })}}";
 
 var creneauxEnseignantSansGrisee = {{eventsSansGrisee|raw}};
 var estFormulaireTitulaire = true;

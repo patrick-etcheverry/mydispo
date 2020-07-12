@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block contenu %}
-<h2>Vos contraites hebdomadaires : </h2>
+<h2>Vos contraintes hebdomadaires : </h2>
 {% if events == "[]" %}
   Vous n'avez saisi aucune contrainte hebdomadaire
 {% else %}
@@ -22,7 +22,7 @@
 <br/>
 <p>
 {% if remarqueH != "" %}
-Vos remarques pour les contraintes hebdomadaires: {{remarqueH}}
+Vos remarques pour les contraintes hebdomadaires: {{remarqueH|nl2br}}
 {% else %}
 Vous n'avez saisi aucune remarque pour vos contraintes hebdomadaires
 {% endif %}
@@ -41,7 +41,7 @@ Vous préférez que vos enseignements ne soient pas groupés
 </p>
 
 <br/>
-<h2>Vos contraites ponctuelles : </h2>
+<h2>Vos contraintes ponctuelles : </h2>
 {% if eventsListe == "[]" %}
 <center>
   Vous n'avez saisi aucune contrainte ponctuelle
@@ -55,7 +55,7 @@ Vous préférez que vos enseignements ne soient pas groupés
 <p>
 {% if remarqueP != "" %}
 Vos remarques pour les contraintes ponctuelles :
-{{remarqueP}}
+{{remarqueP|nl2br}}
 {% else %}
 Vous n'avez saisi aucune remarque pour vos contraintes ponctuelles
 {% endif %}
