@@ -199,14 +199,12 @@ class ModeleMailController extends AbstractController
             $nom = 'Mail premier contact';
             $enseignant->setPremierMailRecu(true);
             $date1 = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
-            $date1->setTimezone(new \DateTimeZone('UTC'));
             $enseignant->setDatePremierMail($date1);
             break;
             case 2 :
             $nom = 'Mail de relance';
             $enseignant->setMailRelanceRecu(true);
             $date2 = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
-            $date2->setTimezone(new \DateTimeZone('UTC'));
             $enseignant->setDateDerniereRelance($date2);
             $enseignant->setNbRelance($enseignant->getNbRelance() +1);
 

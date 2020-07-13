@@ -313,7 +313,6 @@ class EnseignantController extends AbstractController
       {
         $enseignantCourant->setPremierMailRecu(true);
         $date1 = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
-        $date1->setTimezone(new \DateTimeZone('UTC'));
         $enseignantCourant->setDatePremierMail($date1);
         $entityManager->persist($enseignantCourant);
       }
@@ -322,7 +321,6 @@ class EnseignantController extends AbstractController
         if($idModeleMail == 39){
           $enseignantCourant->setMailRelanceRecu(true);
           $date2 = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
-          $date2->setTimezone(new \DateTimeZone('UTC'));
           $enseignantCourant->setDateDerniereRelance($date2);
           $enseignantCourant->setNbRelance($enseignantCourant->getNbRelance() +1);
           $entityManager->persist($enseignantCourant);
