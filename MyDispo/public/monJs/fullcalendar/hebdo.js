@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
         weekday: 'long'
       },
       editable: true,
-      eventDurationEditable: false,
+      eventDurationEditable: true,
       locale: 'fr',
       header: {
         left: '',
