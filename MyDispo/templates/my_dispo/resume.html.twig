@@ -12,52 +12,57 @@
 {% endblock %}
 
 {% block contenu %}
-<h2>Vos contraintes hebdomadaires : </h2>
+
+<h5>Vos contraintes hebdomadaires </h5>
 {% if events == "[]" %}
   Vous n'avez saisi aucune contrainte hebdomadaire
 {% else %}
 <div id="hebdo">
 </div>
 {% endif %}
+
+
 <br/>
+<h5>Remarques concernant vos contraintes hebdomadaires </h5>
+
 <p>
-{% if remarqueH != "" %}
-Vos remarques pour les contraintes hebdomadaires: {{remarqueH|nl2br}}
+{% if remarqueH | trim | length > 0 %}
+{{remarqueH|nl2br}}
 {% else %}
-Vous n'avez saisi aucune remarque pour vos contraintes hebdomadaires
+Aucune remarque.
 {% endif %}
 
 </p>
 <br/>
+
+<h5>Regroupement des enseignements</h5>
 <p>
-
 {% if regrouperEnseignements == "Indifferent" %}
-Vous avez indiqué être indifférent au regroupement de vos enseignements
+Vous avez indiqué être indifférent au regroupement ou pas de vos enseignements.
 {% elseif regrouperEnseignements == "Regroupes" %}
-Vous préférez que vos enseignements soient regroupés
+Vous préférez que vos enseignements soient groupés.
 {% elseif regrouperEnseignements == "Non regroupes" %}
-Vous préférez que vos enseignements ne soient pas groupés
+Vous préférez que vos enseignements soient étalés.
 {% endif %}
 </p>
 
 <br/>
-<h2>Vos contraintes ponctuelles : </h2>
+<h5>Vos contraintes ponctuelles</h5>
 {% if eventsListe == "[]" %}
-<center>
-  Vous n'avez saisi aucune contrainte ponctuelle
-</center>
+  Vous n'avez saisi aucune contrainte ponctuelle.
 {% else %}
 <div id="liste">
 </div>
 {% endif %}
 <br/>
-
+<br/>
+<br/>
+<h5>Remarques concernant vos contraintes ponctuelles</h5>
 <p>
-{% if remarqueP != "" %}
-Vos remarques pour les contraintes ponctuelles :
+{% if remarqueP | trim | length > 0 %}
 {{remarqueP|nl2br}}
 {% else %}
-Vous n'avez saisi aucune remarque pour vos contraintes ponctuelles
+Aucune remarque.
 {% endif %}
 </p>
 <br/>
@@ -69,7 +74,7 @@ Vous n'avez saisi aucune remarque pour vos contraintes ponctuelles
       <i class="far fa-envelope"></i> M'envoyer une copie par mail</button>
   </a>
 </center>
-
+<br/><br/>
 {% endblock %}
 
 {% block javascripts %}
