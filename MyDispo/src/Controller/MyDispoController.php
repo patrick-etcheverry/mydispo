@@ -419,9 +419,10 @@ class MyDispoController extends AbstractController
 
     $contenu .= "Contraintes hebdomadaires : " . PHP_EOL .PHP_EOL;
     foreach ($creneaux as $creneauxCourant) {
-      if($creneauxCourant->getType() == "ContraintePro" || $creneauxCourant->getType() == "ContraintePerso"){
+      if($creneauxCourant->getType() == "ContraintePro" || $creneauxCourant->getType() == "ContraintePerso" || $creneauxCourant->getType() == "Disponibilite"){
       	$titrecontrainte = trim($creneauxCourant->getTitre());
       	if (($creneauxCourant->getType() == "ContraintePerso") && ($titrecontrainte == "")) {	$titrecontrainte = "Contrainte personnelle "; }
+      	if (($creneauxCourant->getType() == "Disponibilite") && ($titrecontrainte == "")) {	$titrecontrainte = "Disponibilité "; }
         $contenu .= "- Titre : ". $titrecontrainte .", Priorité : ".$creneauxCourant->getPrioOuPref().", Type : " . $creneauxCourant->getType() . ", Date de début : "
         .$creneauxCourant->getDateDebut()->format('d-m-Y à H:i').", Date de fin : ".$creneauxCourant->getDateFin()->format('d-m-Y à H:i').". " . PHP_EOL .PHP_EOL;
       }
