@@ -107,6 +107,11 @@
                       <a href="{{ path('notifierUnEnseignant', {'id': enseignant.id , 'compteur': 3}) }}" style="text-decoration: none">
                         <img src="{{ asset('icones/MailOubli.png') }}" title="Envoyer le mail d'oubli"/>
                       </a>
+
+                      <a href="{{ path('saisieContrainte', { 'token': enseignant.token }) }}" style="text-decoration: none">
+                        &nbsp;<i class="far fa-calendar-check" title="Voir les contraintes"></i>
+                      </a>
+
                     </center>
                   </td>
                 </tr>

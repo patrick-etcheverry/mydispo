@@ -332,9 +332,6 @@ class EnseignantController extends AbstractController
     $entityManager->flush();
 
 
-
-
-
     return $this->render('modele_mail/confirmationEnvoieMail.html.twig');
   }
 

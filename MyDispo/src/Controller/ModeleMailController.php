@@ -351,26 +351,7 @@ class ModeleMailController extends AbstractController
               $contenuContrainteHebdo .= "Priorité : ".$creneauxCourant->getPrioOuPref().PHP_EOL.PHP_EOL;
               break;
             }
-
-
-            // if($creneauxCourant->getType() == "ContraintePro" || $creneauxCourant->getType() == "ContraintePerso" || $creneauxCourant->getType() == "Disponibilite")
-            // {
-            //   $auMoinsUneContrainteHebdoSaisie = true;
-            //   $titrecontrainte = trim($creneauxCourant->getTitre());
-            //   if (($creneauxCourant->getType() == "ContraintePerso") && ($titrecontrainte == ""))
-            //   {
-            //     $titrecontrainte = "Contrainte personnelle ";
-            //   }
-            //
-            //   $contenuContrainteHebdo .= "Titre : ". $titrecontrainte .PHP_EOL ."Priorité : ".$creneauxCourant->getPrioOuPref().PHP_EOL ."Type : " . $creneauxCourant->getType() . PHP_EOL ."De "
-            //   .$creneauxCourant->getDateDebut()->format('H:i')." à ".$creneauxCourant->getDateFin()->format('H:i').". " . PHP_EOL . PHP_EOL;
-            // }
-
           }
-
-
-
-
           // Vérifier que l'enseignant a saisi au moins une contrainte hebdomadaire
           if ($auMoinsUneContrainteHebdoSaisie)
           {
@@ -496,8 +477,6 @@ class ModeleMailController extends AbstractController
           /**********************************************************
           Terminer et signer le mail
           **********************************************************/
-
-
           $contenu .= "Cordialement, " . PHP_EOL .$_ENV['ADMIN_NAME'];
 
 

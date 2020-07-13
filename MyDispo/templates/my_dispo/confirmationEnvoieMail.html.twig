@@ -18,6 +18,8 @@
               <div class="card-body">
                 <p class="card-text text-center">
                       Le résumé de votre saisie a bien été envoyé à l'adresse suivante : {{enseignant.mail}}
+                    </br>
+                      <em>Vous serez automatiquement redirigé dans 3 secondes</em>
                   </br>
                 </p>
               </div>
@@ -30,6 +32,7 @@
     </p>
   </div>
 </div>
+<meta http-equiv="refresh" content="3;url={{ path('saisieContrainte', { 'token': enseignant.token }) }}">
 
 
 {% endblock %}
