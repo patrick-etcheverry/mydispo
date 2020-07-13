@@ -417,15 +417,64 @@ class MyDispoController extends AbstractController
     $sujetMail = $_ENV['PREFIX_MAIL'] . "Résumé de la saisie de ".$enseignant->getPrenom()." ".$enseignant->getNom()." - IUT Bayonne";
     $contenu = "Résumé de la saisie de ".$enseignant->getPrenom()." ".$enseignant->getNom()." : " . PHP_EOL .PHP_EOL .PHP_EOL;
 
-    $contenu .= "Contraintes hebdomadaires : " . PHP_EOL .PHP_EOL;
+	/*************************************************
+	RESUMER LES CONTRAINTES / DISPONIBILITES HEBDOMADAIRES SAISIES
+	***************************************************/
+	if ($enseignant->getStatut() == 'Vacataire')
+	{
+	  $contenu .= "DISPONIBILITES HEBDOMADAIRES : " . PHP_EOL . PHP_EOL;
+	}
+	else
+	{
+	  $contenu .= "CONTRAINTES HEBDOMADAIRES : " . PHP_EOL . PHP_EOL;
+	}
+
+	$tabTraductionJourSemaineAnglaisVersFrancais = ['Monday'=> 'lundi', 'Tuesday'=>'mardi',
+	                                              'Wednesday' => 'mercredi', 'Thursday' => 'jeudi',
+	                                              'Friday' => 'vendredi', 'Saturday'=>'samedi',
+	                                              'Sunday' => 'dimanche'];
+
     foreach ($creneaux as $creneauxCourant) {
-      if($creneauxCourant->getType() == "ContraintePro" || $creneauxCourant->getType() == "ContraintePerso" || $creneauxCourant->getType() == "Disponibilite"){
-      	$titrecontrainte = trim($creneauxCourant->getTitre());
-      	if (($creneauxCourant->getType() == "ContraintePerso") && ($titrecontrainte == "")) {	$titrecontrainte = "Contrainte personnelle "; }
-      	if (($creneauxCourant->getType() == "Disponibilite") && ($titrecontrainte == "")) {	$titrecontrainte = "Disponibilité "; }
-        $contenu .= "- Titre : ". $titrecontrainte .", Priorité : ".$creneauxCourant->getPrioOuPref().", Type : " . $creneauxCourant->getType() . ", Date de début : "
-        .$creneauxCourant->getDateDebut()->format('d-m-Y à H:i').", Date de fin : ".$creneauxCourant->getDateFin()->format('d-m-Y à H:i').". " . PHP_EOL .PHP_EOL;
-      }
+	    switch ($creneauxCourant->getType())
+	    {
+		    case "ContraintePro":
+			    $titrecontrainte = trim($creneauxCourant->getTitre());
+			    $contenu .= $titrecontrainte .PHP_EOL;
+			    $jourSemaineEnAnglais = $creneauxCourant->getDateDebut()->format('l');
+			    $jourSemaineEnFrancais = $tabTraductionJourSemaineAnglaisVersFrancais[$jourSemaineEnAnglais];
+			    $contenu .= $jourSemaineEnFrancais." ";
+			    $contenu .= "de ".$creneauxCourant->getDateDebut()->format('H:i');
+			    $contenu .= " à ".$creneauxCourant->getDateFin()->format('H:i'). PHP_EOL;
+			    $contenu .= "Priorité : ".$creneauxCourant->getPrioOuPref().PHP_EOL;
+			    $contenu .= "Type : contrainte professionnelle" . PHP_EOL. PHP_EOL;
+			    break;
+
+		    case "ContraintePerso":
+			    $titrecontrainte = trim($creneauxCourant->getTitre());
+			    if ($titrecontrainte == "")
+			    {
+				    $titrecontrainte = "Contrainte personnelle ";
+			    }
+			    $contenu .= $titrecontrainte .PHP_EOL;
+			    $jourSemaineEnAnglais = $creneauxCourant->getDateDebut()->format('l');
+			    $jourSemaineEnFrancais = $tabTraductionJourSemaineAnglaisVersFrancais[$jourSemaineEnAnglais];
+			    $contenu .= $jourSemaineEnFrancais." ";
+			    $contenu .= "de ".$creneauxCourant->getDateDebut()->format('H:i');
+			    $contenu .= " à ".$creneauxCourant->getDateFin()->format('H:i'). PHP_EOL;
+			    $contenu .= "Priorité : ".$creneauxCourant->getPrioOuPref().PHP_EOL;
+			    $contenu .= "Type : contrainte personnelle". PHP_EOL. PHP_EOL;
+			    break;
+
+
+		    case "Disponibilite":
+			    $jourSemaineEnAnglais = $creneauxCourant->getDateDebut()->format('l');
+			    $jourSemaineEnFrancais = $tabTraductionJourSemaineAnglaisVersFrancais[$jourSemaineEnAnglais];
+			    $contenu .= $jourSemaineEnFrancais." ";
+			    $contenu .= "de ".$creneauxCourant->getDateDebut()->format('H:i');
+			    $contenu .= " à ".$creneauxCourant->getDateFin()->format('H:i'). PHP_EOL;
+			    $contenu .= "Priorité : ".$creneauxCourant->getPrioOuPref().PHP_EOL.PHP_EOL;
+			    break;
+	    }
     }
 
     $contenu .= PHP_EOL . " Remarques sur les contraintes hebdomadaires : " . PHP_EOL . PHP_EOL;
