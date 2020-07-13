@@ -13,7 +13,13 @@
 
 {% block contenu %}
 
-<h5>Vos contraintes hebdomadaires </h5>
+{% if enseignant.statut == "Vacataire" %}
+  <h5>Vos disponibilités hebdomadaires </h5>
+{% else %}
+  <h5>Vos contraintes hebdomadaires </h5>
+{% endif %}
+
+
 {% if events == "[]" %}
   Vous n'avez saisi aucune contrainte hebdomadaire
 {% else %}
@@ -22,8 +28,16 @@
 {% endif %}
 
 
-<br/>
-<h5>Remarques concernant vos contraintes hebdomadaires </h5>
+<br/><br/>
+
+{% if enseignant.statut == "Vacataire" %}
+  <h5>Remarques concernant vos disponibilités hebdomadaires </h5>
+{% else %}
+  <h5>Remarques concernant vos contraintes hebdomadaires </h5>
+{% endif %}
+
+
+
 
 <p>
 {% if remarqueH | trim | length > 0 %}
